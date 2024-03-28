@@ -6,29 +6,17 @@ import {
     MagnifyingGlassIcon,
 } from "@heroicons/react/20/solid";
 import { userNavigation } from "../Sidebar/data";
-import { Menu, Transition } from '@headlessui/react';
-import { Fragment } from 'react';
 import { Button, Input, Label } from '../../elements';
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
 }
 
-const Header = ({ setSidebarOpen, name }) => {
-    return (
-        <>
-            <div className='sticky top-0 z-40 flex items-center h-16 px-4 bg-white border-b border-gray-200 shadow-sm shrink-0 gap-x-4 sm:gap-x-6 sm:px-6 lg:px-8'>
-                <button
-                    type='button'
-                    className='-m-2.5 p-2.5 text-gray-700 lg:hidden'
-                    onClick={() => setSidebarOpen(true)}
-                >
-                    <span className='sr-only'>Open sidebar</span>
-                    <Bars3Icon className='w-6 h-6' aria-hidden='true' />
 //#region  Ari test
 const email = localStorage.getItem('email');
 //#endregion
-const Header = ({ setSidebarOpen }) => {
+
+    const Header = ({ setSidebarOpen }) => {
     //#region  handle (in logout button)
     const handleLogout = () => {
         localStorage.removeItem('email');
