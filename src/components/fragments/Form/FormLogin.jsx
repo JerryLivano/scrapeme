@@ -3,9 +3,21 @@ import Input from '../../elements/Input';
 import Label from '../../elements/Label';
 
 const FormLogin = () => {
+    // Button Test
+    const handleLogin = (event) => {
+        event.preventDefault();
+        localStorage.setItem('email', event.target.email.value);
+        localStorage.setItem('password', event.target.password.value);
+        window.location.href = '/dashboard';
+    };
     return (
         <>
-            <form className="space-y-6" action="#" method="POST">
+            <form
+                className="space-y-6"
+                action="#"
+                method="POST"
+                onSubmit={handleLogin}
+            >
                 <div>
                     <Label htmlFor="email">Email address</Label>
                     <div className="mt-2">
