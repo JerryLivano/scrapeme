@@ -11,9 +11,9 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
 }
 
-//region development
+//#region  Ari test
 const email = localStorage.getItem('email');
-// endregion
+//#endregion
 const Header = ({ setSidebarOpen }) => {
     return (
         <>

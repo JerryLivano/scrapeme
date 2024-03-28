@@ -1,4 +1,4 @@
-const Button = (props) => {
+const Button = (...props) => {
     const {
         children,
         bgColor = `bg-[#5c6ac4]`,

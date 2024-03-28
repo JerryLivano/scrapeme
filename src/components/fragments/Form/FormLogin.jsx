@@ -1,15 +1,18 @@
 import Button from '../../elements/Button';
 import Input from '../../elements/Input';
 import Label from '../../elements/Label';
+// import { useNavigate } from 'react-router-dom';
+// import { NavLink } from 'react-router-dom';
 
 const FormLogin = () => {
-    // Button Test
+    //#region Ari test
     const handleLogin = (event) => {
         event.preventDefault();
         localStorage.setItem('email', event.target.email.value);
         localStorage.setItem('password', event.target.password.value);
         window.location.href = '/dashboard';
     };
+    //#endregion
     return (
         <>
             <form
@@ -58,6 +61,7 @@ const FormLogin = () => {
                     <Button
                         type="submit"
                         className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        onClick={() => route('/dashboard')}
                     >
                         Sign in
                     </Button>

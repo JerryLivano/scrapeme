@@ -72,4 +72,5 @@ const SidebarMobile = ({ sidebarOpen, setSidebarOpen }) => {
         </>
     );
 };
+
 export default SidebarMobile;
