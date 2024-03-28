@@ -11,7 +11,7 @@ const SidebarComponent = () => {
     const pathname = window.pathName;
     return (
         <div className="flex flex-col px-6 pb-4 overflow-y-auto bg-white border-r  border-gray-200 grow gap-y-5">
-            <div className="flex items-center self-center h-16 shrink-0">
+            <div className="flex items-center h-16 shrink-0">
                 <div className="h-24 mt-16 w-36">
                     <img
                         src={LogoMA}

@@ -54,11 +54,7 @@ const FormLogin = () => {
                 </div>
 
                 <div>
-                    <Button
-                        type="submit"
-                        onClick={`route('/dashboard')`}
-                        size="size-96"
-                    >
+                    <Button type="submit" size="size-96">
                         Login
                     </Button>
                 </div>

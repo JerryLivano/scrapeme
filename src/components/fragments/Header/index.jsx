@@ -141,9 +141,11 @@ const Header = ({ setSidebarOpen }) => {
                                                 )}
                                             >
                                                 <button
-                                                    //#region Ari test logout
+                                                    //#region Ari test logout (There is still a bug causing the double logout menu)
+                                                    onClick={() =>
+                                                        handleLogout()
+                                                    }
                                                     //#endregion
-                                                    onClick={handleLogout()}
                                                 >
                                                     Sign Out
                                                 </button>
