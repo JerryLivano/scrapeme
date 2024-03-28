@@ -6,6 +6,7 @@ import {
 } from '@heroicons/react/20/solid';
 import { userNavigation } from '../Sidebar/data';
 import { Fragment } from 'react';
+import { Button, Input, Label } from '../../elements';
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
@@ -46,19 +47,20 @@ const Header = ({ setSidebarOpen }) => {
                         action="#"
                         method="GET"
                     >
-                        <label htmlFor="search-field" className="sr-only">
+                        <Label htmlFor="search-field" srOnly="sr-only">
                             Search
-                        </label>
+                        </Label>
                         <MagnifyingGlassIcon
-                            className="absolute inset-y-0 left-0 w-5 h-full text-gray-400 pointer-events-none"
+                            className="absolute inset-y-0 left-1 w-5 h-full text-gray-400 cursor-pointer"
                             aria-hidden="true"
                         />
-                        <input
+                        <Input
                             id="search-field"
-                            className="block w-full h-full py-0 pl-8 pr-0 text-gray-900 border-0 placeholder:text-gray-400 focus:ring-0 sm:text-sm"
                             placeholder="Search..."
                             type="search"
                             name="search"
+                            paddingX="px-8"
+                            ring="ring-0"
                         />
                     </form>
                     <div className="flex items-center gap-x-4 lg:gap-x-6">
@@ -115,24 +117,37 @@ const Header = ({ setSidebarOpen }) => {
                                 leaveTo="transform opacity-0 scale-95"
                             >
                                 <Menu.Items className="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
-                                    {userNavigation.map((item) => (
-                                        <Menu.Item key={item.name}>
-                                            {({ active }) => (
-                                                <a
-                                                    href={item.href}
-                                                    className={classNames(
-                                                        active
-                                                            ? 'bg-gray-50'
-                                                            : '',
-                                                        'block px-3 py-1 text-sm leading-6 text-gray-900'
-                                                    )}
-                                                >
-                                                    {item.name}
-                                                </a>
-                                            )}
+                                    {userNavigation.map((item, index) => (
+                                        <Menu.Item key={index}>
+                                            {({ active }) =>
+                                                item.name === 'Sign out' ? (
+                                                    <Button
+                                                        //#region Ari test logout (bug--atom buttom)
+                                                        onClick={() =>
+                                                            handleLogout()
+                                                        }
+                                                        // classname="bg-none hover:bg-none flex justify-center text-white focus-visible:bg-none"
+                                                        //#endregion
+                                                    >
+                                                        {item.name}
+                                                    </Button>
+                                                ) : (
+                                                    <a
+                                                        href={item.href}
+                                                        className={classNames(
+                                                            active
+                                                                ? 'bg-gray-50'
+                                                                : '',
+                                                            'block px-3 py-1 text-sm leading-6 text-gray-900'
+                                                        )}
+                                                    >
+                                                        {item.name}
+                                                    </a>
+                                                )
+                                            }
                                         </Menu.Item>
                                     ))}
-                                    <Menu.Item>
+                                    {/* <Menu.Item>
                                         {({ active }) => (
                                             <a
                                                 className={classNames(
@@ -151,7 +166,7 @@ const Header = ({ setSidebarOpen }) => {
                                                 </button>
                                             </a>
                                         )}
-                                    </Menu.Item>
+                                    </Menu.Item> */}
                                 </Menu.Items>
                             </Transition>
                         </Menu>
