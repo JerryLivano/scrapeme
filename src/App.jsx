@@ -1,9 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import Login from './pages/Login';
-import { ForgotPassword } from './pages';
+import { Dashboard, ForgotPassword } from './pages';
 import { Layout } from './components/layouts';
-import Reference from './Reference';
-import { SidebarComponent } from './components/fragments';
 
 function App() {
     return (
@@ -17,8 +15,7 @@ function App() {
                         path="forgot-password"
                         element={<ForgotPassword />}
                     />
-                    <Route path="reference" element={<Reference />} />
-                    <Route path="sidebar" element={<SidebarComponent />} />
+                    <Route path="dashboard" element={<Dashboard />} />
                 </Route>
             </Routes>
         </>

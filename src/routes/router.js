@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { ErrorPage, ForgotPassword, Login } from '../pages';
+import { Dashboard, ErrorPage, ForgotPassword, Login } from '../pages';
 import Reference from '../Reference';
+import Dashboardlayout from '../components/layouts/DashboardLayout';
 
 const router = createBrowserRouter([
     {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
         path: '/reference',
         element: <Reference />,
     },
+    {
+        path: '/dashboard',
+        element: <Dashboard />
+    }
 ]);
 
 export default router;
