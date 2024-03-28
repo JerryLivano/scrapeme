@@ -15,6 +15,13 @@ function classNames(...classes) {
 const email = localStorage.getItem('email');
 //#endregion
 const Header = ({ setSidebarOpen }) => {
+    //#region  handle (in logout button)
+    const handleLogout = () => {
+        localStorage.removeItem('email');
+        localStorage.removeItem('password');
+        window.location.href = '/login';
+    };
+    //#endregion
     return (
         <>
             <div className="sticky top-0 z-40 flex items-center h-16 px-4 bg-white border-b border-gray-200 shadow-sm shrink-0 gap-x-4 sm:gap-x-6 sm:px-6 lg:px-8">
@@ -134,12 +141,9 @@ const Header = ({ setSidebarOpen }) => {
                                                 )}
                                             >
                                                 <button
-                                                    onClick={() => {
-                                                        console.log('test');
-                                                        //   signOut({ redirect: false }).then(() => {
-                                                        //     void signIn();
-                                                        //   });
-                                                    }}
+                                                    //#region Ari test logout
+                                                    //#endregion
+                                                    onClick={handleLogout()}
                                                 >
                                                     Sign Out
                                                 </button>
