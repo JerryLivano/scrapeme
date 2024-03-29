@@ -54,7 +54,7 @@ const FormLogin = () => {
                 </div>
 
                 <div>
-                    <Button type="submit" size="size-96">
+                    <Button type="submit" size="size-96" onClick={handleLogin}>
                         Login
                     </Button>
                 </div>
