@@ -17,7 +17,7 @@ const email = localStorage.getItem('email');
 //#endregion
 const Header = (props) => {
     const { setSidebarOpen } = { ...props };
-    //#region  handle (in logout button)
+    //#region  handle logout button
     const handleLogout = () => {
         localStorage.removeItem('email');
         localStorage.removeItem('password');
