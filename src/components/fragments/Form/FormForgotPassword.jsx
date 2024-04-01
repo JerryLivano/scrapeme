@@ -64,10 +64,10 @@ const FormForgotPassword = () => {
                     </Button>
                 </div>
             </form>
-            <p className="mt-10 text-sm text-center text-gray-500 float-end">
+            <p className="mt-6 text-sm text-center text-gray-500 float-end">
                 <Link
                     to={'/login'}
-                    className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500 flex gap-x-2 items-center"
+                    className="font-bold leading-6 text-indigo-600 hover:text-indigo-500 flex gap-x-2 items-center"
                 >
                     <ArrowLeftIcon className="h-5 w-5" />
                     Login

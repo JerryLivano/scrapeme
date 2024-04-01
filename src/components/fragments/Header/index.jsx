@@ -13,7 +13,7 @@ function classNames(...classes) {
 }
 
 //#region Ari test
-const email = localStorage.getItem('email');
+const userName = localStorage.getItem('email');
 //#endregion
 const Header = (props) => {
     const { setSidebarOpen } = { ...props };
@@ -98,7 +98,9 @@ const Header = (props) => {
                                         className="ml-4 text-sm font-semibold leading-6 text-gray-900"
                                         aria-hidden="true"
                                     >
-                                        {email}
+                                        {userName.length > 20
+                                            ? userName.slice(0, 20) + '...'
+                                            : userName}
                                     </span>
                                     <ChevronDownIcon
                                         className="w-5 h-5 ml-2 text-gray-400"

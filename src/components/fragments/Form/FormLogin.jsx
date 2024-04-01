@@ -14,9 +14,9 @@ const FormLogin = () => {
         formState: { errors },
     } = useForm();
 
-    const onSubmit = async (data) => {
-        localStorage.setItem('email', data.mail);
-        localStorage.setItem('password', data.password);
+    const onSubmit = async (request) => {
+        localStorage.setItem('email', request.mail);
+        localStorage.setItem('password', request.password);
         window.location.href = '/dashboard';
     };
     //#endregion
