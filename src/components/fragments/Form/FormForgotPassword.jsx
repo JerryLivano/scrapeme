@@ -1,4 +1,7 @@
-import Button from '../../elements/Button';
+// import Button from '../../elements/Button';
+// import Input from '../../elements/Input';
+// import Label from '../../elements/Label';
+
 import Input from '../../elements/Input';
 import Label from '../../elements/Label';
 

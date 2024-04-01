@@ -6,7 +6,7 @@ import {
 } from '@heroicons/react/20/solid';
 import { userNavigation } from '../Sidebar/data';
 import { Fragment } from 'react';
-import { Button, Input, Label } from '../../elements';
+import ButtonIcon from '../../elements/Button/ButtonIcon';
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
@@ -15,7 +15,8 @@ function classNames(...classes) {
 //#region  Ari test
 const email = localStorage.getItem('email');
 //#endregion
-const Header = ({ setSidebarOpen }) => {
+const Header = (props) => {
+    const { setSidebarOpen } = { ...props };
     //#region  handle (in logout button)
     const handleLogout = () => {
         localStorage.removeItem('email');
@@ -26,14 +27,16 @@ const Header = ({ setSidebarOpen }) => {
     return (
         <>
             <div className="sticky top-0 z-40 flex items-center h-16 px-4 bg-white border-b border-gray-200 shadow-sm shrink-0 gap-x-4 sm:gap-x-6 sm:px-6 lg:px-8">
-                <button
-                    type="button"
+                <ButtonIcon
                     className="-m-2.5 p-2.5 text-gray-700 lg:hidden"
                     onClick={() => setSidebarOpen(true)}
                 >
                     <span className="sr-only">Open sidebar</span>
-                    <Bars3Icon className="w-6 h-6" aria-hidden="true" />
-                </button>
+                    <Bars3Icon
+                        className="w-6 h-6 lg:hidden"
+                        aria-hidden="true"
+                    />
+                </ButtonIcon>
 
                 {/* Separator */}
                 <div
@@ -47,30 +50,33 @@ const Header = ({ setSidebarOpen }) => {
                         action="#"
                         method="GET"
                     >
-                        <Label htmlFor="search-field" srOnly="sr-only">
+                        <label htmlFor="search-field" className="sr-only">
                             Search
-                        </Label>
+                        </label>
                         <MagnifyingGlassIcon
-                            className="absolute inset-y-0 left-1 w-5 h-full text-gray-400 cursor-pointer"
+                            className="absolute inset-y-0 left-1 w-5 h-full text-gray-400 pointer-events-none"
                             aria-hidden="true"
                         />
-                        <Input
+                        <input
                             id="search-field"
+                            className="block w-full h-full py-0 pl-8 pr-0 text-gray-900 border-0 placeholder:text-gray-400 focus:ring-0 sm:text-sm"
                             placeholder="Search..."
                             type="search"
                             name="search"
-                            paddingX="px-8"
-                            ring="ring-0"
                         />
                     </form>
                     <div className="flex items-center gap-x-4 lg:gap-x-6">
-                        <button
+                        <ButtonIcon>
+                            <span className="sr-only">Hallo</span>
+                            <BellIcon className="w-6 h-6" aria-hidden="true" />
+                        </ButtonIcon>
+                        {/* <button
                             type="button"
                             className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
                         >
                             <span className="sr-only">View notifications</span>
                             <BellIcon className="w-6 h-6" aria-hidden="true" />
-                        </button>
+                        </button> */}
 
                         {/* Separator */}
                         <div
@@ -121,16 +127,16 @@ const Header = ({ setSidebarOpen }) => {
                                         <Menu.Item key={index}>
                                             {({ active }) =>
                                                 item.name === 'Sign out' ? (
-                                                    <Button
+                                                    <button
                                                         //#region Ari test logout (bug--atom buttom)
                                                         onClick={() =>
                                                             handleLogout()
                                                         }
-                                                        // classname="bg-none hover:bg-none flex justify-center text-white focus-visible:bg-none"
+                                                        className="bg-none hover:bg-none flex px-3 py-1 justify-center text-sm justify-self-center focus-visible:bg-none hover:text-blue-400"
                                                         //#endregion
                                                     >
                                                         {item.name}
-                                                    </Button>
+                                                    </button>
                                                 ) : (
                                                     <a
                                                         href={item.href}
