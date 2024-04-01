@@ -1,12 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { Button, Label } from '../../elements';
 import { useState } from 'react';
-import {
-    ChevronDownIcon,
-    EyeIcon,
-    EyeSlashIcon,
-    MagnifyingGlassIcon,
-} from '@heroicons/react/20/solid';
+import { EyeIcon, EyeSlashIcon } from '@heroicons/react/20/solid';
 
 const FormLogin = () => {
     //#region Ari test
