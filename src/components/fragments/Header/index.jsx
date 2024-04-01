@@ -2,10 +2,11 @@ import { Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, BellIcon } from '@heroicons/react/24/outline';
 import {
     ChevronDownIcon,
+    ChevronLeftIcon,
     MagnifyingGlassIcon,
 } from '@heroicons/react/20/solid';
 import { userNavigation } from '../Sidebar/data';
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 import ButtonIcon from '../../elements/Button/ButtonIcon';
 
 function classNames(...classes) {
@@ -16,6 +17,7 @@ function classNames(...classes) {
 const userName = localStorage.getItem('email');
 //#endregion
 const Header = (props) => {
+    const [openAccount, setOpenAccount] = useState(false);
     const { setSidebarOpen } = { ...props };
     //#region Ari handle logout button
     const handleLogout = () => {
@@ -93,7 +95,10 @@ const Header = (props) => {
                                     </span>
                                 </div>
 
-                                <span className="hidden lg:flex lg:items-center">
+                                <span
+                                    className="hidden lg:flex lg:items-center"
+                                    onClick={() => setOpenAccount(!openAccount)}
+                                >
                                     <span
                                         className="ml-4 text-sm font-semibold leading-6 text-gray-900"
                                         aria-hidden="true"
@@ -102,10 +107,17 @@ const Header = (props) => {
                                             ? userName.slice(0, 20) + '...'
                                             : userName}
                                     </span>
-                                    <ChevronDownIcon
-                                        className="w-5 h-5 ml-2 text-gray-400"
-                                        aria-hidden="true"
-                                    />
+                                    {openAccount ? (
+                                        <ChevronLeftIcon
+                                            className="w-5 h-5 ml-2 text-gray-400"
+                                            aria-hidden="true"
+                                        />
+                                    ) : (
+                                        <ChevronDownIcon
+                                            className="w-5 h-5 ml-2 text-gray-400"
+                                            aria-hidden="true"
+                                        />
+                                    )}
                                 </span>
                             </Menu.Button>
                             <Transition
