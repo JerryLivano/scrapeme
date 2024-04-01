@@ -3,6 +3,7 @@ import { Bars3Icon, BellIcon } from '@heroicons/react/24/outline';
 import {
     ChevronDownIcon,
     ChevronLeftIcon,
+    ChevronRightIcon,
     MagnifyingGlassIcon,
 } from '@heroicons/react/20/solid';
 import { userNavigation } from '../Sidebar/data';
@@ -108,12 +109,12 @@ const Header = (props) => {
                                             : userName}
                                     </span>
                                     {openAccount ? (
-                                        <ChevronLeftIcon
+                                        <ChevronDownIcon
                                             className="w-5 h-5 ml-2 text-gray-400"
                                             aria-hidden="true"
                                         />
                                     ) : (
-                                        <ChevronDownIcon
+                                        <ChevronRightIcon
                                             className="w-5 h-5 ml-2 text-gray-400"
                                             aria-hidden="true"
                                         />
