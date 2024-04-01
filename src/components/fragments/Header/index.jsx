@@ -12,12 +12,12 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
 }
 
-//#region  Ari test
+//#region Ari test
 const email = localStorage.getItem('email');
 //#endregion
 const Header = (props) => {
     const { setSidebarOpen } = { ...props };
-    //#region  handle logout button
+    //#region Ari handle logout button
     const handleLogout = () => {
         localStorage.removeItem('email');
         localStorage.removeItem('password');
@@ -70,13 +70,6 @@ const Header = (props) => {
                             <span className="sr-only">Hallo</span>
                             <BellIcon className="w-6 h-6" aria-hidden="true" />
                         </ButtonIcon>
-                        {/* <button
-                            type="button"
-                            className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
-                        >
-                            <span className="sr-only">View notifications</span>
-                            <BellIcon className="w-6 h-6" aria-hidden="true" />
-                        </button> */}
 
                         {/* Separator */}
                         <div
@@ -128,7 +121,7 @@ const Header = (props) => {
                                             {({ active }) =>
                                                 item.name === 'Sign out' ? (
                                                     <button
-                                                        //#region Ari test logout (bug--atom buttom)
+                                                        //#region Ari test logout
                                                         onClick={() =>
                                                             handleLogout()
                                                         }
@@ -153,26 +146,6 @@ const Header = (props) => {
                                             }
                                         </Menu.Item>
                                     ))}
-                                    {/* <Menu.Item>
-                                        {({ active }) => (
-                                            <a
-                                                className={classNames(
-                                                    active ? 'bg-gray-50' : '',
-                                                    'block px-3 py-1 text-sm leading-6 text-gray-900'
-                                                )}
-                                            >
-                                                <button
-                                                    //#region Ari test logout (There is still a bug causing the double logout menu)
-                                                    onClick={() =>
-                                                        handleLogout()
-                                                    }
-                                                    //#endregion
-                                                >
-                                                    Sign Out
-                                                </button>
-                                            </a>
-                                        )}
-                                    </Menu.Item> */}
                                 </Menu.Items>
                             </Transition>
                         </Menu>
