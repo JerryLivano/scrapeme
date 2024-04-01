@@ -2,7 +2,6 @@ import { Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, BellIcon } from '@heroicons/react/24/outline';
 import {
     ChevronDownIcon,
-    ChevronLeftIcon,
     ChevronRightIcon,
     MagnifyingGlassIcon,
 } from '@heroicons/react/20/solid';
@@ -18,7 +17,7 @@ function classNames(...classes) {
 const userName = localStorage.getItem('email');
 //#endregion
 const Header = (props) => {
-    const [openAccount, setOpenAccount] = useState(false);
+    const [openProfile, setOpenProfile] = useState(false);
     const { setSidebarOpen } = { ...props };
     //#region Ari handle logout button
     const handleLogout = () => {
@@ -98,17 +97,22 @@ const Header = (props) => {
 
                                 <span
                                     className="hidden lg:flex lg:items-center"
-                                    onClick={() => setOpenAccount(!openAccount)}
+                                    onClick={() => setOpenProfile(!openProfile)}
                                 >
                                     <span
                                         className="ml-4 text-sm font-semibold leading-6 text-gray-900"
                                         aria-hidden="true"
                                     >
-                                        {userName.length > 20
+                                        {/* #region manual validatein to check logged in or not */}
+
+                                        {userName === null
+                                            ? (window.location.href = '/login')
+                                            : userName.length > 20
                                             ? userName.slice(0, 20) + '...'
                                             : userName}
+                                        {/* #endregion */}
                                     </span>
-                                    {openAccount ? (
+                                    {openProfile ? (
                                         <ChevronDownIcon
                                             className="w-5 h-5 ml-2 text-gray-400"
                                             aria-hidden="true"
@@ -132,7 +136,10 @@ const Header = (props) => {
                             >
                                 <Menu.Items className="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
                                     {userNavigation.map((item, index) => (
-                                        <Menu.Item key={index}>
+                                        <Menu.Item
+                                            key={index}
+                                            className="focus-visible:bg-none hover:text-blue-400"
+                                        >
                                             {({ active }) =>
                                                 item.name === 'Sign out' ? (
                                                     <button
@@ -140,7 +147,7 @@ const Header = (props) => {
                                                         onClick={() =>
                                                             handleLogout()
                                                         }
-                                                        className="bg-none hover:bg-none flex px-3 py-1 justify-center text-sm justify-self-center focus-visible:bg-none hover:text-blue-400"
+                                                        className="bg-none hover:bg-none flex px-3 py-1 justify-center text-sm justify-self-center"
                                                         //#endregion
                                                     >
                                                         {item.name}
