@@ -3,6 +3,8 @@ import { Button, Label } from "../../elements";
 import { useState } from "react";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/20/solid";
 import { Link, useNavigate } from "react-router-dom";
+import InputPassword from "../../elements/Input/InputPassword";
+import InputGroup from "../InputGroup";
 
 const FormLogin = () => {
     //#region Ari test
@@ -35,12 +37,9 @@ const FormLogin = () => {
                 <div className='flex flex-col'>
                     <Label
                         htmlFor='email'
-                        validation={
-                            errors.email ? "text-red-500" : "text-gray-900"
-                        }
-                    >
-                        Email <span className='text-[#E02222]'>*</span>
-                    </Label>
+                        name='Email address'
+                        mandatory={true}
+                    />
                     <div className='mt-2'>
                         <input
                             id='email'
@@ -69,14 +68,9 @@ const FormLogin = () => {
                     <div className='flex items-center justify-between'>
                         <Label
                             htmlFor='password'
-                            validation={
-                                errors.password
-                                    ? "text-red-500"
-                                    : "text-gray-900"
-                            }
-                        >
-                            Password <span className='text-[#E02222]'>*</span>
-                        </Label>
+                            name='Password'
+                            mandatory={true}
+                        />
                         <div className='text-sm'>
                             <Link
                                 to={"/forgot-password"}
@@ -86,7 +80,7 @@ const FormLogin = () => {
                             </Link>
                         </div>
                     </div>
-                    <div className='mt-2 relative w-full'>
+                    <div className='relative w-full mt-2'>
                         <input
                             id='password'
                             name='password'
@@ -106,12 +100,12 @@ const FormLogin = () => {
                         <button
                             type='button'
                             onClick={() => setShowPassword(!showPassword)}
-                            className='absolute inset-y-1 right-2 top-1 flex items-center'
+                            className='absolute flex items-center inset-y-1 right-2 top-1'
                         >
                             {showPassword ? (
-                                <EyeSlashIcon className='h-5 w-5 text-gray-700 items-center' />
+                                <EyeSlashIcon className='items-center w-5 h-5 text-gray-400' />
                             ) : (
-                                <EyeIcon className='h-5 w-5 text-gray-700 items-center' />
+                                <EyeIcon className='items-center w-5 h-5 text-gray-400' />
                             )}
                         </button>
                     </div>
@@ -121,6 +115,24 @@ const FormLogin = () => {
                         </p>
                     )}
                 </div>
+
+                <InputGroup
+                    type='text'
+                    id='fullname'
+                    name='fullname'
+                    placeholder='Fullname'
+                    errors={true}
+                    register={register}
+                />
+
+                <InputGroup
+                    type='password'
+                    id='password'
+                    name='password'
+                    placeholder='Password'
+                    errors={true}
+                    register={register}
+                />
 
                 <div>
                     <Button

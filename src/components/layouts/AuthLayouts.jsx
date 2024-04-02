@@ -8,7 +8,7 @@ const AuthLayouts = (props) => {
             <div className='flex flex-col justify-center flex-1 min-h-full px-6 py-12 lg:px-8'>
                 <div className='sm:mx-auto sm:w-full sm:max-w-sm'>
                     <img
-                        className='w-auto h-10 mx-auto'
+                        className='w-auto h-16 mx-auto'
                         src={LogoMASquare}
                         alt='Your Company'
                     />
