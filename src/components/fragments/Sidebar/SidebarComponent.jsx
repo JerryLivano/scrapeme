@@ -1,6 +1,7 @@
 import { Disclosure } from "@headlessui/react";
 import { ChevronRightIcon, Cog6ToothIcon } from "@heroicons/react/24/outline";
 import { navigation, teams } from "./data";
+import { LogoMA } from "../../../assets";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
@@ -14,7 +15,7 @@ const SidebarComponent = () => {
             <div className="flex items-center self-center h-16 shrink-0">
                 <div className="h-24 mt-16 w-36">
                     <img
-                        src="/img/metrodataacademy.png"
+                        src={LogoMA}
                         alt='metrodata academy'
                         className='w-full h-8 mx-auto'
                     />

@@ -1,4 +1,5 @@
 import React from "react";
+import { LogoMASquare } from "../../assets";
 
 const AuthLayouts = (props) => {
     const { children, title } = { ...props };
@@ -8,7 +9,7 @@ const AuthLayouts = (props) => {
                 <div className='sm:mx-auto sm:w-full sm:max-w-sm'>
                     <img
                         className='w-auto h-10 mx-auto'
-                        src='/img/metrodataacademy_square.png'
+                        src={LogoMASquare}
                         alt='Your Company'
                     />
                     <h2 className='mt-10 text-2xl font-bold leading-9 tracking-tight text-center text-gray-900'>
