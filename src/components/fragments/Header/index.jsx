@@ -8,6 +8,7 @@ import {
 } from "@heroicons/react/20/solid";
 import ButtonIcon from "../../elements/Button/ButtonIcon";
 import { userNavigation } from "../Sidebar/data";
+import { useNavigate } from "react-router";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
@@ -20,12 +21,13 @@ const userName = localStorage.getItem("email");
 const Header = (props) => {
     const [openProfile, setOpenProfile] = useState(false);
     const { setSidebarOpen } = { ...props };
+    const navigate = useNavigate();
     //#region Ari handle logout button
 
     const handleLogout = () => {
         localStorage.removeItem("email");
         localStorage.removeItem("password");
-        window.location.href = "/login";
+        navigate("/login");
     };
     //#endregion
     return (
@@ -105,14 +107,7 @@ const Header = (props) => {
                                         className='ml-4 text-sm font-semibold leading-6 text-gray-900'
                                         aria-hidden='true'
                                     >
-                                        {/* #region manual validatein to check logged in or not */}
-
-                                        {userName === null
-                                            ? (window.location.href = "/login")
-                                            : userName.length > 20
-                                            ? userName.slice(0, 20) + "..."
-                                            : userName}
-                                        {/* #endregion */}
+                                        {userName}
                                     </span>
                                     {openProfile ? (
                                         <ChevronDownIcon
