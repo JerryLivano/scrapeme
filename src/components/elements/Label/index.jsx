@@ -1,12 +1,15 @@
 const Label = (props) => {
-    const { htmlFor, children, validation } = { ...props };
+    const { htmlFor, name, mandatory } = { ...props };
     return (
         <>
             <label
                 htmlFor={htmlFor}
-                className={`block text-sm font-medium leading-6 text-gray-900 ${validation}`}
+                className='block text-sm font-medium leading-6 text-gray-900'
             >
-                {children}
+                {name}
+                <span hidden={!mandatory} className='text-[#E02222]'>
+                    *
+                </span>
             </label>
         </>
     );
