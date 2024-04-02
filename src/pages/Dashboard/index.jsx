@@ -1,6 +1,8 @@
-import DashboardLayout from '../../components/layouts/DashboardLayout';
+import { Children } from "react";
+import Dashboardlayout from "../../components/layouts/DashboardLayout";
+import ErrorPage from "../404";
 
-const Dashboard = () => {
+const Dashboard = ({ children }) => {
     return (
         <div>
             <DashboardLayout>

@@ -1,13 +1,14 @@
-import { Menu, Transition } from '@headlessui/react';
-import { Bars3Icon, BellIcon } from '@heroicons/react/24/outline';
+import React, { Fragment, useState } from "react";
+import { Menu, Transition } from "@headlessui/react";
+import { Bars3Icon, BellIcon } from "@heroicons/react/24/outline";
 import {
     ChevronDownIcon,
     ChevronRightIcon,
     MagnifyingGlassIcon,
 } from '@heroicons/react/20/solid';
-import { userNavigation } from '../Sidebar/data';
-import { Fragment, useState } from 'react';
 import ButtonIcon from '../../elements/Button/ButtonIcon';
+import { userNavigation } from "../Sidebar/data";
+import { Button, Input, Label } from '../../elements';
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
@@ -16,10 +17,12 @@ function classNames(...classes) {
 //#region Ari test
 const userName = localStorage.getItem('email');
 //#endregion
+
 const Header = (props) => {
     const [openProfile, setOpenProfile] = useState(false);
     const { setSidebarOpen } = { ...props };
     //#region Ari handle logout button
+
     const handleLogout = () => {
         localStorage.removeItem('email');
         localStorage.removeItem('password');
@@ -75,6 +78,7 @@ const Header = (props) => {
 
                         {/* Separator */}
                         <div
+
                             className="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-200"
                             aria-hidden="true"
                         />
@@ -127,6 +131,7 @@ const Header = (props) => {
                             </Menu.Button>
                             <Transition
                                 as={Fragment}
+
                                 enter="transition ease-out duration-100"
                                 enterFrom="transform opacity-0 scale-95"
                                 enterTo="transform opacity-100 scale-100"

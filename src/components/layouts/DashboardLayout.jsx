@@ -1,5 +1,6 @@
-import { useState } from 'react';
-import { Header, SidebarDesktop, SidebarMobile } from '../fragments';
+import { useState } from "react";
+import { Header, SidebarDesktop, SidebarMobile } from "../fragments";
+
 
 export default function DashboardLayout(props) {
     const { children } = { ...props };
@@ -12,6 +13,7 @@ export default function DashboardLayout(props) {
                 setSidebarOpen={setSidebarOpen}
             />
             <SidebarDesktop />
+
             <div className="lg:pl-72">
                 <Header setSidebarOpen={setSidebarOpen} />
                 <main className="py-10">

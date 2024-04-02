@@ -11,9 +11,10 @@ const navigation = [
         href: '#',
         icon: ChartPieIcon,
         children: [
-            { name: 'Children 1', href: '/parent/children' },
-            { name: 'Children 2', href: '#' },
-            { name: 'Children 3', href: '#' },
+            { name: "ChildrenOne", href: "/parent/children" },
+            { name: "ChildrenTwo", href: "/dashboard" },
+            { name: "ChildrenThree", href: "#" },
+            { name: "ChildrenFour", href: "/parent/children" },
         ],
     },
 ];

@@ -1,19 +1,21 @@
-import { Fragment } from 'react';
-import SidebarComponent from './SidebarComponent';
-import { XMarkIcon } from '@heroicons/react/24/outline';
-import { Dialog, Transition } from '@headlessui/react';
+import { Fragment } from "react";
+import SidebarComponent from "./SidebarComponent";
+import { XMarkIcon } from "@heroicons/react/24/outline";
+import { Dialog, Transition } from "@headlessui/react";
 
 const SidebarMobile = ({ sidebarOpen, setSidebarOpen }) => {
     return (
         <>
             <Transition.Root show={sidebarOpen} as={Fragment}>
                 <Dialog
+
                     as="div"
                     className="relative z-50 lg:hidden"
                     onClose={setSidebarOpen}
                 >
                     <Transition.Child
                         as={Fragment}
+
                         enter="transition-opacity ease-linear duration-300"
                         enterFrom="opacity-0"
                         enterTo="opacity-100"
@@ -72,5 +74,4 @@ const SidebarMobile = ({ sidebarOpen, setSidebarOpen }) => {
         </>
     );
 };
-
 export default SidebarMobile;

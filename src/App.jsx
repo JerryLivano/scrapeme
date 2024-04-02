@@ -1,22 +1,26 @@
-import { Route, Routes } from 'react-router-dom';
-import Login from './pages/Login';
-import { Dashboard, ForgotPassword } from './pages';
-import { Layout } from './components/layouts';
+import { Route, Routes } from "react-router-dom";
+import Login from "./pages/Login";
+import { Dashboard, ForgotPassword, LayoutDashboard } from "./pages";
+import { Layout } from "./components/layouts";
+import ExampleOne from "./pages/ExampleOne";
 
 function App() {
     return (
         <>
             <Routes>
-                <Route path="/" element={<Layout />}>
+                <Route path='/' element={<Layout />}>
                     <Route index element={<Login />} />
-                    <Route path="login" element={<Login />} />
-
+                    <Route path='login' element={<Login />} />
                     <Route
-                        path="forgot-password"
+                        path='forgot-password'
                         element={<ForgotPassword />}
                     />
-                    <Route path="dashboard" element={<Dashboard />} />
                 </Route>
+                <Route path='/' element={<LayoutDashboard />}>
+                    <Route path='dashboard' element={<Dashboard />} />
+                    <Route path='parent/children' element={<ExampleOne />} />
+                </Route>
+                 
             </Routes>
         </>
     );

@@ -1,4 +1,4 @@
-import SidebarComponent from './SidebarComponent';
+import SidebarComponent from "./SidebarComponent";
 
 const SidebarDesktop = () => {
     return (
