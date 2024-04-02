@@ -8,6 +8,7 @@ import {
 } from "@heroicons/react/20/solid";
 import ButtonIcon from "../../elements/Button/ButtonIcon";
 import { userNavigation } from "../Sidebar/data";
+import { useNavigate } from "react-router";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
@@ -20,12 +21,13 @@ const userName = localStorage.getItem("email");
 const Header = (props) => {
     const [openProfile, setOpenProfile] = useState(false);
     const { setSidebarOpen } = { ...props };
+    const navigate = useNavigate();
     //#region Ari handle logout button
 
     const handleLogout = () => {
         localStorage.removeItem("email");
         localStorage.removeItem("password");
-        window.location.href = "/login";
+        navigate("/login");
     };
     //#endregion
     return (
