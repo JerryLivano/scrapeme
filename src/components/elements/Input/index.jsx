@@ -1,5 +1,5 @@
 const Input = (props) => {
-    const { type = 'text', placeholder, name, id, autoComplete } = { ...props };
+    const { type = "text", placeholder, name, id, autoComplete } = { ...props };
     return (
         <>
             <input
