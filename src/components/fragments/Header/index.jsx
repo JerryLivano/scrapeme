@@ -1,10 +1,12 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon } from "@heroicons/react/24/outline";
 import {
     ChevronDownIcon,
+    ChevronRightIcon,
     MagnifyingGlassIcon,
-} from "@heroicons/react/20/solid";
+} from '@heroicons/react/20/solid';
+import ButtonIcon from '../../elements/Button/ButtonIcon';
 import { userNavigation } from "../Sidebar/data";
 import { Button, Input, Label } from '../../elements';
 
@@ -12,12 +14,15 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
 }
 
-//#region  Ari test
-const email = localStorage.getItem('email');
+//#region Ari test
+const userName = localStorage.getItem('email');
 //#endregion
 
-    const Header = ({ setSidebarOpen }) => {
-    //#region  handle (in logout button)
+const Header = (props) => {
+    const [openProfile, setOpenProfile] = useState(false);
+    const { setSidebarOpen } = { ...props };
+    //#region Ari handle logout button
+
     const handleLogout = () => {
         localStorage.removeItem('email');
         localStorage.removeItem('password');
@@ -27,14 +32,16 @@ const email = localStorage.getItem('email');
     return (
         <>
             <div className="sticky top-0 z-40 flex items-center h-16 px-4 bg-white border-b border-gray-200 shadow-sm shrink-0 gap-x-4 sm:gap-x-6 sm:px-6 lg:px-8">
-                <button
-                    type="button"
+                <ButtonIcon
                     className="-m-2.5 p-2.5 text-gray-700 lg:hidden"
                     onClick={() => setSidebarOpen(true)}
                 >
                     <span className="sr-only">Open sidebar</span>
-                    <Bars3Icon className="w-6 h-6" aria-hidden="true" />
-                </button>
+                    <Bars3Icon
+                        className="w-6 h-6 lg:hidden"
+                        aria-hidden="true"
+                    />
+                </ButtonIcon>
 
                 {/* Separator */}
                 <div
@@ -48,30 +55,26 @@ const email = localStorage.getItem('email');
                         action="#"
                         method="GET"
                     >
-                        <Label htmlFor="search-field" srOnly="sr-only">
+                        <label htmlFor="search-field" className="sr-only">
                             Search
-                        </Label>
+                        </label>
                         <MagnifyingGlassIcon
-                            className="absolute inset-y-0 left-1 w-5 h-full text-gray-400 cursor-pointer"
+                            className="absolute inset-y-0 left-1 w-5 h-full text-gray-400 pointer-events-none"
                             aria-hidden="true"
                         />
-                        <Input
+                        <input
                             id="search-field"
+                            className="block w-full h-full py-0 pl-8 pr-0 text-gray-900 border-0 placeholder:text-gray-400 focus:ring-0 sm:text-sm"
                             placeholder="Search..."
                             type="search"
                             name="search"
-                            paddingX="px-8"
-                            ring="ring-0"
                         />
                     </form>
                     <div className="flex items-center gap-x-4 lg:gap-x-6">
-                        <button
-                            type="button"
-                            className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
-                        >
-                            <span className="sr-only">View notifications</span>
+                        <ButtonIcon>
+                            <span className="sr-only">Hallo</span>
                             <BellIcon className="w-6 h-6" aria-hidden="true" />
-                        </button>
+                        </ButtonIcon>
 
                         {/* Separator */}
                         <div
@@ -96,18 +99,34 @@ const email = localStorage.getItem('email');
                                     </span>
                                 </div>
 
-
-                                <span className="hidden lg:flex lg:items-center">
+                                <span
+                                    className="hidden lg:flex lg:items-center"
+                                    onClick={() => setOpenProfile(!openProfile)}
+                                >
                                     <span
                                         className="ml-4 text-sm font-semibold leading-6 text-gray-900"
                                         aria-hidden="true"
                                     >
-                                        {email}
+                                        {/* #region manual validatein to check logged in or not */}
+
+                                        {userName === null
+                                            ? (window.location.href = '/login')
+                                            : userName.length > 20
+                                            ? userName.slice(0, 20) + '...'
+                                            : userName}
+                                        {/* #endregion */}
                                     </span>
-                                    <ChevronDownIcon
-                                        className="w-5 h-5 ml-2 text-gray-400"
-                                        aria-hidden="true"
-                                    />
+                                    {openProfile ? (
+                                        <ChevronDownIcon
+                                            className="w-5 h-5 ml-2 text-gray-400"
+                                            aria-hidden="true"
+                                        />
+                                    ) : (
+                                        <ChevronRightIcon
+                                            className="w-5 h-5 ml-2 text-gray-400"
+                                            aria-hidden="true"
+                                        />
+                                    )}
                                 </span>
                             </Menu.Button>
                             <Transition
@@ -122,19 +141,22 @@ const email = localStorage.getItem('email');
                             >
                                 <Menu.Items className="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
                                     {userNavigation.map((item, index) => (
-                                        <Menu.Item key={index}>
+                                        <Menu.Item
+                                            key={index}
+                                            className="focus-visible:bg-none hover:text-blue-400"
+                                        >
                                             {({ active }) =>
                                                 item.name === 'Sign out' ? (
-                                                    <Button
-                                                        //#region Ari test logout (bug--atom buttom)
+                                                    <button
+                                                        //#region Ari test logout
                                                         onClick={() =>
                                                             handleLogout()
                                                         }
-                                                        // classname="bg-none hover:bg-none flex justify-center text-white focus-visible:bg-none"
+                                                        className="bg-none hover:bg-none flex px-3 py-1 justify-center text-sm justify-self-center"
                                                         //#endregion
                                                     >
                                                         {item.name}
-                                                    </Button>
+                                                    </button>
                                                 ) : (
                                                     <a
                                                         href={item.href}
@@ -151,26 +173,6 @@ const email = localStorage.getItem('email');
                                             }
                                         </Menu.Item>
                                     ))}
-                                    {/* <Menu.Item>
-                                        {({ active }) => (
-                                            <a
-                                                className={classNames(
-                                                    active ? 'bg-gray-50' : '',
-                                                    'block px-3 py-1 text-sm leading-6 text-gray-900'
-                                                )}
-                                            >
-                                                <button
-                                                    //#region Ari test logout (There is still a bug causing the double logout menu)
-                                                    onClick={() =>
-                                                        handleLogout()
-                                                    }
-                                                    //#endregion
-                                                >
-                                                    Sign Out
-                                                </button>
-                                            </a>
-                                        )}
-                                    </Menu.Item> */}
                                 </Menu.Items>
                             </Transition>
                         </Menu>
