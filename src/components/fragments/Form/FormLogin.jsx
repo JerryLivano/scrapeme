@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import { Button, Label } from '../../elements';
 import { useState } from 'react';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/20/solid';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const FormLogin = () => {
     //#region Ari test
@@ -12,12 +12,16 @@ const FormLogin = () => {
         register,
         handleSubmit,
         formState: { errors },
+        reset,
     } = useForm();
 
-    const onSubmit = async (request) => {
-        localStorage.setItem('email', request.mail);
-        localStorage.setItem('password', request.password);
-        window.location.href = '/dashboard';
+    const navigate = useNavigate();
+
+    const onSubmit = (data) => {
+        localStorage.setItem('email', data.mail);
+        localStorage.setItem('password', data.password);
+        navigate('/dashboard');
+        reset();
     };
     //#endregion
     return (
@@ -28,7 +32,7 @@ const FormLogin = () => {
                 method="POST"
                 onSubmit={handleSubmit(onSubmit)}
             >
-                <div>
+                <div className="flex flex-col">
                     <Label
                         htmlFor="email"
                         validation={
@@ -45,12 +49,11 @@ const FormLogin = () => {
                             autoComplete="email"
                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-3 ring-1"
                             {...register('mail', {
-                                required:
-                                    'Invalid email format. Please enter valid email address',
+                                required: 'Email required',
                                 pattern: {
                                     value: /\S+@\S+\.\S+/,
                                     message:
-                                        'Invalid email format. Please enter valid email address',
+                                        'Invalid email format. ex: frato@ms.mii.co.id',
                                 },
                             })}
                         />
@@ -92,8 +95,7 @@ const FormLogin = () => {
                             className={`block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset 
                             focus:ring-indigo-600 sm:text-sm sm:leading-6 px-3 ring-1`}
                             {...register('password', {
-                                required:
-                                    'Password minimum 8 characters. Please try again.',
+                                required: 'Password required',
                                 minLength: {
                                     value: 8,
                                     message:
@@ -107,24 +109,24 @@ const FormLogin = () => {
                             className="absolute inset-y-1 right-2 top-1 flex items-center"
                         >
                             {showPassword ? (
-                                <EyeSlashIcon className="h-5 w-5 text-gray-700" />
+                                <EyeSlashIcon className="h-5 w-5 text-gray-700 items-center" />
                             ) : (
-                                <EyeIcon className="h-5 w-5 text-gray-700" />
+                                <EyeIcon className="h-5 w-5 text-gray-700 items-center" />
                             )}
                         </button>
-                        {errors.password && (
-                            <p className="text-sm text-[#E02222]">
-                                {errors.password.message}
-                            </p>
-                        )}
                     </div>
+                    {errors.password && (
+                        <p className="text-sm text-[#E02222]">
+                            {errors.password.message}
+                        </p>
+                    )}
                 </div>
 
                 <div>
                     <Button
                         type="submit"
                         size="size-96"
-                        onClick={handleSubmit(onSubmit)}
+                        onClick={() => handleSubmit(onSubmit)}
                     >
                         Login
                     </Button>
