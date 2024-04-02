@@ -3,6 +3,7 @@ import { ChevronRightIcon, Cog6ToothIcon } from "@heroicons/react/24/outline";
 import { LogoMA } from "../../../../public/img";
 import { navigation, teams } from "./data";
 
+
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
