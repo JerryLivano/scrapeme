@@ -8,13 +8,13 @@ import { useState } from "react";
 export default function InputGroup({
     id,
     name,
-    placeholder,
     type,
-    required,
     errors,
     register,
-    disabled,
-    readOnly,
+    placeholder="Placeholder",
+    required=false,
+    disabled=false,
+    readOnly=false,
     ...props
 }) {
     const [showPassword, setShowPassword] = useState(false);
@@ -28,7 +28,7 @@ export default function InputGroup({
                         placeholder={placeholder}
                         type={type}
                         className={
-                            errors
+                            errors[name]
                                 ? "block w-full rounded-md border-0 py-1.5 pr-10 text-red-900 ring-1 ring-inset ring-red-300 placeholder:text-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500 sm:text-sm sm:leading-6"
                                 : "block w-full rounded-md border-0 py-1.5 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         }
@@ -51,7 +51,7 @@ export default function InputGroup({
                         placeholder={placeholder}
                         type={type}
                         className={
-                            errors
+                            errors[name]
                                 ? "block w-full rounded-md border-0 py-1.5 pr-10 text-red-900 ring-1 ring-inset ring-red-300 placeholder:text-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500 sm:text-sm sm:leading-6"
                                 : "block w-full rounded-md border-0 py-1.5 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         }
@@ -78,7 +78,7 @@ export default function InputGroup({
                         placeholder={placeholder}
                         type={showPassword ? "text" : "password"}
                         className={
-                            errors
+                            errors[name]
                                 ? "block w-full rounded-md border-0 py-1.5 pr-10 text-red-900 ring-1 ring-inset ring-red-300 placeholder:text-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500 sm:text-sm sm:leading-6"
                                 : "block w-full rounded-md border-0 py-1.5 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         }
