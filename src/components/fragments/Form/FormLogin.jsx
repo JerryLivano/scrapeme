@@ -1,13 +1,9 @@
 import { useForm } from "react-hook-form";
 import { Button, Label } from "../../elements";
-import { useState } from "react";
-import { EyeIcon, EyeSlashIcon } from "@heroicons/react/20/solid";
 import { Link, useNavigate } from "react-router-dom";
-import InputPassword from "../../elements/Input/InputPassword";
 import InputGroup from "../InputGroup";
 
 const FormLogin = () => {
-    //#region Ari test
     const {
         register,
         handleSubmit,
@@ -66,12 +62,12 @@ const FormLogin = () => {
                             mandatory={true}
                         />
                         <div className='text-sm'>
-                            <Link
-                                to={"/forgot-password"}
-                                className='font-bold text-blue-600'
+                            <a
+                                href='/forgot-password'
+                                className='font-semibold text-indigo-600 hover:text-indigo-500'
                             >
-                                forgot password?
-                            </Link>
+                                Forgot password?
+                            </a>
                         </div>
                     </div>
                     <div className='relative w-full mt-2'>
