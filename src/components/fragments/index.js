@@ -5,6 +5,7 @@ import SidebarDesktop from "./Sidebar/SidebarDesktop";
 import SidebarMobile from "./Sidebar/SidebarMobile";
 import Header from "./Header";
 import InputGroup from "./InputGroup";
+import SlideOvers from "./SlideOvers";
 
 export {
     FormLogin,
@@ -14,4 +15,5 @@ export {
     SidebarMobile,
     Header,
     InputGroup,
+    SlideOvers,
 };
