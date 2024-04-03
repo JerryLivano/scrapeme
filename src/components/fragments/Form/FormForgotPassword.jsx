@@ -33,7 +33,7 @@ const FormForgotPassword = () => {
         try {
             console.log(data);
             setButtonDisabled(true);
-            await latency(3000);
+            await latency(1000);
             alert("Please check your email for the next steps");
             reset();
             setButtonDisabled(false);
@@ -64,7 +64,7 @@ const FormForgotPassword = () => {
                             placeholder='Email address'
                             errors={errors}
                             register={register}
-                            required={true}
+                            required
                         />
                     </div>
                 </div>
