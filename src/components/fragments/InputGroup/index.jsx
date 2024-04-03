@@ -10,7 +10,6 @@ export default function InputGroup({
     placeholder = "Placeholder",
     required = false,
     disabled = false,
-    readOnly = false,
     ...props
 }) {
     const [showPassword, setShowPassword] = useState(false);
