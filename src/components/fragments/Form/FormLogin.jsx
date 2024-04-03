@@ -3,8 +3,10 @@ import { Button, Label } from "../../elements";
 import { useState } from "react";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/20/solid";
 import { Link, useNavigate } from "react-router-dom";
-import InputPassword from "../../elements/Input/InputPassword";
+//import InputPassword from "../../elements/Input/InputPassword";
 import InputGroup from "../InputGroup";
+
+import { AuthService } from "../../../services/AutServices"
 
 const FormLogin = () => {
     //#region Ari test
@@ -17,15 +19,41 @@ const FormLogin = () => {
         reset,
     } = useForm();
 
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
-    const onSubmit = (data) => {
-        localStorage.setItem("email", data.email);
-        localStorage.setItem("password", data.password);
-        navigate("/dashboard");
-        reset();
-    };
+    // const onSubmit = (data) => {
+    //     localStorage.setItem("email", data.email);
+    //     localStorage.setItem("password", data.password);
+    //     navigate("/dashboard");
+    //     reset();
+    // };    
     //#endregion
+
+
+    const [email, setEmail] = useState();
+    const [password, setPassword] = useState()
+    const navigate= useNavigate();
+
+    const onSubmit = async (data) => {
+        //e.preventDefault();
+        const email = data.email;
+        const password = data.password;
+        const userdata = {email, password}
+        const response = await AuthService.login(userdata);
+        console.log(response?.data);
+        
+        if(response?.data?.data){
+            AuthService.setToken(response?.data?.data)
+            const role = AuthService.getUserRole()
+            console.log(role);
+            navigate("/dashboard")
+        }
+        else{
+            reset();
+            navigate("/login")
+        }
+    }
+
     return (
         <>
             <form
@@ -42,8 +70,8 @@ const FormLogin = () => {
                     />
                     <div className='mt-2'>
                         <input
-                            id='email'
-                            name='email'
+                            id="email"
+                            name="email"
                             type='email'
                             autoComplete='email'
                             className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-3 ring-1'
@@ -80,10 +108,11 @@ const FormLogin = () => {
                             </Link>
                         </div>
                     </div>
+
                     <div className='relative w-full mt-2'>
                         <input
-                            id='password'
-                            name='password'
+                            id="password"
+                            name="password"
                             type={showPassword ? "text" : "password"}
                             autoComplete='current-password'
                             className={`block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset 
@@ -116,7 +145,7 @@ const FormLogin = () => {
                     )}
                 </div>
 
-                <InputGroup
+                {/* <InputGroup
                     type='text'
                     id='fullname'
                     name='fullname'
@@ -132,7 +161,7 @@ const FormLogin = () => {
                     placeholder='Password'
                     errors={true}
                     register={register}
-                />
+                /> */}
 
                 <div>
                     <Button

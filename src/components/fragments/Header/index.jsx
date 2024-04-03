@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon } from "@heroicons/react/24/outline";
 import {
@@ -9,27 +9,50 @@ import {
 import ButtonIcon from "../../elements/Button/ButtonIcon";
 import { userNavigation } from "../Sidebar/data";
 import { useNavigate } from "react-router";
+import { AuthService } from "../../../services/AutServices"
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
 
-//#region Ari test
-const userName = localStorage.getItem("email");
-//#endregion
+// //#region Ari test
+// const userName = localStorage.getItem("email");
+// //#endregion
+
 
 const Header = (props) => {
     const [openProfile, setOpenProfile] = useState(false);
     const { setSidebarOpen } = { ...props };
-    const navigate = useNavigate();
+    
+    const [userRole, setUserRole] = useState();
+    const [email, setEmail] = useState();
+    const [username, setUsername] = useState();    
+    const navigate = useNavigate();    
+    
+    
     //#region Ari handle logout button
-
     const handleLogout = () => {
         localStorage.removeItem("email");
         localStorage.removeItem("password");
         navigate("/login");
     };
     //#endregion
+
+
+    useEffect(() => {
+        const role = AuthService.getUserRole();
+        setUserRole(role)
+
+        const username = AuthService.getUserName();
+        setUsername(username);
+
+        const email = AuthService.getUserEmail();
+        setEmail(email);
+    })
+
+
+
+
     return (
         <>
             <div className='sticky top-0 z-40 flex items-center h-16 px-4 bg-white border-b border-gray-200 shadow-sm shrink-0 gap-x-4 sm:gap-x-6 sm:px-6 lg:px-8'>
@@ -107,7 +130,7 @@ const Header = (props) => {
                                         className='ml-4 text-sm font-semibold leading-6 text-gray-900'
                                         aria-hidden='true'
                                     >
-                                        {userName}
+                                        {username}
                                     </span>
                                     {openProfile ? (
                                         <ChevronDownIcon
