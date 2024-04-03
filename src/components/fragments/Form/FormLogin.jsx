@@ -8,8 +8,6 @@ import InputGroup from "../InputGroup";
 
 const FormLogin = () => {
     //#region Ari test
-    const [showPassword, setShowPassword] = useState(false);
-
     const {
         register,
         handleSubmit,
@@ -20,10 +18,17 @@ const FormLogin = () => {
     const navigate = useNavigate();
 
     const onSubmit = (data) => {
-        localStorage.setItem("email", data.email);
-        localStorage.setItem("password", data.password);
-        navigate("/dashboard");
-        reset();
+        try {
+            console.log(data);
+            localStorage.setItem("data", JSON.stringify(data));
+            // localStorage.setItem("password", data.password);
+            navigate("/dashboard");
+            reset();
+        } catch (error) {
+            {
+                error.message;
+            }
+        }
     };
     //#endregion
     return (
@@ -41,26 +46,15 @@ const FormLogin = () => {
                         mandatory={true}
                     />
                     <div className='mt-2'>
-                        <input
+                        <InputGroup
+                            type='email'
                             id='email'
                             name='email'
-                            type='email'
-                            autoComplete='email'
-                            className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-3 ring-1'
-                            {...register("email", {
-                                required: "Email required",
-                                pattern: {
-                                    value: /\S+@\S+\.\S+/,
-                                    message:
-                                        "Invalid email format. ex: frato@ms.mii.co.id",
-                                },
-                            })}
+                            placeholder='Email address'
+                            errors={errors}
+                            register={register}
+                            required={true}
                         />
-                        {errors.email && (
-                            <p className='text-sm text-[#E02222]'>
-                                {errors.email.message}
-                            </p>
-                        )}
                     </div>
                 </div>
 
@@ -81,58 +75,17 @@ const FormLogin = () => {
                         </div>
                     </div>
                     <div className='relative w-full mt-2'>
-                        <input
+                        <InputGroup
+                            type='password'
                             id='password'
                             name='password'
-                            type={showPassword ? "text" : "password"}
-                            autoComplete='current-password'
-                            className={`block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset 
-                            focus:ring-indigo-600 sm:text-sm sm:leading-6 px-3 ring-1`}
-                            {...register("password", {
-                                required: "Password required",
-                                minLength: {
-                                    value: 8,
-                                    message:
-                                        "Password minimum 8 characters. Please try again.",
-                                },
-                            })}
+                            placeholder='Password'
+                            errors={errors}
+                            register={register}
+                            required={true}
                         />
-                        <button
-                            type='button'
-                            onClick={() => setShowPassword(!showPassword)}
-                            className='absolute flex items-center inset-y-1 right-2 top-1'
-                        >
-                            {showPassword ? (
-                                <EyeSlashIcon className='items-center w-5 h-5 text-gray-400' />
-                            ) : (
-                                <EyeIcon className='items-center w-5 h-5 text-gray-400' />
-                            )}
-                        </button>
                     </div>
-                    {errors.password && (
-                        <p className='text-sm text-[#E02222]'>
-                            {errors.password.message}
-                        </p>
-                    )}
                 </div>
-
-                <InputGroup
-                    type='text'
-                    id='fullname'
-                    name='fullname'
-                    placeholder='Fullname'
-                    errors={true}
-                    register={register}
-                />
-
-                <InputGroup
-                    type='password'
-                    id='password'
-                    name='password'
-                    placeholder='Password'
-                    errors={true}
-                    register={register}
-                />
 
                 <div>
                     <Button
