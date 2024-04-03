@@ -21,7 +21,7 @@ const FormLogin = () => {
         try {
             console.log(data);
             localStorage.setItem("data", JSON.stringify(data));
-            // localStorage.setItem("password", data.password);
+
             navigate("/dashboard");
             reset();
         } catch (error) {
@@ -53,7 +53,7 @@ const FormLogin = () => {
                             placeholder='Email address'
                             errors={errors}
                             register={register}
-                            required={true}
+                            required
                         />
                     </div>
                 </div>
@@ -82,7 +82,7 @@ const FormLogin = () => {
                             placeholder='Password'
                             errors={errors}
                             register={register}
-                            required={true}
+                            required
                         />
                     </div>
                 </div>

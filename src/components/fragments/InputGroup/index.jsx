@@ -8,18 +8,43 @@ import { useState } from "react";
 export default function InputGroup({
     id,
     name,
-    placeholder,
+    placeholder = "Placeholder",
     type,
-    required,
+    required = false,
     errors,
     register,
-    disabled,
-    readOnly,
+    disabled = false,
+    readOnly = false,
     ...props
 }) {
     const [showPassword, setShowPassword] = useState(false);
     return (
         <div className='relative mt-2 rounded-md shadow-sm'>
+            {type == "date" && (
+                <>
+                    <input
+                        id={id}
+                        name={name}
+                        placeholder={placeholder}
+                        type={type}
+                        disabled={disabled}
+                        readOnly={readOnly}
+                        className={
+                            errors[name]
+                                ? "block w-full rounded-md border-0 py-1.5 pr-10 text-red-900 ring-1 ring-inset ring-red-300 placeholder:text-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500 sm:text-sm sm:leading-6"
+                                : "block w-full rounded-md border-0 py-1.5 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        }
+                        aria-invalid={errors[name] ? "true" : "false"}
+                        aria-describedby={`${id}-error`}
+                        {...register(name, {
+                            required: required
+                                ? "This field is required"
+                                : false,
+                        })}
+                        {...props}
+                    />
+                </>
+            )}
             {type == "text" && (
                 <>
                     <input
@@ -27,8 +52,10 @@ export default function InputGroup({
                         name={name}
                         placeholder={placeholder}
                         type={type}
+                        disabled={disabled}
+                        readOnly={readOnly}
                         className={
-                            errors
+                            errors[name]
                                 ? "block w-full rounded-md border-0 py-1.5 pr-10 text-red-900 ring-1 ring-inset ring-red-300 placeholder:text-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500 sm:text-sm sm:leading-6"
                                 : "block w-full rounded-md border-0 py-1.5 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         }
@@ -50,6 +77,8 @@ export default function InputGroup({
                         name={name}
                         placeholder={placeholder}
                         type={type}
+                        disabled={disabled}
+                        readOnly={readOnly}
                         className={
                             errors[name]
                                 ? "block w-full rounded-md border-0 py-1.5 pr-10 text-red-900 ring-1 ring-inset ring-red-300 placeholder:text-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500 sm:text-sm sm:leading-6"
@@ -77,6 +106,8 @@ export default function InputGroup({
                         id={id}
                         name={name}
                         placeholder={placeholder}
+                        disabled={disabled}
+                        readOnly={readOnly}
                         type={showPassword ? "text" : "password"}
                         className={
                             errors[name]
