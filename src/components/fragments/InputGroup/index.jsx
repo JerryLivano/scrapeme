@@ -51,7 +51,7 @@ export default function InputGroup({
                         placeholder={placeholder}
                         type={type}
                         className={
-                            errors
+                            errors[name]
                                 ? "block w-full rounded-md border-0 py-1.5 pr-10 text-red-900 ring-1 ring-inset ring-red-300 placeholder:text-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500 sm:text-sm sm:leading-6"
                                 : "block w-full rounded-md border-0 py-1.5 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         }
@@ -79,7 +79,7 @@ export default function InputGroup({
                         placeholder={placeholder}
                         type={showPassword ? "text" : "password"}
                         className={
-                            errors
+                            errors[name]
                                 ? "block w-full rounded-md border-0 py-1.5 pr-10 text-red-900 ring-1 ring-inset ring-red-300 placeholder:text-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500 sm:text-sm sm:leading-6"
                                 : "block w-full rounded-md border-0 py-1.5 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         }
@@ -98,7 +98,7 @@ export default function InputGroup({
                     />
                 </>
             )}
-            <div className='absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none'>
+            <div className='inset-y-0 right-0 flex items-center pr-3 pointer-events-none static float-end mt-[-28px]'>
                 {/* <ExclamationCircleIcon
                     className='w-5 h-5 text-red-500'
                     aria-hidden='true'

@@ -8,8 +8,6 @@ import InputGroup from "../InputGroup";
 
 const FormLogin = () => {
     //#region Ari test
-    const [showPassword, setShowPassword] = useState(false);
-
     const {
         register,
         handleSubmit,
@@ -21,8 +19,9 @@ const FormLogin = () => {
 
     const onSubmit = (data) => {
         try {
-            localStorage.setItem("email", data.email);
-            localStorage.setItem("password", data.password);
+            console.log(data);
+            localStorage.setItem("data", JSON.stringify(data));
+            // localStorage.setItem("password", data.password);
             navigate("/dashboard");
             reset();
         } catch (error) {
@@ -51,17 +50,12 @@ const FormLogin = () => {
                             type='email'
                             id='email'
                             name='email'
-                            placeholder='Email'
-                            errors={false}
+                            placeholder='Email address'
+                            errors={errors}
                             register={register}
-                            required='required'
+                            required={true}
                         />
                     </div>
-                    {errors.email && (
-                        <p className='text-sm text-[#E02222]'>
-                            {errors.email.message}
-                        </p>
-                    )}
                 </div>
 
                 <div>
@@ -86,16 +80,11 @@ const FormLogin = () => {
                             id='password'
                             name='password'
                             placeholder='Password'
-                            errors={false}
+                            errors={errors}
                             register={register}
-                            required='required'
+                            required={true}
                         />
                     </div>
-                    {errors.password && (
-                        <p className='text-sm text-[#E02222]'>
-                            {errors.password.message}
-                        </p>
-                    )}
                 </div>
 
                 <div>

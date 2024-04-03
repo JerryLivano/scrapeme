@@ -4,6 +4,7 @@ import SidebarComponent from "./Sidebar/SidebarComponent";
 import SidebarDesktop from "./Sidebar/SidebarDesktop";
 import SidebarMobile from "./Sidebar/SidebarMobile";
 import Header from "./Header";
+import InputGroup from "./InputGroup";
 
 export {
     FormLogin,
@@ -12,4 +13,5 @@ export {
     SidebarDesktop,
     SidebarMobile,
     Header,
+    InputGroup,
 };

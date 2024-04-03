@@ -3,8 +3,8 @@ import Label from "../../elements/Label";
 import { ArrowLeftIcon } from "@heroicons/react/20/solid";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import InputGroup from "../InputGroup";
 import { Button } from "../../elements";
+import InputGroup from "../InputGroup";
 
 //#region latency waiting for transfer data to server and get email feedback from server--manual delay for test
 
@@ -51,29 +51,28 @@ const FormForgotPassword = () => {
                 onSubmit={handleSubmit(onSubmit)}
             >
                 <div>
-                    <Label htmlFor='email' name='Email' mandatory={true} />
+                    <Label
+                        htmlFor='email'
+                        name='Email address'
+                        mandatory={true}
+                    />
                     <div className='mt-2'>
                         <InputGroup
                             type='email'
                             id='email'
                             name='email'
-                            placeholder='Email'
-                            errors={false}
+                            placeholder='Email address'
+                            errors={errors}
                             register={register}
-                            required='required'
+                            required={true}
                         />
-                        {errors.email && (
-                            <p className='text-sm text-[#E02222]'>
-                                {errors.email.message}
-                            </p>
-                        )}
                     </div>
                 </div>
 
                 <div>
                     <Button
                         type='submit'
-                        onClick={() => handleSubmit(onSubmit)}
+                        onClick={handleSubmit(onSubmit)}
                         disabled={buttonDisabled}
                     >
                         Submit
