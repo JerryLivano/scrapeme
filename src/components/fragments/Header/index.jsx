@@ -15,7 +15,7 @@ function classNames(...classes) {
 }
 
 //#region Ari test
-const userName = localStorage.getItem("email");
+const data = JSON.parse(localStorage.getItem("data"));
 //#endregion
 
 const Header = (props) => {
@@ -107,7 +107,7 @@ const Header = (props) => {
                                         className='ml-4 text-sm font-semibold leading-6 text-gray-900'
                                         aria-hidden='true'
                                     >
-                                        {userName}
+                                        {data.email}
                                     </span>
                                     {openProfile ? (
                                         <ChevronDownIcon

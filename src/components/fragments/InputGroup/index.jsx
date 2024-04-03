@@ -63,7 +63,8 @@ export default function InputGroup({
                                 : false,
                             pattern: {
                                 value: /\S+@\S+\.\S+/,
-                                message: "Field with your email",
+                                message:
+                                    "Invalid email format. ex: admin@ms.mii.co.id",
                             },
                         })}
                         {...props}
@@ -97,11 +98,11 @@ export default function InputGroup({
                     />
                 </>
             )}
-            <div className='absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none'>
-                <ExclamationCircleIcon
+            <div className='inset-y-0 right-0 flex items-center pr-3 pointer-events-none static float-end mt-[-28px]'>
+                {/* <ExclamationCircleIcon
                     className='w-5 h-5 text-red-500'
                     aria-hidden='true'
-                />
+                /> */}
                 <button
                     hidden={type == "password" ? false : true}
                     type='button'
