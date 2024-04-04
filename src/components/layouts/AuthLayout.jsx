@@ -1,4 +1,3 @@
-import React from "react";
 import { LogoMASquare } from "../../assets";
 import { Outlet } from "react-router-dom";
 
@@ -10,7 +9,7 @@ const AuthLayout = ({ title }) => {
                     <img
                         className='w-auto h-16 mx-auto'
                         src={LogoMASquare}
-                        alt='Your Company'
+                        alt='Logo Descriptions'
                     />
                     <h2 className='mt-10 text-2xl font-bold leading-9 tracking-tight text-center text-gray-900'>
                         {title}
