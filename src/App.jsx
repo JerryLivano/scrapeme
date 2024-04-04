@@ -8,6 +8,7 @@ import { PrivateRoute } from "./routes/PrivateRoute";
 import React from "react";
 import { AdminRoute } from "./routes/AdminRoute";
 import Users from "./features/User/Users";
+import { Select } from "./components/elements";
 
 const App = () => {
     return (
@@ -16,6 +17,7 @@ const App = () => {
                 <Route path='/' element={<Layout />}>
                     <Route index element={<Login />} />
                     <Route path='login' element={<Login />} />
+                    <Route path='select' element={<Select />} />
                     <Route
                         path='forgot-password'
                         element={<ForgotPassword />}
