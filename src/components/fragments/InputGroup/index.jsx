@@ -1,15 +1,15 @@
-import { EyeIcon, EyeSlashIcon } from "@heroicons/react/20/solid";
 import { useState } from "react";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/20/solid";
 
 export default function InputGroup({
     id,
     name,
     type,
+    errors,
+    register,
     placeholder = "Placeholder",
     required = false,
     disabled = false,
-    errors,
-    register,
     ...props
 }) {
     const [showPassword, setShowPassword] = useState(false);
