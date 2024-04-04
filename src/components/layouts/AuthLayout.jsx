@@ -1,6 +1,7 @@
 import { LogoMASquare } from "../../assets";
+import { Outlet } from "react-router-dom";
 
-const AuthLayouts = ({ children, title }) => {
+const AuthLayout = ({ title }) => {
     return (
         <>
             <div className='flex flex-col justify-center flex-1 min-h-full px-6 py-12 lg:px-8'>
@@ -16,11 +17,12 @@ const AuthLayouts = ({ children, title }) => {
                 </div>
 
                 <div className='mt-10 sm:mx-auto sm:w-full sm:max-w-sm'>
-                    {children}
+                    {/* Content */}
+                    <Outlet />
                 </div>
             </div>
         </>
     );
 };
 
-export default AuthLayouts;
+export default AuthLayout;

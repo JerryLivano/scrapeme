@@ -5,7 +5,6 @@ const BaseApi = axios.create({
 })
 
 export const BaseApiAccount = axios.create({
-    baseURL:"http://localhost:5089/API-Overtimes/Account/"
+    baseURL:"https://api.escuelajs.co/api/v1/auth/"
 })
-
 export default BaseApi;

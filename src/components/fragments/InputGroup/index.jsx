@@ -101,6 +101,7 @@ export default function InputGroup({
                     />
                 </>
             )}
+
             {type == "number" && (
                 <>
                     <input
@@ -131,7 +132,6 @@ export default function InputGroup({
                                 value: 100,
                                 message: "Max value 100",
                             },
-                            disabled: disabled,
                         })}
                         {...props}
                     />

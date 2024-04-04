@@ -17,7 +17,7 @@ const DashboardLayout = ({ children }) => {
                 <main className='py-10'>
                     <div className='px-4 sm:px-6 lg:px-8'>
                         {/* Main content */}
-                        {children}
+                        <Outlet />
                     </div>
                 </main>
             </div>
