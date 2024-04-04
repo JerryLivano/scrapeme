@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Header, SidebarDesktop, SidebarMobile } from "../fragments";
 
-const DashboardLayout = () => {
+const DashLayout = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
     return (
@@ -25,4 +25,4 @@ const DashboardLayout = () => {
     );
 };
 
-export default DashboardLayout;
+export default DashLayout;
