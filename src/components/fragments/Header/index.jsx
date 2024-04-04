@@ -9,7 +9,7 @@ import {
 import ButtonIcon from "../../elements/Button/ButtonIcon";
 import { userNavigation } from "../Sidebar/data";
 import { useNavigate } from "react-router";
-import { AuthService } from "../../../services/authServices"
+// import { AuthService } from "../../../services/authServices"
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
@@ -38,16 +38,16 @@ const Header = (props) => {
     //#endregion
 
 
-    useEffect(() => {
-        const role = AuthService.getUserRole();
-        setUserRole(role)
+    // useEffect(() => {
+    //     const role = AuthService.getUserRole();
+    //     setUserRole(role)
 
-        const username = AuthService.getUserName();
-        setUsername(username);
+    //     const username = AuthService.getUserName();
+    //     setUsername(username);
 
-        const email = AuthService.getUserEmail();
-        setEmail(email);
-    })
+    //     const email = AuthService.getUserEmail();
+    //     setEmail(email);
+    // })
 
     return (
         <>

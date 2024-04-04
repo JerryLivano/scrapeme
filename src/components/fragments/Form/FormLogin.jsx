@@ -3,8 +3,6 @@ import { Button, Label } from "../../elements";
 import { useNavigate } from "react-router-dom";
 import InputGroup from "../InputGroup";
 import { ToastContainer, toast } from 'react-toastify';
-import { AuthService } from "../../../services/AuthServices";
-// import { AuthService } from "../../../services/AutServices"
 
 const FormLogin = () => {
     const {
@@ -21,7 +19,7 @@ const FormLogin = () => {
         const email = data.email;
         const password = data.password;
         const userdata = {email, password}
-        const response = await AuthService.login(userdata);
+        // const response = await AuthService.login(userdata);
         
         if(response?.data){
             navigate("/dashboard")
