@@ -22,7 +22,7 @@ const FormLogin = () => {
             console.log(data);
             localStorage.setItem("data", JSON.stringify(data));
 
-            navigate("/dashboard");
+            // navigate("/dashboard");
             reset();
         } catch (error) {
             {
@@ -43,7 +43,6 @@ const FormLogin = () => {
                     <Label
                         htmlFor='email'
                         name='Email address'
-                        mandatory={true}
                     />
                     <div className='mt-2'>
                         <InputGroup
@@ -53,7 +52,6 @@ const FormLogin = () => {
                             placeholder='Email address'
                             errors={errors}
                             register={register}
-                            required
                         />
                     </div>
                 </div>
@@ -63,7 +61,6 @@ const FormLogin = () => {
                         <Label
                             htmlFor='password'
                             name='Password'
-                            mandatory={true}
                         />
                         <div className='text-sm'>
                             <Link
@@ -82,7 +79,6 @@ const FormLogin = () => {
                             placeholder='Password'
                             errors={errors}
                             register={register}
-                            required
                         />
                     </div>
                 </div>

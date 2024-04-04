@@ -1,8 +1,6 @@
-import React from "react";
 import { LogoMASquare } from "../../assets";
 
-const AuthLayouts = (props) => {
-    const { children, title } = { ...props };
+const AuthLayouts = ({ children, title }) => {
     return (
         <>
             <div className='flex flex-col justify-center flex-1 min-h-full px-6 py-12 lg:px-8'>
@@ -10,7 +8,7 @@ const AuthLayouts = (props) => {
                     <img
                         className='w-auto h-16 mx-auto'
                         src={LogoMASquare}
-                        alt='Your Company'
+                        alt='Logo Descriptions'
                     />
                     <h2 className='mt-10 text-2xl font-bold leading-9 tracking-tight text-center text-gray-900'>
                         {title}
