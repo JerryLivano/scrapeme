@@ -15,10 +15,9 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
 
-// //#region Ari test
-// const userName = localStorage.getItem("email");
-// //#endregion
-
+//#region Ari test
+const data = JSON.parse(localStorage.getItem("data"));
+//#endregion
 
 const Header = (props) => {
     const [openProfile, setOpenProfile] = useState(false);
@@ -83,7 +82,7 @@ const Header = (props) => {
                             Search
                         </label>
                         <MagnifyingGlassIcon
-                            className='absolute inset-y-0 left-1 w-5 h-full text-gray-400 pointer-events-none'
+                            className='absolute inset-y-0 w-5 h-full text-gray-400 pointer-events-none left-1'
                             aria-hidden='true'
                         />
                         <input
@@ -130,7 +129,7 @@ const Header = (props) => {
                                         className='ml-4 text-sm font-semibold leading-6 text-gray-900'
                                         aria-hidden='true'
                                     >
-                                        {username}
+                                        {data?.email}
                                     </span>
                                     {openProfile ? (
                                         <ChevronDownIcon
@@ -167,7 +166,7 @@ const Header = (props) => {
                                                         onClick={() =>
                                                             handleLogout()
                                                         }
-                                                        className='bg-none hover:bg-none flex px-3 py-1 justify-center text-sm justify-self-center'
+                                                        className='flex justify-center px-3 py-1 text-sm bg-none hover:bg-none justify-self-center'
                                                         //#endregion
                                                     >
                                                         {item.name}
