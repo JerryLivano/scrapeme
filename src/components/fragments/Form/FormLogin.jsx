@@ -1,11 +1,10 @@
 import { useForm } from "react-hook-form";
 import { Button, Label } from "../../elements";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import InputGroup from "../InputGroup";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from 'react-toastify';
 import { AuthService } from "../../../services/AuthServices";
-import { useState } from "react";
+// import { AuthService } from "../../../services/AutServices"
 
 const FormLogin = () => {
     const {
@@ -15,9 +14,7 @@ const FormLogin = () => {
         reset,
     } = useForm();
 
-    const [email, setEmail] = useState();
-    const [password, setPassword] = useState();
-    const navigate = useNavigate();
+    const navigate= useNavigate();
 
     const onSubmit = async (data) => {
         //e.preventDefault();
@@ -25,17 +22,13 @@ const FormLogin = () => {
         const password = data.password;
         const userdata = { email, password };
         const response = await AuthService.login(userdata);
-        console.log(response?.data);
-
-        if (response?.data?.data) {
-            AuthService.setToken(response?.data?.data);
-            const role = AuthService.getUserRole();
-            console.log(role);
-            navigate("/dashboard");
-        } else {
+        
+        if(response?.data){
+            navigate("/dashboard")
+        }
+        else{
             toast.error(" Invalid username or password");
             reset();
-            navigate("/login");
         }
     };
 
@@ -94,7 +87,7 @@ const FormLogin = () => {
                     >
                         Login
                     </Button>
-                    <ToastContainer className='border border-red-500 place-content-center text-red-500' />
+                    <ToastContainer className="text-red-500 border border-red-500 place-content-center" />
                 </div>
             </form>
         </>

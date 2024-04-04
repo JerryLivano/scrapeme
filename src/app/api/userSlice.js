@@ -1,50 +1,48 @@
 import axios from "axios";
-import { AddUser, deleteUser, failRequest, getUserList, getUserObj, makeRequest, updateUser } from "../redux/Action";
-import BaseApi from "./Api";
-
+import { AddObj, deleteObj, failRequest, getObj, getObjList, makeRequest, updateObj } from "../redux/actions";
+import api from "./apiSlice";
 
 export const fetchUserList = () => {
     return (dispatch) => {
         dispatch(makeRequest());
-        BaseApi.get("users?limit=5").then(res =>{
+        api.get("users?limit=5").then(res => {
             const userlist = res.data;
-            dispatch(getUserList(userlist))
-        }).catch(err=>{
+            dispatch(getObjList(userlist))
+        }).catch(err => {
             dispatch(failRequest(err.message))
-        })        
+        })
     }
 }
-
 
 export const Removeuser = (code) => {
     return (dispatch) => {
         dispatch(makeRequest())
-        axios.delete(`http://localhost:8000/users/${code}`).then(res =>{
-        dispatch(deleteUser())
-        }).catch(error=>{
+        axios.delete(`http://localhost:8000/users/${code}`).then(res => {
+            dispatch(deleteObj())
+        }).catch(error => {
             //dispatch(failRequest(err.message))
             if (error.response) {
                 console.log(error.response.data);
                 console.log(error.response.status);
                 console.log(error.response.headers);
-              } else if (error.request) {
+            } else if (error.request) {
                 console.log(error.request);
-              } else {
+            } else {
                 console.log('Error', error.message);
-              }
-              console.log(error.config);
-        })        
+            }
+            console.log(error.config);
+        })
     }
 }
 
 export const FunctionAddUser = (data) => {
     return (dispatch) => {
         dispatch(makeRequest());
-        axios.post('http://localhost:8000/users', data).then(res =>{
-            dispatch(AddUser());
-        }).catch(err=>{
+        axios.post('http://localhost:8000/users', data).then(res => {
+            dispatch(AddObj());
+        }).catch(err => {
             dispatch(failRequest(err.message))
-        })        
+        })
     }
 }
 
@@ -52,22 +50,22 @@ export const FunctionAddUser = (data) => {
 export const FunctionUpdateUser = (data, code) => {
     return (dispatch) => {
         dispatch(makeRequest());
-        axios.put('http://localhost:8000/users/'+code,data).then(res =>{
-            dispatch(updateUser());
-        }).catch(err=>{
+        axios.put('http://localhost:8000/users/' + code, data).then(res => {
+            dispatch(updateObj());
+        }).catch(err => {
             dispatch(failRequest(err.message))
-        })        
+        })
     }
 }
 
 export const FetchUserObj = (code) => {
     return (dispatch) => {
         dispatch(makeRequest());
-        axios.get("http://localhost:8000/users/"+code).then(res =>{
+        axios.get("http://localhost:8000/users/" + code).then(res => {
             const data = res.data;
-            dispatch(getUserObj(data))
-        }).catch(err=>{
+            dispatch(getObj(data))
+        }).catch(err => {
             dispatch(failRequest(err.message))
-        })        
+        })
     }
 }

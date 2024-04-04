@@ -45,7 +45,7 @@ const Header = (props) => {
 
         const email = AuthService.getUserEmail();
         setEmail(email);
-    });
+    })
 
     return (
         <>
@@ -124,7 +124,8 @@ const Header = (props) => {
                                         className='ml-4 text-sm font-semibold leading-6 text-gray-900'
                                         aria-hidden='true'
                                     >
-                                        {data?.email}
+                                        {username}
+
                                     </span>
                                     {openProfile ? (
                                         <ChevronDownIcon
