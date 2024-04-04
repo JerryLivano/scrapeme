@@ -21,32 +21,32 @@ export const failRequest = (err) =>{
     }
 }
 
-export const getUserList = (data) => {
+export const getObjList = (data) => {
     return {
         type: GET_LIST_OBJECT,
         payload:data
     }
 }
 
-export const deleteUser = () =>{
+export const deleteObj = () =>{
     return {
         type: DELETE_OBJECT        
     }
 }
 
-export const AddUser = () =>{
+export const AddObj = () =>{
     return {
         type: ADD_OBJECT
     }
 }
 
-export const updateUser = () =>{
+export const updateObj = () =>{
     return {
         type: UPDATE_OBJECT
     }
 }
 
-export const getUserObj = (data) =>{
+export const getObj = (data) =>{
     return {
         type: GET_OBJECT,
         payload:data

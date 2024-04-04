@@ -49,9 +49,6 @@ const Header = (props) => {
         setEmail(email);
     })
 
-
-
-
     return (
         <>
             <div className='sticky top-0 z-40 flex items-center h-16 px-4 bg-white border-b border-gray-200 shadow-sm shrink-0 gap-x-4 sm:gap-x-6 sm:px-6 lg:px-8'>
@@ -129,7 +126,8 @@ const Header = (props) => {
                                         className='ml-4 text-sm font-semibold leading-6 text-gray-900'
                                         aria-hidden='true'
                                     >
-                                        {data?.email}
+                                        {username}
+
                                     </span>
                                     {openProfile ? (
                                         <ChevronDownIcon

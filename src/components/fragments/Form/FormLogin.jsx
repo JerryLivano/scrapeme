@@ -1,10 +1,9 @@
 import { useForm } from "react-hook-form";
 import { Button, Label } from "../../elements";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import InputGroup from "../InputGroup";
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { AuthService } from "../../../services/authServices"
+import { AuthService } from "../../../services/AutServices"
 
 const FormLogin = () => {
     const {
@@ -14,25 +13,6 @@ const FormLogin = () => {
         reset,
     } = useForm();
 
-    // const navigate = useNavigate();
-    const onSubmit = (data) => {
-        try {
-            console.log(data);
-            localStorage.setItem("data", JSON.stringify(data));
-
-            navigate("/dashboard");
-            reset();
-        } catch (error) {
-            {
-                error.message;
-            }
-        }
-    };
-    //#endregion
-
-
-    const [email, setEmail] = useState();
-    const [password, setPassword] = useState()
     const navigate= useNavigate();
 
     const onSubmit = async (data) => {
@@ -41,20 +21,13 @@ const FormLogin = () => {
         const password = data.password;
         const userdata = {email, password}
         const response = await AuthService.login(userdata);
-        console.log(response?.data);
         
-        if(response?.data?.data){
-            AuthService.setToken(response?.data?.data)
-            const role = AuthService.getUserRole()
-            console.log(role);
+        if(response?.data){
             navigate("/dashboard")
         }
         else{
-            toast.error(" Invalid username or password"
-                
-            );
+            toast.error(" Invalid username or password");
             reset();
-            navigate("/login")
         }
     }
 
@@ -123,7 +96,7 @@ const FormLogin = () => {
                     >
                         Login
                     </Button>
-                    <ToastContainer className="border border-red-500 place-content-center text-red-500" />
+                    <ToastContainer className="text-red-500 border border-red-500 place-content-center" />
                 </div>
             </form>
         </>

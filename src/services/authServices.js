@@ -1,10 +1,19 @@
 import  {BaseApiAccount} from "../app/api/apiSlice";
 import { jwtDecode } from "jwt-decode";
 
-const setToken = (token) =>{
+/**
+ * 
+ * @param {*} token 
+ */
+const setToken = (token, refreshToken) =>{
     localStorage.setItem('token',token);
+    localStorage.setItem('refreshToken', refreshToken)
 }
 
+/**
+ * 
+ * @returns 
+ */
 const getToken = () => {
     const token = localStorage.getItem('token');
     if(token){
@@ -13,44 +22,43 @@ const getToken = () => {
     return null;
 }
 
-const login = (userdata) => {
-    const response = BaseApiAccount.post("login", userdata);
-        localStorage.setItem('email',userdata.email);
-        localStorage.setItem('password',userdata.password);  
-        return BaseApiAccount.post("login", userdata);
+const login = async (userdata) => {
+    try{
+    const responseToken = await BaseApiAccount.post("login", userdata);
+    console.log(responseToken?.data?.access_token);
+    const token  = responseToken?.data?.access_token;
+    const refreshToken  = responseToken?.data?.refresh_token;
+    
+    const headers = {
+        Authorization: `Bearer ${token}`
+    };        
+    setToken(token, refreshToken);
+
+    const responseData = await BaseApiAccount.get("profile", {headers});
+    console.log("ini admin", responseData?.data?.role);
+
+    localStorage.setItem('email',userdata.email);
+    localStorage.setItem('password',userdata.password);
+    localStorage.setItem('name',responseData?.data?.name)  
+    localStorage.setItem('role', responseData?.data?.role);
+    return responseData;
+    }
+    catch(error)
+    {
+        console.log(error);
+    }
 }
 
-
-const getUserRole = () => {
-    const token = getToken();
-    const roleType = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role";
-    if(token){
-        const payload = jwtDecode(token);
-        console.log(payload[roleType]);
-        isLoggedIn();        
-        return payload[roleType]
-    }
-    return null;
+const getUserRole = () => {         
+    return localStorage.getItem('role');
 }
 
-const getUserEmail = () => {
-    const token = getToken();
-    const emailType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress";
-    if(token){
-        const payload = jwtDecode(token);
-        return payload[emailType]
-    }
-    return null;
+const getUserEmail = () => {   
+    return localStorage.getItem('email');
 }
 
 const getUserName = () => {
-    const token = getToken();
-    const username = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name";
-    if(token){
-        const payload = jwtDecode(token);
-        return payload[username]
-    }
-    return null;
+    return localStorage.getItem('name');
 }
 
 
@@ -60,8 +68,8 @@ const isLoggedIn = () => {
         const payload = jwtDecode(token);
         const isLogin = Date.now() < payload.exp * 1000;
         console.log(isLogin);
-        if(!isLogin){            
-            return refreshToken();;
+        if(!isLogin){                        
+            return refreshToken();
         }
         else{
             return isLogin;
@@ -72,14 +80,8 @@ const isLoggedIn = () => {
 
 const refreshToken = async() =>{
     try{
-    const email = localStorage.getItem('email');
-    const password = localStorage.getItem('password');
-    const userdata = { email, password }
-    const response =  await login(userdata);
-    console.log(response.data);
-    console.log(response.data.data);
-    setToken(response.data.data);
-    return true;
+        const refreshToken = localStorage.getItem('refreshToken')        
+        return setToken(refreshToken);
     }
     catch(error){
         console.log("error",error)
