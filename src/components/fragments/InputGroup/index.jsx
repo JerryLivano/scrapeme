@@ -1,18 +1,14 @@
-import {
-    ExclamationCircleIcon,
-    EyeIcon,
-    EyeSlashIcon,
-} from "@heroicons/react/20/solid";
 import { useState } from "react";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/20/solid";
 
 export default function InputGroup({
     id,
     name,
-    placeholder = "Placeholder",
     type,
-    required = false,
     errors,
     register,
+    placeholder = "Placeholder",
+    required = false,
     disabled = false,
     ...props
 }) {
@@ -172,10 +168,6 @@ export default function InputGroup({
                 </>
             )}
             <div className='inset-y-0 right-0 flex items-center pr-3 pointer-events-none static float-end mt-[-28px]'>
-                {/* <ExclamationCircleIcon
-                    className='w-5 h-5 text-red-500'
-                    aria-hidden='true'
-                /> */}
                 <button
                     hidden={type == "password" ? false : true}
                     type='button'

@@ -17,9 +17,17 @@ function App() {
                         element={<ForgotPassword />}
                     />
                 </Route>
-                <Route path='/' element={<LayoutDashboard />}>
-                    <Route path='dashboard' element={<Dashboard />} />
-                    <Route path='parent/children' element={<ExampleOne />} />
+                <Route path='/' element={
+                    <PrivateRoute> 
+                        <LayoutDashboard /> 
+                    </PrivateRoute> 
+                }>
+                        <Route path='dashboard' element={<Dashboard /> } />
+                        <Route path='parent/children' element={
+                            <AdminRoute> 
+                                <Users />
+                            </AdminRoute>} 
+                        />                    
                 </Route>
                 <Route path='/slide-overs' element={<SlideOvers />} />
             </Routes>
