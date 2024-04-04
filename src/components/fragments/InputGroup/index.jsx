@@ -36,7 +36,7 @@ export default function InputGroup({
                             required: required
                                 ? "This field is required"
                                 : false,
-                            disabled: disabled ? true : false,
+                            disabled: disabled,
                         })}
                         {...props}
                     />
@@ -63,12 +63,12 @@ export default function InputGroup({
                             required: required
                                 ? "This field is required"
                                 : false,
+                            disabled: disabled,
                             pattern: {
                                 value: /\S+@\S+\.\S+/,
                                 message:
                                     "Invalid email format. ex: admin@ms.mii.co.id",
                             },
-                            disabled: disabled ? true : false,
                         })}
                         {...props}
                     />
@@ -95,7 +95,7 @@ export default function InputGroup({
                             required: required
                                 ? "This field is required"
                                 : false,
-                            disabled: disabled ? true : false,
+                            disabled: disabled,
                         })}
                         {...props}
                     />
@@ -123,7 +123,7 @@ export default function InputGroup({
                             required: required
                                 ? "This field is required"
                                 : false,
-                            disabled: disabled ? true : false,
+                            disabled: disabled,
                             min: {
                                 value: 0,
                                 message: "Min value 0",
@@ -158,11 +158,13 @@ export default function InputGroup({
                             required: required
                                 ? "This field is required"
                                 : false,
-                            minLength: {
-                                value: 8,
-                                message: `Password must have at least 8 characters`,
-                            },
-                            disabled: disabled ? true : false,
+                            disabled: disabled,
+                            minLength: required
+                                ? {
+                                      value: 8,
+                                      message: `Password must have at least 8 characters`,
+                                  }
+                                : false,
                         })}
                         {...props}
                     />

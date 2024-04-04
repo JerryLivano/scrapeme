@@ -1,8 +1,8 @@
 import { Route, Routes } from "react-router-dom";
-import { AuthLayout, Layout } from "./components/layouts";
 import { ForgotPassword, Login, NewPassword } from "./pages";
+import { AuthLayout, Layout } from "./components/layouts";
 
-function App() {
+const App = () => {
     return (
         <>
             <Routes>
@@ -22,28 +22,9 @@ function App() {
 
                     {/* Protected Pages */}
                 </Route>
-
-                {/* <Route
-                    path='/'
-                    element={
-                        <PrivateRoute>
-                            <LayoutDashboard />
-                        </PrivateRoute>
-                    }
-                >
-                    <Route path='dashboard' element={<Dashboard />} />
-                    <Route
-                        path='parent/children'
-                        element={
-                            <AdminRoute>
-                                <Users />
-                            </AdminRoute>
-                        }
-                    />
-                </Route> */}
             </Routes>
         </>
     );
-}
+};
 
 export default App;

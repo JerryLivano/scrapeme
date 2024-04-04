@@ -3,6 +3,7 @@ import { Button, Label } from "../../elements";
 import { useNavigate } from "react-router-dom";
 import InputGroup from "../InputGroup";
 import { ToastContainer, toast } from 'react-toastify';
+import { AuthService } from "../../../services/authService";
 
 const FormLogin = () => {
     const {
@@ -18,8 +19,8 @@ const FormLogin = () => {
         //e.preventDefault();
         const email = data.email;
         const password = data.password;
-        const userdata = {email, password}
-        // const response = await AuthService.login(userdata);
+        const userdata = { email, password };
+        const response = await AuthService.login(userdata);
         
         if(response?.data){
             navigate("/dashboard")
@@ -28,7 +29,7 @@ const FormLogin = () => {
             toast.error(" Invalid username or password");
             reset();
         }
-    }
+    };
 
     return (
         <>
@@ -39,11 +40,7 @@ const FormLogin = () => {
                 onSubmit={handleSubmit(onSubmit)}
             >
                 <div className='flex flex-col'>
-                    <Label
-                        htmlFor='email'
-                        name='Email address'
-                        mandatory={true}
-                    />
+                    <Label htmlFor='email' name='Email address' />
                     <div className='mt-2'>
                         <InputGroup
                             type='email'
@@ -52,18 +49,13 @@ const FormLogin = () => {
                             placeholder='Email address'
                             errors={errors}
                             register={register}
-                            required
                         />
                     </div>
                 </div>
 
                 <div>
                     <div className='flex items-center justify-between'>
-                        <Label
-                            htmlFor='password'
-                            name='Password'
-                            mandatory={true}
-                        />
+                        <Label htmlFor='password' name='Password' />
                         <div className='text-sm'>
                             <a
                                 href='/forgot-password'
@@ -82,7 +74,6 @@ const FormLogin = () => {
                             placeholder='Password'
                             errors={errors}
                             register={register}
-                            required
                         />
                     </div>
                 </div>

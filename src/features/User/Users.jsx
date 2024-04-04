@@ -11,7 +11,7 @@ const Users = (props) => {
 
     useEffect(() => {
         props.loaduser();
-    },[])
+    }, []);
 
     return (
         <div className="fixed w-full max-w-full">
@@ -28,33 +28,34 @@ const Users = (props) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {
-                            props.user.objlist && props.user.objlist.map(item =>
-                                <tr key={item.id}>                                
+                        {props.user.objlist &&
+                            props.user.objlist.map((item) => (
+                                <tr key={item.id}>
                                     <td className={bodyClass}>{item.name}</td>
                                     <td className={bodyClass}>{item.email}</td>
-                                    <td className={bodyClass}>{item.password}</td>
+                                    <td className={bodyClass}>
+                                        {item.password}
+                                    </td>
                                     <td className={bodyClass}>{item.role}</td>
-                                </tr>                            
-                                )
-                        }
+                                </tr>
+                            ))}
                     </tbody>
                 </table>
             </div>
-    </div>
-          
-)}
+        </div>
+    );
+};
 
-const mapStateToProps = (state) =>{
+const mapStateToProps = (state) => {
     return {
-        user: state.user
-    }
-}
+        user: state.user,
+    };
+};
 
 const mapDispatchToProps = (dispacth) => {
     return {
-        loaduser:() => dispacth(fetchUserList())        
-    }
-}
+        loaduser: () => dispacth(fetchUserList()),
+    };
+};
 
-export default connect(mapStateToProps, mapDispatchToProps) (Users);
+export default connect(mapStateToProps, mapDispatchToProps)(Users);
