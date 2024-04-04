@@ -3,6 +3,8 @@ import Label from "../../elements/Label";
 import { ArrowLeftIcon } from "@heroicons/react/20/solid";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { Button } from "../../elements";
+import InputGroup from "../InputGroup";
 
 //#region latency waiting for transfer data to server and get email feedback from server--manual delay for test
 
@@ -31,7 +33,7 @@ const FormForgotPassword = () => {
         try {
             console.log(data);
             setButtonDisabled(true);
-            await latency(3000);
+            await latency(1000);
             alert("Please check your email for the next steps");
             reset();
             setButtonDisabled(false);
@@ -51,45 +53,30 @@ const FormForgotPassword = () => {
                 <div>
                     <Label
                         htmlFor='email'
-                        validation={
-                            errors.email ? "text-red-500" : "text-gray-900"
-                        }
-                    >
-                        Email <span className='text-[#E02222]'>*</span>
-                    </Label>
+                        name='Email address'
+                        mandatory={true}
+                    />
                     <div className='mt-2'>
-                        <input
+                        <InputGroup
+                            type='email'
                             id='email'
                             name='email'
-                            type='email'
-                            autoComplete='email'
-                            className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-3 ring-1'
-                            {...register("mail", {
-                                required: "Email required",
-                                pattern: {
-                                    value: /\S+@\S+\.\S+/,
-                                    message:
-                                        "Invalid email format. ex: frato@ms.mii.co.id",
-                                },
-                            })}
+                            placeholder='Email address'
+                            errors={errors}
+                            register={register}
+                            required
                         />
-                        {errors.email && (
-                            <p className='text-sm text-[#E02222]'>
-                                {errors.email.message}
-                            </p>
-                        )}
                     </div>
                 </div>
 
                 <div>
-                    <button
+                    <Button
                         type='submit'
-                        onClick={() => handleSubmit(onSubmit)}
-                        className='flex justify-center w-full h-full rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 bg-[#5c6ac4]'
+                        onClick={handleSubmit(onSubmit)}
                         disabled={buttonDisabled}
                     >
                         Submit
-                    </button>
+                    </Button>
                 </div>
             </form>
             <p className='mt-6 text-sm text-center text-gray-500 float-end'>

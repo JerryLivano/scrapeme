@@ -15,10 +15,10 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
 
-// //#region Ari test
-// const userName = localStorage.getItem("email");
-// //#endregion
 
+//#region Ari test
+const data = JSON.parse(localStorage.getItem("data"));
+//#endregion
 
 const Header = (props) => {
     const [openProfile, setOpenProfile] = useState(false);
@@ -50,9 +50,6 @@ const Header = (props) => {
         setEmail(email);
     })
 
-
-
-
     return (
         <>
             <div className='sticky top-0 z-40 flex items-center h-16 px-4 bg-white border-b border-gray-200 shadow-sm shrink-0 gap-x-4 sm:gap-x-6 sm:px-6 lg:px-8'>
@@ -83,7 +80,7 @@ const Header = (props) => {
                             Search
                         </label>
                         <MagnifyingGlassIcon
-                            className='absolute inset-y-0 left-1 w-5 h-full text-gray-400 pointer-events-none'
+                            className='absolute inset-y-0 w-5 h-full text-gray-400 pointer-events-none left-1'
                             aria-hidden='true'
                         />
                         <input
@@ -131,6 +128,7 @@ const Header = (props) => {
                                         aria-hidden='true'
                                     >
                                         {username}
+
                                     </span>
                                     {openProfile ? (
                                         <ChevronDownIcon
@@ -167,7 +165,7 @@ const Header = (props) => {
                                                         onClick={() =>
                                                             handleLogout()
                                                         }
-                                                        className='bg-none hover:bg-none flex px-3 py-1 justify-center text-sm justify-self-center'
+                                                        className='flex justify-center px-3 py-1 text-sm bg-none hover:bg-none justify-self-center'
                                                         //#endregion
                                                     >
                                                         {item.name}
