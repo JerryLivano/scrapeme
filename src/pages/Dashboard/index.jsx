@@ -8,32 +8,32 @@ const Dashboard = () => {
     return (
         <>
             <ChevronDoubleLeftIcon
-                className='w-8 h-8 float-end cursor-pointer right-0'
+                className='right-0 w-8 h-8 cursor-pointer float-end'
                 onClick={() => setOpen(!open)}
             />
             <SlideOvers open={open} setOpen={setOpen}>
-                <div className='px-4 py-6 sm:px-6 mt-8'>
+                <div className='px-4 py-6 mt-8 sm:px-6'>
                     <div className='flex items-start justify-between'>
                         <Title className='text-base font-semibold leading-6 text-gray-900'>
                             Panel title
                         </Title>
-                        <div className='ml-3 flex h-7 items-center'>
+                        <div className='flex items-center ml-3 h-7'>
                             <ButtonIcon
                                 type='button'
-                                className='relative rounded-md text-indigo-200 hover:text-indigo-300 focus:outline-none focus:ring-2 focus:ring-white'
+                                className='relative text-indigo-200 rounded-md hover:text-indigo-300 focus:outline-none focus:ring-2 focus:ring-white'
                                 onClick={() => setOpen(false)}
                             >
                                 <span className='absolute -inset-2.5' />
                                 <span className='sr-only'>Close panel</span>
                                 <XMarkIcon
-                                    className='h-6 w-6'
+                                    className='w-6 h-6'
                                     aria-hidden='true'
                                 />
                             </ButtonIcon>
                         </div>
                     </div>
                 </div>
-                <div className='relative mt-6 flex-1 px-4 sm:px-6'>
+                <div className='relative flex-1 px-4 mt-6 sm:px-6'>
                     {/* COntent */}
                     Nenek lo gaming
                 </div>

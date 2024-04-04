@@ -1,4 +1,4 @@
-import { ChartPieIcon, HomeIcon } from '@heroicons/react/24/outline';
+import { HomeIcon, UsersIcon } from '@heroicons/react/24/outline';
 
 const navigation = [
     {
@@ -7,16 +7,17 @@ const navigation = [
         icon: HomeIcon,
     },
     {
-        name: 'Parent',
-        href: '#',
-        icon: ChartPieIcon,
-        children: [
-            { name: "ChildrenOne", href: "/parent/children" },
-            { name: "ChildrenTwo", href: "/dashboard" },
-            { name: "ChildrenThree", href: "#" },
-            { name: "ChildrenFour", href: "/parent/children" },
-        ],
+        name: 'Users',
+        href: '/users',
+        icon: UsersIcon,
     },
+    // {
+    //     name: 'Parent',
+    //     icon: UserIcon,
+    //     children: {
+    //         name: "Children", href: "/children"
+    //     }
+    // },
 ];
 
 const teams = [

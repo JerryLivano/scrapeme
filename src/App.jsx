@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
-import { ForgotPassword, Login, NewPassword } from "./pages";
-import { AuthLayout, Layout } from "./components/layouts";
+import { Dashboard, ForgotPassword, Login, NewPassword, Settings, Users } from "./pages";
+import { AuthLayout, DashLayout, Layout } from "./components/layouts";
 
 const App = () => {
     return (
@@ -21,6 +21,11 @@ const App = () => {
                     </Route>
 
                     {/* Protected Pages */}
+                    <Route element={<DashLayout />}>
+                        <Route path='dashboard' element={<Dashboard />} />
+                        <Route path='users' element={<Users />} />
+                        <Route path='settings' element={<Settings />} />
+                    </Route>
                 </Route>
             </Routes>
         </>
