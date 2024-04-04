@@ -2,6 +2,9 @@ import { useForm } from "react-hook-form";
 import { Button, Label } from "../../elements";
 import { Link, useNavigate } from "react-router-dom";
 import InputGroup from "../InputGroup";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { AuthService } from "../../../services/AutServices"
 
 const FormLogin = () => {
     const {
@@ -11,8 +14,7 @@ const FormLogin = () => {
         reset,
     } = useForm();
 
-    const navigate = useNavigate();
-
+    // const navigate = useNavigate();
     const onSubmit = (data) => {
         try {
             console.log(data);
@@ -27,6 +29,35 @@ const FormLogin = () => {
         }
     };
     //#endregion
+
+
+    const [email, setEmail] = useState();
+    const [password, setPassword] = useState()
+    const navigate= useNavigate();
+
+    const onSubmit = async (data) => {
+        //e.preventDefault();
+        const email = data.email;
+        const password = data.password;
+        const userdata = {email, password}
+        const response = await AuthService.login(userdata);
+        console.log(response?.data);
+        
+        if(response?.data?.data){
+            AuthService.setToken(response?.data?.data)
+            const role = AuthService.getUserRole()
+            console.log(role);
+            navigate("/dashboard")
+        }
+        else{
+            toast.error(" Invalid username or password"
+                
+            );
+            reset();
+            navigate("/login")
+        }
+    }
+
     return (
         <>
             <form
@@ -70,6 +101,7 @@ const FormLogin = () => {
                             </a>
                         </div>
                     </div>
+
                     <div className='relative w-full mt-2'>
                         <InputGroup
                             type='password'
@@ -91,6 +123,7 @@ const FormLogin = () => {
                     >
                         Login
                     </Button>
+                    <ToastContainer className="border border-red-500 place-content-center text-red-500" />
                 </div>
             </form>
         </>
