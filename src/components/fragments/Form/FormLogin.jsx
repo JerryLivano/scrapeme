@@ -1,14 +1,11 @@
 import { useForm } from "react-hook-form";
 import { Button, Label } from "../../elements";
 import { Link, useNavigate } from "react-router-dom";
-<<<<<<< HEAD
-//import InputPassword from "../../elements/Input/InputPassword";
-=======
->>>>>>> e7e4617550e28b11b2ebe715878ea042c8b4c072
 import InputGroup from "../InputGroup";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AuthService } from "../../../services/AutServices"
+import { useState } from "react";
 
 const FormLogin = () => {
     const {
@@ -19,29 +16,19 @@ const FormLogin = () => {
     } = useForm();
 
     // const navigate = useNavigate();
-<<<<<<< HEAD
-
     // const onSubmit = (data) => {
-    //     localStorage.setItem("email", data.email);
-    //     localStorage.setItem("password", data.password);
-    //     navigate("/dashboard");
-    //     reset();
-    // };    
-=======
->>>>>>> e7e4617550e28b11b2ebe715878ea042c8b4c072
-    const onSubmit = (data) => {
-        try {
-            console.log(data);
-            localStorage.setItem("data", JSON.stringify(data));
+    //     try {
+    //         console.log(data);
+    //         localStorage.setItem("data", JSON.stringify(data));
 
-            navigate("/dashboard");
-            reset();
-        } catch (error) {
-            {
-                error.message;
-            }
-        }
-    };
+    //         navigate("/dashboard");
+    //         reset();
+    //     } catch (error) {
+    //         {
+    //             error.message;
+    //         }
+    //     }
+    // };
     //#endregion
 
 
@@ -55,20 +42,13 @@ const FormLogin = () => {
         const password = data.password;
         const userdata = {email, password}
         const response = await AuthService.login(userdata);
-        console.log(response?.data);
         
-        if(response?.data?.data){
-            AuthService.setToken(response?.data?.data)
-            const role = AuthService.getUserRole()
-            console.log(role);
+        if(response?.data){
             navigate("/dashboard")
         }
         else{
-            toast.error(" Invalid username or password"
-                
-            );
+            toast.error(" Invalid username or password");
             reset();
-            navigate("/login")
         }
     }
 
@@ -87,10 +67,6 @@ const FormLogin = () => {
                         mandatory={true}
                     />
                     <div className='mt-2'>
-<<<<<<< HEAD
-
-=======
->>>>>>> e7e4617550e28b11b2ebe715878ea042c8b4c072
                         <InputGroup
                             type='email'
                             id='email'
@@ -121,10 +97,6 @@ const FormLogin = () => {
                     </div>
 
                     <div className='relative w-full mt-2'>
-<<<<<<< HEAD
-
-=======
->>>>>>> e7e4617550e28b11b2ebe715878ea042c8b4c072
                         <InputGroup
                             type='password'
                             id='password'
@@ -137,10 +109,6 @@ const FormLogin = () => {
                     </div>
                 </div>
 
-<<<<<<< HEAD
-
-=======
->>>>>>> e7e4617550e28b11b2ebe715878ea042c8b4c072
                 <div>
                     <Button
                         type='submit'

@@ -3,6 +3,6 @@ import {AuthService} from "../services/AutServices"
 
 export const AdminRoute = (props) => {
     const{children} = {...props}
-    return (AuthService.getUserRole() === "Admin")? children : <Navigate to="/dashboard" />
+    return (AuthService.getUserRole() === "admin")? children : <Navigate to="/dashboard" />
 }
 
