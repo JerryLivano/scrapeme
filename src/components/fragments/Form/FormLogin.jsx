@@ -3,8 +3,7 @@ import { Button, Label } from "../../elements";
 import { useNavigate } from "react-router-dom";
 import InputGroup from "../InputGroup";
 import { ToastContainer, toast } from 'react-toastify';
-import { AuthService } from "../../../services/AuthServices";
-// import { AuthService } from "../../../services/AutServices"
+import { AuthService } from "../../../services/authService";
 
 const FormLogin = () => {
     const {

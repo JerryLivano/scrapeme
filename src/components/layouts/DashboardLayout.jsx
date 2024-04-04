@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Header, SidebarDesktop, SidebarMobile } from "../fragments";
 
-const DashboardLayout = ({ children }) => {
+const DashboardLayout = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
     return (

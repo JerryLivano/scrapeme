@@ -1,5 +1,6 @@
-import { BaseApiAccount } from "../assets/api/Api";
+
 import { jwtDecode } from "jwt-decode";
+import api from "../app/api/apiSlice";
 
 const setToken = (token) => {
     localStorage.setItem("token", token);
@@ -14,10 +15,10 @@ const getToken = () => {
 };
 
 const login = (userdata) => {
-    const response = BaseApiAccount.post("login", userdata);
+    const response = api.post("login", userdata);
     localStorage.setItem("email", userdata.email);
     localStorage.setItem("password", userdata.password);
-    return BaseApiAccount.post("login", userdata);
+    return api.post("login", userdata);
 };
 
 const getUserRole = () => {

@@ -1,35 +1,27 @@
 import { Route, Routes } from "react-router-dom";
-import Login from "./pages/Login";
-import { Dashboard, ForgotPassword, LayoutDashboard } from "./pages";
-import { Layout } from "./components/layouts";
-import ExampleOne from "./pages/ExampleOne";
-import SlideOvers from "./components/fragments/SlideOvers";
+import { ForgotPassword, Login, NewPassword } from "./pages";
+import { AuthLayout, Layout } from "./components/layouts";
 
 const App = () => {
     return (
         <>
             <Routes>
                 <Route path='/' element={<Layout />}>
-                    <Route index element={<Login />} />
-                    <Route path='login' element={<Login />} />
-                    <Route
-                        path='forgot-password'
-                        element={<ForgotPassword />}
-                    />
+                    {/* Public Pages */}
+                    <Route element={<AuthLayout />}>
+                        <Route index element={<Login />} />
+                        <Route path='login' element={<Login />} />
+                        <Route path='password'>
+                            <Route path='forgot' element={<ForgotPassword />} />
+                            <Route
+                                path='new/:token'
+                                element={<NewPassword />}
+                            />
+                        </Route>
+                    </Route>
+
+                    {/* Protected Pages */}
                 </Route>
-                <Route path='/' element={
-                    <PrivateRoute> 
-                        <LayoutDashboard /> 
-                    </PrivateRoute> 
-                }>
-                        <Route path='dashboard' element={<Dashboard /> } />
-                        <Route path='parent/children' element={
-                            <AdminRoute> 
-                                <Users />
-                            </AdminRoute>} 
-                        />                    
-                </Route>
-                <Route path='/slide-overs' element={<SlideOvers />} />
             </Routes>
         </>
     );
