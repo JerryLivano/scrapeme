@@ -9,7 +9,7 @@ import {
 import ButtonIcon from "../../elements/Button/ButtonIcon";
 import { userNavigation } from "../Sidebar/data";
 import { useNavigate } from "react-router";
-import { AuthService } from "../../../services/AutServices"
+import { AuthService } from "../../../services/authServices"
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");

@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import InputGroup from "../InputGroup";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { AuthService } from "../../../services/AutServices"
+import { AuthService } from "../../../services/authServices"
 
 const FormLogin = () => {
     const {

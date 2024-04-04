@@ -1,4 +1,4 @@
-import  {BaseApiAccount} from "../assets/api/Api";
+import  {BaseApiAccount} from "../app/api/apiSlice";
 import { jwtDecode } from "jwt-decode";
 
 const setToken = (token) =>{
