@@ -1,9 +1,6 @@
-import {
-    ExclamationCircleIcon,
-    EyeIcon,
-    EyeSlashIcon,
-} from "@heroicons/react/20/solid";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/20/solid";
 import { useState } from "react";
+import { ButtonIcon } from "../../elements";
 
 export default function InputGroup({
     id,
@@ -40,7 +37,7 @@ export default function InputGroup({
                             required: required
                                 ? "This field is required"
                                 : false,
-                            disabled: disabled ? true : false,
+                            disabled: disabled,
                         })}
                         {...props}
                     />
@@ -72,7 +69,7 @@ export default function InputGroup({
                                 message:
                                     "Invalid email format. ex: admin@ms.mii.co.id",
                             },
-                            disabled: disabled ? true : false,
+                            disabled: disabled,
                         })}
                         {...props}
                     />
@@ -99,7 +96,7 @@ export default function InputGroup({
                             required: required
                                 ? "This field is required"
                                 : false,
-                            disabled: disabled ? true : false,
+                            disabled: disabled,
                         })}
                         {...props}
                     />
@@ -126,7 +123,6 @@ export default function InputGroup({
                             required: required
                                 ? "This field is required"
                                 : false,
-                            disabled: disabled ? true : false,
                             min: {
                                 value: 0,
                                 message: "Min value 0",
@@ -135,6 +131,7 @@ export default function InputGroup({
                                 value: 100,
                                 message: "Max value 100",
                             },
+                            disabled: disabled,
                         })}
                         {...props}
                     />
@@ -161,21 +158,19 @@ export default function InputGroup({
                             required: required
                                 ? "This field is required"
                                 : false,
-                            minLength: {
-                                value: 8,
-                                message: `Password must have at least 8 characters`,
-                            },
-                            disabled: disabled ? true : false,
+                            minLength: required
+                                ? {
+                                      value: 8,
+                                      message: `Password must have at least 8 characters`,
+                                  }
+                                : false,
+                            disabled: disabled,
                         })}
                         {...props}
                     />
                 </>
             )}
             <div className='inset-y-0 right-0 flex items-center pr-3 pointer-events-none static float-end mt-[-28px]'>
-                {/* <ExclamationCircleIcon
-                    className='w-5 h-5 text-red-500'
-                    aria-hidden='true'
-                /> */}
                 <button
                     hidden={type == "password" ? false : true}
                     type='button'
