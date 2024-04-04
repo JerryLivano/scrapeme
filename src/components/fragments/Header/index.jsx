@@ -15,7 +15,10 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> e7e4617550e28b11b2ebe715878ea042c8b4c072
 //#region Ari test
 const data = JSON.parse(localStorage.getItem("data"));
 //#endregion
@@ -127,8 +130,12 @@ const Header = (props) => {
                                         className='ml-4 text-sm font-semibold leading-6 text-gray-900'
                                         aria-hidden='true'
                                     >
+<<<<<<< HEAD
                                         {username}
 
+=======
+                                        {data?.email}
+>>>>>>> e7e4617550e28b11b2ebe715878ea042c8b4c072
                                     </span>
                                     {openProfile ? (
                                         <ChevronDownIcon

@@ -1,7 +1,10 @@
 import { useForm } from "react-hook-form";
 import { Button, Label } from "../../elements";
 import { Link, useNavigate } from "react-router-dom";
+<<<<<<< HEAD
 //import InputPassword from "../../elements/Input/InputPassword";
+=======
+>>>>>>> e7e4617550e28b11b2ebe715878ea042c8b4c072
 import InputGroup from "../InputGroup";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -16,6 +19,7 @@ const FormLogin = () => {
     } = useForm();
 
     // const navigate = useNavigate();
+<<<<<<< HEAD
 
     // const onSubmit = (data) => {
     //     localStorage.setItem("email", data.email);
@@ -23,6 +27,8 @@ const FormLogin = () => {
     //     navigate("/dashboard");
     //     reset();
     // };    
+=======
+>>>>>>> e7e4617550e28b11b2ebe715878ea042c8b4c072
     const onSubmit = (data) => {
         try {
             console.log(data);
@@ -81,7 +87,10 @@ const FormLogin = () => {
                         mandatory={true}
                     />
                     <div className='mt-2'>
+<<<<<<< HEAD
 
+=======
+>>>>>>> e7e4617550e28b11b2ebe715878ea042c8b4c072
                         <InputGroup
                             type='email'
                             id='email'
@@ -112,7 +121,10 @@ const FormLogin = () => {
                     </div>
 
                     <div className='relative w-full mt-2'>
+<<<<<<< HEAD
 
+=======
+>>>>>>> e7e4617550e28b11b2ebe715878ea042c8b4c072
                         <InputGroup
                             type='password'
                             id='password'
@@ -125,7 +137,10 @@ const FormLogin = () => {
                     </div>
                 </div>
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> e7e4617550e28b11b2ebe715878ea042c8b4c072
                 <div>
                     <Button
                         type='submit'
