@@ -1,8 +1,8 @@
 import { Route, Routes } from "react-router-dom";
-import { AuthLayout, Layout } from "./components/layouts";
 import { ForgotPassword, Login, NewPassword } from "./pages";
+import { AuthLayout, Layout } from "./components/layouts";
 
-function App() {
+const App = () => {
     return (
         <>
             <Routes>
@@ -21,11 +21,10 @@ function App() {
                     </Route>
 
                     {/* Protected Pages */}
-                    
                 </Route>
             </Routes>
         </>
     );
-}
+};
 
 export default App;

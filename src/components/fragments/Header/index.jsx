@@ -9,7 +9,7 @@ import {
 import ButtonIcon from "../../elements/Button/ButtonIcon";
 import { userNavigation } from "../Sidebar/data";
 import { useNavigate } from "react-router";
-// import { AuthService } from "../../../services/authServices"
+import { AuthService } from "../../../services/authService";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
@@ -22,13 +22,12 @@ const data = JSON.parse(localStorage.getItem("data"));
 const Header = (props) => {
     const [openProfile, setOpenProfile] = useState(false);
     const { setSidebarOpen } = { ...props };
-    
+
     const [userRole, setUserRole] = useState();
     const [email, setEmail] = useState();
-    const [username, setUsername] = useState();    
-    const navigate = useNavigate();    
-    
-    
+    const [username, setUsername] = useState();
+    const navigate = useNavigate();
+
     //#region Ari handle logout button
     const handleLogout = () => {
         localStorage.removeItem("email");
@@ -37,17 +36,16 @@ const Header = (props) => {
     };
     //#endregion
 
+    useEffect(() => {
+        const role = AuthService.getUserRole();
+        setUserRole(role);
 
-    // useEffect(() => {
-    //     const role = AuthService.getUserRole();
-    //     setUserRole(role)
+        //     const username = AuthService.getUserName();
+        //     setUsername(username);
 
-    //     const username = AuthService.getUserName();
-    //     setUsername(username);
-
-    //     const email = AuthService.getUserEmail();
-    //     setEmail(email);
-    // })
+        //     const email = AuthService.getUserEmail();
+        //     setEmail(email);
+    });
 
     return (
         <>
@@ -127,7 +125,6 @@ const Header = (props) => {
                                         aria-hidden='true'
                                     >
                                         {username}
-
                                     </span>
                                     {openProfile ? (
                                         <ChevronDownIcon

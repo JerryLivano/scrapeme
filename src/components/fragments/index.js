@@ -6,6 +6,7 @@ import SidebarMobile from "./Sidebar/SidebarMobile";
 import Header from "./Header";
 import InputGroup from "./InputGroup";
 import SlideOvers from "./SlideOvers";
+import Autocomplete from "./Combobox";
 
 export {
     FormLogin,
@@ -16,4 +17,5 @@ export {
     Header,
     InputGroup,
     SlideOvers,
+    Autocomplete,
 };
