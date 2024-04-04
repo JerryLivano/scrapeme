@@ -1,7 +1,7 @@
 import axios from "axios";
 
 let urls = {
-    development: "https://api.escuelajs.co/api/v1",
+    development: "https://api.escuelajs.co/api/v1/",
     production: "",
 };
 
