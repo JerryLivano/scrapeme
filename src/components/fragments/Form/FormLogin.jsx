@@ -5,7 +5,8 @@ import { EyeIcon, EyeSlashIcon } from "@heroicons/react/20/solid";
 import { Link, useNavigate } from "react-router-dom";
 //import InputPassword from "../../elements/Input/InputPassword";
 import InputGroup from "../InputGroup";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { AuthService } from "../../../services/AutServices"
 
 const FormLogin = () => {
@@ -49,6 +50,9 @@ const FormLogin = () => {
             navigate("/dashboard")
         }
         else{
+            toast.error(" Invalid username or password"
+                
+            );
             reset();
             navigate("/login")
         }
@@ -171,6 +175,7 @@ const FormLogin = () => {
                     >
                         Login
                     </Button>
+                    <ToastContainer className="border border-red-500 place-content-center text-red-500" />
                 </div>
             </form>
         </>
