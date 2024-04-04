@@ -1,11 +1,8 @@
 import { useForm } from "react-hook-form";
 import { Button, Label } from "../../elements";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import InputGroup from "../InputGroup";
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { AuthService } from "../../../services/AutServices"
-import { useState } from "react";
 
 const FormLogin = () => {
     const {
@@ -15,25 +12,6 @@ const FormLogin = () => {
         reset,
     } = useForm();
 
-    // const navigate = useNavigate();
-    // const onSubmit = (data) => {
-    //     try {
-    //         console.log(data);
-    //         localStorage.setItem("data", JSON.stringify(data));
-
-    //         navigate("/dashboard");
-    //         reset();
-    //     } catch (error) {
-    //         {
-    //             error.message;
-    //         }
-    //     }
-    // };
-    //#endregion
-
-
-    const [email, setEmail] = useState();
-    const [password, setPassword] = useState()
     const navigate= useNavigate();
 
     const onSubmit = async (data) => {
@@ -41,7 +19,7 @@ const FormLogin = () => {
         const email = data.email;
         const password = data.password;
         const userdata = {email, password}
-        const response = await AuthService.login(userdata);
+        // const response = await AuthService.login(userdata);
         
         if(response?.data){
             navigate("/dashboard")
@@ -117,7 +95,7 @@ const FormLogin = () => {
                     >
                         Login
                     </Button>
-                    <ToastContainer className="border border-red-500 place-content-center text-red-500" />
+                    <ToastContainer className="text-red-500 border border-red-500 place-content-center" />
                 </div>
             </form>
         </>

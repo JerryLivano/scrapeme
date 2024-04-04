@@ -101,6 +101,7 @@ export default function InputGroup({
                     />
                 </>
             )}
+
             {type == "number" && (
                 <>
                     <input

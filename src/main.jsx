@@ -2,20 +2,19 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
+import "react-toastify/dist/ReactToastify.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Provider } from "react-redux"
-import Store from "./assets/redux/Store.js"
-
-
+import { Provider } from "react-redux";
+import Store from "./app/redux/store.js";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-    <Provider store ={Store}>
     <React.StrictMode>
+        <Provider store={Store}>
             <BrowserRouter>
                 <Routes>
                     <Route path='/*' element={<App />} />
                 </Routes>
             </BrowserRouter>
-        </React.StrictMode>
-    </Provider>,
+        </Provider>
+    </React.StrictMode>
 );
