@@ -13,12 +13,4 @@ const api = axios.create({
     }
 });
 
-const BaseApi = axios.create({
-    baseURL: "https://api.escuelajs.co/api/v1/"
-})
-
-export const BaseApiAccount = axios.create({
-    baseURL: "http://localhost:5089/API-Overtimes/Account/"
-})
-
-export default { BaseApi, api };
+export default api;
