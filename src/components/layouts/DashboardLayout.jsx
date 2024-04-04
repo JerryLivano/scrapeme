@@ -2,8 +2,7 @@ import { useState } from "react";
 import { Header, SidebarDesktop, SidebarMobile } from "../fragments";
 import { Outlet } from "react-router-dom";
 
-export default function DashboardLayout(props) {
-    const { children } = { ...props };
+export default function DashboardLayout() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
     return (

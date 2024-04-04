@@ -21,26 +21,8 @@ function App() {
                     </Route>
 
                     {/* Protected Pages */}
+                    
                 </Route>
-
-                {/* <Route
-                    path='/'
-                    element={
-                        <PrivateRoute>
-                            <LayoutDashboard />
-                        </PrivateRoute>
-                    }
-                >
-                    <Route path='dashboard' element={<Dashboard />} />
-                    <Route
-                        path='parent/children'
-                        element={
-                            <AdminRoute>
-                                <Users />
-                            </AdminRoute>
-                        }
-                    />
-                </Route> */}
             </Routes>
         </>
     );
