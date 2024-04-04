@@ -2,25 +2,25 @@ import api from "../app/api/apiSlice";
 import { jwtDecode } from "jwt-decode";
 
 /**
- * 
- * @param {*} token 
+ *
+ * @param {*} token
  */
 const setToken = (token, refreshToken) => {
-    localStorage.setItem('token', token);
-    localStorage.setItem('refreshToken', refreshToken)
-}
+    localStorage.setItem("token", token);
+    localStorage.setItem("refreshToken", refreshToken);
+};
 
 /**
- * 
- * @returns 
+ *
+ * @returns
  */
 const getToken = () => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (token) {
-        return token
+        return token;
     }
     return null;
-}
+};
 
 const login = async (userdata) => {
     try {
@@ -30,36 +30,34 @@ const login = async (userdata) => {
         const refreshToken = responseToken?.data?.refresh_token;
 
         const headers = {
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${token}`,
         };
         setToken(token, refreshToken);
 
         const responseData = await api.get("profile", { headers });
         console.log("ini admin", responseData?.data?.role);
 
-        localStorage.setItem('email', userdata.email);
-        localStorage.setItem('password', userdata.password);
-        localStorage.setItem('name', responseData?.data?.name)
-        localStorage.setItem('role', responseData?.data?.role);
+        localStorage.setItem("email", userdata.email);
+        localStorage.setItem("password", userdata.password);
+        localStorage.setItem("name", responseData?.data?.name);
+        localStorage.setItem("role", responseData?.data?.role);
         return responseData;
-    }
-    catch (error) {
+    } catch (error) {
         console.log(error);
     }
-}
+};
 
 const getUserRole = () => {
-    return localStorage.getItem('role');
-}
+    return localStorage.getItem("role");
+};
 
 const getUserEmail = () => {
-    return localStorage.getItem('email');
-}
+    return localStorage.getItem("email");
+};
 
 const getUserName = () => {
-    return localStorage.getItem('name');
-}
-
+    return localStorage.getItem("name");
+};
 
 const isLoggedIn = () => {
     const token = getToken();
@@ -69,24 +67,30 @@ const isLoggedIn = () => {
         console.log(isLogin);
         if (!isLogin) {
             return refreshToken();
-        }
-        else {
+        } else {
             return isLogin;
         }
     }
-    return null
-}
+    return null;
+};
 
 const refreshToken = async () => {
     try {
-        const refreshToken = localStorage.getItem('refreshToken')
+        const refreshToken = localStorage.getItem("refreshToken");
         return setToken(refreshToken);
-    }
-    catch (error) {
-        console.log("error", error)
+    } catch (error) {
+        console.log("error", error);
         return false;
     }
-}
+};
 
-
-export const AuthService = { getToken, setToken, login, getUserRole, getUserEmail, isLoggedIn, getUserName, refreshToken };
+export const AuthService = {
+    getToken,
+    setToken,
+    login,
+    getUserRole,
+    getUserEmail,
+    isLoggedIn,
+    getUserName,
+    refreshToken,
+};
