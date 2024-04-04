@@ -1,4 +1,6 @@
-import AuthLayouts from "./AuthLayouts";
 import Layout from "./Layout";
+import AuthLayouts from "./AuthLayouts";
+import DashboardLayout from "./DashboardLayout";
 
-export { AuthLayouts, Layout };
+
+export { Layout, AuthLayouts, DashboardLayout };

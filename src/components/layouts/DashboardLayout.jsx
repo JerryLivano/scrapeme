@@ -1,9 +1,7 @@
 import { useState } from "react";
 import { Header, SidebarDesktop, SidebarMobile } from "../fragments";
 
-
-export default function DashboardLayout(props) {
-    const { children } = { ...props };
+const DashboardLayout = ({ children }) => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
     return (
@@ -14,10 +12,10 @@ export default function DashboardLayout(props) {
             />
             <SidebarDesktop />
 
-            <div className="lg:pl-72">
+            <div className='lg:pl-72'>
                 <Header setSidebarOpen={setSidebarOpen} />
-                <main className="py-10">
-                    <div className="px-4 sm:px-6 lg:px-8">
+                <main className='py-10'>
+                    <div className='px-4 sm:px-6 lg:px-8'>
                         {/* Main content */}
                         {children}
                     </div>
@@ -25,4 +23,6 @@ export default function DashboardLayout(props) {
             </div>
         </div>
     );
-}
+};
+
+export default DashboardLayout;

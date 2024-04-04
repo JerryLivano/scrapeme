@@ -2,9 +2,12 @@ import { useForm } from "react-hook-form";
 import { Button, Label } from "../../elements";
 import { Link, useNavigate } from "react-router-dom";
 import InputGroup from "../InputGroup";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { AuthService } from "../../../services/AuthServices";
+import { useState } from "react";
 
 const FormLogin = () => {
-    //#region Ari test
     const {
         register,
         handleSubmit,
@@ -12,22 +15,30 @@ const FormLogin = () => {
         reset,
     } = useForm();
 
+    const [email, setEmail] = useState();
+    const [password, setPassword] = useState();
     const navigate = useNavigate();
 
-    const onSubmit = (data) => {
-        try {
-            console.log(data);
-            localStorage.setItem("data", JSON.stringify(data));
+    const onSubmit = async (data) => {
+        //e.preventDefault();
+        const email = data.email;
+        const password = data.password;
+        const userdata = { email, password };
+        const response = await AuthService.login(userdata);
+        console.log(response?.data);
 
+        if (response?.data?.data) {
+            AuthService.setToken(response?.data?.data);
+            const role = AuthService.getUserRole();
+            console.log(role);
             navigate("/dashboard");
+        } else {
+            toast.error(" Invalid username or password");
             reset();
-        } catch (error) {
-            {
-                error.message;
-            }
+            navigate("/login");
         }
     };
-    //#endregion
+
     return (
         <>
             <form
@@ -54,14 +65,15 @@ const FormLogin = () => {
                     <div className='flex items-center justify-between'>
                         <Label htmlFor='password' name='Password' />
                         <div className='text-sm'>
-                            <Link
-                                to={"/forgot-password"}
-                                className='font-bold text-blue-600'
+                            <a
+                                href='/forgot-password'
+                                className='font-semibold text-indigo-600 hover:text-indigo-500'
                             >
-                                forgot password?
-                            </Link>
+                                Forgot password?
+                            </a>
                         </div>
                     </div>
+
                     <div className='relative w-full mt-2'>
                         <InputGroup
                             type='password'
@@ -82,6 +94,7 @@ const FormLogin = () => {
                     >
                         Login
                     </Button>
+                    <ToastContainer className='border border-red-500 place-content-center text-red-500' />
                 </div>
             </form>
         </>

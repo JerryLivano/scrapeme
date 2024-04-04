@@ -1,4 +1,4 @@
-import LogoMASquare from "./metrodataacademy_square.png";
 import LogoMA from "./metrodataacademy.png";
+import LogoMASquare from "./metrodataacademy_square.png";
 
-export { LogoMASquare, LogoMA };
+export { LogoMA, LogoMASquare };

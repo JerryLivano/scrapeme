@@ -1,15 +1,14 @@
-import { EyeIcon, EyeSlashIcon } from "@heroicons/react/20/solid";
 import { useState } from "react";
-import { ButtonIcon } from "../../elements";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/20/solid";
 
 export default function InputGroup({
     id,
     name,
-    placeholder = "Placeholder",
     type,
-    required = false,
     errors,
     register,
+    placeholder = "Placeholder",
+    required = false,
     disabled = false,
     ...props
 }) {
@@ -64,12 +63,12 @@ export default function InputGroup({
                             required: required
                                 ? "This field is required"
                                 : false,
+                            disabled: disabled,
                             pattern: {
                                 value: /\S+@\S+\.\S+/,
                                 message:
                                     "Invalid email format. ex: admin@ms.mii.co.id",
                             },
-                            disabled: disabled,
                         })}
                         {...props}
                     />
@@ -123,6 +122,7 @@ export default function InputGroup({
                             required: required
                                 ? "This field is required"
                                 : false,
+                            disabled: disabled,
                             min: {
                                 value: 0,
                                 message: "Min value 0",
@@ -158,13 +158,13 @@ export default function InputGroup({
                             required: required
                                 ? "This field is required"
                                 : false,
+                            disabled: disabled,
                             minLength: required
                                 ? {
                                       value: 8,
                                       message: `Password must have at least 8 characters`,
                                   }
                                 : false,
-                            disabled: disabled,
                         })}
                         {...props}
                     />

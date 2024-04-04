@@ -4,8 +4,12 @@ import { Dashboard, ForgotPassword, LayoutDashboard } from "./pages";
 import { Layout } from "./components/layouts";
 import ExampleOne from "./pages/ExampleOne";
 import SlideOvers from "./components/fragments/SlideOvers";
+import { PrivateRoute } from "./routes/PrivateRoute";
+import React from "react";
+import { AdminRoute } from "./routes/AdminRoute";
+import Users from "./features/User/Users";
 
-function App() {
+const App = () => {
     return (
         <>
             <Routes>
@@ -17,14 +21,39 @@ function App() {
                         element={<ForgotPassword />}
                     />
                 </Route>
-                <Route path='/' element={<LayoutDashboard />}>
+                <Route
+                    path='/'
+                    element={
+                        //#region turn on if u need authorization
+                        // <PrivateRoute>
+                        //     <LayoutDashboard />
+                        // </PrivateRoute>
+                        //#endregion
+                        <LayoutDashboard />
+                    }
+                >
                     <Route path='dashboard' element={<Dashboard />} />
-                    <Route path='parent/children' element={<ExampleOne />} />
+                    <Route
+                        path='parent/children'
+                        element={
+                            <AdminRoute>
+                                <Users />
+                            </AdminRoute>
+                        }
+                    />
                 </Route>
                 <Route path='/slide-overs' element={<SlideOvers />} />
             </Routes>
         </>
     );
-}
+};
 
 export default App;
+
+// function App() {
+//     return (
+
+//     );
+// }
+
+// export default App;
