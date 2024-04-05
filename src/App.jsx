@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import { Dashboard, ForgotPassword, Login, NewPassword, Settings, Users } from "./pages";
 import { AuthLayout, DashLayout, Layout } from "./components/layouts";
+import Toggle from "./components/elements/Toggles/Index";
 
 const App = () => {
     return (
