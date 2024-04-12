@@ -1,8 +1,10 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import { Button, InputGroup, Label } from "../../components";
+import { Button, InputGroup, Label} from "../../components";
 import { AuthService } from "../../services/authService";
+import Toast from "../../components/elements/NotificationProvider/Notification";
+import { useState } from "react";
 
 const Login = () => {
     const {
@@ -14,29 +16,35 @@ const Login = () => {
 
     const navigate = useNavigate();
 
+    const [toast, setTypeToast] = useState('');
+
     const onSubmit = async (data) => {
         //e.preventDefault();
         const email = data.email;
         const password = data.password;
         const userdata = { email, password };
-         const response = await AuthService.login(userdata);
+        const response = await AuthService.login(userdata);
 
-        if (response?.data) {
-            navigate("/dashboard");
+        if (response?.data) {    
+           
+             setTypeToast("success");
+            navigate("/dashboard");            
+
         } else {
-            toast.error(" Invalid username or password");
+            setTypeToast("error");
             reset();
         }
     };
 
     return (
         <>
+            <Toast toastType={toast}  setTypeToast={setTypeToast} />
             <form
                 className='space-y-6'
                 action='#'
                 method='POST'
                 onSubmit={handleSubmit(onSubmit)}
-            >
+            >            
                 <div className='flex flex-col'>
                     <Label
                         htmlFor='email'
@@ -90,7 +98,6 @@ const Login = () => {
                     >
                         Login
                     </Button>
-                    <ToastContainer className='text-red-500 border border-red-500 place-content-center' />
                 </div>
             </form>
         </>
