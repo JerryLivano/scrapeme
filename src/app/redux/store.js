@@ -7,9 +7,8 @@ const rootreducer = combineReducers({ user: Reducer });
 const Store = configureStore({
   reducer: rootreducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(logger),
+getDefaultMiddleware().concat(logger),
   devTools: import.meta.env.DEV ? true : false
-
 });
 
 
