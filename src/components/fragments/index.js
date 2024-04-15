@@ -7,6 +7,8 @@ import Header from "./Header";
 import InputGroup from "./InputGroup";
 import SlideOvers from "./SlideOvers";
 import Autocomplete from "./Combobox";
+import Pagination from "./Pagination";
+import Table from "./Table";
 
 export {
     FormLogin,
@@ -18,4 +20,6 @@ export {
     InputGroup,
     SlideOvers,
     Autocomplete,
+    Pagination,
+    Table,
 };
