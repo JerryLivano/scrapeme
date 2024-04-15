@@ -2,17 +2,7 @@ import axios from "axios";
 import Pagination from "../Pagination";
 import { useEffect, useState } from "react";
 
-const people = [
-    {
-        name: "Lindsay Walton",
-        title: "Front-end Developer",
-        email: "lindsay.walton@example.com",
-        role: "Member",
-    },
-    // More people...
-];
-
-const Table = ({ totalPages = 10, currentPage = 1, setCurrentPage = 1 }) => {
+const Table = () => {
     //#region test display and paginate data
 
     const API_URL = "https://fakestoreapi.com/products";
@@ -20,6 +10,7 @@ const Table = ({ totalPages = 10, currentPage = 1, setCurrentPage = 1 }) => {
     const [data, setData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [currentPage, setCurrentPage] = useState(0);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -38,7 +29,7 @@ const Table = ({ totalPages = 10, currentPage = 1, setCurrentPage = 1 }) => {
         };
 
         fetchData();
-    }, []);
+    }, [currentPage]);
 
     //#endregion
     return (
@@ -115,7 +106,7 @@ const Table = ({ totalPages = 10, currentPage = 1, setCurrentPage = 1 }) => {
                         <>
                             {/* Table content */}
                             <Pagination
-                                totalPage={Math.ceil(
+                                totalPages={Math.ceil(
                                     data.length / itemsPerPage
                                 )} // Calculate total pages based on data length
                                 currentPage={currentPage} // Pass current page state

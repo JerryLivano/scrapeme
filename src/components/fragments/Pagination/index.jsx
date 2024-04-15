@@ -6,8 +6,6 @@ const Pagination = ({ setCurrentPage, currentPage, totalPages }) => {
     const handleOnClick = ({ selected }) => {
         console.log(setCurrentPage(selected));
     };
-    const showNextButton = currentPage !== totalPages - 1;
-    const showPrevButton = currentPage !== 0;
     return (
         <>
             <ReactPaginate
@@ -17,7 +15,7 @@ const Pagination = ({ setCurrentPage, currentPage, totalPages }) => {
                     </span>
                 }
                 nextLabel={
-                    <>
+                    <div>
                         <div className='flex flex-1 justify-between sm:hidden'>
                             <span className='relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50'>
                                 Next
@@ -31,7 +29,7 @@ const Pagination = ({ setCurrentPage, currentPage, totalPages }) => {
                                 aria-hidden='true'
                             />
                         </span>
-                    </>
+                    </div>
                 }
                 onPageChange={handleOnClick}
                 pageRangeDisplayed={3}
