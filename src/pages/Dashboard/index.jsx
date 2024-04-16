@@ -1,9 +1,6 @@
-import { ChevronDoubleLeftIcon, XMarkIcon } from "@heroicons/react/20/solid";
-import SlideOvers from "../../components/fragments/SlideOvers";
 import { useEffect, useState } from "react";
-import { ButtonIcon, Title } from "../../components/elements";
 import axios from "axios";
-import GridTable from "../../components/fragments/GridTable";
+import { GridTable } from "../../components/fragments";
 
 const Dashboard = () => {
     const API_URL = "https://api.escuelajs.co/api/v1/products";
@@ -17,7 +14,6 @@ const Dashboard = () => {
             setError(null);
 
             try {
-                // ?offset=0&limit=10
                 const page = Math.min(currentPage);
                 const response = await axios.get(
                     `${API_URL}?offset=${page}&limit=10`

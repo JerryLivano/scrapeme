@@ -1,7 +1,7 @@
 import React from "react";
 import Pagination from "../Pagination";
 
-const GridTable = ({ children, totalPages, currentPage, setCurrentPage }) => {
+const GridTable = ({ children, totalPages, setCurrentPage }) => {
     return (
         <>
             <div className='px-4 sm:px-6 lg:px-8'>
