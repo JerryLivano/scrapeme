@@ -1,5 +1,6 @@
 import { jwtDecode } from "jwt-decode";
 import api from "../app/api/oldApiSlice";
+import { AddObj, failRequest, makeRequest } from "../app/redux/actions";
 
 
 const setToken = (token, refreshToken) =>{
@@ -23,9 +24,10 @@ const getToken = () => {
 // };
 
 
-const login = async (userdata) => {
+export const login = async (userdata) => {
 
-    try{
+    try{     
+        
         const responseToken = await api.post("auth/login", userdata);
         const token  = responseToken?.data?.access_token;
         const refreshToken  = responseToken?.data?.refresh_token;
@@ -45,7 +47,8 @@ const login = async (userdata) => {
     }
     catch(error)
     {
-        console.log(error);
+
+        console.log(error.response.data.message);
     }
 }
 

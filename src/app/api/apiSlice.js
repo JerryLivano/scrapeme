@@ -9,9 +9,9 @@ const urls = {
 /**
  * Header
  */
-const baseQuery = fetchBaseQuery({
-    baseURL: urls[process.env.NODE_ENV],
-    credentials: 'include',
+    const baseQuery = fetchBaseQuery({
+        baseURL: urls[process.env.NODE_ENV],
+        credentials: 'same-origin',
     prepareHeaders: (headers, { getState }) => {
         const token = getState().auth.token
 
@@ -29,13 +29,14 @@ const baseQuery = fetchBaseQuery({
  * @param {*} extraOptions 
  * @returns 
  */
+
 const baseQueryWithReauth = async (args, api, extraOptions) => {
-    // console.log(args) // request url, method, body
-    // console.log(api) // signal, dispatch, getState()
-    // console.log(extraOptions) //custom like {shout: true}
+    console.log(args) // request url, method, body
+    console.log(api) // signal, dispatch, getState()
+     console.log(extraOptions) //custom like {shout: true}
 
     let result = await baseQuery(args, api, extraOptions)
-
+    console.log(result);
     // If you want, handle other status codes, too
     if (result?.error?.status === 403) {
         // send refresh token to get new access token 

@@ -1,8 +1,13 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
-import { Button, InputGroup, Label } from "../../components";
+import { Button, InputGroup, Label} from "../../components";
 import { AuthService } from "../../services/authService";
+import Toast from "../../components/elements/NotificationProvider/Notification";
+import { useEffect, useRef, useState } from "react";
+import { useLoginMutation } from "../../features/auth/authApiSlice";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "../../features/auth/authSlice";
+
 
 const Login = () => {
     const {
@@ -12,31 +17,59 @@ const Login = () => {
         reset,
     } = useForm();
 
+    ///
+    const userRef = useRef();
+    const errorRef = useRef();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState();
     const navigate = useNavigate();
 
-    const onSubmit = async (data) => {
-        //e.preventDefault();
-        const email = data.email;
-        const password = data.password;
-        const userdata = { email, password };
-         const response = await AuthService.login(userdata);
+    const [login,{isLogin}] = useLoginMutation();
+    const dispatch= useDispatch();
 
-        if (response?.data) {
-            navigate("/dashboard");
-        } else {
-            toast.error(" Invalid username or password");
-            reset();
+
+    const [toast, setTypeToast] = useState('');
+    
+    const onSubmit = async(e) =>{
+        try{
+       
+            const userData = await login({email, password}).unwrap();
+            console.log(userData);
+            dispatch(setCredentials({...userData, email}));
+            setEmail('');
+            setPassword('');
+            
+            setTypeToast("success");
+            navigate('/dashboard')
+
         }
-    };
+        catch(error){
+            setTypeToast("error");
+
+
+            if(error.response?.status === 401){
+                console.log('Unauthorize');
+                setErrorMessage('Unauthorize')
+            }
+            else{
+                setErrorMessage('login failed')
+            }
+        }
+    }
+
+    const handleUserInput = (e) => setEmail(e.target.value);
+    const handlePasswordInput = (e) => setPassword(e.target.value)
 
     return (
         <>
+            <Toast toastType={toast}  setTypeToast={setTypeToast} />
             <form
                 className='space-y-6'
                 action='#'
                 method='POST'
                 onSubmit={handleSubmit(onSubmit)}
-            >
+            >            
                 <div className='flex flex-col'>
                     <Label
                         htmlFor='email'
@@ -46,7 +79,9 @@ const Login = () => {
                         <InputGroup
                             type='email'
                             id='email'
+                            value={email}
                             name='email'
+                            onChange ={handleUserInput} 
                             placeholder='Email address'
                             errors={errors}
                             register={register}
@@ -74,8 +109,10 @@ const Login = () => {
                         <InputGroup
                             type='password'
                             id='password'
+                            value={password}
                             name='password'
                             placeholder='Password'
+                            onChange={handlePasswordInput}
                             errors={errors}
                             register={register}
                         />
@@ -90,7 +127,6 @@ const Login = () => {
                     >
                         Login
                     </Button>
-                    <ToastContainer className='text-red-500 border border-red-500 place-content-center' />
                 </div>
             </form>
         </>
