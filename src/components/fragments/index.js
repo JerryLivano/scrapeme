@@ -8,7 +8,7 @@ import InputGroup from "./InputGroup";
 import SlideOvers from "./SlideOvers";
 import Autocomplete from "./Combobox";
 import Pagination from "./Pagination";
-import Table from "./Table";
+import GridTable from "./GridTable";
 
 export {
     FormLogin,
@@ -21,5 +21,5 @@ export {
     SlideOvers,
     Autocomplete,
     Pagination,
-    Table,
+    GridTable,
 };

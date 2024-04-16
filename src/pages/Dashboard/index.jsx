@@ -1,16 +1,91 @@
 import { ChevronDoubleLeftIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import SlideOvers from "../../components/fragments/SlideOvers";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ButtonIcon, Title } from "../../components/elements";
-import { Table } from "../../components/fragments";
+import axios from "axios";
+import GridTable from "../../components/fragments/GridTable";
 
 const Dashboard = () => {
+    const API_URL = "https://api.github.com/users/fabpot/followers?per_page=6";
+    const [data, setData] = useState([]);
+    const [totalData, setTotalDta] = useState();
+    const [error, setError] = useState(null);
+    const [currentPage, setCurrentPage] = useState(0);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            setError(null);
+
+            try {
+                const page = Math.min(currentPage + 1, totalData);
+                const response = await axios.get(`${API_URL}&page=${page}`);
+                setData(response.data);
+                const getTotalData = await axios.get(API_URL); //This might be bad practice because they call all the data at once. This can overload the system or take too long to load everything--idk
+                setTotalDta(getTotalData.data.length);
+            } catch (error) {
+                console.error(error);
+                setError(error);
+            }
+        };
+
+        fetchData();
+    }, [currentPage]);
+
     const [open, setOpen] = useState(false);
     return (
         <>
             <div className='flex'>
                 <div className='items-center self-center relative'>
-                    <Table />
+                    <GridTable
+                        totalPages={totalData}
+                        setCurrentPage={setCurrentPage}
+                    >
+                        <thead>
+                            <tr>
+                                <th
+                                    scope='col'
+                                    className='py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0'
+                                >
+                                    ID
+                                </th>
+                                <th
+                                    scope='col'
+                                    className='px-3 py-3.5 text-left text-sm font-semibold text-gray-900'
+                                >
+                                    Name
+                                </th>
+                                <th
+                                    scope='col'
+                                    className='px-3 py-3.5 text-left text-sm font-semibold text-gray-900'
+                                >
+                                    User Role
+                                </th>
+                                <th
+                                    scope='col'
+                                    className='relative py-3.5 pl-3 pr-4 sm:pr-0'
+                                >
+                                    <span className='sr-only'>Edit</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody className='divide-y divide-gray-200'>
+                            {/* Content */}
+                            {data.length > 0 &&
+                                data.map((item) => (
+                                    <tr key={item.id}>
+                                        <td className='whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0'>
+                                            {item.id}
+                                        </td>
+                                        <td className='whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0'>
+                                            {item.login}
+                                        </td>
+                                        <td className='whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0'>
+                                            {item.type}
+                                        </td>
+                                    </tr>
+                                ))}
+                        </tbody>
+                    </GridTable>
                 </div>
 
                 {/* //#region slide over */}

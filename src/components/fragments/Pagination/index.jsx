@@ -2,9 +2,9 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/16/solid";
 import React from "react";
 import ReactPaginate from "react-paginate";
 
-const Pagination = ({ setCurrentPage, currentPage, totalPages }) => {
+const Pagination = ({ setCurrentPage, totalPages }) => {
     const handleOnClick = ({ selected }) => {
-        console.log(setCurrentPage(selected));
+        setCurrentPage(selected);
     };
     return (
         <>
@@ -15,7 +15,7 @@ const Pagination = ({ setCurrentPage, currentPage, totalPages }) => {
                     </span>
                 }
                 nextLabel={
-                    <div>
+                    <>
                         <div className='flex flex-1 justify-between sm:hidden'>
                             <span className='relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50'>
                                 Next
@@ -29,7 +29,7 @@ const Pagination = ({ setCurrentPage, currentPage, totalPages }) => {
                                 aria-hidden='true'
                             />
                         </span>
-                    </div>
+                    </>
                 }
                 onPageChange={handleOnClick}
                 pageRangeDisplayed={3}
