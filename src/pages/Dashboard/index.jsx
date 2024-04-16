@@ -6,7 +6,7 @@ import axios from "axios";
 import GridTable from "../../components/fragments/GridTable";
 
 const Dashboard = () => {
-    const API_URL = "https://api.github.com/users/fabpot/followers?per_page=6";
+    const API_URL = "https://api.escuelajs.co/api/v1/products";
     const [data, setData] = useState([]);
     const [totalData, setTotalDta] = useState();
     const [error, setError] = useState(null);
@@ -17,8 +17,11 @@ const Dashboard = () => {
             setError(null);
 
             try {
-                const page = Math.min(currentPage + 1, totalData);
-                const response = await axios.get(`${API_URL}&page=${page}`);
+                // ?offset=0&limit=10
+                const page = Math.min(currentPage);
+                const response = await axios.get(
+                    `${API_URL}?offset=${page}&limit=10`
+                );
                 setData(response.data);
                 const getTotalData = await axios.get(API_URL); //This might be bad practice because they call all the data at once. This can overload the system or take too long to load everything--idk
                 setTotalDta(getTotalData.data.length);
@@ -34,7 +37,8 @@ const Dashboard = () => {
     const [open, setOpen] = useState(false);
     return (
         <>
-            <div className='flex'>
+            <>
+                {/* #region main content */}
                 <div className='items-center self-center relative'>
                     <GridTable
                         totalPages={totalData}
@@ -52,13 +56,13 @@ const Dashboard = () => {
                                     scope='col'
                                     className='px-3 py-3.5 text-left text-sm font-semibold text-gray-900'
                                 >
-                                    Name
+                                    Title
                                 </th>
                                 <th
                                     scope='col'
                                     className='px-3 py-3.5 text-left text-sm font-semibold text-gray-900'
                                 >
-                                    User Role
+                                    Price
                                 </th>
                                 <th
                                     scope='col'
@@ -77,19 +81,19 @@ const Dashboard = () => {
                                             {item.id}
                                         </td>
                                         <td className='whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0'>
-                                            {item.login}
+                                            {item.title}
                                         </td>
                                         <td className='whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0'>
-                                            {item.type}
+                                            {item.price}
                                         </td>
                                     </tr>
                                 ))}
                         </tbody>
                     </GridTable>
                 </div>
-
+                {/* #endregion */}
                 {/* //#region slide over */}
-                <div className='float-right fixed right-5'>
+                {/* <div className='float-right fixed right-5'>
                     <ChevronDoubleLeftIcon
                         className='right-0 w-8 h-8 cursor-pointer float-end'
                         onClick={() => setOpen(!open)}
@@ -119,11 +123,11 @@ const Dashboard = () => {
                     </div>
                     <div className='relative flex-1 px-4 mt-6 sm:px-6'>
                         {/* COntent */}
-                        Nenek lo gaming
-                    </div>
-                </SlideOvers>
+                {/* Nenek lo gaming */}
+                {/* </div>
+                </SlideOvers> */}{" "}
                 {/* //#endregion */}
-            </div>
+            </>
         </>
     );
 };
