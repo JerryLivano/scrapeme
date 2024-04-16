@@ -1,10 +1,13 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
 import { Button, InputGroup, Label} from "../../components";
 import { AuthService } from "../../services/authService";
 import Toast from "../../components/elements/NotificationProvider/Notification";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useLoginMutation } from "../../features/auth/authApiSlice";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "../../features/auth/authSlice";
+
 
 const Login = () => {
     const {
@@ -14,27 +17,49 @@ const Login = () => {
         reset,
     } = useForm();
 
+    ///
+    const userRef = useRef();
+    const errorRef = useRef();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState();
     const navigate = useNavigate();
 
+    const [login,{isLogin}] = useLoginMutation();
+    const dispatch= useDispatch();
+
+
     const [toast, setTypeToast] = useState('');
+    
+    const onSubmit = async(e) =>{
+        try{
+       
+            const userData = await login({email, password}).unwrap();
+            console.log(userData);
+            dispatch(setCredentials({...userData, email}));
+            setEmail('');
+            setPassword('');
+            
+            setTypeToast("success");
+            navigate('/dashboard')
 
-    const onSubmit = async (data) => {
-        //e.preventDefault();
-        const email = data.email;
-        const password = data.password;
-        const userdata = { email, password };
-        const response = await AuthService.login(userdata);
-
-        if (response?.data) {    
-           
-             setTypeToast("success");
-            navigate("/dashboard");            
-
-        } else {
-            setTypeToast("error");
-            reset();
         }
-    };
+        catch(error){
+            setTypeToast("error");
+
+
+            if(error.response?.status === 401){
+                console.log('Unauthorize');
+                setErrorMessage('Unauthorize')
+            }
+            else{
+                setErrorMessage('login failed')
+            }
+        }
+    }
+
+    const handleUserInput = (e) => setEmail(e.target.value);
+    const handlePasswordInput = (e) => setPassword(e.target.value)
 
     return (
         <>
@@ -54,7 +79,9 @@ const Login = () => {
                         <InputGroup
                             type='email'
                             id='email'
+                            value={email}
                             name='email'
+                            onChange ={handleUserInput} 
                             placeholder='Email address'
                             errors={errors}
                             register={register}
@@ -82,8 +109,10 @@ const Login = () => {
                         <InputGroup
                             type='password'
                             id='password'
+                            value={password}
                             name='password'
                             placeholder='Password'
+                            onChange={handlePasswordInput}
                             errors={errors}
                             register={register}
                         />
