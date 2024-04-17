@@ -1,10 +1,9 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { Button, InputGroup, Label} from "../../components";
-import { AuthService } from "../../services/authService";
 import Toast from "../../components/elements/NotificationProvider/Notification";
-import { useEffect, useRef, useState } from "react";
-import { useLoginMutation } from "../../features/auth/authApiSlice";
+import { useRef, useState } from "react";
+import { useLoginMutation, useProfileMutation } from "../../features/auth/authApiSlice";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../../features/auth/authSlice";
 
@@ -17,7 +16,6 @@ const Login = () => {
         reset,
     } = useForm();
 
-    ///
     const userRef = useRef();
     const errorRef = useRef();
     const [email, setEmail] = useState('');
@@ -25,21 +23,28 @@ const Login = () => {
     const [errorMessage, setErrorMessage] = useState();
     const navigate = useNavigate();
 
-    const [login,{isLogin}] = useLoginMutation();
+    
+    const [login, {isLogin}] = useLoginMutation();    
+    const[profile, {setProfile}] = useProfileMutation();
+
     const dispatch= useDispatch();
 
-
+    //set param for notification
     const [toast, setTypeToast] = useState('');
     
     const onSubmit = async(e) =>{
         try{
-       
-            const userData = await login({email, password}).unwrap();
+                   
+            const userToken = await login({email, password}).unwrap();
+            dispatch(setCredentials({...userToken, email}));
+
+            const token = userToken.access_token;
+            //get user data
+            const userData = await profile(token).unwrap();
+
             console.log(userData);
-            dispatch(setCredentials({...userData, email}));
             setEmail('');
-            setPassword('');
-            
+            setPassword('');            
             setTypeToast("success");
             navigate('/dashboard')
 
