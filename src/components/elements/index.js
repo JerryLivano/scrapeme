@@ -7,4 +7,16 @@ import TextArea from "./TextArea";
 import Select from "./Select";
 import Toggles from "./Toggles";
 import Notification from "./NotificationProvider/Notification.jsx";
-export { Button, ButtonIcon, Input, Label, Title, TextArea, Select, Toggles, Notification};
+import Alert from "./Alert/index.jsx";
+export {
+    Button,
+    ButtonIcon,
+    Input,
+    Label,
+    Title,
+    TextArea,
+    Select,
+    Toggles,
+    Notification,
+    Alert,
+};
