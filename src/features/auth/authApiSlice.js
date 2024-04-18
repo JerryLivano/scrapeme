@@ -4,6 +4,7 @@ import { setCredentials } from "./authSlice"
 
 export const authApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
+        //add another query
         login: builder.mutation({
             query: (credentials) => ({
                 url: '/auth/login',
@@ -11,10 +12,8 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 body: { ...credentials}
             }),
         }),
-        //use params header if api need token headers   
         profile: builder.mutation({
-            query: (token) => ({ 
-                headers: { Authorization: `Bearer ${token}`},
+            query: () => ({ 
                 url: "/auth/profile",
                 method: 'GET',                              
             }),

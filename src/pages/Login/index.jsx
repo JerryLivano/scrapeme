@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { Button, InputGroup, Label} from "../../components";
 import Toast from "../../components/elements/NotificationProvider/Notification";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLoginMutation, useProfileMutation } from "../../features/auth/authApiSlice";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../../features/auth/authSlice";
@@ -21,22 +21,21 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState();
-    const navigate = useNavigate();
-
-    
+    const navigate = useNavigate();    
     const [login, {isLogin}] = useLoginMutation();    
     const[profile, {setProfile}] = useProfileMutation();
 
     const dispatch= useDispatch();
 
     //set param for notification
-    const [toast, setTypeToast] = useState('');
-    
+    const [toast, setTypeToast] = useState('');    
+
     const onSubmit = async(e) =>{
         try{
                    
             const userToken = await login({email, password}).unwrap();
-            dispatch(setCredentials({...userToken, email}));
+            const accessToken =  userToken.access_token
+            dispatch(setCredentials({token:accessToken}));
 
             const token = userToken.access_token;
             //get user data
@@ -45,14 +44,11 @@ const Login = () => {
             console.log(userData);
             setEmail('');
             setPassword('');            
-            setTypeToast("success");
             navigate('/dashboard')
 
         }
         catch(error){
             setTypeToast("error");
-
-
             if(error.response?.status === 401){
                 console.log('Unauthorize');
                 setErrorMessage('Unauthorize')
