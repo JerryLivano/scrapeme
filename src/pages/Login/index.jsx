@@ -1,12 +1,12 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { Button, InputGroup, Label} from "../../components";
+import { Alert, Button, InputGroup, Label } from "../../components";
+import { AuthService } from "../../services/authService";
 import Toast from "../../components/elements/NotificationProvider/Notification";
 import { useEffect, useRef, useState } from "react";
 import { useLoginMutation, useProfileMutation } from "../../features/auth/authApiSlice";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../../features/auth/authSlice";
-
 
 const Login = () => {
     const {
@@ -18,8 +18,8 @@ const Login = () => {
 
     const userRef = useRef();
     const errorRef = useRef();
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState();
     const navigate = useNavigate();    
     const [login, {isLogin}] = useLoginMutation();    
@@ -57,32 +57,36 @@ const Login = () => {
                 setErrorMessage('login failed')
             }
         }
-    }
+    };
 
     const handleUserInput = (e) => setEmail(e.target.value);
-    const handlePasswordInput = (e) => setPassword(e.target.value)
+    const handlePasswordInput = (e) => setPassword(e.target.value);
 
     return (
         <>
-            <Toast toastType={toast}  setTypeToast={setTypeToast} />
+            <Toast toastType={toast} setTypeToast={setTypeToast} />
+
+            {alertVisible === true ? (
+                <Alert title={errorMessage} setVisibles={alertVisible}>
+                    <li>Nenek lu mantan ladies punk</li>
+                </Alert>
+            ) : null}
+
             <form
                 className='space-y-6'
                 action='#'
                 method='POST'
                 onSubmit={handleSubmit(onSubmit)}
-            >            
+            >
                 <div className='flex flex-col'>
-                    <Label
-                        htmlFor='email'
-                        name='Email address'
-                    />
+                    <Label htmlFor='email' name='Email address' />
                     <div className='mt-2'>
                         <InputGroup
                             type='email'
                             id='email'
                             value={email}
                             name='email'
-                            onChange ={handleUserInput} 
+                            onChange={handleUserInput}
                             placeholder='Email address'
                             errors={errors}
                             register={register}
@@ -92,10 +96,7 @@ const Login = () => {
 
                 <div>
                     <div className='flex items-center justify-between'>
-                        <Label
-                            htmlFor='password'
-                            name='Password'
-                        />
+                        <Label htmlFor='password' name='Password' />
                         <div className='text-sm'>
                             <a
                                 href='/password/forgot'
@@ -134,4 +135,4 @@ const Login = () => {
     );
 };
 
-export default Login
+export default Login;
