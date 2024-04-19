@@ -4,7 +4,7 @@ import { Alert, Button, InputGroup, Label } from "../../components";
 import { AuthService } from "../../services/authService";
 import Toast from "../../components/elements/NotificationProvider/Notification";
 import { useEffect, useRef, useState } from "react";
-import { useLoginMutation } from "../../features/auth/authApiSlice";
+import { useLoginMutation, useProfileMutation } from "../../features/auth/authApiSlice";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../../features/auth/authSlice";
 
@@ -16,37 +16,45 @@ const Login = () => {
         reset,
     } = useForm();
 
-    ///
     const userRef = useRef();
     const errorRef = useRef();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState();
-    const navigate = useNavigate();
+    const navigate = useNavigate();    
+    const [login, {isLogin}] = useLoginMutation();    
+    const[profile, {setProfile}] = useProfileMutation();
 
-    const [login, { isLogin }] = useLoginMutation();
-    const dispatch = useDispatch();
+    const dispatch= useDispatch();
 
-    const [toast, setTypeToast] = useState("");
-    const [alertVisible, setAlertVisible] = useState(false);
+    //set param for notification
+    const [toast, setTypeToast] = useState('');    
 
-    const onSubmit = async (e) => {
-        try {
-            const userData = await login({ email, password }).unwrap();
+    const onSubmit = async(e) =>{
+        try{
+                   
+            const userToken = await login({email, password}).unwrap();
+            const accessToken =  userToken.access_token
+            dispatch(setCredentials({token:accessToken}));
+
+            const token = userToken.access_token;
+            //get user data
+            const userData = await profile(token).unwrap();
+
             console.log(userData);
-            dispatch(setCredentials({ ...userData, email }));
-            setEmail("");
-            setPassword("");
+            setEmail('');
+            setPassword('');            
+            navigate('/dashboard')
 
-            setTypeToast("success");
-            navigate("/dashboard");
-        } catch (error) {
-            setAlertVisible(true);
-            if (error.response?.status === 401) {
-                console.log("Unauthorize");
-                setErrorMessage("Unauthorize");
-            } else {
-                setErrorMessage("login failed");
+        }
+        catch(error){
+            setTypeToast("error");
+            if(error.response?.status === 401){
+                console.log('Unauthorize');
+                setErrorMessage('Unauthorize')
+            }
+            else{
+                setErrorMessage('login failed')
             }
         }
     };

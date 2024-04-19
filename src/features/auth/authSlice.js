@@ -6,8 +6,8 @@ const authSlice = createSlice({
     initialState: { token: null, loggedIn: false },
     reducers: {
         setCredentials: (state, action) => {
-            const { accessToken } = action.payload
-            state.token = accessToken
+            const { token } = action.payload
+            state.token = token
             state.loggedIn = true
         },
         logOut: (state, action) => {
@@ -21,5 +21,5 @@ export const { setCredentials, logOut } = authSlice.actions
 
 export default authSlice.reducer
 
-export const selectCurrentToken = (state) => state.auth.token
+export const selectCurrentToken = (state) => state.auth.token;
 export const selectIsLoggedIn = (state) => state.auth.loggedIn;

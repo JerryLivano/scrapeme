@@ -1,19 +1,21 @@
 import { apiSlice } from "../../app/api/apiSlice"
 import { setCredentials } from "./authSlice"
 
+
 export const authApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
+        //add another query
         login: builder.mutation({
             query: (credentials) => ({
-                url: 'https://api.escuelajs.co/api/v1/auth/login',
+                url: '/auth/login',
                 method: 'POST',
                 body: { ...credentials}
             }),
         }),
         profile: builder.mutation({
-            query: () => ({
-                url: '/auth/profile',
-                method: 'GET',
+            query: () => ({ 
+                url: "/auth/profile",
+                method: 'GET',                              
             }),
         }),
         refresh: builder.mutation({

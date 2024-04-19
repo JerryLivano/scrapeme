@@ -16,13 +16,6 @@ const getToken = () => {
     return null;
 };
 
-// const login = (userdata) => {
-//     const response = api.post("login", userdata);
-//     localStorage.setItem("email", userdata.email);
-//     localStorage.setItem("password", userdata.password);
-//     return api.post("login", userdata);
-// };
-
 
 export const login = async (userdata) => {
 
@@ -32,10 +25,11 @@ export const login = async (userdata) => {
         const token  = responseToken?.data?.access_token;
         const refreshToken  = responseToken?.data?.refresh_token;
 
+        setToken(token, refreshToken);
+
         const headers = {
             Authorization: `Bearer ${token}`
         };        
-        setToken(token, refreshToken);
 
         const responseData = await api.get("auth/profile", {headers});
         

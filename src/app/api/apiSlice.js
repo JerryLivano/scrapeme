@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { setCredentials } from '../../features/auth/authSlice'
+import { selectCurrentToken, setCredentials } from '../../features/auth/authSlice'
 
 const urls = {
     development: "https://api.escuelajs.co/api/v1",
@@ -10,17 +10,17 @@ const urls = {
  * Header
  */
     const baseQuery = fetchBaseQuery({
-        baseURL: urls[process.env.NODE_ENV],
+        baseUrl: urls[process.env.NODE_ENV],
         credentials: 'same-origin',
-    prepareHeaders: (headers, { getState }) => {
-        const token = getState().auth.token
+        prepareHeaders: (headers, { getState }) => {
+            const token = getState().auth.token;
 
-        if (token) {
-            headers.set("Authorization", `Bearer ${token}`)
-        }
+            if (token) {
+                headers.set("Authorization", `Bearer ${token}`)
+            }
         return headers
-    }
-})
+        }
+    })
 
 /**
  * 
@@ -36,7 +36,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
      console.log(extraOptions) //custom like {shout: true}
 
     let result = await baseQuery(args, api, extraOptions)
-    console.log(result);
+    
     // If you want, handle other status codes, too
     if (result?.error?.status === 403) {
         // send refresh token to get new access token 
