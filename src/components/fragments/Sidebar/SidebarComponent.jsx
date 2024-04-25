@@ -1,7 +1,7 @@
 import { Disclosure } from "@headlessui/react";
 import { ChevronRightIcon, Cog6ToothIcon } from "@heroicons/react/24/outline";
 import { navigation, teams } from "./data";
-import { LogoMA } from "../../../assets";
+import { LogoMA, LogoPortal } from "../../../assets";
 
 
 function classNames(...classes) {
@@ -12,23 +12,21 @@ const SidebarComponent = () => {
     const pathname = window.pathName;
 
     return (
-        <div className="flex flex-col px-6 pb-4 overflow-y-auto bg-white border-r border-gray-200 grow gap-y-5">
-            <div className="flex items-center self-center h-16 shrink-0">
-                <div className="h-24 mt-16 w-36">
+        <div className="flex flex-col px-6 pb-4 overflow-y-auto bg-blue-50 border-r border-gray-200 grow gap-y-5">
+            <div className="flex items-center self-center h-20 w-36 shrink-0">
                     <img
-                        src={LogoMA}
-                        alt='metrodata academy'
+                        src={LogoPortal}
+                        alt='Portal Me'
                         className='w-full h-8 mx-auto'
                     />
-                </div>
             </div>
 
-            <nav className='flex flex-col flex-1'>
+            <nav className='flex flex-col flex-1 -mt-5 ml-2'>
                 <ul role='list' className='flex flex-col flex-1 gap-y-7'>
                     <li>
-                        <ul role='list' className='-mx-2 space-y-1'>
+                        <ul role='list' className='-mx-2'>
                             {navigation.map((item) => (
-                                <li key={item.name}>
+                                <li className='my-3' key={item.name}>
                                     {!item.children ? (
                                         <a
                                             href={item.href}
@@ -130,7 +128,7 @@ const SidebarComponent = () => {
                             ))}
                         </ul>
                     </li>
-                    <li>
+                    {/* <li>
                         <div className='text-xs font-semibold leading-6 text-gray-400'>
                             Your teams
                         </div>
@@ -163,8 +161,8 @@ const SidebarComponent = () => {
                                 </li>
                             ))}
                         </ul>
-                    </li>
-                    <li className='mt-auto'>
+                    </li> */}
+                    {/* <li className='mt-auto'>
                         <a
                             href='/settings'
                             className='flex p-2 -mx-2 text-sm font-semibold leading-6 text-gray-700 rounded-md group gap-x-3 hover:bg-gray-50 hover:text-indigo-600'
@@ -175,7 +173,7 @@ const SidebarComponent = () => {
                             />
                             Settings
                         </a>
-                    </li>
+                    </li> */}
                 </ul>
             </nav>
         </div>

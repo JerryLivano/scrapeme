@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { Dashboard, ForgotPassword, Login, NewPassword, Settings, Users } from "./pages";
+import { HomePage, ForgotPassword, Login, NewPassword, Settings, ManageApp, ManageUser, LogActivity, AppList } from "./pages";
 import { AuthLayout, DashLayout, Layout } from "./components/layouts";
 
 
@@ -23,10 +23,13 @@ const App = () => {
 
                     {/* Protected Pages */}
                     <Route element={<DashLayout />}>
-                        <Route path='dashboard' element={<Dashboard />} />
-                        <Route path='users' element={<Users />} />
+                        <Route path='homepage' element={<HomePage />} />
+                        <Route path='manageuser' element={<ManageUser />} />
+                        <Route path='manageapp' element={<ManageApp />} />
+                        <Route path='logactivity' element={<LogActivity />} />
                         <Route path='settings' element={<Settings />} />
-                                        
+                        <Route path='applist' element={<AppList />} />
+             
                     </Route>
                 </Route>
             </Routes>

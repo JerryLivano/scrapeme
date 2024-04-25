@@ -5,7 +5,7 @@ import axios from "axios";
 // https://dummyjson.com/products?limit=10&skip=10
 
 const header = ["Id", "Title", "Brand", "Price"];
-const Dashboard = () => {
+const HomePage = () => {
     const [error, setError] = useState(null);
     const [data, setData] = useState([]);
 
@@ -73,4 +73,4 @@ const Dashboard = () => {
     );
 };
 
-export default Dashboard;
+export default HomePage;

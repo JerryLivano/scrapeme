@@ -23,7 +23,7 @@ const FormLogin = () => {
         const response = await AuthService.login(userdata);
         
         if(response?.data){
-            navigate("/dashboard")
+            navigate("/homepage")
         }
         else{
             toast.error(" Invalid username or password");

@@ -1,5 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { Dashboard, ErrorPage, ForgotPassword, Login } from '../pages';
+import { HomePage, ErrorPage, ForgotPassword, Login, ManageApp, ManageUser, LogActivity, AppList } from '../pages';
 import Reference from '../Reference';
 
 const router = createBrowserRouter([
@@ -21,9 +21,26 @@ const router = createBrowserRouter([
         element: <Reference />,
     },
     {
-        path: '/dashboard',
-        element: <Dashboard />,
+        path: '/homepage',
+        element: <HomePage />,
     },
+    {
+        path: '/manageapp',
+        element: <ManageApp />,
+    },
+    {
+        path: '/manageuser',
+        element: <ManageUser />,
+    },
+    {
+        path: '/logactivity',
+        element: <LogActivity />,
+    },
+    {
+        path: '/applist',
+        element: <AppList />,
+    },
+
 ]);
 
 // export default router;

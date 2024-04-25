@@ -44,7 +44,7 @@ const Login = () => {
             console.log(userData);
             setEmail('');
             setPassword('');            
-            navigate('/dashboard')
+            navigate('/homepage')
 
         }
         catch(error){
@@ -66,11 +66,11 @@ const Login = () => {
         <>
             <Toast toastType={toast} setTypeToast={setTypeToast} />
 
-            {alertVisible === true ? (
+            {/* {alertVisible === true ? (
                 <Alert title={errorMessage} setVisibles={alertVisible}>
                     <li>Nenek lu mantan ladies punk</li>
                 </Alert>
-            ) : null}
+            ) : null} */}
 
             <form
                 className='space-y-6'
@@ -80,7 +80,7 @@ const Login = () => {
             >
                 <div className='flex flex-col'>
                     <Label htmlFor='email' name='Email address' />
-                    <div className='mt-2'>
+                    <div>
                         <InputGroup
                             type='email'
                             id='email'

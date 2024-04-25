@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Header, SidebarDesktop, SidebarMobile } from "../fragments";
+import { Header, SidebarDesktop, SidebarMobile, Footer } from "../fragments";
 import { Outlet } from "react-router-dom";
 
 const DashLayout = () => {
@@ -21,6 +21,7 @@ const DashLayout = () => {
                         <Outlet />
                     </div>
                 </main>
+                <Footer />
             </div>
         </div>
     );
