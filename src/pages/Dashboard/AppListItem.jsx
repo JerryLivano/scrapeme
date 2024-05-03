@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom"
 import {logoMA, LogoBRM, LogoCVMe, LogoPickMe, LogoRecruitMe, LogoTeamMe, LogoTestMe} from "../../assets"
-import { useState } from "react"
 
 
 const app = [
@@ -62,16 +61,6 @@ const AppListItem = () => {
                     >
                     <img className="mx-auto h-20 w-28 left-shrink-0" src={apps.imageUrl} alt="" />
                     <h3 className="mt-6 text-lg font-medium text-blue-800">{apps.name}</h3>
-                    {/* <dl className="mt-1 flex flex-grow flex-col justify-between">
-                    <dt className="sr-only">Title</dt>
-                    <dd className="text-sm text-gray-500">{person.title}</dd>
-                    <dt className="sr-only">Role</dt>
-                    <dd className="mt-3">
-                        <span className="inline-flex items-center rounded-full bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
-                        {person.role}
-                        </span>
-                    </dd>
-                    </dl> */}
                     </div>
                 </li>
                 </Link>

@@ -1,6 +1,6 @@
-import AppListItem from "./AppListItem" 
+import AppListItem from "./AppListItem"
 
-const AppList = () => {
+const Dashboard = () => {
     return (
         <div className=" justify-center w-full grid">
           <div className="py-20 text-blue-800 font-bold text-4xl w-full text-center">
@@ -13,4 +13,4 @@ const AppList = () => {
       )
 }
 
-export default AppList
+export default Dashboard

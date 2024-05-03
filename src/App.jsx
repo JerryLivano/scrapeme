@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { HomePage, ForgotPassword, Login, NewPassword, Settings, ManageApp, ManageUser, LogActivity, AppList } from "./pages";
+import { HomePage, ForgotPassword, Login, NewPassword, Settings, ManageApp, ManageUser, LogActivity } from "./pages";
 import { AuthLayout, DashLayout, Layout } from "./components/layouts";
 
 
@@ -28,7 +28,6 @@ const App = () => {
                         <Route path='manageapp' element={<ManageApp />} />
                         <Route path='logactivity' element={<LogActivity />} />
                         <Route path='settings' element={<Settings />} />
-                        <Route path='applist' element={<AppList />} />
              
                     </Route>
                 </Route>

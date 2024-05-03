@@ -1,0 +1,112 @@
+{   
+    "products":{
+        "products": [
+            {
+                "id" : 1,
+                "name" : "Jane Cooper",
+                "email" : "jane.cooper@example.com",
+                "nik" : "253123674832",
+                "department" : "ADD 1",
+                "role" : "Admin",
+                "Recme" : true,
+                "Cvme" : true,
+                "Testme" : true,
+                "Pickme" : true,
+                "Brm" : true,
+                "Teamme" : true,
+                "Ma" : true
+            },
+            {
+                "id" : 2,
+                "name" : "Cody Fisher",
+                "email" : "cody.fisher@example.com",
+                "nik" : "253123674832",
+                "department" : "ADD 2",
+                "role" : "Employee"
+            },
+            {
+                "id" : 3,
+                "name" : "Jane Cooper",
+                "email" : "jane.cooper@example.com",
+                "nik" : "253123674832",
+                "department" : "ADD 1",
+                "role" : "Admin"
+            },
+            {
+                "id" : 4,
+                "name" : "Cody Fisher",
+                "email" : "cody.fisher@example.com",
+                "nik" : "253123674832",
+                "department" : "ADD 2",
+                "role" : "Employee"
+            },
+            {
+                "id" : 5,
+                "name" : "Jane Cooper",
+                "email" : "jane.cooper@example.com",
+                "nik" : "253123674832",
+                "department" : "ADD 1",
+                "role" : "Admin"
+            },
+            {
+                "id" : 6,
+                "name" : "Cody Fisher",
+                "email" : "cody.fisher@example.com",
+                "nik" : "253123674832",
+                "department" : "ADD 2",
+                "role" : "Employee"
+            },
+            {
+                "id" : 7,
+                "name" : "Jane Cooper",
+                "email" : "jane.cooper@example.com",
+                "nik" : "253123674832",
+                "department" : "ADD 1",
+                "role" : "Admin"
+            },
+            {
+                "id" : 8,
+                "name" : "Cody Fisher",
+                "email" : "cody.fisher@example.com",
+                "nik" : "253123674832",
+                "department" : "ADD 2",
+                "role" : "Employee"
+            },
+            {
+                "id" : 9,
+                "name" : "Jane Cooper",
+                "email" : "jane.cooper@example.com",
+                "nik" : "253123674832",
+                "department" : "ADD 1",
+                "role" : "Admin"
+            },
+            {
+                "id" : 10,
+                "name" : "Cody Fisher",
+                "email" : "cody.fisher@example.com",
+                "nik" : "253123674832",
+                "department" : "ADD 2",
+                "role" : "Employee"
+            },
+            {
+                "id" : 12,
+                "name" : "Jane Cooper",
+                "email" : "jane.cooper@example.com",
+                "nik" : "253123674832",
+                "department" : "ADD 1",
+                "role" : "Admin"
+            },
+            {
+                "id" : 13,
+                "name" : "Cody Fisher",
+                "email" : "cody.fisher@example.com",
+                "nik" : "253123674832",
+                "department" : "ADD 2",
+                "role" : "Employee"
+            }
+        ],
+        "total": 100,
+        "skip": 0,
+        "limit": 30
+    }
+}

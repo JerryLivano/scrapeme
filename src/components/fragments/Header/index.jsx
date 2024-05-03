@@ -1,11 +1,6 @@
 import { Fragment, useEffect, useState } from "react";
 import { Menu, Transition } from "@headlessui/react";
-import { Bars3Icon, BellIcon, ArrowLeftStartOnRectangleIcon, ArrowLeftEndOnRectangleIcon } from "@heroicons/react/24/outline";
-// import {
-//     ChevronDownIcon,
-//     ChevronRightIcon,
-//     MagnifyingGlassIcon,
-// } from "@heroicons/react/20/solid";
+import { Bars3Icon, ArrowLeftStartOnRectangleIcon } from "@heroicons/react/24/outline";
 import ButtonIcon from "../../elements/Button/ButtonIcon";
 import { userNavigation } from "../Sidebar/data";
 import { useNavigate } from "react-router";

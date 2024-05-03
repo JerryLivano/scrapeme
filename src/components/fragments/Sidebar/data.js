@@ -8,11 +8,6 @@ const navigation = [
         icon: HomeIcon,
     },
     {
-        name: 'App List',
-        href: '/applist',
-        icon: UsersIcon,
-    },
-    {
         name: 'Manage User',
         href: '/manageuser',
         icon: UsersIcon,
