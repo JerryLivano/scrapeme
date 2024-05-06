@@ -4,7 +4,7 @@ import SidebarComponent from "./Sidebar/SidebarComponent";
 import SidebarDesktop from "./Sidebar/SidebarDesktop";
 import SidebarMobile from "./Sidebar/SidebarMobile";
 import Header from "./Header";
-import Footer from "./Footer";
+import Footer from "./Footer/dashboardfooter";
 import InputGroup from "./InputGroup";
 import SlideOvers from "./SlideOvers";
 import Autocomplete from "./Combobox";

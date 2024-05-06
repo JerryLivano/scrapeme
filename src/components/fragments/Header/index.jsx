@@ -97,7 +97,7 @@ const Header = (props) => {
 
                         {/* Profile dropdown */}
                         <Menu as='div' className='relative'>
-                            <Menu.Button className='-m-1.5 flex items-center p-1.5'>
+                            <Menu.Button className='flex hover:bg-blue-700 rounded-lg items-center p-1.5'>
                                 <span className='sr-only'>Open user menu</span>
                                 <div className='w-8 h-8 rounded-full bg-gray-50'>
                                     <span className='inline-block w-8 h-8 overflow-hidden bg-gray-100 rounded-full'>
@@ -157,7 +157,7 @@ const Header = (props) => {
                                                         onClick={() =>
                                                             handleLogout()
                                                         }
-                                                        className='flex justify-start px-3 py-2 text-sm bg-white w-48 hover:bg-gray-100 justify-self-center'
+                                                        className='flex justify-start px-3 py-2 text-sm hover:bg-gray-100 w-48 justify-self-center'
                                                         //#endregion
                                                     >
                                                         {item.name}
