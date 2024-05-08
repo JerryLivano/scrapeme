@@ -1,9 +1,11 @@
-const NewPassword = () => {
-    return (
-        <>
-            <h1>New Password</h1>
-        </>
-    );
-};
+import React from 'react'
 
-export default NewPassword;
+const index = () => {
+  return (
+    <div>
+      newpas
+    </div>
+  )
+}
+
+export default index

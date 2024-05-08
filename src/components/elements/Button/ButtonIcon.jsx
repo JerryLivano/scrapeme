@@ -1,7 +1,7 @@
 const ButtonIcon = (props) => {
     const {
         children,
-        className = `-m-2.5 p-2.5 text-gray-400 hover:text-gray-500`,
+        className = `-m-2.5 p-2.5 text-white hover:text-white`,
         type = 'button',
         onClick = () => {},
     } = { ...props };

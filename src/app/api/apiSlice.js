@@ -11,6 +11,7 @@ const urls = {
  */
     const baseQuery = fetchBaseQuery({
         baseUrl: urls[process.env.NODE_ENV],
+        // baseUrl: `${import.meta.env.VITE_API_URL}`,
         credentials: 'same-origin',
         prepareHeaders: (headers, { getState }) => {
             const token = getState().auth.token;

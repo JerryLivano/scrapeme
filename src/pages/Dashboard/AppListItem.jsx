@@ -40,7 +40,7 @@ const app = [
         imageUrl: LogoBRM,
     },
     {
-        name : 'MA',
+        name : 'METRODATA ACADEMY',
         bgcolor: "bg-slate-300",
         href:"https://www.metrodataacademy.id/",
         imageUrl: logoMA,
@@ -49,23 +49,21 @@ const app = [
 
 const AppListItem = () => {
     return (
-        <ul role="list" className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            
+        <ul role="list" className="grid grid-cols-1 gap-6 max-w-4xl overflow-hidden sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {app.map((apps) => (
                 <Link to={apps.href} className="hover:opacity-90" title={apps.name}>
                 <li
                 key={apps.name}
-                className="col-span-1 flex flex-col divide-y divide-gray-200 rounded-2xl bg-slate-200 hover:bg-slate-400 text-center shadow"
-                >
-                    <div className="flex flex-1 px-8 mx-2 flex-col p-8" 
-                    >
-                    <img className="mx-auto h-20 w-28 left-shrink-0" src={apps.imageUrl} alt="" />
-                    <h3 className="mt-6 text-lg font-medium text-blue-800">{apps.name}</h3>
+                className="col-span-1 flex flex-col divide-y divide-gray-200 rounded-2xl h-48 bg-slate-200 hover:bg-slate-400 text-center shadow">
+                    <div className="flex flex-1 px-8 mx-2 flex-col p-8" >
+                        <img className="mx-auto h-20 w-22 left-shrink-0" src={apps.imageUrl} alt="" />
+                        <h3 className="mt-6 text-md font-medium text-blue-800">{apps.name}</h3>
                     </div>
                 </li>
                 </Link>
             ))}
         </ul>
+        
 
     )
 }

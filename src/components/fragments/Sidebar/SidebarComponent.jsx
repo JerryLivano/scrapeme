@@ -12,12 +12,12 @@ const SidebarComponent = () => {
     const pathname = window.pathName;
 
     return (
-        <div className="flex flex-col px-6 pb-4 overflow-y-auto bg-blue-50 border-r border-gray-200 grow gap-y-5">
-            <div className="flex items-center self-center h-20 w-36 shrink-0">
+        <div className="flex flex-col px-6 pb-4 overflow-y-auto bg-[#C4D1E2] border-r border-gray-200 grow gap-y-5">
+            <div className="flex items-center self-center h-20 w-52 shrink-0">
                     <img
                         src={LogoPortal}
                         alt='Portal Me'
-                        className='w-full h-8 mx-auto'
+                        className='w-52 h-14 mx-auto'
                     />
             </div>
 
@@ -33,7 +33,7 @@ const SidebarComponent = () => {
                                             className={classNames(
                                                 item.href === `${pathname}`
                                                     ? "bg-gray-50 text-indigo-600"
-                                                    : "text-gray-700 hover:text-indigo-600 hover:bg-gray-50",
+                                                    : "text-gray-700 hover:text-blue-950 hover:bg-gray-50",
                                                 "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold",
                                             )}
                                             aria-current={
@@ -45,8 +45,8 @@ const SidebarComponent = () => {
                                             <item.icon
                                                 className={classNames(
                                                     item.href === `${pathname}`
-                                                        ? "text-indigo-600"
-                                                        : "text-gray-400 group-hover:text-indigo-600",
+                                                        ? "text-blue-950"
+                                                        : "text-blue-950 ",
                                                     "h-6 w-6 shrink-0",
                                                 )}
                                                 aria-hidden='true'

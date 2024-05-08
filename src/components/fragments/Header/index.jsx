@@ -44,7 +44,7 @@ const Header = (props) => {
 
     return (
         <>
-            <div className='sticky top-0 z-40 flex items-center h-16 px-4 bg-blue-900 border-b border-gray-200 shadow-sm shrink-0 gap-x-4 sm:gap-x-6 sm:px-6 lg:px-8'>
+            <div className='sticky top-0 z-40 flex items-center h-16 px-4 bg-white border-2 border-gray-200 shadow-sm shrink-0 gap-x-4 sm:gap-x-6 sm:px-6 lg:px-8'>
                 <ButtonIcon
                     className='-m-2.5 p-2.5 text-gray-700 lg:hidden'
                     onClick={() => setSidebarOpen(true)}
@@ -97,42 +97,42 @@ const Header = (props) => {
 
                         {/* Profile dropdown */}
                         <Menu as='div' className='relative'>
-                            <Menu.Button className='flex hover:bg-blue-700 rounded-lg items-center p-1.5'>
+                            <Menu.Button className='flex hover:bg-slate-200 rounded-lg items-center p-1.5'>
                                 <span className='sr-only'>Open user menu</span>
-                                <div className='w-8 h-8 rounded-full bg-gray-50'>
+                                {/* <div className='w-8 h-8 rounded-full bg-gray-50'>
                                     <span className='inline-block w-8 h-8 overflow-hidden bg-gray-100 rounded-full'>
                                         <svg
-                                            className='w-full h-full text-gray-300'
+                                            className='w-full h-full text-black'
                                             fill='currentColor'
                                             viewBox='0 0 24 24'
                                         >
                                             <path d='M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z' />
                                         </svg>
                                     </span>
-                                </div>
+                                </div> */}
 
                                 <span
                                     className='hidden lg:flex lg:items-center'
                                     onClick={() => setOpenProfile(!openProfile)}
                                 >
                                     <span
-                                        className='mx-4 text-sm font-semibold leading-6 text-white'
+                                        className='mx-4 text-sm font-semibold leading-6 text-black'
                                         aria-hidden='true'
                                     >
                                         {/* {username} */}
                                          Abdul Dularman
                                     </span>
-                                    {openProfile ? (
+                                    {/* {openProfile ? (
                                         <ArrowLeftStartOnRectangleIcon
-                                            className='w-5 h-5 ml-2 text-white'
+                                            className='w-5 h-5 ml-2 text-black'
                                             aria-hidden='true'
                                         />
                                     ) : (
                                         <ArrowLeftStartOnRectangleIcon
-                                            className='w-5 h-5 ml-2 text-white'
+                                            className='w-5 h-5 ml-2 text-black'
                                             aria-hidden='true'
                                         />
-                                    )}
+                                    )} */}
                                 </span>
                             </Menu.Button>
                             <Transition
