@@ -2,49 +2,34 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { ProductService } from "../../services/productservice";
-import DataTablePagination from "../../components/fragments/Pagination/DatatablePagination";
 import FilterTable from "../../components/fragments/Filter/FilterTable";
-import DropdownInput from "../../components/elements/Input/DropdownInput";
 import BtnAccess from "../../components/fragments/Button/BtnAccess";
+import DropdownInput from "../../components/elements/Input/DropdownInput";
 import { GridTable } from "../../components/fragments";
 import BtnModify from "../../components/fragments/Button/BtnModify";
 const header = ["", "NAME", "EMAIL", "NIK", "DEPARTMENT", "ROLE", "RECRUITME", "CVME", "TESTME", "PICKME", "BRM", "MA", "TEAMME", "MODIFY ACCESS"];
 const ManageUser = () => {
     const [products, setProducts] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [postsPerPage, setPostsPerPage] = useState(10);
     const [totalData, setTotalData] = useState();
-    // const pageCount = Math.ceil(totalData / postsPerPage);
-    // const pageIndex = currentPage - 1;
+    const [postsPerPage, setPostsPerPage] = useState(10);
     const [modifyAccess, setModifyAccess] = useState(false);
     const [openModify, setOpenModify] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
-    const [postsPerPageOptions, setPostsPerPageOptions] = useState([
-        { label: "5", value: 5 },
-        { label: "10", value: 10 },
-        { label: "15", value: 15 },
-        { label: "20", value: 20 },
-        { label: "25", value: 25 }
-      ]);
-
-    const handlePagination = (pageNumber, pageSize) => {
-      setCurrentPage(pageNumber);
-      setPostsPerPage(pageSize);
-    };
     
     useEffect(() => {
       const fetchData = async () => {
         try {
-          const response = await ProductService.getProducts(postsPerPage, currentPage);
+          const response = await ProductService.getProducts();
           setProducts(response.products);
-          setTotalData(response.total);
+          // setTotalData(response.total);
         } catch (error) {
           console.error("Error fetching products:", error);
         }
       };
     
       fetchData(); // Call the function within useEffect
-    }, [currentPage, postsPerPage]);
+    }, []);
 
     useEffect(() => {//Global Filtering
         if (searchQuery) {
@@ -59,11 +44,9 @@ const ManageUser = () => {
           const fetchData = async () => {
             try {
               const response = await ProductService.getProducts(
-                postsPerPage,
-                currentPage
               );
               setProducts(response.products);
-              setTotalData(response.total);
+              // setTotalData(response.total);
             } catch (error) {
               console.error("Error fetching products:", error);
             }
@@ -90,17 +73,18 @@ const ManageUser = () => {
                       value={postsPerPage}
                       onChange={(e) => {
                         setPostsPerPage(Number(e.target.value));
-                        setCurrentPage(1); // Reset the pageIndex to 1 when postsPerPage changes
+                        setCurrentPage(0); // Reset the pageIndex to 1 when postsPerPage changes
                       }}
                       className="max-w-[70px]"
                     >
-                      {postsPerPageOptions.map((option) => (
-                        <option key={option.value} value={option.value}>
-                          {option.label}
+                      {[5, 10, 15, 20, 25].map((postsPerPage) => (
+                        <option key={postsPerPage} value={postsPerPage}>
+                          {postsPerPage}
                         </option>
                       ))}
                     </DropdownInput>
                   </div>
+
 
                   {/* <div className="w-[70px] justify-items-end">
                     <select
@@ -229,14 +213,14 @@ const ManageUser = () => {
                 </GridTable>
                 {/* #endregion table */}
         
-          {/* <div className="flex justify-end py-5">
-            <DataTablePagination
+          <div className="flex justify-end py-5">
+            {/* <DataTablePagination
               pageIndex={pageIndex - 1}
               pageCount={pageCount}
               goToPage={handlePagination}
               paginationLength={5}
-            />
-          </div> */}
+            /> */}
+          </div>
 
       </div>
             {/* #endregion */}

@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { selectCurrentToken, setCredentials } from '../../features/auth/authSlice'
 
 const urls = {
-    development: "https://api.escuelajs.co/api/v1",
+    development: "https://localhost:7160",
     production: "",
 };
 
@@ -10,8 +10,8 @@ const urls = {
  * Header
  */
     const baseQuery = fetchBaseQuery({
-        baseUrl: urls[process.env.NODE_ENV],
-        // baseUrl: `${import.meta.env.VITE_API_URL}`,
+        // baseUrl: urls[process.env.NODE_ENV],
+        baseUrl: `${import.meta.env.VITE_API_URL}`,
         credentials: 'same-origin',
         prepareHeaders: (headers, { getState }) => {
             const token = getState().auth.token;

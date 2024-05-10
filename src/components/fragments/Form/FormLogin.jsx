@@ -49,6 +49,7 @@ const FormLogin = () => {
                             placeholder='Email address'
                             errors={errors}
                             register={register}
+                            customErrorMessage="Please input correct email."
                         />
                     </div>
                 </div>

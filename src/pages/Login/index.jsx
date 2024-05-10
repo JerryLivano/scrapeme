@@ -23,7 +23,6 @@ const Login = () => {
     const [errorMessage, setErrorMessage] = useState();
     const navigate = useNavigate();    
     const [login, {isLogin}] = useLoginMutation();    
-    const[profile, {setProfile}] = useProfileMutation();
 
     const dispatch= useDispatch();
 
@@ -33,18 +32,23 @@ const Login = () => {
     const onSubmit = async(e) =>{
         try{
                    
-            const userToken = await login({email, password}).unwrap();
-            const accessToken =  userToken.access_token
-            dispatch(setCredentials({token:accessToken}));
+            await login({email, password})
+            .unwrap()
+            .then((payload) => {
+                console.log(payload)
+                navigate('/homepage')
+            });
+            // const accessToken =  userToken.access_token
+            // dispatch(setCredentials({token:accessToken}));
 
-            const token = userToken.access_token;
-            //get user data
-            const userData = await profile(token).unwrap();
+            // const token = userToken.access_token;
+            // //get user data
+            // const userData = await profile(token).unwrap();
 
-            console.log(userData);
-            setEmail('');
-            setPassword('');            
-            navigate('/homepage')
+            // console.log(userData);
+            // setEmail('');
+            // setPassword('');            
+            // navigate('/homepage')
 
         }
         catch(error){
