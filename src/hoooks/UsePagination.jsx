@@ -54,7 +54,7 @@ export default function UsePagination({
         if (currentPage !== lastPage && lastPage !== 0) {
             let num = parseInt(currentPage);
             setCurrentPage((current) => current + 1);
-            paginate(num + 1);
+            // paginate(num + 1);
         }
     };
 
@@ -62,7 +62,7 @@ export default function UsePagination({
         if (currentPage !== 1 && lastPage !== 0) {
             let num = parseInt(currentPage);
             setCurrentPage((current) => current - 1);
-            paginate(num - 1);
+            // paginate(num - 1);
         }
     };
 
@@ -76,7 +76,7 @@ export default function UsePagination({
             number = arrOfCurrButton[3] + 2;
         }
         setCurrentPage(number);
-        paginate(number);
+        // paginate(number);
     };
 
     return {

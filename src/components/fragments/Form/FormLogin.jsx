@@ -23,7 +23,7 @@ const FormLogin = () => {
         const response = await AuthService.login(userdata);
         
         if(response?.data){
-            navigate("/dashboard")
+            navigate("/homepage")
         }
         else{
             toast.error(" Invalid username or password");
@@ -49,6 +49,7 @@ const FormLogin = () => {
                             placeholder='Email address'
                             errors={errors}
                             register={register}
+                            customErrorMessage="Please input correct email."
                         />
                     </div>
                 </div>

@@ -1,16 +1,28 @@
-import { HomeIcon, UsersIcon } from '@heroicons/react/24/outline';
+import { HomeIcon, UsersIcon, ComputerDesktopIcon, ClipboardDocumentListIcon } from '@heroicons/react/24/outline';
+
 
 const navigation = [
     {
-        name: 'Dashboard',
-        href: '/dashboard',
+        name: 'HomePage',
+        href: '/homepage',
         icon: HomeIcon,
     },
     {
-        name: 'Users',
-        href: '/users',
+        name: 'Manage User',
+        href: '/manageuser',
         icon: UsersIcon,
     },
+    {
+        name: 'Manage Application',
+        href: '/manageapp',
+        icon: ComputerDesktopIcon,
+    },
+    {
+        name: 'Log Activity',
+        href: '/logactivity',
+        icon: ClipboardDocumentListIcon,
+    },
+    
     // {
     //     name: 'Parent',
     //     icon: UserIcon,
@@ -30,5 +42,6 @@ const userNavigation = [
     { name: 'Your profile', href: '#' },
     { name: 'Sign out', href: '#' },
 ];
+
 
 export { navigation, teams, userNavigation };

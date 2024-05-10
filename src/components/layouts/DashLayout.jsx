@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Header, SidebarDesktop, SidebarMobile } from "../fragments";
+import { Header, SidebarDesktop, SidebarMobile, Footer } from "../fragments";
 import { Outlet } from "react-router-dom";
 
 const DashLayout = () => {
@@ -16,11 +16,12 @@ const DashLayout = () => {
             <div className='lg:pl-72'>
                 <Header setSidebarOpen={setSidebarOpen} />
                 <main className='py-6'>
-                    <div className='px-4 sm:px-6 lg:px-8'>
+                    <div className='px-4 sm:px-6 lg:px-8 scroll overflow-y-auto'>
                         {/* Main content */}
                         <Outlet />
                     </div>
                 </main>
+                <Footer />
             </div>
         </div>
     );

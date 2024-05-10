@@ -51,10 +51,10 @@ const Toast = ({ ...props }) => {
             case 'error':
                 toastProperties = {
                     id: listToast.length+1,
-                    title: "An error occurred",
-                    description: "an error while attempting to save this file.",
+                    title: "Invalid email/password",
+                    description: "Input email (@mii.co.id) and password correctly",
                     textColor: "text-red-500",
-                    borderColor: "border-red-500",
+                    borderColor: "none",
                     icon: XCircleIcon
                 };
                 setToast([toastProperties]);

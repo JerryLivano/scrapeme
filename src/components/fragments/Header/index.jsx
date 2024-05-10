@@ -1,11 +1,6 @@
 import { Fragment, useEffect, useState } from "react";
 import { Menu, Transition } from "@headlessui/react";
-import { Bars3Icon, BellIcon } from "@heroicons/react/24/outline";
-import {
-    ChevronDownIcon,
-    ChevronRightIcon,
-    MagnifyingGlassIcon,
-} from "@heroicons/react/20/solid";
+import { Bars3Icon, ArrowLeftStartOnRectangleIcon } from "@heroicons/react/24/outline";
 import ButtonIcon from "../../elements/Button/ButtonIcon";
 import { userNavigation } from "../Sidebar/data";
 import { useNavigate } from "react-router";
@@ -49,7 +44,7 @@ const Header = (props) => {
 
     return (
         <>
-            <div className='sticky top-0 z-40 flex items-center h-16 px-4 bg-white border-b border-gray-200 shadow-sm shrink-0 gap-x-4 sm:gap-x-6 sm:px-6 lg:px-8'>
+            <div className='sticky top-0 z-40 flex items-center h-16 px-4 bg-white border-2 border-gray-200 shadow-sm shrink-0 gap-x-4 sm:gap-x-6 sm:px-6 lg:px-8'>
                 <ButtonIcon
                     className='-m-2.5 p-2.5 text-gray-700 lg:hidden'
                     onClick={() => setSidebarOpen(true)}
@@ -67,8 +62,8 @@ const Header = (props) => {
                     aria-hidden='true'
                 />
 
-                <div className='flex self-stretch flex-1 gap-x-4 lg:gap-x-6'>
-                    <form
+                <div className='flex flex-1 justify-end gap-x-4 mx-12 lg:gap-x-6'>
+                    {/* <form
                         className='relative flex flex-1'
                         action='#'
                         method='GET'
@@ -77,7 +72,7 @@ const Header = (props) => {
                             Search
                         </label>
                         <MagnifyingGlassIcon
-                            className='absolute inset-y-0 w-5 h-full text-gray-400 pointer-events-none left-1'
+                            className='absolute inset-y-0 w-5 h-full text-gray-400 pointer-events-none left-1 '
                             aria-hidden='true'
                         />
                         <input
@@ -87,56 +82,57 @@ const Header = (props) => {
                             type='search'
                             name='search'
                         />
-                    </form>
-                    <div className='flex items-center gap-x-4 lg:gap-x-6'>
-                        <ButtonIcon>
+                    </form> */}
+                    <div className='flex items-end gap-x-4 lg:gap-x-6'>
+                        {/* <ButtonIcon>
                             <span className='sr-only'>Hallo</span>
                             <BellIcon className='w-6 h-6' aria-hidden='true' />
-                        </ButtonIcon>
+                        </ButtonIcon> */}
 
                         {/* Separator */}
-                        <div
+                        {/* <div
                             className='hidden lg:block lg:h-6 lg:w-px lg:bg-gray-200'
                             aria-hidden='true'
-                        />
+                        /> */}
 
                         {/* Profile dropdown */}
                         <Menu as='div' className='relative'>
-                            <Menu.Button className='-m-1.5 flex items-center p-1.5'>
+                            <Menu.Button className='flex hover:bg-slate-200 rounded-lg items-center p-1.5'>
                                 <span className='sr-only'>Open user menu</span>
-                                <div className='w-8 h-8 rounded-full bg-gray-50'>
+                                {/* <div className='w-8 h-8 rounded-full bg-gray-50'>
                                     <span className='inline-block w-8 h-8 overflow-hidden bg-gray-100 rounded-full'>
                                         <svg
-                                            className='w-full h-full text-gray-300'
+                                            className='w-full h-full text-black'
                                             fill='currentColor'
                                             viewBox='0 0 24 24'
                                         >
                                             <path d='M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z' />
                                         </svg>
                                     </span>
-                                </div>
+                                </div> */}
 
                                 <span
                                     className='hidden lg:flex lg:items-center'
                                     onClick={() => setOpenProfile(!openProfile)}
                                 >
                                     <span
-                                        className='ml-4 text-sm font-semibold leading-6 text-gray-900'
+                                        className='mx-4 text-sm font-semibold leading-6 text-black'
                                         aria-hidden='true'
                                     >
-                                        {username}
+                                        {/* {username} */}
+                                         Abdul Dularman
                                     </span>
-                                    {openProfile ? (
-                                        <ChevronDownIcon
-                                            className='w-5 h-5 ml-2 text-gray-400'
+                                    {/* {openProfile ? (
+                                        <ArrowLeftStartOnRectangleIcon
+                                            className='w-5 h-5 ml-2 text-black'
                                             aria-hidden='true'
                                         />
                                     ) : (
-                                        <ChevronRightIcon
-                                            className='w-5 h-5 ml-2 text-gray-400'
+                                        <ArrowLeftStartOnRectangleIcon
+                                            className='w-5 h-5 ml-2 text-black'
                                             aria-hidden='true'
                                         />
-                                    )}
+                                    )} */}
                                 </span>
                             </Menu.Button>
                             <Transition
@@ -148,11 +144,11 @@ const Header = (props) => {
                                 leaveFrom='transform opacity-100 scale-100'
                                 leaveTo='transform opacity-0 scale-95'
                             >
-                                <Menu.Items className='absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none'>
+                                <Menu.Items className='absolute right-0 z-10 mt-2.5 w-48 rounded-lg origin-top-rightrounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none'>
                                     {userNavigation.map((item, index) => (
                                         <Menu.Item
                                             key={index}
-                                            className='focus-visible:bg-none hover:text-blue-400'
+                                            className='focus-visible:bg-none hover:text-blue-400 '
                                         >
                                             {({ active }) =>
                                                 item.name === "Sign out" ? (
@@ -161,7 +157,7 @@ const Header = (props) => {
                                                         onClick={() =>
                                                             handleLogout()
                                                         }
-                                                        className='flex justify-center px-3 py-1 text-sm bg-none hover:bg-none justify-self-center'
+                                                        className='flex justify-start px-3 py-2 text-sm hover:bg-gray-100 w-48 justify-self-center'
                                                         //#endregion
                                                     >
                                                         {item.name}
@@ -171,7 +167,7 @@ const Header = (props) => {
                                                         href={item.href}
                                                         className={classNames(
                                                             active
-                                                                ? "bg-gray-50"
+                                                                ? "bg-gray-100"
                                                                 : "",
                                                             "block px-3 py-1 text-sm leading-6 text-gray-900"
                                                         )}
