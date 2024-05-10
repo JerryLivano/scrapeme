@@ -23,6 +23,7 @@ const Login = () => {
     const [errorMessage, setErrorMessage] = useState();
     const navigate = useNavigate();    
     const [login, {isLogin}] = useLoginMutation();    
+    const[profile, {setProfile}] = useProfileMutation();
 
     const dispatch= useDispatch();
 
@@ -82,21 +83,26 @@ const Login = () => {
                 method='POST'
                 onSubmit={handleSubmit(onSubmit)}
             >
-                    <div className='mt-2'>
+                <div className='flex flex-col'>
+                    <Label htmlFor='email' name='Email address' />
+                    <div>
                         <InputGroup
                             type='email'
                             id='email'
+                            value={email}
                             name='email'
+                            onChange={handleUserInput}
                             placeholder='Email address'
                             errors={errors}
-                            register={register}
                             required
+                            register={register}
                         />
                     </div>
+                </div>
 
                 <div>
                     <div className='flex items-center justify-between'>
-                        <Label htmlFor='' name='' />
+                        <Label htmlFor='password' name='Password' />
                         <div className='text-sm'>
                             <a
                                 href='/password/forgot'
@@ -106,19 +112,20 @@ const Login = () => {
                             </a>
                         </div>
                     </div>
-                    
-                    <div className='mt-2'>
+
+                    <div className='relative w-full mt-2'>
                         <InputGroup
                             type='password'
                             id='password'
+                            value={password}
                             name='password'
-                            placeholder='password'
+                            placeholder='Password'
+                            onChange={handlePasswordInput}
                             errors={errors}
                             register={register}
                             required
                         />
                     </div>
-                
                 </div>
 
                 <div>
