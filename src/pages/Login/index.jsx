@@ -82,25 +82,21 @@ const Login = () => {
                 method='POST'
                 onSubmit={handleSubmit(onSubmit)}
             >
-                <div className='flex flex-col'>
-                    <Label htmlFor='email' name='Email address' />
-                    <div>
+                    <div className='mt-2'>
                         <InputGroup
                             type='email'
                             id='email'
-                            value={email}
                             name='email'
-                            onChange={handleUserInput}
                             placeholder='Email address'
                             errors={errors}
                             register={register}
+                            required
                         />
                     </div>
-                </div>
 
                 <div>
                     <div className='flex items-center justify-between'>
-                        <Label htmlFor='password' name='Password' />
+                        <Label htmlFor='' name='' />
                         <div className='text-sm'>
                             <a
                                 href='/password/forgot'
@@ -110,19 +106,19 @@ const Login = () => {
                             </a>
                         </div>
                     </div>
-
-                    <div className='relative w-full mt-2'>
+                    
+                    <div className='mt-2'>
                         <InputGroup
                             type='password'
                             id='password'
-                            value={password}
                             name='password'
-                            placeholder='Password'
-                            onChange={handlePasswordInput}
+                            placeholder='password'
                             errors={errors}
                             register={register}
+                            required
                         />
                     </div>
+                
                 </div>
 
                 <div>
