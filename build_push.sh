@@ -1,5 +1,5 @@
 #!/bin/bash
-IMAGE_NAME="metrodataacademy/brm-app"
+IMAGE_NAME="metrodataacademy/portalme"
 DEFAULT_TAG="latest"
 
 echo "Select the environment:"
