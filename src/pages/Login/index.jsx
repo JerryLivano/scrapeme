@@ -23,6 +23,7 @@ const Login = () => {
     const [errorMessage, setErrorMessage] = useState();
     const navigate = useNavigate();    
     const [login, {isLogin}] = useLoginMutation();    
+    const[profile, {setProfile}] = useProfileMutation();
 
     const dispatch= useDispatch();
 
@@ -93,6 +94,7 @@ const Login = () => {
                             onChange={handleUserInput}
                             placeholder='Email address'
                             errors={errors}
+                            required
                             register={register}
                         />
                     </div>
@@ -121,6 +123,7 @@ const Login = () => {
                             onChange={handlePasswordInput}
                             errors={errors}
                             register={register}
+                            required
                         />
                     </div>
                 </div>

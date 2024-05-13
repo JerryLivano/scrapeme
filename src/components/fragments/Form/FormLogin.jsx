@@ -31,6 +31,7 @@ const FormLogin = () => {
         }
     };
 
+    
     return (
         <>
             <form
@@ -40,7 +41,11 @@ const FormLogin = () => {
                 onSubmit={handleSubmit(onSubmit)}
             >
                 <div className='flex flex-col'>
-                    <Label htmlFor='email' name='Email address' />
+                    <Label
+                        htmlFor='email'
+                        name='Email address'
+                        mandatory={true}
+                    />
                     <div className='mt-2'>
                         <InputGroup
                             type='email'
@@ -49,7 +54,7 @@ const FormLogin = () => {
                             placeholder='Email address'
                             errors={errors}
                             register={register}
-                            customErrorMessage="Please input correct email."
+                            required
                         />
                     </div>
                 </div>
