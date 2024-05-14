@@ -24,15 +24,8 @@ const RefreshAuth = () => {
                 Cookies.remove("isLoggedIn");
             }
             const verifyRefreshToken = async () => {
-                // console.log('verifying refresh token')
-                try {
-                    //const response =
-                    await refresh();
-                    //const { accessToken } = response.data
-                    setTrueSuccess(true);
-                } catch (err) {
-                    console.log(err);
-                }
+                await refresh();
+                setTrueSuccess(true);
             };
 
             if (!token) verifyRefreshToken();
@@ -45,10 +38,7 @@ const RefreshAuth = () => {
     if (isError && isLoggedIn) {
         Cookies.remove("isLoggedIn");
     } else if (token) {
-        // console.log('no persist')
         content = <Outlet />;
-    } else if (isLoading) {
-        console.log("loading");
     } else if (isError) {
         const sessionEnded = isLoggedIn === undefined && loggedIn;
         content = (
@@ -59,11 +49,8 @@ const RefreshAuth = () => {
             />
         );
     } else if (isSuccess && trueSuccess) {
-        // console.log('success')
         content = <Outlet />;
     } else if (token && isUninitialized) {
-        // console.log('token and uninit')
-        // console.log(isUninitialized)
         content = <Outlet />;
     }
 

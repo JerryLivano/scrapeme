@@ -4,18 +4,17 @@ import { setCredentials } from "./authSlice"
 
 export const authApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
-        //add another query
         login: builder.mutation({
             query: (credentials) => ({
                 url: '/login',
                 method: 'POST',
-                body: { ...credentials}
+                body: { ...credentials }
             }),
         }),
         profile: builder.mutation({
-            query: () => ({ 
+            query: () => ({
                 url: "/auth/profile",
-                method: 'GET',                              
+                method: 'GET',
             }),
         }),
         refresh: builder.mutation({
@@ -25,18 +24,13 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 body: { ...credentials }
             }),
             async onQueryStarted(arg, { dispatch, queryFulfilled }) {
-                try {
-                    const { data } = await queryFulfilled
-                    const { accessToken } = data
-                    dispatch(setCredentials({ accessToken }))
-                } catch (err) {
-                    // dispatch(setCredentials({ accessToken:null}));
-                    // console.log(err)
-                }
+                const { data } = await queryFulfilled;
+                const { accessToken } = data;
+                dispatch(setCredentials({ accessToken }));
             }
-        })
+        }),
     })
-})
+});
 
 export const {
     useLoginMutation,

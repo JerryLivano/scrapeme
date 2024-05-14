@@ -8,7 +8,6 @@ const getProducts = async () => {
         );
         return response.data;
     } catch (error) {
-        console.error("Error fetching products:", error);
         throw error; // Re-throw the error for proper handling
     }
 };
