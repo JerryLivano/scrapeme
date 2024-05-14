@@ -1,9 +1,10 @@
-FROM node:lts-alpine AS build
+FROM node:18-alpine AS build
 
 WORKDIR /app
 COPY . .
+COPY package*.json .
 RUN yarn
-RUN yarn build --mode production
+RUN yarn build --mode staging
 
 # -- RELEASE --
 FROM nginx:stable-alpine AS release
