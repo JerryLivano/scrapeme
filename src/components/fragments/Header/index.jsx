@@ -1,6 +1,9 @@
 import { Fragment, useEffect, useState } from "react";
 import { Menu, Transition } from "@headlessui/react";
-import { Bars3Icon, ArrowLeftStartOnRectangleIcon } from "@heroicons/react/24/outline";
+import {
+    Bars3Icon,
+    ArrowLeftStartOnRectangleIcon,
+} from "@heroicons/react/24/outline";
 import ButtonIcon from "../../elements/Button/ButtonIcon";
 import { userNavigation } from "../Sidebar/data";
 import UserProfile from "./Userprofile";
@@ -26,6 +29,7 @@ const Header = (props) => {
 
     //#region Ari handle logout button
     const handleLogout = () => {
+        localStorage.removeItem("token");
         localStorage.removeItem("email");
         localStorage.removeItem("password");
         navigate("/login");
@@ -122,7 +126,8 @@ const Header = (props) => {
                                     >
                                         {/* {username} */}
                                         {/* <UserProfile /> */}
-                                        dsd
+                                        
+                                        Abdul Dularman
                                     </span>
                                     {/* {openProfile ? (
                                         <ArrowLeftStartOnRectangleIcon
