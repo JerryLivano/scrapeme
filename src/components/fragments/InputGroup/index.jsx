@@ -39,6 +39,7 @@ export default function InputGroup({
                             disabled: disabled,
                         })}
                         {...props}
+                        
                     />
                 </>
             )}
@@ -61,7 +62,7 @@ export default function InputGroup({
                         aria-invalid={errors[name] ? "true" : "false"}
                         aria-describedby={`${id}-error`}
                         {...register(name, {
-                            required: required ? "This field is required" : true,
+                            required: required ? "Please enter your email" : true,
                             disabled: disabled,
                             pattern: {
                                 value: /\S+@\S+\.\S+/,
@@ -157,15 +158,10 @@ export default function InputGroup({
                         aria-describedby={`${id}-error`}
                         {...register(name, {
                             required: required
-                                ? "This field is required"
+                                ? "Please enter your password"
                                 : true,
                             disabled: disabled,
                             minLength: required
-                                ? {
-                                      value: 8,
-                                      message: `Password must have at least 8 characters`,
-                                  }
-                                : false,
                         })}
                         {...props}
                     />
