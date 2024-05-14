@@ -7,7 +7,7 @@ import { useLoginMutation } from "../../features/auth/authApiSlice";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../../features/auth/authSlice";
 import Toast from "../../components/elements/NotificationProvider/Notification";
-import { setAuthToken, tokenDecode } from "../../utils/authUtilities";
+import { setAuthToken } from "../../utils/authUtilities";
 
 const Login = () => {
     const {
@@ -28,7 +28,6 @@ const Login = () => {
         try {
             const payload = await login(userData).unwrap();
             if (payload.data && payload.data.token) {
-                tokenDecode(payload.data.token);
                 setAuthToken(payload.data.token);
                 dispatch(setCredentials({ token: payload.data.token }));
                 navigate("/homepage", { replace: true });
