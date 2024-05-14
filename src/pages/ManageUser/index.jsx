@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { ProductService } from "../../services/productservice";
+import { ProductService } from "../../services/productService";
 import FilterTable from "../../components/fragments/Filter/FilterTable";
 import BtnAccess from "../../components/fragments/Button/BtnAccess";
 import DropdownInput from "../../components/elements/Input/DropdownInput";
@@ -11,7 +11,7 @@ const header = ["", "NAME", "EMAIL", "NIK", "DEPARTMENT", "ROLE", "RECRUITME", "
 const ManageUser = () => {
     const [products, setProducts] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [totalData, setTotalData] = useState();
+    // const [totalData, setTotalData] = useState();
     const [postsPerPage, setPostsPerPage] = useState(10);
     const [modifyAccess, setModifyAccess] = useState(false);
     const [openModify, setOpenModify] = useState(null);
