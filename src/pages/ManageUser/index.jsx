@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { ProductService } from "../../services/productservice";
+import { ProductService } from "../../services/productService";
 import FilterTable from "../../components/fragments/Filter/FilterTable";
 import BtnAccess from "../../components/fragments/Button/BtnAccess";
 import DropdownInput from "../../components/elements/Input/DropdownInput";
