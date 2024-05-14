@@ -1,12 +1,13 @@
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { Alert, Button, InputGroup, Label } from "../../components";
-import { AuthService } from "../../services/authService";
-import Toast from "../../components/elements/NotificationProvider/Notification";
-import { useEffect, useRef, useState } from "react";
-import { useLoginMutation, useProfileMutation } from "../../features/auth/authApiSlice";
+import { Button, InputGroup, Label } from "../../components";
+import { toast } from "react-toastify";
+import { useLoginMutation } from "../../features/auth/authApiSlice";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../../features/auth/authSlice";
+import Toast from "../../components/elements/NotificationProvider/Notification";
+import { setAuthToken } from "../../utils/authUtilities";
 
 const Login = () => {
     const {
@@ -15,83 +16,42 @@ const Login = () => {
         formState: { errors },
         reset,
     } = useForm();
+    const [toastType, setToastType] = useState("");
 
-    const userRef = useRef();
-    const errorRef = useRef();
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [errorMessage, setErrorMessage] = useState();
-    const navigate = useNavigate();    
-    const [login, {isLogin}] = useLoginMutation();    
-    const[profile, {setProfile}] = useProfileMutation();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const [login] = useLoginMutation();
 
-    const dispatch= useDispatch();
+    const onSubmit = async (data) => {
+        const userData = { email: data.email, password: data.password };
 
-    //set param for notification
-    const [toast, setTypeToast] = useState('');    
-
-    const onSubmit = async(e) =>{
-        try{
-                   
-            await login({email, password})
-            .unwrap()
-            .then((payload) => {
-                console.log(payload)
-                navigate('/homepage')
-            });
-            // const accessToken =  userToken.access_token
-            // dispatch(setCredentials({token:accessToken}));
-
-            // const token = userToken.access_token;
-            // //get user data
-            // const userData = await profile(token).unwrap();
-
-            // console.log(userData);
-            // setEmail('');
-            // setPassword('');            
-            // navigate('/homepage')
-
-        }
-        catch(error){
-            setTypeToast("error");
-            if(error.response?.status === 401){
-                console.log('Unauthorize');
-                setErrorMessage('Unauthorize')
+        try {
+            const payload = await login(userData).unwrap();
+            if (payload.data && payload.data.token) {
+                setAuthToken(payload.data.token);
+                dispatch(setCredentials({ token: payload.data.token }));
+                navigate("/homepage", { replace: true });
+            } else {
+                throw new Error("Invalid response");
             }
-            else{
-                setErrorMessage('login failed')
-            }
+        } catch (error) {
+            console.error("Login error: ", error);
+            toast.error("Invalid username or password");
+            reset();
         }
     };
 
-    const handleUserInput = (e) => setEmail(e.target.value);
-    const handlePasswordInput = (e) => setPassword(e.target.value);
-
     return (
         <>
-            <Toast toastType={toast} setTypeToast={setTypeToast} />
-
-            {/* {alertVisible === true ? (
-                <Alert title={errorMessage} setVisibles={alertVisible}>
-                    <li>Nenek lu mantan ladies punk</li>
-                </Alert>
-            ) : null} */}
-
-            <form
-                className='space-y-6'
-                action='#'
-                method='POST'
-                onSubmit={handleSubmit(onSubmit)}
-            >
+            <Toast toastType={toastType} setTypeToast={setToastType} />
+            <form className='space-y-6' onSubmit={handleSubmit(onSubmit)}>
                 <div className='flex flex-col'>
                     <Label htmlFor='email' name='Email address' />
                     <div>
                         <InputGroup
                             type='email'
                             id='email'
-                            value={email}
                             name='email'
-                            onChange={handleUserInput}
                             placeholder='Email address'
                             errors={errors}
                             required
@@ -117,23 +77,17 @@ const Login = () => {
                         <InputGroup
                             type='password'
                             id='password'
-                            value={password}
                             name='password'
                             placeholder='Password'
-                            onChange={handlePasswordInput}
                             errors={errors}
-                            register={register}
                             required
+                            register={register}
                         />
                     </div>
                 </div>
 
                 <div>
-                    <Button
-                        type='submit'
-                        size='size-96'
-                        onClick={() => handleSubmit(onSubmit)}
-                    >
+                    <Button type='submit' size='size-96'>
                         Login
                     </Button>
                 </div>

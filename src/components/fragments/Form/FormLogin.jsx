@@ -2,8 +2,9 @@ import { useForm } from "react-hook-form";
 import { Button, Label } from "../../elements";
 import { useNavigate } from "react-router-dom";
 import InputGroup from "../InputGroup";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from "react-toastify";
 import { AuthService } from "../../../services/authService";
+import { setAuthToken } from "../../../utils/authUtilities";
 
 const FormLogin = () => {
     const {
@@ -13,25 +14,24 @@ const FormLogin = () => {
         reset,
     } = useForm();
 
-    const navigate= useNavigate();
+    const navigate = useNavigate();
 
     const onSubmit = async (data) => {
-        //e.preventDefault();
         const email = data.email;
         const password = data.password;
-        const userdata = { email, password };
-        const response = await AuthService.login(userdata);
-        
-        if(response?.data){
-            navigate("/homepage")
-        }
-        else{
-            toast.error(" Invalid username or password");
+        const userData = { email, password };
+
+        try {
+            const payload = await AuthService.login(userData).unwrap();
+            setAuthToken(payload.data.token);
+            localStorage.setItem("PortalToken", payload.data.token);
+            navigate("/homepage", { replace: true });
+        } catch (error) {
+            toast.error("Invalid username or password");
             reset();
         }
     };
 
-    
     return (
         <>
             <form
@@ -92,7 +92,7 @@ const FormLogin = () => {
                     >
                         Login
                     </Button>
-                    <ToastContainer className="text-red-500 border border-red-500 place-content-center" />
+                    <ToastContainer className='text-red-500 border border-red-500 place-content-center' />
                 </div>
             </form>
         </>

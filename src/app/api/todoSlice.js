@@ -2,7 +2,6 @@ import BaseApi from "./Api";
 
 export const GetTodo =  async () => {
     const response = await BaseApi.get("users?limit=5")
-    console.log(response.data);
     return response.data
 }
 

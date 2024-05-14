@@ -6,45 +6,54 @@ import {
 } from "@heroicons/react/24/outline";
 import ButtonIcon from "../../elements/Button/ButtonIcon";
 import { userNavigation } from "../Sidebar/data";
+import UserProfile from "./Userprofile";
 import { useNavigate } from "react-router";
 import { AuthService } from "../../../services/authService";
+import {
+    extractName,
+    extractRole,
+    getAuthToken,
+    removeAuthToken,
+} from "../../../utils/authUtilities";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
 
-//#region Ari test
-const data = JSON.parse(localStorage.getItem("data"));
-//#endregion
-
 const Header = (props) => {
     const [openProfile, setOpenProfile] = useState(false);
     const { setSidebarOpen } = { ...props };
 
-    const [userRole, setUserRole] = useState();
-    const [email, setEmail] = useState();
-    const [username, setUsername] = useState();
+    const [name, setName] = useState("User");
+    const [role, setRole] = useState("User");
+
     const navigate = useNavigate();
 
     //#region Ari handle logout button
     const handleLogout = () => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("email");
-        localStorage.removeItem("password");
+        removeAuthToken();
         navigate("/login");
     };
-    //#endregion
 
     useEffect(() => {
-        const role = AuthService.getUserRole();
-        setUserRole(role);
+        const token = getAuthToken();
+        if (!token) return;
+        setName(extractName(token));
+        setRole(extractRole(token));
+    }, []);
 
-        //     const username = AuthService.getUserName();
-        //     setUsername(username);
+    //#endregion
 
-        //     const email = AuthService.getUserEmail();
-        //     setEmail(email);
-    });
+    // useEffect(() => {
+    //     const role = AuthService.getUserRole();
+    //     setUserRole(role);
+
+    //     //     const username = AuthService.getUserName();
+    //     //     setUsername(username);
+
+    //     //     const email = AuthService.getUserEmail();
+    //     //     setEmail(email);
+    // });
 
     return (
         <>
@@ -65,56 +74,11 @@ const Header = (props) => {
                     className='w-px h-6 bg-gray-200 lg:hidden'
                     aria-hidden='true'
                 />
-
                 <div className='flex flex-1 justify-end gap-x-4 mx-12 lg:gap-x-6'>
-                    {/* <form
-                        className='relative flex flex-1'
-                        action='#'
-                        method='GET'
-                    >
-                        <label htmlFor='search-field' className='sr-only'>
-                            Search
-                        </label>
-                        <MagnifyingGlassIcon
-                            className='absolute inset-y-0 w-5 h-full text-gray-400 pointer-events-none left-1 '
-                            aria-hidden='true'
-                        />
-                        <input
-                            id='search-field'
-                            className='block w-full h-full py-0 pl-8 pr-0 text-gray-900 border-0 placeholder:text-gray-400 focus:ring-0 sm:text-sm'
-                            placeholder='Search...'
-                            type='search'
-                            name='search'
-                        />
-                    </form> */}
                     <div className='flex items-end gap-x-4 lg:gap-x-6'>
-                        {/* <ButtonIcon>
-                            <span className='sr-only'>Hallo</span>
-                            <BellIcon className='w-6 h-6' aria-hidden='true' />
-                        </ButtonIcon> */}
-
-                        {/* Separator */}
-                        {/* <div
-                            className='hidden lg:block lg:h-6 lg:w-px lg:bg-gray-200'
-                            aria-hidden='true'
-                        /> */}
-
-                        {/* Profile dropdown */}
                         <Menu as='div' className='relative'>
                             <Menu.Button className='flex hover:bg-slate-200 rounded-lg items-center p-1.5'>
                                 <span className='sr-only'>Open user menu</span>
-                                {/* <div className='w-8 h-8 rounded-full bg-gray-50'>
-                                    <span className='inline-block w-8 h-8 overflow-hidden bg-gray-100 rounded-full'>
-                                        <svg
-                                            className='w-full h-full text-black'
-                                            fill='currentColor'
-                                            viewBox='0 0 24 24'
-                                        >
-                                            <path d='M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z' />
-                                        </svg>
-                                    </span>
-                                </div> */}
-
                                 <span
                                     className='hidden lg:flex lg:items-center'
                                     onClick={() => setOpenProfile(!openProfile)}
@@ -123,20 +87,8 @@ const Header = (props) => {
                                         className='mx-4 text-sm font-semibold leading-6 text-black'
                                         aria-hidden='true'
                                     >
-                                        {/* {username} */}
-                                        Abdul Dularman
+                                        {name}
                                     </span>
-                                    {/* {openProfile ? (
-                                        <ArrowLeftStartOnRectangleIcon
-                                            className='w-5 h-5 ml-2 text-black'
-                                            aria-hidden='true'
-                                        />
-                                    ) : (
-                                        <ArrowLeftStartOnRectangleIcon
-                                            className='w-5 h-5 ml-2 text-black'
-                                            aria-hidden='true'
-                                        />
-                                    )} */}
                                 </span>
                             </Menu.Button>
                             <Transition

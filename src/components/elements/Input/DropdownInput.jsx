@@ -38,11 +38,6 @@ const DropdownInput = forwardRef(function DropdownInputInternal(
     updateTableData(selectedValue);
   }, [selectedValue]);
 
-  const updateTableData = (value) => {
-    // Implement the logic to update the table data based on the selected value
-    console.log("Table data updated to show", value, "records per page");
-  };
-
   return (
     <div className={("flex flex-col", className)}>
       {label && (

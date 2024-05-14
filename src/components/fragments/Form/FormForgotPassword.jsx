@@ -31,7 +31,6 @@ const FormForgotPassword = () => {
     //#region latency alert
     const onSubmit = async (data) => {
         try {
-            console.log(data);
             setButtonDisabled(true);
             await latency(1000);
             alert("Please check your email for the next steps");
