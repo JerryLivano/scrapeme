@@ -1,7 +1,7 @@
 import { Disclosure } from "@headlessui/react";
 import { ChevronRightIcon, Cog6ToothIcon } from "@heroicons/react/24/outline";
 import { navigation, teams } from "./data";
-import { LogoMA, LogoPortal } from "../../../assets";
+import { LogoPortalMe } from "../../../assets/imageList";
 
 
 function classNames(...classes) {
@@ -15,7 +15,7 @@ const SidebarComponent = () => {
         <div className="flex flex-col px-6 pb-4 overflow-y-auto bg-[#C4D1E2] border-r border-gray-200 grow gap-y-5">
             <div className="flex items-center self-center h-20 w-52 shrink-0">
                     <img
-                        src={LogoPortal}
+                        src={LogoPortalMe}
                         alt='Portal Me'
                         className='w-52 h-14 mx-auto'
                     />

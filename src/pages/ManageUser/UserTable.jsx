@@ -49,14 +49,8 @@ export default function UserTable() {
         []
     );
 
-    const {
-        data: users,
-        isLoading,
-        isSuccess,
-        isError,
-        error,
-        isFetching,
-    } = useGetUserQuery({ page: page, limit: pageSize });
+    const { users, isLoading, isSuccess, isError, error, isFetching } =
+        useGetUserQuery({ page: page, limit: pageSize });
 
     console.log(users);
 
@@ -78,7 +72,7 @@ export default function UserTable() {
     };
 
     if (isLoading) content = <Spinner />;
-    if (isError)
+    if (isError) {
         if ("status" in error) {
             content = (
                 <div className='py-5 text-center text-xl font-semibold text-brm-font-black'>
@@ -86,22 +80,25 @@ export default function UserTable() {
                 </div>
             );
         }
+    }
 
-    const { data, pagination } = users;
-    const dataCount = pagination.totalRecords;
-    content = (
-        <>
-            <DataTable
-                rowCount={dataCount}
-                data={data}
-                columns={cols}
-                showPageSize
-                pageIndex={pagination.currentPage}
-                pageCount={totalPage}
-                pageSize={pageSize}
-                setPageSize={setPageSize}
-            />
-        </>
-    );
+    if (isSuccess) {
+        const { data, pagination } = users;
+        const dataCount = pagination.totalRecords;
+        content = (
+            <>
+                <DataTable
+                    rowCount={dataCount}
+                    data={data}
+                    columns={cols}
+                    showPageSize
+                    pageIndex={pagination.currentPage}
+                    pageCount={totalPage}
+                    pageSize={pageSize}
+                    setPageSize={setPageSize}
+                />
+            </>
+        );
+    }
     return content;
 }

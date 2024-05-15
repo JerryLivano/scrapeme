@@ -1,13 +1,13 @@
 import Button from "./Button/Button";
 import ButtonIcon from "./Button/ButtonIcon";
-import Input from "./Input";
-import Label from "./Label";
-import Title from "./Title";
-import TextArea from "./TextArea";
-import Select from "./Select";
-import Toggles from "./Toggles";
-import Notification from "./NotificationProvider/Notification.jsx";
-import Alert from "./Alert/index.jsx";
+import Input from "./Input/Index.jsx";
+import Label from "./Label/Index.jsx";
+import Title from "./Title/Index.jsx";
+import TextArea from "./TextArea/Index.jsx";
+import Select from "./Select/Index.jsx";
+import Toggles from "./Toggles/Index.jsx";
+import Notification from "./NotificationProvider/Index.jsx";
+import Alert from "./Alert/Index.jsx";
 export {
     Button,
     ButtonIcon,

@@ -32,10 +32,18 @@ const App = () => {
 
                     {/* Protected Pages */}
                     <Route element={<DashLayout />}>
-                        <Route path='add-user' element={<AddUser />} />
+                        {/* Home Page */}
                         <Route path='home' element={<HomePage />} />
-                        <Route path='user' element={<ManageUser />} />
+
+                        {/* User Page */}
+                        <Route path='user' element={<ManageUser />}>
+                            <Route path='add-user' element={<AddUser />} />
+                        </Route>
+
+                        {/* Application Page */}
                         <Route path='application' element={<ManageApp />} />
+
+                        {/* Log Activity Page */}
                         <Route path='log-activity' element={<LogActivity />} />
                         <Route path='setting' element={<Settings />} />
                     </Route>

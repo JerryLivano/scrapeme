@@ -3,11 +3,12 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { Button, InputGroup, Label } from "../../components";
 import { toast } from "react-toastify";
-import { useLoginMutation } from "../../features/auth/authApiSlice";
+import { useLoginMutation } from "../../services/authApiSlice";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../../features/auth/authSlice";
-import Toast from "../../components/elements/NotificationProvider/Notification";
+import Toast from "../../components/elements/NotificationProvider/Index";
 import { setAuthToken } from "../../utils/authUtilities";
+import ButtonLogin from "../../components/elements/Button/ButtonLogin";
 
 const Login = () => {
     const {
@@ -24,23 +25,22 @@ const Login = () => {
 
     const onSubmit = async (data) => {
         const userData = { email: data.email, password: data.password };
-        
-        await login(userData)
-            .unwrap()
-            .then((payload) => {
-                if (payload.data && payload.data.token) {
-                    setAuthToken(payload.data.token);
-                    dispatch(setCredentials({ token: payload.data.token }));
-                    navigate("/home", { replace: true });
-                }
-            })
-            .catch(() => {
-                if (userData.email.endsWith("mii.co.id")) {
-                    setToastType("error-email");
-                } else {
-                    setToastType("error");
-                }
-            });
+        try {
+            const payload = await login(userData).unwrap();
+            if (payload.data && payload.data.token) {
+                setAuthToken(payload.data.token);
+                dispatch(setCredentials({ token: payload.data.token }));
+                navigate("/home", { replace: true });
+            } else {
+                setToastType("connection-error");
+            }
+        } catch (error) {
+            if (userData.email.endsWith("mii.co.id")) {
+                setToastType("error-email");
+            } else {
+                setToastType("error");
+            }
+        }
     };
 
     return (
@@ -89,9 +89,7 @@ const Login = () => {
                 </div>
 
                 <div>
-                    <Button type='submit' size='size-96' onclick={onSubmit}>
-                        Login
-                    </Button>
+                    <ButtonLogin text={"Login"} type={"submit"} />
                 </div>
             </form>
         </>

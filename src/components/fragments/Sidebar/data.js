@@ -3,7 +3,7 @@ import { HomeIcon, UsersIcon, ComputerDesktopIcon, ClipboardDocumentListIcon } f
 
 const navigation = [
     {
-        name: 'HomePage',
+        name: 'Home Page',
         href: '/home',
         icon: HomeIcon,
     },
