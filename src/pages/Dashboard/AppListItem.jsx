@@ -51,7 +51,7 @@ const AppListItem = () => {
     return (
         <ul role="list" className="grid grid-cols-1 gap-6 max-w-4xl overflow-hidden sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {app.map((apps) => (
-                <Link to={apps.href} className="hover:opacity-90" title={apps.name}>
+                <Link to={'add-user'} className="hover:opacity-90" title={apps.name}>
                 <li
                 key={apps.name}
                 className="col-span-1 flex flex-col divide-y divide-gray-200 rounded-2xl h-48 bg-slate-200 hover:bg-slate-400 text-center shadow">

@@ -21,19 +21,19 @@ const router = createBrowserRouter([
         element: <Reference />,
     },
     {
-        path: '/homepage',
+        path: '/home',
         element: <HomePage />,
     },
     {
-        path: '/manageapp',
+        path: '/application',
         element: <ManageApp />,
     },
     {
-        path: '/manageuser',
+        path: '/user',
         element: <ManageUser />,
     },
     {
-        path: '/logactivity',
+        path: '/log-activity',
         element: <LogActivity />,
     },
     {

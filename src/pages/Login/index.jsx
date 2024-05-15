@@ -30,7 +30,7 @@ const Login = () => {
             if (payload.data && payload.data.token) {
                 setAuthToken(payload.data.token);
                 dispatch(setCredentials({ token: payload.data.token }));
-                navigate("/homepage", { replace: true });
+                navigate("/home", { replace: true });
             } else {
                 throw new Error("Invalid response");
             }

@@ -25,7 +25,7 @@ const FormLogin = () => {
             const payload = await AuthService.login(userData).unwrap();
             setAuthToken(payload.data.token);
             localStorage.setItem("PortalToken", payload.data.token);
-            navigate("/homepage", { replace: true });
+            navigate("home", { replace: true });
         } catch (error) {
             toast.error("Invalid username or password");
             reset();
