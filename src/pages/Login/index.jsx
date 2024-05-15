@@ -25,28 +25,24 @@ const Login = () => {
     const onSubmit = async (data) => {
         const userData = { email: data.email, password: data.password };
 
-        try {
-            login(userData)
+        // const payload = await login(userData).unwrap();
+    
+            await login(userData)
+            .unwrap()
               .then((payload) => {
                 if (payload.data && payload.data.token) {
                   setAuthToken(payload.data.token);
                   dispatch(setCredentials({ token: payload.data.token }));
                   navigate("/homepage", { replace: true });
-                } else if (userData.email.endsWith("@mii.co.id") && !payload.data) {
-                  setToastType("erroremail");
-                  console.error("Account not found: ", userData.email);
-                } else {
-                  throw new Error("Invalid response");
+                } 
+                }).catch((error) => {
+                if (userData.email.endsWith("mii.co.id")){
+                    setToastType("erroremail")
+                }else {
+                    setToastType("error")
                 }
               })
-              .catch((error) => {
-                setToastType("error");
-                console.error("Login error: ", error);
-              });
-          } catch (error) {
-            setToastType("error");
-            console.error("Login error: ", error);
-          }
+  
     };
 
     return (
@@ -57,8 +53,8 @@ const Login = () => {
                     <Label htmlFor='email' name='Email address' />
                     <div>
                         <InputGroup
-                            type='email'
                             id='email'
+                            type="email"
                             name='email'
                             placeholder='Email address'
                             errors={errors}
