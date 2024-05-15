@@ -60,7 +60,6 @@ const Toast = ({ ...props }) => {
                 setToast([toastProperties]);
                 break;
 
-
             
             case 'error':
                 toastProperties = {

@@ -101,7 +101,7 @@ const Header = (props) => {
                                     {userNavigation.map((item, index) => (
                                         <Menu.Item
                                             key={index}
-                                            className='focus-visible:bg-none hover:text-blue-400 '
+                                            className='text-lg focus-visible:bg-none hover:text-blue-400 '
                                         >
                                             {({ active }) =>
                                                 item.name === "Sign out" ? (
