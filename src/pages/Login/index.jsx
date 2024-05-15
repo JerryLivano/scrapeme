@@ -42,7 +42,7 @@ const Login = () => {
                     setToastType("error")
                 }
               })
-            
+  
     };
 
     return (
@@ -91,10 +91,10 @@ const Login = () => {
                 </div>
 
                 <div>
-                    <Button
-                        type='submit'
-                        size='size-96'
-                        onclick={onSubmit}>
+                    <Button 
+                    type='submit' 
+                    size='size-96'
+                    onclick={onSubmit}> 
                         Login
                     </Button>
                 </div>
