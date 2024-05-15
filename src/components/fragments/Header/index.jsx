@@ -2,13 +2,10 @@ import { Fragment, useEffect, useState } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import {
     Bars3Icon,
-    ArrowLeftStartOnRectangleIcon,
 } from "@heroicons/react/24/outline";
 import ButtonIcon from "../../elements/Button/ButtonIcon";
 import { userNavigation } from "../Sidebar/data";
-// import UserProfile from "./Userprofile";
 import { useNavigate } from "react-router";
-import { AuthService } from "../../../services/authService";
 import {
     extractName,
     extractRole,

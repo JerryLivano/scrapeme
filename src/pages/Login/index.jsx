@@ -26,19 +26,27 @@ const Login = () => {
         const userData = { email: data.email, password: data.password };
 
         try {
-            const payload = await login(userData).unwrap();
-            if (payload.data && payload.data.token) {
-                setAuthToken(payload.data.token);
-                dispatch(setCredentials({ token: payload.data.token }));
-                navigate("/homepage", { replace: true });
-            } else {
-                throw new Error("Invalid response");
-            }
-        } catch (error) {
+            login(userData)
+              .then((payload) => {
+                if (payload.data && payload.data.token) {
+                  setAuthToken(payload.data.token);
+                  dispatch(setCredentials({ token: payload.data.token }));
+                  navigate("/homepage", { replace: true });
+                } else if (userData.email.endsWith("@mii.co.id") && !payload.data) {
+                  setToastType("erroremail");
+                  console.error("Account not found: ", userData.email);
+                } else {
+                  throw new Error("Invalid response");
+                }
+              })
+              .catch((error) => {
+                setToastType("error");
+                console.error("Login error: ", error);
+              });
+          } catch (error) {
+            setToastType("error");
             console.error("Login error: ", error);
-            toast.error("Invalid username or password");
-            reset();
-        }
+          }
     };
 
     return (
@@ -87,7 +95,10 @@ const Login = () => {
                 </div>
 
                 <div>
-                    <Button type='submit' size='size-96'>
+                    <Button 
+                    type='submit' 
+                    size='size-96'
+                    onclick={onSubmit}> 
                         Login
                     </Button>
                 </div>
