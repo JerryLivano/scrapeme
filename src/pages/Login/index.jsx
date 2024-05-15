@@ -35,9 +35,8 @@ const Login = () => {
                 throw new Error("Invalid response");
             }
         } catch (error) {
+            setToastType("error");
             console.error("Login error: ", error);
-            toast.error("Invalid username or password");
-            reset();
         }
     };
 
@@ -87,7 +86,10 @@ const Login = () => {
                 </div>
 
                 <div>
-                    <Button type='submit' size='size-96'>
+                    <Button 
+                    type='submit' 
+                    size='size-96'
+                    onclick={onSubmit}> 
                         Login
                     </Button>
                 </div>
