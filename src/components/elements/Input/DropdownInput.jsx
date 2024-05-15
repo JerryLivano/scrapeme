@@ -33,10 +33,10 @@ const DropdownInput = forwardRef(function DropdownInputInternal(
     }
   };
 
-  useEffect(() => {
-    // Call the function to update the table data with the selected value
-    updateTableData(selectedValue);
-  }, [selectedValue]);
+  // useEffect(() => {
+  //   // Call the function to update the table data with the selected value
+  //   updateTableData(selectedValue);
+  // }, [selectedValue]);
 
   return (
     <div className={("flex flex-col", className)}>

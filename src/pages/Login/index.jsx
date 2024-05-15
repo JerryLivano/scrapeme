@@ -24,21 +24,23 @@ const Login = () => {
 
     const onSubmit = async (data) => {
         const userData = { email: data.email, password: data.password };
-
-        try {
-            const payload = await login(userData).unwrap();
-            if (payload.data && payload.data.token) {
-                setAuthToken(payload.data.token);
-                dispatch(setCredentials({ token: payload.data.token }));
-                navigate("/home", { replace: true });
-            } else {
-                throw new Error("Invalid response");
-            }
-        } catch (error) {
-            console.error("Login error: ", error);
-            toast.error("Invalid username or password");
-            reset();
-        }
+        
+        await login(userData)
+            .unwrap()
+            .then((payload) => {
+                if (payload.data && payload.data.token) {
+                    setAuthToken(payload.data.token);
+                    dispatch(setCredentials({ token: payload.data.token }));
+                    navigate("/home", { replace: true });
+                }
+            })
+            .catch(() => {
+                if (userData.email.endsWith("mii.co.id")) {
+                    setToastType("error-email");
+                } else {
+                    setToastType("error");
+                }
+            });
     };
 
     return (
@@ -49,8 +51,8 @@ const Login = () => {
                     <Label htmlFor='email' name='Email address' />
                     <div>
                         <InputGroup
-                            type='email'
                             id='email'
+                            type='email'
                             name='email'
                             placeholder='Email address'
                             errors={errors}
@@ -87,7 +89,7 @@ const Login = () => {
                 </div>
 
                 <div>
-                    <Button type='submit' size='size-96'>
+                    <Button type='submit' size='size-96' onclick={onSubmit}>
                         Login
                     </Button>
                 </div>

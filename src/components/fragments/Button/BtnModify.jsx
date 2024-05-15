@@ -1,5 +1,5 @@
 import { EllipsisVerticalIcon, CheckIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { Fragment, useState } from 'react';
+import { Fragment, useState, useEffect } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 
 const BtnModify = ({ setModifyAccess, openModify, setOpenModify }) => {
@@ -18,6 +18,8 @@ const BtnModify = ({ setModifyAccess, openModify, setOpenModify }) => {
     setIsDialogOpen(false);
     setIsNotification(true);
   }
+
+  
   
   return (
     <td className="w-10 ml-6 mx-2 text-sm justify-center font-medium text-gray-900 sm:pl-0">
@@ -145,6 +147,7 @@ const BtnModify = ({ setModifyAccess, openModify, setOpenModify }) => {
                       </div>
                     </div>
                   </div>
+                
                 </Dialog.Panel>
               </Transition.Child>
             </div>

@@ -47,11 +47,24 @@ const Toast = ({ ...props }) => {
                 };
                 setToast([toastProperties]);                
                 break;
+            
+            case 'error-email':
+                toastProperties = {
+                    id: listToast.length+1,
+                    title: <div style={{ color: "red" }}>Email/Password not registered</div>,
+                    description: "Input the account registered by the administrator",
+                    textColor: "text-red-500",
+                    borderColor: "none",
+                    icon: XCircleIcon
+                };
+                setToast([toastProperties]);
+                break;
 
+            
             case 'error':
                 toastProperties = {
                     id: listToast.length+1,
-                    title: "Invalid email/password",
+                    title: <div style={{ color: "red" }}>Invalid email/password</div>,
                     description: "Input email (@mii.co.id) and password correctly",
                     textColor: "text-red-500",
                     borderColor: "none",
@@ -59,6 +72,7 @@ const Toast = ({ ...props }) => {
                 };
                 setToast([toastProperties]);
                 break;
+            
             case 'warning':
                 toastProperties = {
                     id: listToast.length+1,
