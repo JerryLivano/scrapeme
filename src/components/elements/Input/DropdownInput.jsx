@@ -1,27 +1,20 @@
-import {
-  DetailedHTMLProps,
-  ReactNode,
-  SelectHTMLAttributes,
-  forwardRef,
-  useId,
-  useState,
-  useEffect,
-} from "react";
+import { forwardRef, useId } from "react";
 import InputLabel from "./InputLabel";
+import { twMerge } from "tailwind-merge";
+import ErrorMessage from "../../layouts/ErrorMessage";
 
 const DropdownInput = forwardRef(function DropdownInputInternal(
-  {
-    required = false,
-    label,
-    placeholder,
-    children,
-    className,
-    error,
-    disabled,
-    onValueChange,
-    ...props
-  },
-  ref
+    {
+        required = false,
+        label,
+        placeholder,
+        children,
+        className,
+        error,
+        disabled,
+        ...props
+    },
+    ref
 ) {
   const id = useId();
   const [selectedValue, setSelectedValue] = useState(5);
@@ -71,6 +64,7 @@ const DropdownInput = forwardRef(function DropdownInputInternal(
       </select>
     </div>
   );
+
 });
 
 export default DropdownInput;
