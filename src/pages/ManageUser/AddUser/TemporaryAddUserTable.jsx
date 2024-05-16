@@ -71,6 +71,7 @@ export default function TemporaryAddUserTable({ onClickAdd }) {
     content = (
         <>
             <DataTable
+        
                 title={"Temporary Table"}
                 rowCount={dataCount}
                 data={data}

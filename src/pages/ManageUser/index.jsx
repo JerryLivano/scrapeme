@@ -1,5 +1,6 @@
 import React from "react";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { ProductService } from "../../services/productService";
 import FilterTable from "../../components/fragments/Filter/FilterTable";
@@ -8,6 +9,7 @@ import DropdownInput from "../../components/elements/Input/DropdownInput";
 import { GridTable } from "../../components/fragments";
 import BtnModify from "../../components/fragments/Button/BtnModify";
 import UserTable from "./UserTable";
+import AddUser from "./AddUser";
 // const header = [
 //     "",
 //     "NAME",
@@ -25,6 +27,12 @@ import UserTable from "./UserTable";
 //     "MODIFY ACCESS",
 // ];
 const ManageUser = () => {
+    
+    const navigate = useNavigate();
+    const HandleAddUser = () => {
+        navigate("/add-user");
+    };
+
     //     const [products, setProducts] = useState([]);
     //     const [currentPage, setCurrentPage] = useState(1);
     //     // const [totalData, setTotalData] = useState();
@@ -258,8 +266,18 @@ const ManageUser = () => {
                 <div className='text-3xl mt-4 font-semibold'>Manage User</div>
             </div>
             <div className='mt-10'>
+                <div className="flex justify-end mx-4">
+                    <button
+                        type="button"
+                        onClick={HandleAddUser}
+                        className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    >
+                        Button text
+                    </button>
+                </div>
                 <UserTable />
             </div>
+
         </>
     );
 };

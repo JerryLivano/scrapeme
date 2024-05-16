@@ -49,7 +49,7 @@ export default function UserTable() {
         []
     );
 
-    const { users, isLoading, isSuccess, isError, error, isFetching } =
+    const { data:users, isLoading, isSuccess, isError, error, isFetching } =
         useGetUserQuery({ page: page, limit: pageSize });
 
     console.log(users);
