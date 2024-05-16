@@ -1,5 +1,5 @@
 import Button from "./Button/Button";
-import ButtonIcon from "./Button/ButtonIcon";
+import ButtonIcon from "./Button/ButtonIcon.jsx";
 import Input from "./Input/Index.jsx";
 import Label from "./Label/Index.jsx";
 import Title from "./Title/Index.jsx";

@@ -7,6 +7,9 @@ import {
 import React, { createContext, useCallback, useRef, useState } from "react";
 import FilterTable from "../fragments/Filter/FilterTable";
 import Spinner from "../elements/Spinner/Spinner";
+import DataTablePagination from "./DataTablePagination";
+import DropdownInput from "../elements/Input/DropdownInput";
+import ButtonPlus from "../elements/Button/ButtonPlus";
 
 export const TableScrollEvent = createContext(null);
 export const TableRef = createContext(null);
@@ -25,8 +28,9 @@ export default function DataTable({
     setFilterApp,
     showAddButton = false,
     onClickAdd = () => {},
-    showPagination = true,
-    showPageSize = true,
+    showPagination = false,
+    showPageSize = false,
+    showTitle = false,
     filterFn = filterFns.fuzzy,
     pageCount,
     pageIndex,
@@ -79,7 +83,7 @@ export default function DataTable({
         <TableRef.Provider value={tableRef}>
             <TableScrollEvent.Provider value={contextCallback}>
                 <main>
-                    {title && (
+                    {title && showTitle && (
                         <div className='sm:flex sm:items-center mb-2'>
                             <div className='sm:flex-auto'>
                                 <h1 className='text-lg font-semibold leading-6 text-brm-font-black'>
@@ -88,18 +92,59 @@ export default function DataTable({
                             </div>
                         </div>
                     )}
-                    <div className='mb-2 flex items-center'>
-                        {showGlobalFilter && (
-                            <div className='w-64'>
-                                <FilterTable
-                                    value={searchQuery ?? ""}
-                                    setGlobalFilter={searchHandler}
-                                    placeholder={
-                                        placeholder || "Search data..."
-                                    }
-                                />
+                    <div className='flex justify-between items-center w-full mb-3'>
+                        <div className='mb-2 flex items-center'>
+                            {showGlobalFilter && (
+                                <div className='w-64'>
+                                    <FilterTable
+                                        value={searchQuery ?? ""}
+                                        setGlobalFilter={searchHandler}
+                                        placeholder={
+                                            placeholder || "Search data..."
+                                        }
+                                    />
+                                </div>
+                            )}
+                        </div>
+                        <div className='flex items-center'>
+                            <div className='flex ml-3'>
+                                {/* Add Button */}
+                                {showAddButton && (
+                                    <span className='mr-3'>
+                                        <ButtonPlus
+                                            title={title}
+                                            onClick={onClickAdd}
+                                        />
+                                    </span>
+                                )}
+                                {/* Page Size */}
+                                {showPageSize && (
+                                    <div className='flex flex-row items-center'>
+                                        <DropdownInput
+                                            value={
+                                                table.getState().pagination
+                                                    .pageSize
+                                            }
+                                            onChange={(e) => {
+                                                setPageSize(
+                                                    Number(e.target.value)
+                                                );
+                                                pageChange(0);
+                                            }}
+                                            className='max-w-[70px]'
+                                        >
+                                            {[5, 10, 15, 20, 25].map(
+                                                (pageSize) => (
+                                                    <option key={pageSize}>
+                                                        {pageSize}
+                                                    </option>
+                                                )
+                                            )}
+                                        </DropdownInput>
+                                    </div>
+                                )}
                             </div>
-                        )}
+                        </div>
                     </div>
                     <div className='min-w-full overflow-hidden'>
                         <div
@@ -201,7 +246,7 @@ export default function DataTable({
                                 </tbody>
                             </table>
                         </div>
-                        {/* {showPagination && (
+                        {showPagination && (
                             <div className='flex justify-end py-5'>
                                 <DataTablePagination
                                     pageIndex={pageIndex - 1}
@@ -210,7 +255,7 @@ export default function DataTable({
                                     paginationLength={5}
                                 />
                             </div>
-                        )} */}
+                        )}
                     </div>
                 </main>
             </TableScrollEvent.Provider>

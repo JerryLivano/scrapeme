@@ -62,7 +62,7 @@ const AppListItem = () => {
         >
             {app.map((apps) => (
                 <Link
-                    to={"add-user"}
+                    to={apps.href}
                     className='hover:opacity-90'
                     title={apps.name}
                     key={apps.name}

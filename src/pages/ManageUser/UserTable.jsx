@@ -3,6 +3,8 @@ import uuid from "react-uuid";
 import DataTable from "../../components/layouts/DataTable";
 import { useGetUserQuery } from "../../services/userApiSlice";
 import Spinner from "../../components/elements/Spinner/Spinner";
+import { CheckIcon, EllipsisVerticalIcon } from "@heroicons/react/24/solid";
+import { useNavigate } from "react-router-dom";
 
 export default function UserTable() {
     let content;
@@ -11,6 +13,12 @@ export default function UserTable() {
     const [totalPage, setTotalPages] = useState(1);
     const [showAddButton, setShowAddButton] = useState(false);
     const [search, setSearch] = useState("");
+
+    const [isChecked, setIsChecked] = useState(true);
+
+    const toggleCheckbox = () => {
+        setIsChecked(!isChecked);
+    };
 
     const cols = useMemo(
         () => [
@@ -45,14 +53,182 @@ export default function UserTable() {
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) => row.role || "",
             },
+            {
+                id: uuid(),
+                header: "Recruit-ME",
+                cell: (row) => row.renderValue(),
+                accessorFn: (row) => {
+                    const isChecked = row.authorizedApplications.some(
+                        (app) => app.name === "Recruit-ME"
+                    );
+                    return (
+                        <div className='flex justify-center'>
+                            <input
+                                type='checkbox'
+                                checked={isChecked}
+                                onChange={() => {}}
+                                className='form-checkbox h-5 w-5 text-gray-600'
+                            />
+                        </div>
+                    );
+                },
+            },
+            {
+                id: uuid(),
+                header: "CV-ME",
+                cell: (row) => row.renderValue(),
+                accessorFn: (row) => {
+                    const isChecked = row.authorizedApplications.some(
+                        (app) => app.name === "CV-ME"
+                    );
+                    return (
+                        <div className='flex justify-center'>
+                            <input
+                                type='checkbox'
+                                checked={isChecked}
+                                onChange={() => {}}
+                                className='form-checkbox h-5 w-5 text-gray-600'
+                            />
+                        </div>
+                    );
+                },
+            },
+            {
+                id: uuid(),
+                header: "Test-ME",
+                cell: (row) => row.renderValue(),
+                accessorFn: (row) => {
+                    const isChecked = row.authorizedApplications.some(
+                        (app) => app.name === "Test-ME"
+                    );
+                    return (
+                        <div className='flex justify-center'>
+                            <input
+                                type='checkbox'
+                                checked={isChecked}
+                                onChange={() => {}}
+                                className='form-checkbox h-5 w-5 text-gray-600'
+                            />
+                        </div>
+                    );
+                },
+            },
+            {
+                id: uuid(),
+                header: "Pick-ME",
+                cell: (row) => row.renderValue(),
+                accessorFn: (row) => {
+                    const isChecked = row.authorizedApplications.some(
+                        (app) => app.name === "Pick-ME"
+                    );
+                    return (
+                        <div className='flex justify-center'>
+                            <input
+                                type='checkbox'
+                                checked={isChecked}
+                                onChange={() => {}}
+                                className='form-checkbox h-5 w-5 text-gray-600'
+                            />
+                        </div>
+                    );
+                },
+            },
+            {
+                id: uuid(),
+                header: "Team-ME",
+                cell: (row) => row.renderValue(),
+                accessorFn: (row) => {
+                    const isChecked = row.authorizedApplications.some(
+                        (app) => app.name === "Team-ME"
+                    );
+                    return (
+                        <div className='flex justify-center'>
+                            <input
+                                type='checkbox'
+                                checked={isChecked}
+                                onChange={() => {}}
+                                className='form-checkbox h-5 w-5 text-gray-600'
+                            />
+                        </div>
+                    );
+                },
+            },
+            {
+                id: uuid(),
+                header: "BRM",
+                cell: (row) => row.renderValue(),
+                accessorFn: (row) => {
+                    const isChecked = row.authorizedApplications.some(
+                        (app) => app.name === "BRM"
+                    );
+                    return (
+                        <div className='flex justify-center'>
+                            <input
+                                type='checkbox'
+                                checked={isChecked}
+                                onChange={() => {}}
+                                className='form-checkbox h-5 w-5 text-gray-600'
+                            />
+                        </div>
+                    );
+                },
+            },
+            {
+                id: uuid(),
+                header: "Metrodata Academy",
+                cell: (row) => row.renderValue(),
+                accessorFn: (row) => {
+                    const isChecked = row.authorizedApplications.some(
+                        (app) => app.name === "Metrodata Academy"
+                    );
+                    return (
+                        <div className='flex justify-center'>
+                            <input
+                                type='checkbox'
+                                checked={isChecked}
+                                onChange={() => {}}
+                                className='form-checkbox h-5 w-5 text-gray-600'
+                            />
+                        </div>
+                    );
+                },
+            },
+            {
+                id: uuid(),
+                header: "Modify Access",
+                cell: (row) => row.renderValue(),
+                accessorFn: () => {
+                    const [isClicked, setIsClicked] = useState(false);
+                    const handleToggle = () => {
+                        setIsClicked(!isClicked);
+                    };
+                    return (
+                        <div className='flex justify-center'>
+                            <button onClick={handleToggle}>
+                                {isClicked ? (
+                                    <CheckIcon className='h-6 w-6 text-gray-600' />
+                                ) : (
+                                    <EllipsisVerticalIcon className='h-6 w-6 text-gray-600' />
+                                )}
+                            </button>
+                        </div>
+                    );
+                },
+            },
         ],
         []
     );
 
-    const { users, isLoading, isSuccess, isError, error, isFetching } =
-        useGetUserQuery({ page: page, limit: pageSize });
+    const navigate = useNavigate();
 
-    console.log(users);
+    const {
+        data: users,
+        isLoading,
+        isSuccess,
+        isError,
+        error,
+        isFetching,
+    } = useGetUserQuery({ page: page, limit: pageSize });
 
     useEffect(() => {
         if (isSuccess && users) {
@@ -71,7 +247,11 @@ export default function UserTable() {
         });
     };
 
-    if (isLoading) content = <Spinner />;
+    const onClickAdd = () => {
+        navigate("add-user", { replace: true });
+    };
+
+    if (isLoading || isFetching) content = <Spinner />;
     if (isError) {
         if ("status" in error) {
             content = (
@@ -92,6 +272,10 @@ export default function UserTable() {
                     data={data}
                     columns={cols}
                     showPageSize
+                    showPagination
+                    showAddButton
+                    onClickAdd={onClickAdd}
+                    title={"User"}
                     pageIndex={pagination.currentPage}
                     pageCount={totalPage}
                     pageSize={pageSize}
