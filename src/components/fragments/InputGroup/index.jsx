@@ -49,7 +49,6 @@ export default function InputGroup({
                     <input
                         id={id}
                         name={name}
-                        // type={type}
                         placeholder={placeholder}
                         disabled={disabled}
                         className={
@@ -73,8 +72,6 @@ export default function InputGroup({
                     />
                 </>
             )}
-
-
 
             {type == "date" && (
                 <>
@@ -171,7 +168,7 @@ export default function InputGroup({
             
             <div className='inset-y-0 right-0 flex items-center pr-3 pointer-events-none static float-end mt-[-28px]'>
                 <button
-                    hidden={type == "password" ? false : true}
+                    hidden={type !== "password"}
                     type='button'
                     className='ml-1 pointer-events-auto'
                     onClick={() => setShowPassword(!showPassword)}

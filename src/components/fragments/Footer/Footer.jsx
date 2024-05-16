@@ -3,7 +3,7 @@ import { LogoMAFooter } from "../../../assets/imageList";
 const Footer = () => {
     return (
         <footer>
-            <div className='mx-auto max-w-7xl overflow-hidden px-6 sm:pt-3 lg:px-8'>
+            <div className='mx-auto mb-8 max-w-7xl overflow-hidden px-6 sm:pt-3 lg:px-8'>
                 <p className='text-center text-sm leading-4 text-[#7E8299]'>
                     <img
                         className='mr-2 inline-block w-auto'

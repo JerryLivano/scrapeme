@@ -1,5 +1,5 @@
 import React from 'react'
-import Index from "../pages/ManageUser/index"
+import Index from "../pages/ManageUser/Index"
 
 const ManageUserpage = () => {
   return (

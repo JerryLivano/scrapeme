@@ -27,7 +27,6 @@ import AddUser from "./AddUser";
 //     "MODIFY ACCESS",
 // ];
 const ManageUser = () => {
-    
     const navigate = useNavigate();
     const HandleAddUser = () => {
         navigate("/add-user");
@@ -266,18 +265,8 @@ const ManageUser = () => {
                 <div className='text-3xl mt-4 font-semibold'>Manage User</div>
             </div>
             <div className='mt-10'>
-                <div className="flex justify-end mx-4">
-                    <button
-                        type="button"
-                        onClick={HandleAddUser}
-                        className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    >
-                        Button text
-                    </button>
-                </div>
                 <UserTable />
             </div>
-
         </>
     );
 };

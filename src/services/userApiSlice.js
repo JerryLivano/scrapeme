@@ -16,9 +16,18 @@ export const userApiSlice = apiSlice
                 },
                 providesTags: ["User"]
             }),
+            register: builder.mutation({
+                query: (body) => ({
+                    url: "/register",
+                    method: "POST",
+                    body
+                }),
+                invalidatesTags: ["User"]
+            }),
         })
     });
 
 export const {
-    useGetUserQuery
+    useGetUserQuery,
+    useRegisterMutation
 } = userApiSlice;

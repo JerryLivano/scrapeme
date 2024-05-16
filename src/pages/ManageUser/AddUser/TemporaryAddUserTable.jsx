@@ -183,16 +183,6 @@ export default function TemporaryAddUserTable({ onClickAdd }) {
                     );
                 },
             },
-            {
-                id: uuid(),
-                header: "Modify Access",
-                cell: (row) => row.renderValue(),
-                accessorFn: (row) => (
-                    <div className='flex justify-center'>
-                        <EllipsisVerticalIcon className='h6 w-6' />
-                    </div>
-                ),
-            },
         ],
         []
     );
