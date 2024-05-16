@@ -39,17 +39,17 @@ const DropdownInput = forwardRef(function DropdownInputInternal(
   // }, [selectedValue]);
 
   return (
-    <div className={("flex flex-col", className)}>
+    <div className={("flex flex-col w-full", className)}>
       {label && (
         <InputLabel
           label={label}
           required={required}
           htmlFor={id}
-          className="mb-2"
+          className="mb-2 w-full"
         />
       )}
       <select
-        className="border-2 rounded-md"
+        className="border-2 w-96 rounded-md"
         ref={ref}
         {...props}
         required={required}

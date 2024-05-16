@@ -77,7 +77,7 @@ export default function FormAddUser() {
                         </tr>
                         <tr className="border-b-2">
                             <td className="font-semibold text-lg px-8">Role</td>
-                            <td className="w-80 flex justify-center -ml-16 py-4">
+                            <td className="w-80 flex justify-center py-4">
                             <DropdownInput
                             // value={filterStatus}
                             // onChange={setFilterStatus}
