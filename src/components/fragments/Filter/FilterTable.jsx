@@ -9,7 +9,7 @@ const FilterTable = ({ setSearchQuery }) => {
   };
 
   return (
-    <div className="mb-4">
+    <div className="">
       <input
         type="text"
         placeholder="Search..."

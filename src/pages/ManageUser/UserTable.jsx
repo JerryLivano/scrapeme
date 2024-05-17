@@ -272,6 +272,9 @@ export default function UserTable() {
                     data={data}
                     columns={cols}
                     showPageSize
+                    showGlobalFilter
+                    filterRole
+                    filterApp
                     showPagination
                     showAddButton
                     onClickAdd={onClickAdd}
