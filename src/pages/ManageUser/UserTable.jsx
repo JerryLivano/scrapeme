@@ -248,7 +248,7 @@ export default function UserTable() {
     };
 
     const onClickAdd = () => {
-        navigate("add-user", { replace: true });
+        navigate("add-user");
     };
 
     if (isLoading || isFetching) content = <Spinner />;

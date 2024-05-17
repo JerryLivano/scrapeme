@@ -84,7 +84,7 @@ export default function DataTable({
             <TableScrollEvent.Provider value={contextCallback}>
                 <main>
                     {title && showTitle && (
-                        <div className='sm:flex sm:items-center mb-2'>
+                        <div className='sm:flex sm:items-center'>
                             <div className='sm:flex-auto'>
                                 <h1 className='text-lg font-semibold leading-6 text-brm-font-black'>
                                     {title}

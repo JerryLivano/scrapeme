@@ -1,8 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import { HomePage, ErrorPage, ForgotPassword, Login, ManageApp, ManageUser, LogActivity, AppList, AddUser } from '../pages';
-import  ManageUserPage  from "../UI/ManageUserpage"
 import Reference from '../Reference';
-import ManageUserpage from '../UI/ManageUserpage';
+import UserPage from '../UI/UserPage';
 
 const router = createBrowserRouter([
     {
@@ -32,7 +31,7 @@ const router = createBrowserRouter([
     },
     {
         path: '/user',
-        element: <ManageUserpage />,
+        element: <UserPage />,
     },
     {
         path: '/log-activity',

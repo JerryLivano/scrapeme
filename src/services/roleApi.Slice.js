@@ -10,9 +10,14 @@ export const roleApiSlice = apiSlice.enhanceEndpoints({
             },
             providesTags: ["Role"]
         }),
+        getRoleById: builder.query({
+            query: (id) => `/role/${id}`,
+            providesTags: ["Role"]
+        })
     })
 });
 
 export const {
-    useGetRoleQuery
+    useGetRoleQuery,
+    useGetRoleByIdQuery
 } = roleApiSlice;

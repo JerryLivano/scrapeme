@@ -2,13 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 import DataTable from "../../../components/layouts/DataTable";
 import uuid from "react-uuid";
 
-export default function TemporaryAddUserTable({ onClickAdd }) {
+export default function TemporaryAddUserTable({ userData }) {
     let content;
-    const [page, setPage] = useState(1);
-    const [pageSize, setPageSize] = useState(10);
-    const [totalPage, setTotalPages] = useState(1);
-    const [showAddButton, setShowAddButton] = useState(false);
-    const [search, setSearch] = useState("");
 
     const cols = useMemo(
         () => [
@@ -23,7 +18,7 @@ export default function TemporaryAddUserTable({ onClickAdd }) {
                 header: "Name",
                 isBlack: true,
                 cell: (row) => row.renderValue(),
-                accessorFn: (row) => row.name || "",
+                accessorFn: (row) => row.firstName + " " + row.lastName || "",
             },
             {
                 id: uuid(),
@@ -41,15 +36,16 @@ export default function TemporaryAddUserTable({ onClickAdd }) {
                 id: uuid(),
                 header: "Role",
                 cell: (row) => row.renderValue(),
-                accessorFn: (row) => row.role || "",
+                accessorFn: (row) => row.roleName || "",
             },
             {
                 id: uuid(),
                 header: "Recruit-ME",
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) => {
+                    console.log(row);
                     const isChecked = row.authorizedApplications.some(
-                        (app) => app.name === "Recruit-ME"
+                        (app) => app === "Recruit-ME"
                     );
                     return (
                         <div className='flex justify-center'>
@@ -69,7 +65,7 @@ export default function TemporaryAddUserTable({ onClickAdd }) {
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) => {
                     const isChecked = row.authorizedApplications.some(
-                        (app) => app.name === "CV-ME"
+                        (app) => app === "CV-ME"
                     );
                     return (
                         <div className='flex justify-center'>
@@ -89,7 +85,7 @@ export default function TemporaryAddUserTable({ onClickAdd }) {
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) => {
                     const isChecked = row.authorizedApplications.some(
-                        (app) => app.name === "Test-ME"
+                        (app) => app === "Test-ME"
                     );
                     return (
                         <div className='flex justify-center'>
@@ -109,7 +105,7 @@ export default function TemporaryAddUserTable({ onClickAdd }) {
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) => {
                     const isChecked = row.authorizedApplications.some(
-                        (app) => app.name === "Pick-ME"
+                        (app) => app === "Pick-ME"
                     );
                     return (
                         <div className='flex justify-center'>
@@ -129,7 +125,7 @@ export default function TemporaryAddUserTable({ onClickAdd }) {
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) => {
                     const isChecked = row.authorizedApplications.some(
-                        (app) => app.name === "Team-ME"
+                        (app) => app === "Team-ME"
                     );
                     return (
                         <div className='flex justify-center'>
@@ -149,7 +145,7 @@ export default function TemporaryAddUserTable({ onClickAdd }) {
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) => {
                     const isChecked = row.authorizedApplications.some(
-                        (app) => app.name === "BRM"
+                        (app) => app === "BRM"
                     );
                     return (
                         <div className='flex justify-center'>
@@ -169,7 +165,7 @@ export default function TemporaryAddUserTable({ onClickAdd }) {
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) => {
                     const isChecked = row.authorizedApplications.some(
-                        (app) => app.name === "Metrodata Academy"
+                        (app) => app === "Metrodata Academy"
                     );
                     return (
                         <div className='flex justify-center'>
@@ -187,42 +183,13 @@ export default function TemporaryAddUserTable({ onClickAdd }) {
         []
     );
 
-    const userData = {
-        code: 200,
-        status: "OK",
-        message: "Data Found",
-        data: [],
-        pagination: {
-            totalRecords: 1,
-            currentPage: 1,
-            nextPage: null,
-            prevPage: null,
-            totalPages: 1,
-        },
-    };
-
-    useEffect(() => {
-        if (userData) {
-            setTotalPages(userData.pagination.totalPages);
-        }
-    }, [userData]);
-
-    const { data, pagination } = userData;
-    const dataCount = pagination.totalRecords;
     content = (
         <>
             <DataTable
-        
                 title={"Temporary Table"}
-                rowCount={dataCount}
-                data={data}
+                showTitle={true}
+                data={userData}
                 columns={cols}
-                showPagination
-                showPageSize
-                pageIndex={pagination.currentPage}
-                pageCount={totalPage}
-                pageSize={pageSize}
-                setPageSize={setPageSize}
             />
         </>
     );

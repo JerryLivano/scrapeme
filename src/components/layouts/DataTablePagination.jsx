@@ -87,7 +87,6 @@ function generatePaginationNumber(
 }
 
 function PaginationPageNumber({ visible, active, number, onClick }) {
-    console.log(visible);
     return (
         <div>
             {visible && (

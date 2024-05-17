@@ -1,16 +1,13 @@
 import { forwardRef, useId } from "react";
 import ErrorMessage from "../../layouts/ErrorMessage";
 
-const SingleLineInput = forwardRef(function SingleLineInputInternal(
+const SingleLineValueInput = forwardRef(function SingleLineValueInputInternal(
     {
         required = false,
         disabled = false,
-        placeholder,
         label,
         className,
-        hasValue = false,
-        onChange,
-        value,
+        value = "",
         error,
         startAdornment,
         endAdornment,
@@ -25,10 +22,9 @@ const SingleLineInput = forwardRef(function SingleLineInputInternal(
             <div className='relative mt-2 rounded-md shadow-sm'>
                 <input
                     id={id}
-                    placeholder={placeholder ?? ""}
                     disabled={disabled}
                     required={required}
-                    onChange={onChange}
+                    value={value}
                     className={
                         disabled
                             ? "block w-96 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-500 disabled:ring-gray-200 sm:text-sm sm:leading-6"
@@ -43,4 +39,4 @@ const SingleLineInput = forwardRef(function SingleLineInputInternal(
     );
 });
 
-export default SingleLineInput;
+export default SingleLineValueInput;

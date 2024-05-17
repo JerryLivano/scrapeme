@@ -2,18 +2,19 @@ const Button = (props) => {
     const {
         text,
         bgColor = "#5928ED",
+        secColor = "indigo-500",
         textColor = "white",
         type,
-        onClick = () => {},
+        onClick,
         disabled,
     } = { ...props };
 
     return (
         <>
             <button
-                className={`w-36 flex justify-center rounded-md py-2 text-sm font-semibold leading-6 shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 bg-[${bgColor}] text-${textColor}`}
+                className={`w-36 flex justify-center rounded-md py-2 text-sm font-semibold leading-6 shadow-sm hover:bg-${secColor} focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-${secColor} bg-[${bgColor}] text-${textColor}`}
                 type={type}
-                onClick={() => onClick()}
+                onClick={onClick}
                 disabled={disabled}
             >
                 {text}

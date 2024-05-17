@@ -11,7 +11,7 @@ import {
 } from "./pages";
 import { AuthLayout, DashLayout, Layout } from "./components/layouts";
 import AddUser from "./pages/ManageUser/AddUser";
-import ManageUserpage from "./UI/ManageUserpage";
+import UserPage from "./UI/UserPage";
 
 const App = () => {
     return (
@@ -37,7 +37,7 @@ const App = () => {
                         <Route path='home' element={<HomePage />} />
 
                         {/* User Page */}
-                        <Route path='user' element={<ManageUser />} />
+                        <Route path='user' element={<UserPage />} />
 
                         <Route path='user/add-user' element={<AddUser />} />
                         {/* Application Page */}
