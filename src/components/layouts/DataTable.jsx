@@ -47,6 +47,7 @@ export default function DataTable({
     const [globalFilter, setGlobalFilter] = useState("");
     const onScrollSubscriber = useRef([]);
     const tableRef = useRef(null);
+    const [selected, setSelected] = useState("");
 
     const table = useReactTable({
         data,
@@ -95,7 +96,7 @@ export default function DataTable({
                     <div className='flex justify-between items-center w-full mb-3'>
                         <div className='mb-2 flex items-center'>
                             {showGlobalFilter && (
-                                <div className='w-64'>
+                                <div className="w-fit mr-4">
                                     <FilterTable
                                         value={searchQuery ?? ""}
                                         setGlobalFilter={searchHandler}
@@ -105,6 +106,35 @@ export default function DataTable({
                                     />
                                 </div>
                             )}
+                            {/* {filterRole} */}
+                            {filterRole && (
+                                <div className="mr-4">
+                                    <DropdownInput 
+                                    Selected={setSelected}
+                                    >
+
+                                    <option value="admin">Admin</option>
+                                    <option value="employee">Employee</option>
+                                    </DropdownInput>
+                                </div>
+                            )}  
+                            {/* {filterRole} */}
+                            {filterApp && (
+                                <div className="mr-4">
+                                    <DropdownInput 
+                                    Selected={setSelected}
+                                    >
+
+                                    <option value="recruit-me">Recruit-Me</option>
+                                    <option value="cv-me">CV-Me</option>
+                                    <option value="test-me">Test-me</option>
+                                    <option value="pick-me">Pick-Me</option>
+                                    <option value="brm">BRM</option>
+                                    <option value="metrodataacademy">Metrodata Academy</option>
+                                    <option value="team-me">Team-Me</option>
+                                    </DropdownInput>
+                                </div>
+                            )}  
                         </div>
                         <div className='flex items-center'>
                             <div className='flex ml-3'>
