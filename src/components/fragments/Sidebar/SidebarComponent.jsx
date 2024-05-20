@@ -3,22 +3,19 @@ import { ChevronRightIcon, Cog6ToothIcon } from "@heroicons/react/24/outline";
 import { navigation, teams } from "./data";
 import { LogoPortalMe } from "../../../assets/imageList";
 
-
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
 
 const SidebarComponent = () => {
-    const pathname = window.pathName;
-
     return (
-        <div className="flex flex-col px-6 pb-4 overflow-y-auto bg-[#C4D1E2] border-r border-gray-200 grow gap-y-5">
-            <div className="flex items-center self-center h-20 w-52 shrink-0">
-                    <img
-                        src={LogoPortalMe}
-                        alt='Portal Me'
-                        className='w-52 h-14 mx-auto'
-                    />
+        <div className='flex flex-col px-6 pb-4 overflow-y-auto bg-[#C4D1E2] border-r border-gray-200 grow gap-y-5'>
+            <div className='flex items-center self-center h-20 w-52 shrink-0'>
+                <img
+                    src={LogoPortalMe}
+                    alt='Portal Me'
+                    className='w-52 h-14 mx-auto'
+                />
             </div>
 
             <nav className='flex flex-col flex-1 -mt-5 ml-2'>
@@ -31,23 +28,26 @@ const SidebarComponent = () => {
                                         <a
                                             href={item.href}
                                             className={classNames(
-                                                item.href === `${pathname}`
-                                                    ? "bg-gray-50 text-indigo-600"
+                                                item.href ===
+                                                    `${location.pathname}`
+                                                    ? "bg-gray-50"
                                                     : "text-gray-700 hover:text-blue-950 hover:bg-gray-50",
-                                                "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold",
+                                                "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
                                             )}
                                             aria-current={
-                                                item.href === `${pathname}`
+                                                item.href ===
+                                                `${location.pathname}`
                                                     ? "page"
                                                     : undefined
                                             }
                                         >
                                             <item.icon
                                                 className={classNames(
-                                                    item.href === `${pathname}`
+                                                    item.href ===
+                                                        `${location.pathname}`
                                                         ? "text-blue-950"
                                                         : "text-blue-950 ",
-                                                    "h-6 w-6 shrink-0",
+                                                    "h-6 w-6 shrink-0"
                                                 )}
                                                 aria-hidden='true'
                                             />
@@ -60,19 +60,19 @@ const SidebarComponent = () => {
                                                     <Disclosure.Button
                                                         className={classNames(
                                                             item.href ===
-                                                                `${pathname}`
+                                                                `${location.pathname}`
                                                                 ? "bg-gray-50 text-indigo-600"
                                                                 : "hover:bg-gray-50 hover:text-indigo-600",
-                                                            "flex items-center w-full text-left rounded-md p-2 gap-x-3 text-sm leading-6 font-semibold text-gray-700",
+                                                            "flex items-center w-full text-left rounded-md p-2 gap-x-3 text-sm leading-6 font-semibold text-gray-700"
                                                         )}
                                                     >
                                                         <item.icon
                                                             className={classNames(
                                                                 item.href ===
-                                                                    `${pathname}`
+                                                                    `${location.pathname}`
                                                                     ? "text-indigo-600"
                                                                     : "text-gray-400 hover:text-indigo-600",
-                                                                "w-6 h-6 shrink-0",
+                                                                "w-6 h-6 shrink-0"
                                                             )}
                                                             aria-hidden='true'
                                                         />
@@ -82,7 +82,7 @@ const SidebarComponent = () => {
                                                                 open
                                                                     ? "rotate-90 text-gray-500"
                                                                     : "text-gray-400",
-                                                                "ml-auto h-5 w-5 shrink-0",
+                                                                "ml-auto h-5 w-5 shrink-0"
                                                             )}
                                                             aria-hidden='true'
                                                         />
@@ -106,10 +106,10 @@ const SidebarComponent = () => {
                                                                         }
                                                                         className={classNames(
                                                                             subItem.href ===
-                                                                                `${pathname}`
+                                                                                `${location.pathname}`
                                                                                 ? "bg-gray-50 text-indigo-600"
                                                                                 : "hover:bg-gray-50 hover:text-indigo-600",
-                                                                            "block rounded-md py-2 pr-2 pl-9 text-sm leading-6 text-gray-700",
+                                                                            "block rounded-md py-2 pr-2 pl-9 text-sm leading-6 text-gray-700"
                                                                         )}
                                                                     >
                                                                         {
@@ -117,7 +117,7 @@ const SidebarComponent = () => {
                                                                         }
                                                                     </Disclosure.Button>
                                                                 </li>
-                                                            ),
+                                                            )
                                                         )}
                                                     </Disclosure.Panel>
                                                 </>
