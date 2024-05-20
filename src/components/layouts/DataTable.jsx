@@ -10,6 +10,7 @@ import Spinner from "../elements/Spinner/Spinner";
 import DataTablePagination from "./DataTablePagination";
 import DropdownInput from "../elements/Input/DropdownInput";
 import ButtonPlus from "../elements/Button/ButtonPlus";
+import FilterSearchTable from "../fragments/Filter/FIlterSearchTable";
 
 export const TableScrollEvent = createContext(null);
 export const TableRef = createContext(null);
@@ -85,7 +86,7 @@ export default function DataTable({
             <TableScrollEvent.Provider value={contextCallback}>
                 <main>
                     {title && showTitle && (
-                        <div className='sm:flex sm:items-center'>
+                        <div className='sm:flex sm:items-center mb-4'>
                             <div className='sm:flex-auto'>
                                 <h1 className='text-lg font-semibold leading-6 text-brm-font-black'>
                                     {title}
@@ -93,22 +94,20 @@ export default function DataTable({
                             </div>
                         </div>
                     )}
-                    <div className='flex justify-between items-center w-full mb-3'>
-                        <div className='mb-2 flex items-center'>
+                    <div className='flex justify-between items-center w-full mb-2'>
+                        <div className='flex items-center'>
                             {showGlobalFilter && (
-                                <div className="w-fit mr-4">
-                                    <FilterTable
+                                <div className="w-fit mr-2">
+                                    <FilterSearchTable 
                                         value={searchQuery ?? ""}
                                         setGlobalFilter={searchHandler}
-                                        placeholder={
-                                            placeholder || "Search data..."
-                                        }
+                                        placeholder={placeholder ? placeholder : "Search Data..."}
                                     />
                                 </div>
                             )}
                             {/* {filterRole} */}
                             {filterRole && (
-                                <div className="mr-4">
+                                <div className="mr-2">
                                     <DropdownInput 
                                     Selected={setSelected}
                                     >
@@ -120,7 +119,7 @@ export default function DataTable({
                             )}  
                             {/* {filterRole} */}
                             {filterApp && (
-                                <div className="mr-4">
+                                <div className="mr-2">
                                     <DropdownInput 
                                     Selected={setSelected}
                                     >

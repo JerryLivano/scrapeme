@@ -18,6 +18,7 @@ import SingleLineValueInput from "../../../components/elements/Input/SingleLineV
 import { useNavigate } from "react-router-dom";
 import ButtonOutline from "../../../components/elements/Button/ButtonOutline";
 import ModalConfirmAddData from "../../../components/elements/Confirmation/ModalConfirmAddData";
+import { toastError, toastSuccess } from "../../../components/elements/Alert/Toast";
 
 export default function FormAddUser() {
     let content;
@@ -116,22 +117,29 @@ export default function FormAddUser() {
     };
 
     const onSubmitAddedUser = (data) => {
-        const id = uuid();
+        if (addedUser.some((user) => user.email === data.email)) {
+            toastError({ message: "User already added." });
+            setShowAddTemp(false);
+            return;
+        } else {
+            const id = uuid();
 
-        data.authorizedApplications = selectedApps;
-        data.roleName = singleRole?.data.roleName ?? "";
-        setAddedUser((prev) => [...prev, { ...data, id }]);
-        reset({
-            email: "",
-            firstName: "",
-            lastName: "",
-            nik: "",
-            roleId: selectedRoleId,
-            roleName: "",
-            authorizedApplications: [],
-        });
-        setSelectedApps([]);
-        setShowAddTemp(false);
+            data.authorizedApplications = selectedApps;
+            data.roleName = singleRole?.data.roleName ?? "";
+            setAddedUser((prev) => [...prev, { ...data, id }]);
+            toastSuccess({ message: "User successfully added." });
+            reset({
+                email: "",
+                firstName: "",
+                lastName: "",
+                nik: "",
+                roleId: selectedRoleId,
+                roleName: "",
+                authorizedApplications: [],
+            });
+            setSelectedApps([]);
+            setShowAddTemp(false);
+        }
     };
 
     const onSubmitAllUser = async () => {
@@ -349,12 +357,7 @@ export default function FormAddUser() {
                                 />
                             </span>
                             <span className='ml-3'>
-                                <Button
-                                    text={"Save"}
-                                    type={"submit"}
-                                    bgColor={"#64748B"}
-                                    secColor={"gray-400"}
-                                />
+                                <Button text={"Save"} type={"submit"} />
                             </span>
                         </div>
                     </form>
