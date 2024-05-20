@@ -5,6 +5,7 @@ import { useGetUserQuery } from "../../services/userApiSlice";
 import Spinner from "../../components/elements/Spinner/Spinner";
 import { CheckIcon, EllipsisVerticalIcon } from "@heroicons/react/24/solid";
 import { useNavigate } from "react-router-dom";
+import { useGetRoleQuery } from "../../services/roleApi.Slice";
 
 export default function UserTable() {
     let content;
@@ -13,6 +14,7 @@ export default function UserTable() {
     const [totalPage, setTotalPages] = useState(1);
     const [showAddButton, setShowAddButton] = useState(false);
     const [search, setSearch] = useState("");
+    const [roleOpt, setRoleOpt] = useState("");
 
     const [isChecked, setIsChecked] = useState(true);
 
@@ -20,11 +22,9 @@ export default function UserTable() {
         setIsChecked(!isChecked);
     };
 
-
     // const { data: singleRole } = useGetRoleByIdQuery(watch("roleId"), {
     //     skip: !watch("roleId"),
     // });
-
 
     const cols = useMemo(
         () => [
@@ -234,8 +234,9 @@ export default function UserTable() {
         isError,
         error,
         isFetching,
-    } = useGetUserQuery({ page: page, limit: pageSize, search: search },
-        {refetchOnMountOrArgChange: true}
+    } = useGetUserQuery(
+        { page: page, limit: pageSize, search: search, role: roleOpt },
+        { refetchOnMountOrArgChange: true }
     );
 
     useEffect(() => {
@@ -247,6 +248,27 @@ export default function UserTable() {
     const handlePageChange = (newPageNumber) => {
         setPage(newPageNumber);
     };
+
+    const handleRoleSelect = (e) => {
+        setRoleOpt(e.target.value);
+        setPage(1);
+    };
+
+    const {
+        data: roles,
+        isLoading: rolesIsLoading,
+        isError: rolesIsError,
+    } = useGetRoleQuery();
+
+    let filterRoleOptions = [];
+
+    if (!rolesIsLoading && !rolesIsError && roles.data) {
+        filterRoleOptions = roles.data.map((role) => ({
+            value: role.roleName,
+            label: role.roleName,
+        }));
+        filterRoleOptions.unshift({ label: "All", value: "" });
+    }
 
     const handleSearchChange = (value) => {
         setSearch((prev) => {
@@ -281,7 +303,6 @@ export default function UserTable() {
                     columns={cols}
                     showPageSize
                     showGlobalFilter
-                    filterRole
                     filterApp
                     showPagination
                     showAddButton
@@ -293,7 +314,12 @@ export default function UserTable() {
                     pageIndex={pagination.currentPage}
                     pageCount={totalPage}
                     pageSize={pageSize}
+                    pageChange={(pageIndex) => handlePageChange(pageIndex + 1)}
                     setPageSize={setPageSize}
+                    showFilterRole={true}
+                    filterRole={roleOpt}
+                    setFilterRole={handleRoleSelect}
+                    filterRoleOptions={filterRoleOptions}
                 />
             </>
         );

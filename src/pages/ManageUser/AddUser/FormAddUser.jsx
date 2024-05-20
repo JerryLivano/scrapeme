@@ -9,7 +9,10 @@ import { useGetApplicationQuery } from "../../../services/applicationApiSlice";
 import { useEffect, useState } from "react";
 import InputCheckboxGroup from "../../../components/elements/Input/InputCheckboxGroup";
 import uuid from "react-uuid";
-import { useRegisterMutation } from "../../../services/userApiSlice";
+import {
+    useGetUserQuery,
+    useRegisterMutation,
+} from "../../../services/userApiSlice";
 import SingleLineInput from "../../../components/elements/Input/SIngleLineInput";
 import Spinner from "../../../components/elements/Spinner/Spinner";
 import TemporaryAddUserTable from "./TemporaryAddUserTable";
@@ -18,7 +21,10 @@ import SingleLineValueInput from "../../../components/elements/Input/SingleLineV
 import { useNavigate } from "react-router-dom";
 import ButtonOutline from "../../../components/elements/Button/ButtonOutline";
 import ModalConfirmAddData from "../../../components/elements/Confirmation/ModalConfirmAddData";
-import { toastError, toastSuccess } from "../../../components/elements/Alert/Toast";
+import {
+    toastError,
+    toastSuccess,
+} from "../../../components/elements/Alert/Toast";
 
 export default function FormAddUser() {
     let content;
@@ -29,6 +35,8 @@ export default function FormAddUser() {
     const [selectedApps, setSelectedApps] = useState([]);
     const [showAddTemp, setShowAddTemp] = useState(false);
     const [showAddAllUser, setShowAddAllUser] = useState(false);
+    const [alertColor, setAlertColor] = useState(false);
+    const [emailNotFound, setEmailNotFound] = useState(false);
 
     const navigate = useNavigate();
 
@@ -77,8 +85,14 @@ export default function FormAddUser() {
         isSuccess: appIsSuccess,
         isFetching: appIsFetching,
     } = useGetApplicationQuery({ page: page, limit: pageSize });
-    console.log(apps);
-    
+
+    const {
+        data: users,
+        isLoading: usersIsLoading,
+        isSuccess: usersIsSuccess,
+        isFetching: usersIsFetching,
+    } = useGetUserQuery({ page: page, limit: pageSize, search: "", role: "" });
+
     const [addUser, { isLoading: registerLoading }] = useRegisterMutation();
 
     const [getCVMeUser, { isLoading: getCVMeEmployeeLoading }] =
@@ -118,29 +132,42 @@ export default function FormAddUser() {
     };
 
     const onSubmitAddedUser = (data) => {
-        if (addedUser.some((user) => user.email === data.email)) {
+        if (data.email === "" || data.firstName === "") {
+            setEmailNotFound(true);
+            setShowAddTemp(false);
+            return;
+        }
+
+        if (selectedApps.length == 0) {
+            setAlertColor(true);
+            setShowAddTemp(false);
+            return;
+        }
+
+        if (addedUser.some((user) => user.email === data.email) || users.data.some((user) => user.email === data.email)) {
             toastError({ message: "User already added." });
             setShowAddTemp(false);
             return;
-        } else {
-            const id = uuid();
-
-            data.authorizedApplications = selectedApps;
-            data.roleName = singleRole?.data.roleName ?? "";
-            setAddedUser((prev) => [...prev, { ...data, id }]);
-            toastSuccess({ message: "User successfully added." });
-            reset({
-                email: "",
-                firstName: "",
-                lastName: "",
-                nik: "",
-                roleId: selectedRoleId,
-                roleName: "",
-                authorizedApplications: [],
-            });
-            setSelectedApps([]);
-            setShowAddTemp(false);
         }
+
+        const id = uuid();
+
+        data.authorizedApplications = selectedApps;
+        data.roleName = singleRole?.data.roleName ?? "";
+        setAddedUser((prev) => [...prev, { ...data, id }]);
+        reset({
+            email: "",
+            firstName: "",
+            lastName: "",
+            nik: "",
+            roleId: selectedRoleId,
+            roleName: "",
+            authorizedApplications: [],
+        });
+        setAlertColor(false);
+        setEmailNotFound(false);
+        setSelectedApps([]);
+        setShowAddTemp(false);
     };
 
     const onSubmitAllUser = async () => {
@@ -152,7 +179,6 @@ export default function FormAddUser() {
             roleId: x.roleId,
             authorizedApplications: x.authorizedApplications,
         }));
-        console.log(request);
         try {
             setShowAddAllUser(false);
             for (const user of request) {
@@ -189,20 +215,13 @@ export default function FormAddUser() {
                                     <td className='font-semibold text-lg px-8'>
                                         <label htmlFor='email'>Email</label>
                                     </td>
-                                    <td className='w-80 flex py-4'>
+                                    <td className={"w-80 flex py-4"}>
                                         <SingleLineInput
-                                            {...register("email", {
-                                                required: "Email is required",
-                                                maxLength: {
-                                                    value: 100,
-                                                    message:
-                                                        "Max 100 Character",
-                                                },
-                                            })}
+                                            {...register("email")}
+                                            notFound={emailNotFound}
                                             error={formErrors.email?.message}
                                             placeholder='Input Email Here...'
                                             label='Email'
-                                            required
                                             className='w-full'
                                         />
                                     </td>
@@ -305,7 +324,11 @@ export default function FormAddUser() {
                                         Application Access
                                     </td>
                                     <td className='w-80 flex flex-col items-start py-4 font-light'>
-                                        <div className='text-md'>
+                                        <div
+                                            className={`text-md ${
+                                                alertColor ? "text-red-600" : ""
+                                            }`}
+                                        >
                                             Select At least one to activate the
                                             user
                                         </div>

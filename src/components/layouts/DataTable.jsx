@@ -10,10 +10,6 @@ import { MultiSelect } from "primereact/multiselect";
 import Spinner from "../elements/Spinner/Spinner";
 import DataTablePagination from "./DataTablePagination";
 import { useGetApplicationQuery } from "../../services/applicationApiSlice";
-import {
-    useGetRoleByIdQuery,
-    useGetRoleQuery,
-} from "../../services/roleApi.Slice";
 import DropdownInput from "../elements/Input/DropdownInput";
 import ButtonPlus from "../elements/Button/ButtonPlus";
 import FilterSearchTable from "../fragments/Filter/FIlterSearchTable";
@@ -45,6 +41,7 @@ export default function DataTable({
     pageIndex,
     pageSize,
     setPageSize,
+    dataRecord,
     pageChange = () => {},
     searchQuery,
     searchHandler,
@@ -57,15 +54,7 @@ export default function DataTable({
     const onScrollSubscriber = useRef([]);
     const tableRef = useRef(null);
     const [page, setPage] = useState(1);
-    const [selectedRoleId, setSelectedRoleId] = useState("");
     const [selectedApps, setSelectedApps] = useState("");
-
-    const {
-        data: roles,
-        isLoading: roleIsLoading,
-        isSuccess: roleIsSuccess,
-        isFetching: roleIsFetching,
-    } = useGetRoleQuery();
 
     const {
         data: apps,
@@ -77,6 +66,8 @@ export default function DataTable({
     {
         appIsSuccess && console.log("apps.data:", apps.data);
     }
+
+    console.log(filterRoleOptions)
 
     const { setValue, watch } = useForm({
         defaultValues: {
@@ -148,16 +139,33 @@ export default function DataTable({
                                 </div>
                             )}
                             {/* {filterRole} */}
-                            {filterRole && (
-                                <div className='mr-2'>
+                            {showFilterRole && (
+                                <div className='flex items-center'>
                                     <DropdownInput
-                                        Selected={setSelected}
-                                    ></DropdownInput>
+                                        value={filterRole}
+                                        onChange={setFilterRole}
+                                        className='max-w-fit'
+                                    >
+                                        {filterRoleOptions.map(
+                                            (filterRole) => (
+                                                <option
+                                                    key={
+                                                        filterRole.value
+                                                    }
+                                                    value={
+                                                        filterRole.value
+                                                    }
+                                                >
+                                                    {filterRole.label}
+                                                </option>
+                                            )
+                                        )}
+                                    </DropdownInput>
                                 </div>
                             )}
                             {/* {filterApp} */}
                             {filterApp && (
-                                <div className='card justify-center mr-4'>
+                                <div className='card justify-center ml-2'>
                                     <MultiSelect
                                         options={appIsSuccess ? apps.data : []}
                                         optionLabel='appName'
@@ -321,6 +329,8 @@ export default function DataTable({
                                 <DataTablePagination
                                     pageIndex={pageIndex - 1}
                                     pageCount={pageCount}
+                                    dataCount={rowCount}
+                                    pageValue={pageSize}
                                     goToPage={pageChange}
                                     paginationLength={5}
                                 />

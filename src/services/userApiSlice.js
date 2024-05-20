@@ -11,9 +11,10 @@ export const userApiSlice = apiSlice
                     const {
                         page,
                         limit,
-                        search
+                        search,
+                        role
                     } = args;
-                    return `/user?search=${search}&page=${page}&limit=${limit}`;
+                    return `/user?search=${search}&page=${page}&limit=${limit}&role=${role}`;
                 },
                 providesTags: ["User"]
             }),

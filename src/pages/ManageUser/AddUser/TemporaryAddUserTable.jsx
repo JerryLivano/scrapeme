@@ -1,9 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import DataTable from "../../../components/layouts/DataTable";
 import uuid from "react-uuid";
+import { useGetRoleQuery } from "../../../services/roleApi.Slice";
 
 export default function TemporaryAddUserTable({ userData }) {
     let content;
+    const [roleOpt, setRoleOpt] = useState("");
+    const [search, setSearch] = useState("");
+    const [filteredUserData, setFilteredUserData] = useState([]);
 
     const cols = useMemo(
         () => [
@@ -43,7 +47,6 @@ export default function TemporaryAddUserTable({ userData }) {
                 header: "Recruit-ME",
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) => {
-                    console.log(row);
                     const isChecked = row.authorizedApplications.some(
                         (app) => app === "Recruit-ME"
                     );
@@ -183,17 +186,62 @@ export default function TemporaryAddUserTable({ userData }) {
         []
     );
 
+    useEffect(() => {
+        setFilteredUserData(
+            userData.filter((user) =>
+                (user.firstName + " " + user.lastName)
+                    .toLowerCase()
+                    .includes(search.toLowerCase())
+            )
+        );
+    }, [userData, search]);
+
+    useEffect(() => {
+        setFilteredUserData(
+            userData.filter((user) => user.roleName.includes(roleOpt))
+        );
+    }, [roleOpt]);
+
+    const handleRoleSelect = (e) => {
+        setRoleOpt(e.target.value);
+    };
+
+    const handleSearchChange = (value) => {
+        setSearch(value.toString());
+    };
+
+    const {
+        data: roles,
+        isLoading: rolesIsLoading,
+        isError: rolesIsError,
+    } = useGetRoleQuery();
+
+    let filterRoleOptions = [];
+
+    if (!rolesIsLoading && !rolesIsError && roles.data) {
+        filterRoleOptions = roles.data.map((role) => ({
+            value: role.roleName,
+            label: role.roleName,
+        }));
+        filterRoleOptions.unshift({ label: "All", value: "" });
+    }
+
     content = (
         <>
             <DataTable
                 title={"Temporary Table"}
                 showTitle={true}
-                data={userData}
+                data={filteredUserData}
                 columns={cols}
-                filterRole
                 filterApp
                 showGlobalFilter
-                showPageSize
+                showFilterRole={true}
+                filterRole={roleOpt}
+                setFilterRole={handleRoleSelect}
+                filterRoleOptions={filterRoleOptions}
+                placeholder={"Search employee name..."}
+                searchQuery={search}
+                searchHandler={handleSearchChange}
             />
         </>
     );
