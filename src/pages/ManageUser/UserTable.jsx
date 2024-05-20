@@ -20,6 +20,12 @@ export default function UserTable() {
         setIsChecked(!isChecked);
     };
 
+
+    // const { data: singleRole } = useGetRoleByIdQuery(watch("roleId"), {
+    //     skip: !watch("roleId"),
+    // });
+
+
     const cols = useMemo(
         () => [
             {

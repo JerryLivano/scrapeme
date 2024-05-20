@@ -6,11 +6,19 @@ import {
 } from "@tanstack/react-table";
 import React, { createContext, useCallback, useRef, useState } from "react";
 import FilterTable from "../fragments/Filter/FilterTable";
+import { MultiSelect } from "primereact/multiselect";
 import Spinner from "../elements/Spinner/Spinner";
 import DataTablePagination from "./DataTablePagination";
+import { useGetApplicationQuery } from "../../services/applicationApiSlice";
+import {
+    useGetRoleByIdQuery,
+    useGetRoleQuery,
+} from "../../services/roleApi.Slice";
 import DropdownInput from "../elements/Input/DropdownInput";
 import ButtonPlus from "../elements/Button/ButtonPlus";
 import FilterSearchTable from "../fragments/Filter/FIlterSearchTable";
+import { useForm } from "react-hook-form";
+import { Select } from "@mui/material";
 
 export const TableScrollEvent = createContext(null);
 export const TableRef = createContext(null);
@@ -48,7 +56,37 @@ export default function DataTable({
     const [globalFilter, setGlobalFilter] = useState("");
     const onScrollSubscriber = useRef([]);
     const tableRef = useRef(null);
-    const [selected, setSelected] = useState("");
+    const [page, setPage] = useState(1);
+    const [selectedRoleId, setSelectedRoleId] = useState("");
+    const [selectedApps, setSelectedApps] = useState("");
+
+    const {
+        data: roles,
+        isLoading: roleIsLoading,
+        isSuccess: roleIsSuccess,
+        isFetching: roleIsFetching,
+    } = useGetRoleQuery();
+
+    const {
+        data: apps,
+        isLoading: appIsLoading,
+        isSuccess: appIsSuccess,
+        isFetching: appIsFetching,
+    } = useGetApplicationQuery({ page: page, limit: pageSize });
+
+    {
+        appIsSuccess && console.log("apps.data:", apps.data);
+    }
+
+    const { setValue, watch } = useForm({
+        defaultValues: {
+            roleId: "",
+            roleName: "",
+            appId: "",
+            appName: "",
+        },
+        mode: "onChange",
+    });
 
     const table = useReactTable({
         data,
@@ -97,43 +135,46 @@ export default function DataTable({
                     <div className='flex justify-between items-center w-full mb-2'>
                         <div className='flex items-center'>
                             {showGlobalFilter && (
-                                <div className="w-fit mr-2">
-                                    <FilterSearchTable 
+                                <div className='w-fit mr-2'>
+                                    <FilterSearchTable
                                         value={searchQuery ?? ""}
                                         setGlobalFilter={searchHandler}
-                                        placeholder={placeholder ? placeholder : "Search Data..."}
+                                        placeholder={
+                                            placeholder
+                                                ? placeholder
+                                                : "Search Data..."
+                                        }
                                     />
                                 </div>
                             )}
                             {/* {filterRole} */}
                             {filterRole && (
-                                <div className="mr-2">
-                                    <DropdownInput 
-                                    Selected={setSelected}
-                                    >
-
-                                    <option value="admin">Admin</option>
-                                    <option value="employee">Employee</option>
-                                    </DropdownInput>
+                                <div className='mr-2'>
+                                    <DropdownInput
+                                        Selected={setSelected}
+                                    ></DropdownInput>
                                 </div>
-                            )}  
-                            {/* {filterRole} */}
+                            )}
+                            {/* {filterApp} */}
                             {filterApp && (
-                                <div className="mr-2">
-                                    <DropdownInput 
-                                    Selected={setSelected}
-                                    >
-
-                                    <option value="recruit-me">Recruit-Me</option>
-                                    <option value="cv-me">CV-Me</option>
-                                    <option value="test-me">Test-me</option>
-                                    <option value="pick-me">Pick-Me</option>
-                                    <option value="brm">BRM</option>
-                                    <option value="metrodataacademy">Metrodata Academy</option>
-                                    <option value="team-me">Team-Me</option>
-                                    </DropdownInput>
+                                <div className='card justify-center mr-4'>
+                                    <MultiSelect
+                                        options={appIsSuccess ? apps.data : []}
+                                        optionLabel='appName'
+                                        placeholder='--- Select Apps ---'
+                                        value={selectedApps}
+                                        onChange={(e) => {
+                                            setSelectedApps(e.value);
+                                            setValue(
+                                                "appId",
+                                                e.value.map((app) => app.id)
+                                            );
+                                        }}
+                                        className='w-full max-w-60 text-center border-2 rounded-sm h-10 justify-center flex'
+                                        panelClassName='text-black bg-white border-2 rounded-md text-center overflow-y-hidden'
+                                    />
                                 </div>
-                            )}  
+                            )}
                         </div>
                         <div className='flex items-center'>
                             <div className='flex ml-3'>
