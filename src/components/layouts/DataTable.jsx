@@ -8,8 +8,11 @@ import React, { createContext, useCallback, useRef, useState } from "react";
 import FilterTable from "../fragments/Filter/FilterTable";
 import Spinner from "../elements/Spinner/Spinner";
 import DataTablePagination from "./DataTablePagination";
+import { useGetApplicationQuery } from "../../services/applicationApiSlice";
+import { useGetRoleByIdQuery,useGetRoleQuery } from "../../services/roleApi.Slice";
 import DropdownInput from "../elements/Input/DropdownInput";
 import ButtonPlus from "../elements/Button/ButtonPlus";
+import { useForm } from "react-hook-form";
 
 export const TableScrollEvent = createContext(null);
 export const TableRef = createContext(null);
@@ -47,7 +50,38 @@ export default function DataTable({
     const [globalFilter, setGlobalFilter] = useState("");
     const onScrollSubscriber = useRef([]);
     const tableRef = useRef(null);
+    const [page, setPage] = useState(1);
+    const [selectedRoleId, setSelectedRoleId] = useState("");
+    const [selectedApps, setSelectedApps] = useState("");
     const [selected, setSelected] = useState("");
+
+
+    const {
+        data: roles,
+        isLoading: roleIsLoading,
+        isSuccess: roleIsSuccess,
+        isFetching: roleIsFetching,
+    } = useGetRoleQuery();
+
+    const {
+        data: apps,
+        isLoading: appIsLoading,
+        isSuccess: appIsSuccess,
+        isFetching: appIsFetching,
+    } = useGetApplicationQuery({ page: page, limit: pageSize });
+
+    const{
+        setValue,
+        watch,
+    } = useForm({
+        defaultValues : {
+            roleId: "",
+            roleName: "",
+            appId : "",
+            appName : "",
+        },
+        mode: "onChange",
+    })
 
     const table = useReactTable({
         data,
@@ -109,30 +143,66 @@ export default function DataTable({
                             {/* {filterRole} */}
                             {filterRole && (
                                 <div className="mr-4">
-                                    <DropdownInput 
-                                    Selected={setSelected}
-                                    >
-
-                                    <option value="admin">Admin</option>
-                                    <option value="employee">Employee</option>
+                                    <DropdownInput
+                                            placeholder='--- Select Role ---'
+                                            required
+                                            className='w-full'
+                                            value={selectedRoleId}
+                                            onChange={(e) => {
+                                                setSelectedRoleId(
+                                                    e.target.value
+                                                );
+                                                setValue(
+                                                    "roleId",
+                                                    e.target.value
+                                                );
+                                            }}
+                                            disabled={
+                                                !roleIsSuccess ||
+                                                roles.length === 0
+                                            }
+                                            error={
+                                                !roleIsSuccess ||
+                                                roles.length === 0
+                                                    ? "No role available"
+                                                    : ""
+                                            }
+                                        >
+                                            {roleIsSuccess &&
+                                                roles.data.map((role) => (
+                                                    <option
+                                                        key={role.id}
+                                                        value={role.id}
+                                                    >
+                                                        {role.roleName}
+                                                    </option>
+                                                ))}
                                     </DropdownInput>
                                 </div>
-                            )}  
-                            {/* {filterRole} */}
+                            )} 
+                            {/* {filterApp} */}
                             {filterApp && (
                                 <div className="mr-4">
-                                    <DropdownInput 
-                                    Selected={setSelected}
-                                    >
-
-                                    <option value="recruit-me">Recruit-Me</option>
-                                    <option value="cv-me">CV-Me</option>
-                                    <option value="test-me">Test-me</option>
-                                    <option value="pick-me">Pick-Me</option>
-                                    <option value="brm">BRM</option>
-                                    <option value="metrodataacademy">Metrodata Academy</option>
-                                    <option value="team-me">Team-Me</option>
-                                    </DropdownInput>
+                                    <DropdownInput
+                                            placeholder='---Select Apps---'
+                                            required
+                                            className='w-full'
+                                            value={selectedApps}
+                                            onChange={(e) => {
+                                                setSelectedApps(e.target.value);
+                                                setValue("appId", e.target.value);
+                                            }}
+                                        >
+                                            {appIsSuccess &&
+                                                apps.data.map((app) => (
+                                                    <option
+                                                        key={app.id}
+                                                        value={app.id}
+                                                    >
+                                                        {app.appName}
+                                                    </option>
+                                                ))}
+                                        </DropdownInput>
                                 </div>
                             )}  
                         </div>
