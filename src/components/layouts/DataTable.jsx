@@ -6,6 +6,7 @@ import {
 } from "@tanstack/react-table";
 import React, { createContext, useCallback, useRef, useState } from "react";
 import FilterTable from "../fragments/Filter/FilterTable";
+import { MultiSelect } from 'primereact/multiselect';
 import Spinner from "../elements/Spinner/Spinner";
 import DataTablePagination from "./DataTablePagination";
 import { useGetApplicationQuery } from "../../services/applicationApiSlice";
@@ -13,6 +14,7 @@ import { useGetRoleByIdQuery,useGetRoleQuery } from "../../services/roleApi.Slic
 import DropdownInput from "../elements/Input/DropdownInput";
 import ButtonPlus from "../elements/Button/ButtonPlus";
 import { useForm } from "react-hook-form";
+import { Select } from "@mui/material";
 
 export const TableScrollEvent = createContext(null);
 export const TableRef = createContext(null);
@@ -53,8 +55,6 @@ export default function DataTable({
     const [page, setPage] = useState(1);
     const [selectedRoleId, setSelectedRoleId] = useState("");
     const [selectedApps, setSelectedApps] = useState("");
-    const [selected, setSelected] = useState("");
-
 
     const {
         data: roles,
@@ -69,6 +69,8 @@ export default function DataTable({
         isSuccess: appIsSuccess,
         isFetching: appIsFetching,
     } = useGetApplicationQuery({ page: page, limit: pageSize });
+
+    {appIsSuccess && console.log('apps.data:', apps.data)};
 
     const{
         setValue,
@@ -142,8 +144,21 @@ export default function DataTable({
                             )}
                             {/* {filterRole} */}
                             {filterRole && (
-                                <div className="mr-4">
-                                    <DropdownInput
+                                <div className="card justify-center mr-4">
+                                    <MultiSelect
+                                        options={roleIsSuccess ? roles.data : []}
+                                        optionLabel="roleName"
+                                        placeholder="--- Role ---"
+                                        value={selectedRoleId}
+                                        onChange={(e) => {
+                                            setSelectedRoleId(e.value);
+                                            setValue("roleId", e.value.map(role => role.id));
+                                        }}
+                                        className="max-w-24 text-center border-2 rounded-sm h-10 flex"
+                                        panelClassName="w-24 text-black bg-white border-2 rounded-md px-2 text-center"
+                                    />
+
+                                    {/* <DropdownInput
                                             placeholder='--- Select Role ---'
                                             required
                                             className='w-full'
@@ -177,33 +192,25 @@ export default function DataTable({
                                                         {role.roleName}
                                                     </option>
                                                 ))}
-                                    </DropdownInput>
+                                    </DropdownInput> */}
                                 </div>
                             )} 
                             {/* {filterApp} */}
                             {filterApp && (
-                                <div className="mr-4">
-                                    <DropdownInput
-                                            placeholder='---Select Apps---'
-                                            required
-                                            className='w-full'
-                                            value={selectedApps}
-                                            onChange={(e) => {
-                                                setSelectedApps(e.target.value);
-                                                setValue("appId", e.target.value);
-                                            }}
-                                        >
-                                            {appIsSuccess &&
-                                                apps.data.map((app) => (
-                                                    <option
-                                                        key={app.id}
-                                                        value={app.id}
-                                                    >
-                                                        {app.appName}
-                                                    </option>
-                                                ))}
-                                        </DropdownInput>
-                                </div>
+                                <div className="card justify-center mr-4">
+                                    <MultiSelect
+                                        options={appIsSuccess ? apps.data : []}
+                                        optionLabel="appName"
+                                        placeholder="--- Select Apps ---"
+                                        value={selectedApps}
+                                        onChange={(e) => {
+                                            setSelectedApps(e.value);
+                                            setValue("appId", e.value.map(app => app.id));
+                                        }}
+                                        className="w-full max-w-60 text-center border-2 rounded-sm h-10 justify-center flex"
+                                        panelClassName="text-black bg-white border-2 rounded-md text-center overflow-y-hidden"
+                                    />  
+                            </div>
                             )}  
                         </div>
                         <div className='flex items-center'>

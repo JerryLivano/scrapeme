@@ -76,7 +76,8 @@ export default function FormAddUser() {
         isSuccess: appIsSuccess,
         isFetching: appIsFetching,
     } = useGetApplicationQuery({ page: page, limit: pageSize });
-
+    console.log(apps);
+    
     const [addUser, { isLoading: registerLoading }] = useRegisterMutation();
 
     const [getCVMeUser, { isLoading: getCVMeEmployeeLoading }] =
