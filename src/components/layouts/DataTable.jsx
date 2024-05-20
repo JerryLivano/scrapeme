@@ -15,6 +15,7 @@ import DropdownInput from "../elements/Input/DropdownInput";
 import ButtonPlus from "../elements/Button/ButtonPlus";
 import { useForm } from "react-hook-form";
 import { Select } from "@mui/material";
+// import { MultiDropdown } from "../elements/Input/MultiDropdown";
 
 export const TableScrollEvent = createContext(null);
 export const TableRef = createContext(null);
@@ -144,7 +145,7 @@ export default function DataTable({
                             )}
                             {/* {filterRole} */}
                             {filterRole && (
-                                <div className="card justify-center mr-4">
+                                <div className="card justify-center mx-4">
                                     <MultiSelect
                                         options={roleIsSuccess ? roles.data : []}
                                         optionLabel="roleName"
@@ -154,9 +155,15 @@ export default function DataTable({
                                             setSelectedRoleId(e.value);
                                             setValue("roleId", e.value.map(role => role.id));
                                         }}
-                                        className="max-w-24 text-center border-2 rounded-sm h-10 flex"
-                                        panelClassName="w-24 text-black bg-white border-2 rounded-md px-2 text-center"
+                                        className="w-40 text-center border-2 place-content-center rounded-md px-4 h-10 pt-2 flex color:red"
+                                        panelClassName="w-fit text-black bg-white border-2  px-4 rounded-md"
+                                        itemTemplate={(option) => (
+                                            <div className="flex bg-transparent border-none mx-3 ">
+                                                {option.roleName}
+                                            </div>
+                                        )}
                                     />
+
 
                                     {/* <DropdownInput
                                             placeholder='--- Select Role ---'
@@ -201,14 +208,19 @@ export default function DataTable({
                                     <MultiSelect
                                         options={appIsSuccess ? apps.data : []}
                                         optionLabel="appName"
-                                        placeholder="--- Select Apps ---"
+                                        placeholder="Select Apps"
                                         value={selectedApps}
                                         onChange={(e) => {
                                             setSelectedApps(e.value);
                                             setValue("appId", e.value.map(app => app.id));
                                         }}
-                                        className="w-full max-w-60 text-center border-2 rounded-sm h-10 justify-center flex"
-                                        panelClassName="text-black bg-white border-2 rounded-md text-center overflow-y-hidden"
+                                        className="w-40 text-center border-2 place-content-center rounded-md px-4 h-10 pt-2 flex color:red"
+                                        panelClassName="w-fit text-black bg-white border-2  px-4 rounded-md"
+                                        itemTemplate={(option) => (
+                                            <div className="flex bg-transparent border-none mx-3 ">
+                                                {option.roleName}
+                                            </div>
+                                        )}
                                     />  
                             </div>
                             )}  
