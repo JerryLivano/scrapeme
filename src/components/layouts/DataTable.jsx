@@ -63,12 +63,6 @@ export default function DataTable({
         isFetching: appIsFetching,
     } = useGetApplicationQuery({ page: page, limit: pageSize });
 
-    {
-        appIsSuccess && console.log("apps.data:", apps.data);
-    }
-
-    console.log(filterRoleOptions)
-
     const { setValue, watch } = useForm({
         defaultValues: {
             roleId: "",
