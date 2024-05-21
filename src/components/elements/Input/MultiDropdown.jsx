@@ -1,25 +1,10 @@
 import React, { useState } from "react";
 
-function MultiDropdown({ options, placeholder, onChange }) {
+function MultiDropdown({ options, placeholder, setFilterApp, filteredApp }) {
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedValues, setSelectedValues] = useState([]);
 
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
-    };
-
-    const handleCheckboxChange = (value) => {
-        const updatedValues = [...selectedValues];
-        const valueIndex = updatedValues.indexOf(value);
-
-        if (valueIndex === -1) {
-            updatedValues.push(value);
-        } else {
-            updatedValues.splice(valueIndex, 1);
-        }
-
-        setSelectedValues(updatedValues);
-        onChange(updatedValues);
     };
 
     return (
@@ -30,9 +15,9 @@ function MultiDropdown({ options, placeholder, onChange }) {
                     className='inline-flex justify-between w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500'
                     onClick={toggleDropdown}
                 >
-                    {selectedValues.length === 0
+                    {filteredApp.length === 0
                         ? placeholder
-                        : `${selectedValues.length} selected`}
+                        : `${filteredApp.length} Apps Selected`}
                     <svg
                         className='-mr-1 ml-2 h-5 w-5'
                         xmlns='http://www.w3.org/2000/svg'
@@ -49,30 +34,26 @@ function MultiDropdown({ options, placeholder, onChange }) {
                 </button>
             </div>
             {isOpen && (
-                <div className='absolute z-10 mt-2 w-full rounded-md bg-white shadow-lg'>
-                    <div className='py-1 w-full'>
-                        {options.map((option) => (
-                            <>
+                <div className='absolute mt-2 w-full rounded-md bg-white shadow-lg'>
+                    {options.map((option) => (
+                        <>
+                            <div className='flex items-center py-2 mr-2'>
                                 <input
                                     type='checkbox'
-                                    id={option.id}
-                                    className='mr-2 h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded'
-                                    checked={selectedValues.includes(
-                                        option.value
-                                    )}
-                                    onChange={() =>
-                                        handleCheckboxChange(option.value)
-                                    }
+                                    id={option.value}
+                                    className='ml-2 h-5 w-5 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded cursor-pointer'
+                                    checked={filteredApp.includes(option.value)}
+                                    onChange={() => setFilterApp(option.value)}
                                 />
                                 <label
                                     key={option.value}
-                                    className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer'
+                                    className='block ml-3 text-sm text-gray-700'
                                 >
                                     {option.label}
                                 </label>
-                            </>
-                        ))}
-                    </div>
+                            </div>
+                        </>
+                    ))}
                 </div>
             )}
         </div>

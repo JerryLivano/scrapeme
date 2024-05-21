@@ -16,7 +16,10 @@ export default function UserTable() {
     const [pageSize, setPageSize] = useState(10);
     const [totalPage, setTotalPages] = useState(1);
     const [search, setSearch] = useState("");
+
     const [roleOpt, setRoleOpt] = useState("");
+    const [appOpt, setAppOpt] = useState([]);
+
     const [isClicked, setIsClicked] = useState(false);
     const [isChecked, setIsChecked] = useState(true);
 
@@ -198,8 +201,6 @@ export default function UserTable() {
                 accessorFn: (row) => {
                     const [modifyAccess, setModifyAccess] = useState(false);
 
-                    console.log(modifyAccess);
-
                     useEffect(() => {
                         if (accId.some((accId) => accId === row.accountId)) {
                             setAccId(
@@ -247,7 +248,6 @@ export default function UserTable() {
                     authApp: user.authorizedApplications,
                 }))
             );
-            console.log(dataAuthApp);
         }
     }, [isSuccess, users]);
 
@@ -255,11 +255,32 @@ export default function UserTable() {
         setPage(newPageNumber);
     };
 
+    const handleDeleteFilteredApp = (selectedApp) => {
+        setAppOpt(appOpt.filter((app) => app !== selectedApp))
+    }
+
+    const handleAppSelect = (selectedApp) => {
+        if (appOpt.includes(selectedApp)) {
+            handleDeleteFilteredApp(selectedApp);
+        } else {
+            setAppOpt([...appOpt, selectedApp]);
+        }
+    };
+
     const {
         data: applications,
         isLoading: applicationIsLoading,
-        isError: applicationIsError
-    } = useGetApplicationQuery()
+        isError: applicationIsError,
+    } = useGetApplicationQuery({ page: page, limit: pageSize });
+
+    let filterAppOptions = [];
+
+    if (!applicationIsLoading && !applicationIsError && applications.data) {
+        filterAppOptions = applications.data.map((app) => ({
+            value: app.name,
+            label: app.name,
+        }));
+    }
 
     const handleRoleSelect = (e) => {
         setRoleOpt(e.target.value);
@@ -282,17 +303,13 @@ export default function UserTable() {
         }));
         filterRoleOptions.unshift({ label: "All", value: "" });
     }
-    console.log(roles)
+    console.log(filterRoleOptions)
 
     const handleSearchChange = (value) => {
         setSearch((prev) => {
             if (value !== prev) setPage(1);
             return value.toString();
         });
-    };
-
-    const onClickAdd = () => {
-        navigate("add-user");
     };
 
     if (isLoading || isFetching) content = <Spinner />;
@@ -317,13 +334,12 @@ export default function UserTable() {
                     columns={cols}
                     showPageSize
                     showGlobalFilter
-                    filterApp
                     showPagination
                     showAddButton
                     searchQuery={search}
                     searchHandler={handleSearchChange}
                     placeholder={"Search employee name..."}
-                    onClickAdd={onClickAdd}
+                    onClickAdd={() => navigate('add-user')}
                     title={"User"}
                     pageIndex={pagination.currentPage}
                     pageCount={totalPage}
@@ -334,6 +350,11 @@ export default function UserTable() {
                     filterRole={roleOpt}
                     setFilterRole={handleRoleSelect}
                     filterRoleOptions={filterRoleOptions}
+                    showFilterApp={true}
+                    setFilterApp={(app) => handleAppSelect(app)}
+                    filterApp={appOpt}
+                    filterAppOptions={filterAppOptions}
+                    handleDeleteFilteredApp={(app) => handleDeleteFilteredApp(app)}
                 />
             </>
         );

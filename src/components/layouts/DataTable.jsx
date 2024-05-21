@@ -31,7 +31,7 @@ export default function DataTable({
     setFilterRole,
     filterApp,
     role,
-    setFilterApp,
+    setFilterApp = () => {},
     showAddButton = false,
     onClickAdd = () => {},
     showPagination = false,
@@ -50,20 +50,11 @@ export default function DataTable({
     isFetching = false,
     filterRoleOptions,
     filterAppOptions,
+    handleDeleteFilteredApp = () => {}
 }) {
     const [globalFilter, setGlobalFilter] = useState("");
     const onScrollSubscriber = useRef([]);
     const tableRef = useRef(null);
-
-    const { setValue, watch } = useForm({
-        defaultValues: {
-            roleId: "",
-            roleName: "",
-            appId: "",
-            appName: "",
-        },
-        mode: "onChange",
-    });
 
     const table = useReactTable({
         data,
@@ -144,17 +135,12 @@ export default function DataTable({
                             )}
                             {/* {filterApp} */}
                             {showFilterApp && (
-                                <div className="flex items-center">
+                                <div className='flex items-center'>
                                     <MultiDropdown
-                                        options={appIsSuccess ? apps.data : []}
+                                        options={filterAppOptions}
+                                        filteredApp={filterApp}
                                         placeholder='--- Select Apps ---'
-                                        onChange={(e) => {
-                                            setSelectedApps(e.value);
-                                            setValue(
-                                                "appId",
-                                                e.value.map((app) => app.id)
-                                            );
-                                        }}
+                                        setFilterApp={setFilterApp}
                                         className='w-44 text-center border-2 rounded-sm px-4 h-10 pt-2 flex color:red'
                                     />
                                 </div>
@@ -207,21 +193,20 @@ export default function DataTable({
                             Filters
                             <span className='border-r-2 ml-3 border-black'></span>
                         </div>
-                        {filterRole && (
-                            <div className='border-2 border-slate-300 inline-flex h-fit rounded-xl'>
-                                <div className='mx-3 w-full'>
-                                    {
-                                        filterRoleOptions.find(
-                                            (option) =>
-                                                option.value === filterRole
-                                        )?.value
-                                    }
-                                </div>
-                                {/* <ButtonDelete
-                                    onClick={handleDeleteFilterRole}
-                                /> */}
-                            </div>
-                        )}
+
+                        <div className="inline-flex gap-x-1">
+                            {filterApp.length > 0 &&
+                                filterApp.map((item) => {
+                                    return (
+                                        <div className='border-2 border-slate-300 inline-flex h-fit rounded-xl'>
+                                            <div className='mx-4 w-full'>
+                                                {item}
+                                            </div>
+                                            <ButtonDelete onClick={() => {handleDeleteFilteredApp(item)}} />
+                                        </div>
+                                    );
+                                })}
+                        </div>
                     </div>
                     <div className='min-w-full overflow-hidden'>
                         <div

@@ -2,10 +2,12 @@ import { useEffect, useMemo, useState } from "react";
 import DataTable from "../../../components/layouts/DataTable";
 import uuid from "react-uuid";
 import { useGetRoleQuery } from "../../../services/roleApi.Slice";
+import { useGetApplicationQuery } from "../../../services/applicationApiSlice";
 
 export default function TemporaryAddUserTable({ userData }) {
     let content;
     const [roleOpt, setRoleOpt] = useState("");
+    const [appOpt, setAppOpt] = useState([]);
     const [search, setSearch] = useState("");
     const [filteredUserData, setFilteredUserData] = useState([]);
 
@@ -196,6 +198,43 @@ export default function TemporaryAddUserTable({ userData }) {
         );
     }, [userData, search]);
 
+    const handleDeleteFilteredApp = (selectedApp) => {
+        setAppOpt(appOpt.filter((app) => app !== selectedApp));
+    };
+
+    const handleAppSelect = (selectedApp) => {
+        if (appOpt.includes(selectedApp)) {
+            handleDeleteFilteredApp(selectedApp);
+        } else {
+            setAppOpt([...appOpt, selectedApp]);
+        }
+    };
+
+    useEffect(() => {
+        setFilteredUserData(
+            userData.filter((user) =>
+                user.authorizedApplications.map((app) => {
+                    app.name.includes(appOpt);
+                })
+            )
+        );
+    }, [appOpt]);
+
+    const {
+        data: applications,
+        isLoading: applicationIsLoading,
+        isError: applicationIsError,
+    } = useGetApplicationQuery({ page: 1, limit: 50 });
+
+    let filterAppOptions = [];
+
+    if (!applicationIsLoading && !applicationIsError && applications.data) {
+        filterAppOptions = applications.data.map((app) => ({
+            value: app.name,
+            label: app.name,
+        }));
+    }
+
     useEffect(() => {
         setFilteredUserData(
             userData.filter((user) => user.roleName.includes(roleOpt))
@@ -233,7 +272,6 @@ export default function TemporaryAddUserTable({ userData }) {
                 showTitle={true}
                 data={filteredUserData}
                 columns={cols}
-                filterApp
                 showGlobalFilter
                 showFilterRole={true}
                 filterRole={roleOpt}
@@ -242,6 +280,11 @@ export default function TemporaryAddUserTable({ userData }) {
                 placeholder={"Search employee name..."}
                 searchQuery={search}
                 searchHandler={handleSearchChange}
+                showFilterApp={true}
+                setFilterApp={(app) => handleAppSelect(app)}
+                filterApp={appOpt}
+                filterAppOptions={filterAppOptions}
+                handleDeleteFilteredApp={(app) => handleDeleteFilteredApp(app)}
             />
         </>
     );
