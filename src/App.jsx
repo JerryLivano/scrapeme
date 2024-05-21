@@ -12,6 +12,7 @@ import {
 import { AuthLayout, DashLayout, Layout } from "./components/layouts";
 import AddUser from "./pages/ManageUser/AddUser";
 import UserPage from "./UI/UserPage";
+import { ToastContainer } from "react-toastify";
 
 const App = () => {
     return (
@@ -37,9 +38,11 @@ const App = () => {
                         <Route path='home' element={<HomePage />} />
 
                         {/* User Page */}
-                        <Route path='user' element={<UserPage />} />
+                        <Route path='user'>
+                            <Route index element={<UserPage />} />
+                            <Route path='add-user' element={<AddUser />} />
+                        </Route>
 
-                        <Route path='user/add-user' element={<AddUser />} />
                         {/* Application Page */}
                         <Route path='application' element={<ManageApp />} />
 
@@ -49,6 +52,18 @@ const App = () => {
                     </Route>
                 </Route>
             </Routes>
+            <ToastContainer
+                position='top-center'
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss={false}
+                draggable
+                pauseOnHover={false}
+                theme='light'
+            />
         </>
     );
 };
