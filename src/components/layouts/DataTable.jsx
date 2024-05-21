@@ -5,7 +5,6 @@ import {
     useReactTable,
 } from "@tanstack/react-table";
 import React, { createContext, useCallback, useRef, useState } from "react";
-import FilterTable from "../fragments/Filter/FilterTable";
 import { MultiSelect } from "primereact/multiselect";
 import Spinner from "../elements/Spinner/Spinner";
 import DataTablePagination from "./DataTablePagination";
