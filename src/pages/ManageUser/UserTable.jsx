@@ -272,6 +272,7 @@ export default function UserTable() {
         isError: rolesIsError,
     } = useGetRoleQuery();
 
+
     let filterRoleOptions = [];
 
     if (!rolesIsLoading && !rolesIsError && roles.data) {
@@ -281,7 +282,7 @@ export default function UserTable() {
         }));
         filterRoleOptions.unshift({ label: "All", value: "" });
     }
-    console.log(filterRoleOptions)
+    console.log(roles)
 
     const handleSearchChange = (value) => {
         setSearch((prev) => {

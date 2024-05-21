@@ -217,9 +217,9 @@ export default function DataTable({
                                         )?.value
                                     }
                                 </div>
-                                <ButtonDelete
+                                {/* <ButtonDelete
                                     onClick={handleDeleteFilterRole}
-                                />
+                                /> */}
                             </div>
                         )}
                     </div>
