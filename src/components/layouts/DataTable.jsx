@@ -10,7 +10,6 @@ import { MultiSelect } from 'primereact/multiselect';
 import Spinner from "../elements/Spinner/Spinner";
 import DataTablePagination from "./DataTablePagination";
 import { useGetApplicationQuery } from "../../services/applicationApiSlice";
-import { useGetRoleByIdQuery,useGetRoleQuery } from "../../services/roleApi.Slice";
 import DropdownInput from "../elements/Input/DropdownInput";
 import ButtonPlus from "../elements/Button/ButtonPlus";
 import { useForm } from "react-hook-form";
@@ -119,7 +118,7 @@ export default function DataTable({
                             </div>
                         </div>
                     )}
-                    <div className='flex justify-between items-center w-full mb-3'>
+                    <div className='flex justify-between w-full mb-3'>
                         <div className='mb-2 flex items-center'>
                             {showGlobalFilter && (
                                 <div className="w-fit mr-4">
@@ -159,7 +158,6 @@ export default function DataTable({
                             )} 
                             {/* {filterApp} */}
                             {filterApp && (
-
                                 <div className="card justify-center mr-4">
 
                                     <MultiSelect
@@ -179,7 +177,7 @@ export default function DataTable({
                                             </div>
                                         )}
                                     />  
-                            </div>
+                                </div>
                             )}  
                         </div>
                         <div className='flex items-center'>
@@ -220,6 +218,12 @@ export default function DataTable({
                                     </div>
                                 )}
                             </div>
+                        </div>
+                        
+                    </div>
+                    <div className="w-full bg-slate-100 mb-3 border-t-2 border-slate-200">
+                        <div className="mx-4 ">
+                            Filters
                         </div>
                     </div>
                     <div className='min-w-full overflow-hidden'>
