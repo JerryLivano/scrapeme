@@ -17,7 +17,7 @@ export function toastSuccess({ message }) {
 
 export function toastError({ message }) {
     toast.error(message, {
-        position: "top-center",
+        position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -25,6 +25,6 @@ export function toastError({ message }) {
         draggable: true,
         progress: undefined,
         theme: "light",
-        className: "min-w-fit whitespace-nowrap",
+        className: "min-w-fit mr-8 mt-8 whitespace-nowrap",
     });
 }
