@@ -9,16 +9,11 @@ import { MultiSelect } from "primereact/multiselect";
 import Spinner from "../elements/Spinner/Spinner";
 import DataTablePagination from "./DataTablePagination";
 import { useGetApplicationQuery } from "../../services/applicationApiSlice";
-import {
-    useGetRoleByIdQuery,
-    useGetRoleQuery,
-} from "../../services/roleApi.Slice";
 import DropdownInput from "../elements/Input/DropdownInput";
 import ButtonPlus from "../elements/Button/ButtonPlus";
 import { useForm } from "react-hook-form";
 import { Select } from "@mui/material";
 import FilterSearchTable from "../fragments/Filter/FIlterSearchTable";
-// import { MultiDropdown } from "../elements/Input/MultiDropdown";
 
 export const TableScrollEvent = createContext(null);
 export const TableRef = createContext(null);
