@@ -54,15 +54,6 @@ export default function DataTable({
     const [globalFilter, setGlobalFilter] = useState("");
     const onScrollSubscriber = useRef([]);
     const tableRef = useRef(null);
-    const [page, setPage] = useState(1);
-    const [selectedApps, setSelectedApps] = useState("");
-
-    const {
-        data: apps,
-        isLoading: appIsLoading,
-        isSuccess: appIsSuccess,
-        isFetching: appIsFetching,
-    } = useGetApplicationQuery({ page: page, limit: pageSize });
 
     const { setValue, watch } = useForm({
         defaultValues: {
@@ -104,14 +95,6 @@ export default function DataTable({
             );
         };
     }, []);
-
-    const handleDeleteFilterRole = () => {
-        setFilterRole("s"); // Clear the selected filter role
-    };
-
-    console.log(handleDeleteFilterRole)
-    console.log(MultiDropdown)
-    console.log(setFilterRole)
 
     return (
         <TableRef.Provider value={tableRef}>
@@ -160,13 +143,11 @@ export default function DataTable({
                                 </div>
                             )}
                             {/* {filterApp} */}
-                            {filterApp && (
-                                <div className="">
+                            {showFilterApp && (
+                                <div className="flex items-center">
                                     <MultiDropdown
                                         options={appIsSuccess ? apps.data : []}
-                                        optionLabel='name'
                                         placeholder='--- Select Apps ---'
-                                        value={selectedApps}
                                         onChange={(e) => {
                                             setSelectedApps(e.value);
                                             setValue(
@@ -175,12 +156,6 @@ export default function DataTable({
                                             );
                                         }}
                                         className='w-44 text-center border-2 rounded-sm px-4 h-10 pt-2 flex color:red'
-                                        // panelClassName='w-fit text-black bg-white border-2 px-4 rounded-md'
-                                        // itemTemplate={(option) => (
-                                        //     <div className='inline-flex bg-transparent border-none mx-3'>
-                                        //         {option.name}
-                                        //     </div>
-                                        // )}
                                     />
                                 </div>
                             )}
@@ -227,18 +202,22 @@ export default function DataTable({
                     </div>
 
                     {/* {{ShowFilter}} */}
-                    <div className="w-full inline-flex h-10 bg-slate-100 mb-3 border-t-2 border-slate-200">
-                        <div className="ml-4 mr-2 mt-1">
+                    <div className='w-full inline-flex items-center py-2 bg-slate-100 mb-3 border-t-2 border-slate-200'>
+                        <div className='ml-4 mr-2 text-lg'>
                             Filters
-                            <span className="border-r-2 ml-3 border-black"></span>
+                            <span className='border-r-2 ml-3 border-black'></span>
                         </div>
                         {filterRole && (
-                            <div className="border-2 mx-2 mt-1 border-slate-200 inline-flex h-fit rounded-xl">
-                                <div className="mx-3 w-full">
-                                    {filterRoleOptions.find(option => option.value === filterRole)?.value}
+                            <div className='border-2 border-slate-300 inline-flex h-fit rounded-xl'>
+                                <div className='mx-3 w-full'>
+                                    {
+                                        filterRoleOptions.find(
+                                            (option) =>
+                                                option.value === filterRole
+                                        )?.value
+                                    }
                                 </div>
-                                <ButtonDelete 
-                                    // setFilterRole={setFilterRole}
+                                <ButtonDelete
                                     onClick={handleDeleteFilterRole}
                                 />
                             </div>

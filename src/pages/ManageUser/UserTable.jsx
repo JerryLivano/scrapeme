@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { useGetRoleQuery } from "../../services/roleApi.Slice";
 import ButtonIconAction from "../../components/elements/Button/ButtonIconAction";
 import InputCheckbox from "../../components/elements/Input/InputCheckbox";
+import { useGetApplicationQuery } from "../../services/applicationApiSlice";
 
 export default function UserTable() {
     let content;
@@ -253,6 +254,12 @@ export default function UserTable() {
     const handlePageChange = (newPageNumber) => {
         setPage(newPageNumber);
     };
+
+    const {
+        data: applications,
+        isLoading: applicationIsLoading,
+        isError: applicationIsError
+    } = useGetApplicationQuery()
 
     const handleRoleSelect = (e) => {
         setRoleOpt(e.target.value);
