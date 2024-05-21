@@ -6,15 +6,19 @@ import {
 } from "@tanstack/react-table";
 import React, { createContext, useCallback, useRef, useState } from "react";
 import FilterTable from "../fragments/Filter/FilterTable";
-import { MultiSelect } from 'primereact/multiselect';
+import { MultiSelect } from "primereact/multiselect";
 import Spinner from "../elements/Spinner/Spinner";
 import DataTablePagination from "./DataTablePagination";
 import { useGetApplicationQuery } from "../../services/applicationApiSlice";
-import { useGetRoleByIdQuery,useGetRoleQuery } from "../../services/roleApi.Slice";
+import {
+    useGetRoleByIdQuery,
+    useGetRoleQuery,
+} from "../../services/roleApi.Slice";
 import DropdownInput from "../elements/Input/DropdownInput";
 import ButtonPlus from "../elements/Button/ButtonPlus";
 import { useForm } from "react-hook-form";
 import { Select } from "@mui/material";
+import FilterSearchTable from "../fragments/Filter/FIlterSearchTable";
 // import { MultiDropdown } from "../elements/Input/MultiDropdown";
 
 export const TableScrollEvent = createContext(null);
@@ -64,16 +68,15 @@ export default function DataTable({
         isFetching: appIsFetching,
     } = useGetApplicationQuery({ page: page, limit: pageSize });
 
-
     const { setValue, watch } = useForm({
         defaultValues: {
             roleId: "",
             roleName: "",
-            appId : "",
-            appName : "",
+            appId: "",
+            appName: "",
         },
         mode: "onChange",
-    })
+    });
 
     const table = useReactTable({
         data,
@@ -111,7 +114,7 @@ export default function DataTable({
             <TableScrollEvent.Provider value={contextCallback}>
                 <main>
                     {title && showTitle && (
-                        <div className='sm:flex sm:items-center'>
+                        <div className='sm:flex sm:items-center mb-4'>
                             <div className='sm:flex-auto'>
                                 <h1 className='text-lg font-semibold leading-6 text-brm-font-black'>
                                     {title}
@@ -119,11 +122,12 @@ export default function DataTable({
                             </div>
                         </div>
                     )}
-                    <div className='flex justify-between items-center w-full mb-3'>
-                        <div className='mb-2 flex items-center'>
+                    <div className='flex justify-between items-center w-full mb-2'>
+                        {/* Search */}
+                        <div className='flex items-center'>
                             {showGlobalFilter && (
-                                <div className="w-fit mr-4">
-                                    <FilterTable
+                                <div className='w-fit mr-2'>
+                                    <FilterSearchTable
                                         value={searchQuery ?? ""}
                                         setGlobalFilter={searchHandler}
                                         placeholder={
@@ -134,53 +138,48 @@ export default function DataTable({
                             )}
                             {/* {filterRole} */}
                             {showFilterRole && (
-                                <div className='flex items-center'>
+                                <div className='flex items-center mr-2'>
                                     <DropdownInput
                                         value={filterRole}
                                         onChange={setFilterRole}
                                         className='max-w-fit'
                                     >
-                                        {filterRoleOptions.map(
-                                            (filterRole) => (
-                                                <option
-                                                    key={
-                                                        filterRole.value
-                                                    }
-                                                    value={
-                                                        filterRole.value
-                                                    }
-                                                >
-                                                    {filterRole.label}
-                                                </option>
-                                            )
-                                        )}
+                                        {filterRoleOptions.map((filterRole) => (
+                                            <option
+                                                key={filterRole.value}
+                                                value={filterRole.value}
+                                            >
+                                                {filterRole.label}
+                                            </option>
+                                        ))}
                                     </DropdownInput>
                                 </div>
-                            )} 
+                            )}
                             {/* {filterApp} */}
                             {filterApp && (
-
-                                <div className="card justify-center mr-4">
-
+                                <div className='card justify-center'>
                                     <MultiSelect
                                         options={appIsSuccess ? apps.data : []}
-                                        optionLabel="name"
-                                        placeholder="--- Select Apps ---"
+                                        optionLabel='name'
+                                        placeholder='--- Select Apps ---'
                                         value={selectedApps}
                                         onChange={(e) => {
                                             setSelectedApps(e.value);
-                                            setValue("appId", e.value.map(app => app.id));
+                                            setValue(
+                                                "appId",
+                                                e.value.map((app) => app.id)
+                                            );
                                         }}
-                                        className="w-44 text-center border-2 rounded-sm px-4 h-10 pt-2 flex color:red"
-                                        panelClassName="w-fit text-black bg-white border-2 px-4 rounded-md"
+                                        className='w-44 text-center border-2 rounded-sm px-4 h-10 pt-2 flex color:red'
+                                        panelClassName='w-fit text-black bg-white border-2 px-4 rounded-md'
                                         itemTemplate={(option) => (
-                                            <div className="inline-flex bg-transparent border-none mx-3">
+                                            <div className='inline-flex bg-transparent border-none mx-3'>
                                                 {option.name}
                                             </div>
                                         )}
-                                    />  
-                            </div>
-                            )}  
+                                    />
+                                </div>
+                            )}
                         </div>
                         <div className='flex items-center'>
                             <div className='flex ml-3'>
