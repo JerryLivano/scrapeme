@@ -14,7 +14,8 @@ import ButtonPlus from "../elements/Button/ButtonPlus";
 import { useForm } from "react-hook-form";
 import { Select } from "@mui/material";
 import FilterSearchTable from "../fragments/Filter/FIlterSearchTable";
-
+import ButtonDelete from "../elements/Button/ButtonDelete";
+import MultiDropdown from "../elements/Input/MultiDropdown";
 export const TableScrollEvent = createContext(null);
 export const TableRef = createContext(null);
 
@@ -29,6 +30,7 @@ export default function DataTable({
     filterRole,
     setFilterRole,
     filterApp,
+    role,
     setFilterApp,
     showAddButton = false,
     onClickAdd = () => {},
@@ -103,6 +105,14 @@ export default function DataTable({
         };
     }, []);
 
+    const handleDeleteFilterRole = () => {
+        setFilterRole("s"); // Clear the selected filter role
+    };
+
+    console.log(handleDeleteFilterRole)
+    console.log(MultiDropdown)
+    console.log(setFilterRole)
+
     return (
         <TableRef.Provider value={tableRef}>
             <TableScrollEvent.Provider value={contextCallback}>
@@ -151,8 +161,8 @@ export default function DataTable({
                             )}
                             {/* {filterApp} */}
                             {filterApp && (
-                                <div className='card justify-center'>
-                                    <MultiSelect
+                                <div className="">
+                                    <MultiDropdown
                                         options={appIsSuccess ? apps.data : []}
                                         optionLabel='name'
                                         placeholder='--- Select Apps ---'
@@ -165,12 +175,12 @@ export default function DataTable({
                                             );
                                         }}
                                         className='w-44 text-center border-2 rounded-sm px-4 h-10 pt-2 flex color:red'
-                                        panelClassName='w-fit text-black bg-white border-2 px-4 rounded-md'
-                                        itemTemplate={(option) => (
-                                            <div className='inline-flex bg-transparent border-none mx-3'>
-                                                {option.name}
-                                            </div>
-                                        )}
+                                        // panelClassName='w-fit text-black bg-white border-2 px-4 rounded-md'
+                                        // itemTemplate={(option) => (
+                                        //     <div className='inline-flex bg-transparent border-none mx-3'>
+                                        //         {option.name}
+                                        //     </div>
+                                        // )}
                                     />
                                 </div>
                             )}
@@ -214,6 +224,25 @@ export default function DataTable({
                                 )}
                             </div>
                         </div>
+                    </div>
+
+                    {/* {{ShowFilter}} */}
+                    <div className="w-full inline-flex h-10 bg-slate-100 mb-3 border-t-2 border-slate-200">
+                        <div className="ml-4 mr-2 mt-1">
+                            Filters
+                            <span className="border-r-2 ml-3 border-black"></span>
+                        </div>
+                        {filterRole && (
+                            <div className="border-2 mx-2 mt-1 border-slate-200 inline-flex h-fit rounded-xl">
+                                <div className="mx-3 w-full">
+                                    {filterRoleOptions.find(option => option.value === filterRole)?.value}
+                                </div>
+                                <ButtonDelete 
+                                    // setFilterRole={setFilterRole}
+                                    onClick={handleDeleteFilterRole}
+                                />
+                            </div>
+                        )}
                     </div>
                     <div className='min-w-full overflow-hidden'>
                         <div

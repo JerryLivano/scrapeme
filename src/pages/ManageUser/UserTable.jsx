@@ -272,8 +272,10 @@ export default function UserTable() {
             value: role.roleName,
             label: role.roleName,
         }));
+        const allRolesValue = roles.data.map(role => role.roleName).join(',');
         filterRoleOptions.unshift({ label: "All", value: "" });
     }
+    console.log(filterRoleOptions)
 
     const handleSearchChange = (value) => {
         setSearch((prev) => {
