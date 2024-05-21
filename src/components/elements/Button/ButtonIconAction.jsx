@@ -6,13 +6,13 @@ import {
 import { useEffect, useState } from "react";
 
 export default function ButtonIconAction({ modifyAccess, setModifyAccess }) {
-    console.log(modifyAccess);
+    const [modify, setModify] = useState(false)
 
     return (
         <>
-            <form onSubmit={() => setModifyAccess(false)}>
-                {!modifyAccess ? (
-                    <button type='button' onClick={() => setModifyAccess(true)}>
+            <form onSubmit={() => setModify(false)}>
+                {!modify ? (
+                    <button type='button' onClick={() => setModify(true)}>
                         <EllipsisVerticalIcon className='h-6 w-6 text-gray-600' />
                     </button>
                 ) : (
@@ -20,7 +20,7 @@ export default function ButtonIconAction({ modifyAccess, setModifyAccess }) {
                         {/* Button cancel */}
                         <button
                             type='button'
-                            onClick={() => setModifyAccess(false)}
+                            onClick={() => setModify(false)}
                         >
                             <XMarkIcon className='h-6 w-6 text-gray-600' />
                         </button>
