@@ -6,17 +6,22 @@ import Spinner from "../../components/elements/Spinner/Spinner";
 import { CheckIcon, EllipsisVerticalIcon } from "@heroicons/react/24/solid";
 import { useNavigate } from "react-router-dom";
 import { useGetRoleQuery } from "../../services/roleApi.Slice";
+import ButtonIconAction from "../../components/elements/Button/ButtonIconAction";
+import InputCheckbox from "../../components/elements/Input/InputCheckbox";
 
 export default function UserTable() {
     let content;
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(10);
     const [totalPage, setTotalPages] = useState(1);
-    const [showAddButton, setShowAddButton] = useState(false);
     const [search, setSearch] = useState("");
     const [roleOpt, setRoleOpt] = useState("");
-
+    const [isClicked, setIsClicked] = useState(false);
     const [isChecked, setIsChecked] = useState(true);
+
+    const [dataAuthApp, setDataAuthApp] = useState([]);
+    const [selectedUser, setSelectedUser] = useState("");
+    const [accId, setAccId] = useState([]);
 
     const toggleCheckbox = () => {
         setIsChecked(!isChecked);
@@ -64,18 +69,16 @@ export default function UserTable() {
                 header: "Recruit-ME",
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) => {
-                    const isChecked = row.authorizedApplications.some(
-                        (app) => app.name === "Recruit-ME"
-                    );
                     return (
-                        <div className='flex justify-center'>
-                            <input
-                                type='checkbox'
-                                checked={isChecked}
-                                onChange={() => {}}
-                                className='form-checkbox h-5 w-5 text-gray-600'
-                            />
-                        </div>
+                        <InputCheckbox
+                            value={"Recruit-ME"}
+                            dataApp={row.authorizedApplications.map((app) => ({
+                                name: app.name,
+                            }))}
+                            isModified={accId.some(
+                                (accId) => accId === row.accountId
+                            )}
+                        />
                     );
                 },
             },
@@ -84,18 +87,16 @@ export default function UserTable() {
                 header: "CV-ME",
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) => {
-                    const isChecked = row.authorizedApplications.some(
-                        (app) => app.name === "CV-ME"
-                    );
                     return (
-                        <div className='flex justify-center'>
-                            <input
-                                type='checkbox'
-                                checked={isChecked}
-                                onChange={() => {}}
-                                className='form-checkbox h-5 w-5 text-gray-600'
-                            />
-                        </div>
+                        <InputCheckbox
+                            value={"CV-ME"}
+                            dataApp={row.authorizedApplications.map((app) => ({
+                                name: app.name,
+                            }))}
+                            isModified={accId.some(
+                                (accId) => accId === row.accountId
+                            )}
+                        />
                     );
                 },
             },
@@ -104,18 +105,16 @@ export default function UserTable() {
                 header: "Test-ME",
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) => {
-                    const isChecked = row.authorizedApplications.some(
-                        (app) => app.name === "Test-ME"
-                    );
                     return (
-                        <div className='flex justify-center'>
-                            <input
-                                type='checkbox'
-                                checked={isChecked}
-                                onChange={() => {}}
-                                className='form-checkbox h-5 w-5 text-gray-600'
-                            />
-                        </div>
+                        <InputCheckbox
+                            value={"Test-ME"}
+                            dataApp={row.authorizedApplications.map((app) => ({
+                                name: app.name,
+                            }))}
+                            isModified={accId.some(
+                                (accId) => accId === row.accountId
+                            )}
+                        />
                     );
                 },
             },
@@ -124,18 +123,16 @@ export default function UserTable() {
                 header: "Pick-ME",
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) => {
-                    const isChecked = row.authorizedApplications.some(
-                        (app) => app.name === "Pick-ME"
-                    );
                     return (
-                        <div className='flex justify-center'>
-                            <input
-                                type='checkbox'
-                                checked={isChecked}
-                                onChange={() => {}}
-                                className='form-checkbox h-5 w-5 text-gray-600'
-                            />
-                        </div>
+                        <InputCheckbox
+                            value={"Pick-ME"}
+                            dataApp={row.authorizedApplications.map((app) => ({
+                                name: app.name,
+                            }))}
+                            isModified={accId.some(
+                                (accId) => accId === row.accountId
+                            )}
+                        />
                     );
                 },
             },
@@ -144,18 +141,16 @@ export default function UserTable() {
                 header: "Team-ME",
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) => {
-                    const isChecked = row.authorizedApplications.some(
-                        (app) => app.name === "Team-ME"
-                    );
                     return (
-                        <div className='flex justify-center'>
-                            <input
-                                type='checkbox'
-                                checked={isChecked}
-                                onChange={() => {}}
-                                className='form-checkbox h-5 w-5 text-gray-600'
-                            />
-                        </div>
+                        <InputCheckbox
+                            value={"Team-ME"}
+                            dataApp={row.authorizedApplications.map((app) => ({
+                                name: app.name,
+                            }))}
+                            isModified={accId.some(
+                                (accId) => accId === row.accountId
+                            )}
+                        />
                     );
                 },
             },
@@ -164,18 +159,16 @@ export default function UserTable() {
                 header: "BRM",
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) => {
-                    const isChecked = row.authorizedApplications.some(
-                        (app) => app.name === "BRM"
-                    );
                     return (
-                        <div className='flex justify-center'>
-                            <input
-                                type='checkbox'
-                                checked={isChecked}
-                                onChange={() => {}}
-                                className='form-checkbox h-5 w-5 text-gray-600'
-                            />
-                        </div>
+                        <InputCheckbox
+                            value={row}
+                            dataApp={row.authorizedApplications.map((app) => ({
+                                name: app.name,
+                            }))}
+                            isModified={accId.some(
+                                (accId) => accId === row.accountId
+                            )}
+                        />
                     );
                 },
             },
@@ -184,18 +177,16 @@ export default function UserTable() {
                 header: "Metrodata Academy",
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) => {
-                    const isChecked = row.authorizedApplications.some(
-                        (app) => app.name === "Metrodata Academy"
-                    );
                     return (
-                        <div className='flex justify-center'>
-                            <input
-                                type='checkbox'
-                                checked={isChecked}
-                                onChange={() => {}}
-                                className='form-checkbox h-5 w-5 text-gray-600'
-                            />
-                        </div>
+                        <InputCheckbox
+                            value={"Metrodata Academy"}
+                            dataApp={row.authorizedApplications.map((app) => ({
+                                name: app.name,
+                            }))}
+                            isModified={accId.some(
+                                (accId) => accId === row.accountId
+                            )}
+                        />
                     );
                 },
             },
@@ -203,20 +194,27 @@ export default function UserTable() {
                 id: uuid(),
                 header: "Modify Access",
                 cell: (row) => row.renderValue(),
-                accessorFn: () => {
-                    const [isClicked, setIsClicked] = useState(false);
-                    const handleToggle = () => {
-                        setIsClicked(!isClicked);
-                    };
+                accessorFn: (row) => {
+                    const [modifyAccess, setModifyAccess] = useState(false);
+
+                    console.log(modifyAccess);
+
+                    useEffect(() => {
+                        if (accId.some((accId) => accId === row.accountId)) {
+                            setAccId(
+                                accId.filter((accId) => accId !== row.accountId)
+                            );
+                        } else {
+                            setAccId([...accId, row.accountId]);
+                        }
+                    }, [accId]);
+
                     return (
                         <div className='flex justify-center'>
-                            <button onClick={handleToggle}>
-                                {isClicked ? (
-                                    <CheckIcon className='h-6 w-6 text-gray-600' />
-                                ) : (
-                                    <EllipsisVerticalIcon className='h-6 w-6 text-gray-600' />
-                                )}
-                            </button>
+                            <ButtonIconAction
+                                modifyAccess={modifyAccess}
+                                setModifyAccess={setModifyAccess}
+                            />
                         </div>
                     );
                 },
@@ -242,6 +240,13 @@ export default function UserTable() {
     useEffect(() => {
         if (isSuccess && users) {
             setTotalPages(users.pagination.totalPages);
+            setDataAuthApp(
+                users.data.map((user) => ({
+                    accountId: user.accountId,
+                    authApp: user.authorizedApplications,
+                }))
+            );
+            console.log(dataAuthApp);
         }
     }, [isSuccess, users]);
 
@@ -309,7 +314,7 @@ export default function UserTable() {
                     showAddButton
                     searchQuery={search}
                     searchHandler={handleSearchChange}
-                    placeholder={"Search User..."}
+                    placeholder={"Search employee name..."}
                     onClickAdd={onClickAdd}
                     title={"User"}
                     pageIndex={pagination.currentPage}
