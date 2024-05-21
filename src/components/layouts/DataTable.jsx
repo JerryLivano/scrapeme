@@ -42,6 +42,7 @@ export default function DataTable({
     pageIndex,
     pageSize,
     setPageSize,
+    dataRecord,
     pageChange = () => {},
     searchQuery,
     searchHandler,
@@ -54,15 +55,7 @@ export default function DataTable({
     const onScrollSubscriber = useRef([]);
     const tableRef = useRef(null);
     const [page, setPage] = useState(1);
-    const [selectedRoleId, setSelectedRoleId] = useState("");
     const [selectedApps, setSelectedApps] = useState("");
-
-    const {
-        data: roles,
-        isLoading: roleIsLoading,
-        isSuccess: roleIsSuccess,
-        isFetching: roleIsFetching,
-    } = useGetRoleQuery();
 
     const {
         data: apps,
@@ -71,14 +64,9 @@ export default function DataTable({
         isFetching: appIsFetching,
     } = useGetApplicationQuery({ page: page, limit: pageSize });
 
-    {roleIsSuccess && console.log('roles.data:', roles.data)};
-    {appIsSuccess && console.log('apps.data:', apps.data)};
 
-    const{
-        setValue,
-        watch,
-    } = useForm({
-        defaultValues : {
+    const { setValue, watch } = useForm({
+        defaultValues: {
             roleId: "",
             roleName: "",
             appId : "",
@@ -145,67 +133,35 @@ export default function DataTable({
                                 </div>
                             )}
                             {/* {filterRole} */}
-                            {filterRole && (
-                                <div className="card justify-center mx-4">
-                                    <MultiSelect
-                                        options={roleIsSuccess ? roles.data : []}
-                                        optionLabel="roleName"
-                                        placeholder="--- Role ---"
-                                        value={selectedRoleId}
-                                        onChange={(e) => {
-                                            setSelectedRoleId(e.value);
-                                            setValue("roleId", e.value.map(role => role.id));
-                                        }}
-                                        className="w-40 text-center border-2 rounded-sm px-4 h-10 pt-2 flex color:red"
-                                        panelClassName="w-fit text-black bg-white border-2 px-4 rounded-md"
-                                        itemTemplate={(option) => (
-                                            <div className="inline-flex bg-transparent border-none mx-3 ">
-                                                {option.roleName}
-                                            </div>
+                            {showFilterRole && (
+                                <div className='flex items-center'>
+                                    <DropdownInput
+                                        value={filterRole}
+                                        onChange={setFilterRole}
+                                        className='max-w-fit'
+                                    >
+                                        {filterRoleOptions.map(
+                                            (filterRole) => (
+                                                <option
+                                                    key={
+                                                        filterRole.value
+                                                    }
+                                                    value={
+                                                        filterRole.value
+                                                    }
+                                                >
+                                                    {filterRole.label}
+                                                </option>
+                                            )
                                         )}
-                                    />
-
-
-                                    {/* <DropdownInput
-                                            placeholder='--- Select Role ---'
-                                            required
-                                            className='w-full'
-                                            value={selectedRoleId}
-                                            onChange={(e) => {
-                                                setSelectedRoleId(
-                                                    e.target.value
-                                                );
-                                                setValue(
-                                                    "roleId",
-                                                    e.target.value
-                                                );
-                                            }}
-                                            disabled={
-                                                !roleIsSuccess ||
-                                                roles.length === 0
-                                            }
-                                            error={
-                                                !roleIsSuccess ||
-                                                roles.length === 0
-                                                    ? "No role available"
-                                                    : ""
-                                            }
-                                        >
-                                            {roleIsSuccess &&
-                                                roles.data.map((role) => (
-                                                    <option
-                                                        key={role.id}
-                                                        value={role.id}
-                                                    >
-                                                        {role.roleName}
-                                                    </option>
-                                                ))}
-                                    </DropdownInput> */}
+                                    </DropdownInput>
                                 </div>
                             )} 
                             {/* {filterApp} */}
                             {filterApp && (
+
                                 <div className="card justify-center mr-4">
+
                                     <MultiSelect
                                         options={appIsSuccess ? apps.data : []}
                                         optionLabel="name"
@@ -371,6 +327,8 @@ export default function DataTable({
                                 <DataTablePagination
                                     pageIndex={pageIndex - 1}
                                     pageCount={pageCount}
+                                    dataCount={rowCount}
+                                    pageValue={pageSize}
                                     goToPage={pageChange}
                                     paginationLength={5}
                                 />

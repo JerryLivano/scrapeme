@@ -8,6 +8,8 @@ import {
 export default function DataTablePagination({
     pageIndex,
     pageCount,
+    dataCount,
+    pageValue,
     goToPage,
     paginationLength = 5,
 }) {
@@ -15,7 +17,13 @@ export default function DataTablePagination({
         <>
             <div className='flex justify-between items-center w-full'>
                 <div className='px-4'>
-                    Showing <b>{pageIndex + 1}</b> to <b>{pageCount}</b> of <b>250</b> results
+                    Showing <b>{pageIndex * pageValue + 1}</b> to{" "}
+                    <b>
+                        {(pageIndex + 1) * pageValue > dataCount
+                            ? dataCount
+                            : (pageIndex + 1) * pageValue}
+                    </b>{" "}
+                    of <b>{dataCount}</b> results
                 </div>
                 <div className='flex items-center space-x-2'>
                     <PaginationPageArrow
@@ -39,13 +47,13 @@ export default function DataTablePagination({
 
                     <PaginationPageArrow
                         icon={<ChevronRightIcon className='h-5 w-5' />}
-                        disabled={pageIndex === pageCount - 1}
+                        disabled={pageIndex === Math.max(0, pageCount - 1)}
                         onClick={() => goToPage(pageIndex + 1)}
                     />
 
                     <PaginationPageArrow
                         icon={<ChevronDoubleRightIcon className='h-5 w-5' />}
-                        disabled={pageIndex === pageCount - 1}
+                        disabled={pageIndex === Math.max(0, pageCount - 1)}
                         onClick={() => goToPage(pageCount - 1)}
                     />
                 </div>
@@ -107,11 +115,12 @@ function PaginationPageNumber({ visible, active, number, onClick }) {
 }
 
 function PaginationPageArrow({ icon, disabled, onClick }) {
-    return (
+    return disabled ? (
+        <div className='h-8 w-4'></div>
+    ) : (
         <button
-            className='relative inline-flex h-8 w-8 items-center justify-center text-brm-font-black hover:opacity-70 focus:z-20 focus:outline-offset-0'
+            className='relative inline-flex h-8 w-8 items-center justify-center hover:opacity-70 focus:z-20 focus:outline-offset-0'
             onClick={onClick}
-            disabled={disabled}
         >
             {icon}
         </button>

@@ -11,6 +11,7 @@ export function toastSuccess({ message }) {
         draggable: true,
         progress: undefined,
         theme: "light",
+        className: "min-w-fit whitespace-nowrap",
     });
 }
 
@@ -24,5 +25,6 @@ export function toastError({ message }) {
         draggable: true,
         progress: undefined,
         theme: "light",
+        className: "min-w-fit whitespace-nowrap",
     });
 }
