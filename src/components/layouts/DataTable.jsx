@@ -71,6 +71,7 @@ export default function DataTable({
         isFetching: appIsFetching,
     } = useGetApplicationQuery({ page: page, limit: pageSize });
 
+    {roleIsSuccess && console.log('roles.data:', roles.data)};
     {appIsSuccess && console.log('apps.data:', apps.data)};
 
     const{
@@ -155,10 +156,10 @@ export default function DataTable({
                                             setSelectedRoleId(e.value);
                                             setValue("roleId", e.value.map(role => role.id));
                                         }}
-                                        className="w-40 text-center border-2 place-content-center rounded-md px-4 h-10 pt-2 flex color:red"
-                                        panelClassName="w-fit text-black bg-white border-2  px-4 rounded-md"
+                                        className="w-40 text-center border-2 rounded-sm px-4 h-10 pt-2 flex color:red"
+                                        panelClassName="w-fit text-black bg-white border-2 px-4 rounded-md"
                                         itemTemplate={(option) => (
-                                            <div className="flex bg-transparent border-none mx-3 ">
+                                            <div className="inline-flex bg-transparent border-none mx-3 ">
                                                 {option.roleName}
                                             </div>
                                         )}
@@ -207,18 +208,18 @@ export default function DataTable({
                                 <div className="card justify-center mr-4">
                                     <MultiSelect
                                         options={appIsSuccess ? apps.data : []}
-                                        optionLabel="appName"
-                                        placeholder="Select Apps"
+                                        optionLabel="name"
+                                        placeholder="--- Select Apps ---"
                                         value={selectedApps}
                                         onChange={(e) => {
                                             setSelectedApps(e.value);
                                             setValue("appId", e.value.map(app => app.id));
                                         }}
-                                        className="w-40 text-center border-2 place-content-center rounded-md px-4 h-10 pt-2 flex color:red"
-                                        panelClassName="w-fit text-black bg-white border-2  px-4 rounded-md"
+                                        className="w-44 text-center border-2 rounded-sm px-4 h-10 pt-2 flex color:red"
+                                        panelClassName="w-fit text-black bg-white border-2 px-4 rounded-md"
                                         itemTemplate={(option) => (
-                                            <div className="flex bg-transparent border-none mx-3 ">
-                                                {option.roleName}
+                                            <div className="inline-flex bg-transparent border-none mx-3">
+                                                {option.name}
                                             </div>
                                         )}
                                     />  

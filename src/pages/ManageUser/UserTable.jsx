@@ -234,7 +234,9 @@ export default function UserTable() {
         isError,
         error,
         isFetching,
-    } = useGetUserQuery({ page: page, limit: pageSize });
+    } = useGetUserQuery({ page: page, limit: pageSize, search: search },
+        {refetchOnMountOrArgChange: true}
+    );
 
     useEffect(() => {
         if (isSuccess && users) {
@@ -283,6 +285,9 @@ export default function UserTable() {
                     filterApp
                     showPagination
                     showAddButton
+                    searchQuery={search}
+                    searchHandler={handleSearchChange}
+                    placeholder={"Search User..."}
                     onClickAdd={onClickAdd}
                     title={"User"}
                     pageIndex={pagination.currentPage}

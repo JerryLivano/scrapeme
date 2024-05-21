@@ -190,6 +190,10 @@ export default function TemporaryAddUserTable({ userData }) {
                 showTitle={true}
                 data={userData}
                 columns={cols}
+                filterRole
+                filterApp
+                showGlobalFilter
+                showPageSize
             />
         </>
     );
