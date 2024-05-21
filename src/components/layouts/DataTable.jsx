@@ -5,7 +5,6 @@ import {
     useReactTable,
 } from "@tanstack/react-table";
 import React, { createContext, useCallback, useRef, useState } from "react";
-import FilterTable from "../fragments/Filter/FilterTable";
 import { MultiSelect } from "primereact/multiselect";
 import Spinner from "../elements/Spinner/Spinner";
 import DataTablePagination from "./DataTablePagination";
@@ -19,7 +18,7 @@ import ButtonPlus from "../elements/Button/ButtonPlus";
 import { useForm } from "react-hook-form";
 import { Select } from "@mui/material";
 import FilterSearchTable from "../fragments/Filter/FIlterSearchTable";
-// import { MultiDropdown } from "../elements/Input/MultiDropdown";
+import ButtonDelete from "../elements/Button/ButtonDelete";
 
 export const TableScrollEvent = createContext(null);
 export const TableRef = createContext(null);
@@ -35,6 +34,7 @@ export default function DataTable({
     filterRole,
     setFilterRole,
     filterApp,
+    role,
     setFilterApp,
     showAddButton = false,
     onClickAdd = () => {},
@@ -108,6 +108,10 @@ export default function DataTable({
             );
         };
     }, []);
+
+    const handleDeleteFilterRole = () => {
+        setFilterRole(""); // Clear the selected filter role
+    };
 
     return (
         <TableRef.Provider value={tableRef}>
@@ -220,12 +224,25 @@ export default function DataTable({
                                 )}
                             </div>
                         </div>
-                        
                     </div>
-                    <div className="w-full bg-slate-100 mb-3 border-t-2 border-slate-200">
-                        <div className="mx-4 ">
+                    
+                    {/* {{ShowFilter}} */}
+                    <div className="w-full inline-flex h-10 bg-slate-100 mb-3 border-t-2 border-slate-200">
+                        <div className="ml-4 mr-2 mt-1">
                             Filters
+                            <span className="border-r-2 ml-3 border-black"></span>
                         </div>
+                        {filterRole && (
+                            <div className="border-2 mx-2 mt-1 border-slate-200 inline-flex h-fit rounded-xl">
+                                <div className="mx-3 w-full">
+                                    {filterRoleOptions.find(option => option.value === filterRole)?.label}
+                                </div>
+                                <ButtonDelete 
+                                    setFilterRole={!setFilterRole}
+                                    onClick={handleDeleteFilterRole}
+                                />
+                            </div>
+                        )}
                     </div>
                     <div className='min-w-full overflow-hidden'>
                         <div
