@@ -14,15 +14,15 @@ export default function InputCheckbox({
     }, [dataApp]);
 
     const toggleChange = (value) => {
-        if (isModified) {
+        // if (isModified) {
             if (app.some((app) => app.name === value)) {
                 setApp(app.filter((app) => app.name !== value));
             } else {
                 setApp([...app, { name: value }]);
             }
-        } else {
-            return;
-        }
+        // } else {
+        //     return;
+        // }
     };
 
     return (

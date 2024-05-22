@@ -305,6 +305,7 @@ export default function UserTable() {
         isError: rolesIsError,
     } = useGetRoleQuery();
 
+
     let filterRoleOptions = [];
 
     if (!rolesIsLoading && !rolesIsError && roles.data) {
