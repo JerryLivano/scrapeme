@@ -313,7 +313,7 @@ export default function FormAddUser() {
                                                         key={role.id}
                                                         value={role.id}
                                                     >
-                                                        {role.roleName}
+                                                        {(role.roleName).charAt(5).toUpperCase() + (role.roleName).slice(6).toLowerCase()}
                                                     </option>
                                                 ))}
                                         </DropdownInput>

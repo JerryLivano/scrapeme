@@ -31,10 +31,6 @@ export default function UserTable() {
         setIsChecked(!isChecked);
     };
 
-    // const { data: singleRole } = useGetRoleByIdQuery(watch("roleId"), {
-    //     skip: !watch("roleId"),
-    // });
-
     const cols = useMemo(
         () => [
             {
@@ -66,7 +62,7 @@ export default function UserTable() {
                 id: uuid(),
                 header: "Role",
                 cell: (row) => row.renderValue(),
-                accessorFn: (row) => row.role || "",
+                accessorFn: (row) => (row.role).charAt(5).toUpperCase() + (row.role).slice(6).toLowerCase() || "",
             },
             {
                 id: uuid(),
@@ -165,7 +161,7 @@ export default function UserTable() {
                 accessorFn: (row) => {
                     return (
                         <InputCheckbox
-                            value={row}
+                            value={"BRM"}
                             dataApp={row.authorizedApplications.map((app) => ({
                                 name: app.name,
                             }))}
@@ -271,7 +267,7 @@ export default function UserTable() {
         data: applications,
         isLoading: applicationIsLoading,
         isError: applicationIsError,
-    } = useGetApplicationQuery({ page: page, limit: pageSize });
+    } = useGetApplicationQuery({ page: page, limit: 100 });
 
     let filterAppOptions = [];
 
@@ -298,7 +294,7 @@ export default function UserTable() {
     if (!rolesIsLoading && !rolesIsError && roles.data) {
         filterRoleOptions = roles.data.map((role) => ({
             value: role.roleName,
-            label: role.roleName,
+            label: (role.roleName).charAt(5).toUpperCase() + (role.roleName).slice(6).toLowerCase(),
         }));
         filterRoleOptions.unshift({ label: "All", value: "" });
     }

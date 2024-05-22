@@ -42,13 +42,16 @@ export default function TemporaryAddUserTable({ userData }) {
                 id: uuid(),
                 header: "Role",
                 cell: (row) => row.renderValue(),
-                accessorFn: (row) => row.roleName || "",
+                accessorFn: (row) =>
+                    row.roleName.charAt(5).toUpperCase() +
+                        row.roleName.slice(6).toLowerCase() || "",
             },
             {
                 id: uuid(),
                 header: "Recruit-ME",
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) => {
+                    console.log(row);
                     const isChecked = row.authorizedApplications.some(
                         (app) => app === "Recruit-ME"
                     );
@@ -230,7 +233,7 @@ export default function TemporaryAddUserTable({ userData }) {
 
     if (!applicationIsLoading && !applicationIsError && applications.data) {
         filterAppOptions = applications.data.map((app) => ({
-            value: app.name,
+            value: app.id,
             label: app.name,
         }));
     }
@@ -260,10 +263,14 @@ export default function TemporaryAddUserTable({ userData }) {
     if (!rolesIsLoading && !rolesIsError && roles.data) {
         filterRoleOptions = roles.data.map((role) => ({
             value: role.roleName,
-            label: role.roleName,
+            label:
+                role.roleName.charAt(5).toUpperCase() +
+                role.roleName.slice(6).toLowerCase(),
         }));
         filterRoleOptions.unshift({ label: "All", value: "" });
     }
+
+    console.log(userData);
 
     content = (
         <>
