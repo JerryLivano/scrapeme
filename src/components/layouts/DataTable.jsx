@@ -199,9 +199,9 @@ export default function DataTable({
                                     return (
                                         <div className='border-2 border-slate-300 inline-flex h-fit rounded-xl'>
                                             <div className='mx-4 w-full'>
-                                                {item}
+                                                {item[1]}
                                             </div>
-                                            <ButtonDelete onClick={() => {handleDeleteFilteredApp(item)}} />
+                                            <ButtonDelete onClick={() => {handleDeleteFilteredApp(item[0])}} />
                                         </div>
                                     );
                                 })}

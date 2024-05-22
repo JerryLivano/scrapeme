@@ -122,9 +122,9 @@ export default function FormAddUser() {
         content = <Spinner />;
 
     const toggleSelect = (app) => {
-        if (selectedApps.includes(app)) {
+        if (selectedApps.find((selectedApp) => selectedApp.id === app.id)) {
             setSelectedApps(
-                selectedApps.filter((selectedApp) => selectedApp !== app)
+                selectedApps.filter((selectedApp) => selectedApp.id !== app.id)
             );
         } else {
             setSelectedApps([...selectedApps, app]);

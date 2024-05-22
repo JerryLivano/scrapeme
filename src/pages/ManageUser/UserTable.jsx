@@ -19,6 +19,7 @@ export default function UserTable() {
 
     const [roleOpt, setRoleOpt] = useState("");
     const [appOpt, setAppOpt] = useState([]);
+    const [appIdOpt, setAppIdOpt] = useState([]);
 
     const [isClicked, setIsClicked] = useState(false);
     const [isChecked, setIsChecked] = useState(true);
@@ -62,7 +63,9 @@ export default function UserTable() {
                 id: uuid(),
                 header: "Role",
                 cell: (row) => row.renderValue(),
-                accessorFn: (row) => (row.role).charAt(5).toUpperCase() + (row.role).slice(6).toLowerCase() || "",
+                accessorFn: (row) =>
+                    row.role.charAt(5).toUpperCase() +
+                        row.role.slice(6).toLowerCase() || "",
             },
             {
                 id: uuid(),
@@ -231,7 +234,13 @@ export default function UserTable() {
         error,
         isFetching,
     } = useGetUserQuery(
-        { page: page, limit: pageSize, search: search, role: roleOpt },
+        {
+            apps: appIdOpt,
+            page: page,
+            limit: pageSize,
+            search: search,
+            role: roleOpt,
+        },
         { refetchOnMountOrArgChange: true }
     );
 
@@ -251,13 +260,13 @@ export default function UserTable() {
         setPage(newPageNumber);
     };
 
-    const handleDeleteFilteredApp = (selectedApp) => {
-        setAppOpt(appOpt.filter((app) => app !== selectedApp))
-    }
+    const handleDeleteFilteredApp = (selectedAppId) => {
+        setAppOpt(appOpt.filter((app) => app[0] !== selectedAppId));
+    };
 
     const handleAppSelect = (selectedApp) => {
-        if (appOpt.includes(selectedApp)) {
-            handleDeleteFilteredApp(selectedApp);
+        if (appOpt.find((app) => app[0] === selectedApp[0])) {
+            handleDeleteFilteredApp(selectedApp[0]);
         } else {
             setAppOpt([...appOpt, selectedApp]);
         }
@@ -273,10 +282,17 @@ export default function UserTable() {
 
     if (!applicationIsLoading && !applicationIsError && applications.data) {
         filterAppOptions = applications.data.map((app) => ({
-            value: app.name,
-            label: app.name,
+            id: app.id,
+            name: app.name,
         }));
     }
+
+    useEffect(() => {
+        setAppIdOpt(appOpt.map((app) => app[0]));
+    }, [appOpt]);
+
+    console.log(appOpt);
+    console.log(appIdOpt);
 
     const handleRoleSelect = (e) => {
         setRoleOpt(e.target.value);
@@ -294,7 +310,9 @@ export default function UserTable() {
     if (!rolesIsLoading && !rolesIsError && roles.data) {
         filterRoleOptions = roles.data.map((role) => ({
             value: role.roleName,
-            label: (role.roleName).charAt(5).toUpperCase() + (role.roleName).slice(6).toLowerCase(),
+            label:
+                role.roleName.charAt(5).toUpperCase() +
+                role.roleName.slice(6).toLowerCase(),
         }));
         filterRoleOptions.unshift({ label: "All", value: "" });
     }
@@ -333,7 +351,7 @@ export default function UserTable() {
                     searchQuery={search}
                     searchHandler={handleSearchChange}
                     placeholder={"Search employee name..."}
-                    onClickAdd={() => navigate('add-user')}
+                    onClickAdd={() => navigate("add-user")}
                     title={"User"}
                     pageIndex={pagination.currentPage}
                     pageCount={totalPage}
@@ -348,7 +366,9 @@ export default function UserTable() {
                     setFilterApp={(app) => handleAppSelect(app)}
                     filterApp={appOpt}
                     filterAppOptions={filterAppOptions}
-                    handleDeleteFilteredApp={(app) => handleDeleteFilteredApp(app)}
+                    handleDeleteFilteredApp={(app) =>
+                        handleDeleteFilteredApp(app)
+                    }
                 />
             </>
         );
