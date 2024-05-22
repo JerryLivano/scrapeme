@@ -5,12 +5,12 @@ import {
 } from "@heroicons/react/24/solid";
 import { useEffect, useState } from "react";
 
-export default function ButtonIconAction({ modifyAccess, setModifyAccess }) {
+export default function ButtonIconAction({ modifyAccess, setModifyAccess, isModified, onClickHandler }) {
     const [modify, setModify] = useState(false)
-
+    console.log(setModify)
     return (
         <>
-            <form onSubmit={() => setModify(false)}>
+            <form onSubmit={() => setModify(false)} >
                 {!modify ? (
                     <button type='button' onClick={() => setModify(true)}>
                         <EllipsisVerticalIcon className='h-6 w-6 text-gray-600' />

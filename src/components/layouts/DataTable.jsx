@@ -28,7 +28,7 @@ export default function DataTable({
     showFilterRole = false,
     showFilterApp = false,
     filterRole,
-    setFilterRole,
+    setFilterRole = () => {},
     filterApp,
     role,
     setFilterApp = () => {},
@@ -50,7 +50,8 @@ export default function DataTable({
     isFetching = false,
     filterRoleOptions,
     filterAppOptions,
-    handleDeleteFilteredApp = () => {}
+    handleDeleteFilteredApp = () => {},
+    handleDeleteFilteredRole = () => {}
 }) {
     const [globalFilter, setGlobalFilter] = useState("");
     const onScrollSubscriber = useRef([]);
@@ -86,7 +87,10 @@ export default function DataTable({
             );
         };
     }, []);
-
+    // console.log(filterRoleOptions)
+    // console.log(filterAppOptions)
+    console.log(filterApp)
+    // console.log(filterRole)
     return (
         <TableRef.Provider value={tableRef}>
             <TableScrollEvent.Provider value={contextCallback}>
@@ -117,20 +121,13 @@ export default function DataTable({
                             {/* {filterRole} */}
                             {showFilterRole && (
                                 <div className='flex items-center mr-2'>
-                                    <DropdownInput
-                                        value={filterRole}
-                                        onChange={setFilterRole}
-                                        className='max-w-fit'
-                                    >
-                                        {filterRoleOptions.map((filterRole) => (
-                                            <option
-                                                key={filterRole.value}
-                                                value={filterRole.value}
-                                            >
-                                                {filterRole.label}
-                                            </option>
-                                        ))}
-                                    </DropdownInput>
+                                    <MultiDropdown
+                                        options={filterRoleOptions}
+                                        filteredApp={filterApp}
+                                        value={filterRole.value}
+                                        placeholder=' Role '
+                                        setFilterApp={setFilterApp}
+                                    />
                                 </div>
                             )}
                             {/* {filterApp} */}
@@ -141,7 +138,6 @@ export default function DataTable({
                                         filteredApp={filterApp}
                                         placeholder='--- Select Apps ---'
                                         setFilterApp={setFilterApp}
-                                        className='w-44 text-center border-2 rounded-sm px-4 h-10 pt-2 flex color:red'
                                     />
                                 </div>
                             )}

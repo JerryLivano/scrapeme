@@ -12,7 +12,7 @@ function MultiDropdown({ options, placeholder, setFilterApp, filteredApp }) {
             <div>
                 <button
                     type='button'
-                    className='inline-flex justify-between w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500'
+                    className='inline-flex justify-between w-44 rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500'
                     onClick={toggleDropdown}
                 >
                     {filteredApp.length === 0
@@ -37,7 +37,7 @@ function MultiDropdown({ options, placeholder, setFilterApp, filteredApp }) {
                 <div className='absolute mt-2 w-full rounded-md bg-white shadow-lg'>
                     {options.map((option) => (
                         <>
-                            <div className='flex items-center py-2 mr-2'>
+                            <div className='flex items-center py-2'>
                                 <input
                                     type='checkbox'
                                     id={option.value}

@@ -303,7 +303,6 @@ export default function UserTable() {
         }));
         filterRoleOptions.unshift({ label: "All", value: "" });
     }
-    console.log(filterRoleOptions)
 
     const handleSearchChange = (value) => {
         setSearch((prev) => {
