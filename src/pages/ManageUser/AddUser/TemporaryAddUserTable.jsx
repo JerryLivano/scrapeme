@@ -42,15 +42,17 @@ export default function TemporaryAddUserTable({ userData }) {
                 id: uuid(),
                 header: "Role",
                 cell: (row) => row.renderValue(),
-                accessorFn: (row) => row.roleName || "",
+                accessorFn: (row) =>
+                    row.roleName.charAt(5).toUpperCase() +
+                        row.roleName.slice(6).toLowerCase() || "",
             },
             {
                 id: uuid(),
                 header: "Recruit-ME",
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) => {
-                    const isChecked = row.authorizedApplications.some(
-                        (app) => app === "Recruit-ME"
+                    const isChecked = row.authorizedApplications.find(
+                        (app) => app.name === "Recruit-ME"
                     );
                     return (
                         <div className='flex justify-center'>
@@ -69,8 +71,8 @@ export default function TemporaryAddUserTable({ userData }) {
                 header: "CV-ME",
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) => {
-                    const isChecked = row.authorizedApplications.some(
-                        (app) => app === "CV-ME"
+                    const isChecked = row.authorizedApplications.find(
+                        (app) => app.name === "CV-ME"
                     );
                     return (
                         <div className='flex justify-center'>
@@ -89,8 +91,8 @@ export default function TemporaryAddUserTable({ userData }) {
                 header: "Test-ME",
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) => {
-                    const isChecked = row.authorizedApplications.some(
-                        (app) => app === "Test-ME"
+                    const isChecked = row.authorizedApplications.find(
+                        (app) => app.name === "Test-ME"
                     );
                     return (
                         <div className='flex justify-center'>
@@ -109,8 +111,8 @@ export default function TemporaryAddUserTable({ userData }) {
                 header: "Pick-ME",
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) => {
-                    const isChecked = row.authorizedApplications.some(
-                        (app) => app === "Pick-ME"
+                    const isChecked = row.authorizedApplications.find(
+                        (app) => app.name === "Pick-ME"
                     );
                     return (
                         <div className='flex justify-center'>
@@ -129,8 +131,8 @@ export default function TemporaryAddUserTable({ userData }) {
                 header: "Team-ME",
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) => {
-                    const isChecked = row.authorizedApplications.some(
-                        (app) => app === "Team-ME"
+                    const isChecked = row.authorizedApplications.find(
+                        (app) => app.name === "Team-ME"
                     );
                     return (
                         <div className='flex justify-center'>
@@ -149,8 +151,8 @@ export default function TemporaryAddUserTable({ userData }) {
                 header: "BRM",
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) => {
-                    const isChecked = row.authorizedApplications.some(
-                        (app) => app === "BRM"
+                    const isChecked = row.authorizedApplications.find(
+                        (app) => app.name === "BRM"
                     );
                     return (
                         <div className='flex justify-center'>
@@ -169,8 +171,8 @@ export default function TemporaryAddUserTable({ userData }) {
                 header: "Metrodata Academy",
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) => {
-                    const isChecked = row.authorizedApplications.some(
-                        (app) => app === "Metrodata Academy"
+                    const isChecked = row.authorizedApplications.find(
+                        (app) => app.name === "Metrodata Academy"
                     );
                     return (
                         <div className='flex justify-center'>
@@ -198,13 +200,13 @@ export default function TemporaryAddUserTable({ userData }) {
         );
     }, [userData, search]);
 
-    const handleDeleteFilteredApp = (selectedApp) => {
-        setAppOpt(appOpt.filter((app) => app !== selectedApp));
+    const handleDeleteFilteredApp = (selectedAppId) => {
+        setAppOpt(appOpt.filter((app) => app[0] !== selectedAppId));
     };
 
     const handleAppSelect = (selectedApp) => {
-        if (appOpt.includes(selectedApp)) {
-            handleDeleteFilteredApp(selectedApp);
+        if (appOpt.find((app) => app[0] === selectedApp[0])) {
+            handleDeleteFilteredApp(selectedApp[0]);
         } else {
             setAppOpt([...appOpt, selectedApp]);
         }
@@ -213,25 +215,27 @@ export default function TemporaryAddUserTable({ userData }) {
     useEffect(() => {
         setFilteredUserData(
             userData.filter((user) =>
-                user.authorizedApplications.map((app) => {
-                    app.name.includes(appOpt);
-                })
+                appOpt.every((app) =>
+                    user.authorizedApplications.some(
+                        (authApp) => authApp.id === app[0]
+                    )
+                )
             )
         );
-    }, [appOpt]);
+    }, [appOpt, userData]);
 
     const {
         data: applications,
         isLoading: applicationIsLoading,
         isError: applicationIsError,
-    } = useGetApplicationQuery({ page: 1, limit: 50 });
+    } = useGetApplicationQuery({ page: 1, limit: 100 });
 
     let filterAppOptions = [];
 
     if (!applicationIsLoading && !applicationIsError && applications.data) {
         filterAppOptions = applications.data.map((app) => ({
-            value: app.name,
-            label: app.name,
+            id: app.id,
+            name: app.name,
         }));
     }
 
@@ -260,7 +264,9 @@ export default function TemporaryAddUserTable({ userData }) {
     if (!rolesIsLoading && !rolesIsError && roles.data) {
         filterRoleOptions = roles.data.map((role) => ({
             value: role.roleName,
-            label: role.roleName,
+            label:
+                role.roleName.charAt(5).toUpperCase() +
+                role.roleName.slice(6).toLowerCase(),
         }));
         filterRoleOptions.unshift({ label: "All", value: "" });
     }

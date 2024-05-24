@@ -9,12 +9,14 @@ export const userApiSlice = apiSlice
             getUser: builder.query({
                 query: (args) => {
                     const {
+                        apps,
                         page,
                         limit,
                         search,
                         role
                     } = args;
-                    return `/user?search=${search}&page=${page}&limit=${limit}&role=${role}`;
+                    const appsParams = apps && apps.length > 0 ? apps.map((app) => `app=${app}`).join('&') : '';
+                    return `/user?${appsParams ? `${appsParams}&` : ''}search=${search}&page=${page}&limit=${limit}&role=${role}`;
                 },
                 providesTags: ["User"]
             }),

@@ -41,16 +41,16 @@ function MultiDropdown({ options, placeholder, setFilterApp, filteredApp }) {
                             <div className='flex items-center py-2'>
                                 <input
                                     type='checkbox'
-                                    id={option.value}
+                                    id={option.id}
                                     className='ml-2 h-5 w-5 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded cursor-pointer'
-                                    checked={filteredApp.includes(option.value)}
-                                    onChange={() => setFilterApp(option.value)}
+                                    checked={filteredApp.some((item) => item.includes(option.id))}
+                                    onChange={() => setFilterApp([option.id, option.name])}
                                 />
                                 <label
-                                    key={option.value}
+                                    key={option.id}
                                     className='block ml-3 text-sm text-gray-700'
                                 >
-                                    {option.label}
+                                    {option.name}
                                 </label>
                             </div>
                         </>

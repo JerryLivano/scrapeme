@@ -25,8 +25,10 @@ const InputCheckboxGroup = forwardRef(function InputCheckboxGroupInternal(
                         disabled={disabled}
                         required={required}
                         className='h-5 w-5 text-gray-600 focus:text-gray-600 border-gray-600 rounded'
-                        onClick={() => toggleSelect(item.name)}
-                        checked={selectedApps.includes(item.name)}
+                        onClick={() =>
+                            toggleSelect({ id: item.id, name: item.name })
+                        }
+                        checked={selectedApps.some((app) => app.id === item.id)}
                         ref={ref}
                         {...props}
                     />

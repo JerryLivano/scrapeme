@@ -19,6 +19,7 @@ export default function UserTable() {
 
     const [roleOpt, setRoleOpt] = useState([]);
     const [appOpt, setAppOpt] = useState([]);
+    const [appIdOpt, setAppIdOpt] = useState([]);
 
     const [isClicked, setIsClicked] = useState(false);
     const [isChecked, setIsChecked] = useState(true);
@@ -30,10 +31,6 @@ export default function UserTable() {
     const toggleCheckbox = () => {
         setIsChecked(!isChecked);
     };
-
-    // const { data: singleRole } = useGetRoleByIdQuery(watch("roleId"), {
-    //     skip: !watch("roleId"),
-    // });
 
     const cols = useMemo(
         () => [
@@ -66,7 +63,9 @@ export default function UserTable() {
                 id: uuid(),
                 header: "Role",
                 cell: (row) => row.renderValue(),
-                accessorFn: (row) => row.role || "",
+                accessorFn: (row) =>
+                    row.role.charAt(5).toUpperCase() +
+                        row.role.slice(6).toLowerCase() || "",
             },
             {
                 id: uuid(),
@@ -165,7 +164,7 @@ export default function UserTable() {
                 accessorFn: (row) => {
                     return (
                         <InputCheckbox
-                            value={row}
+                            value={"BRM"}
                             dataApp={row.authorizedApplications.map((app) => ({
                                 name: app.name,
                             }))}
@@ -235,7 +234,13 @@ export default function UserTable() {
         error,
         isFetching,
     } = useGetUserQuery(
-        { page: page, limit: pageSize, search: search, role: roleOpt },
+        {
+            apps: appIdOpt,
+            page: page,
+            limit: pageSize,
+            search: search,
+            role: roleOpt,
+        },
         { refetchOnMountOrArgChange: true }
     );
 
@@ -255,17 +260,17 @@ export default function UserTable() {
         setPage(newPageNumber);
     };
 
-    const handleDeleteFilteredApp = (selectedApp) => {
-        setAppOpt(appOpt.filter((app) => app !== selectedApp))
-    }
+    const handleDeleteFilteredApp = (selectedAppId) => {
+        setAppOpt(appOpt.filter((app) => app[0] !== selectedAppId));
+    };
 
     const handleDeleteFilteredRole = (selectedRole) => {
         setRoleOpt(roleOpt.filter((role) => role !== selectedRole));
       }
 
     const handleAppSelect = (selectedApp) => {
-        if (appOpt.includes(selectedApp)) {
-            handleDeleteFilteredApp(selectedApp);
+        if (appOpt.find((app) => app[0] === selectedApp[0])) {
+            handleDeleteFilteredApp(selectedApp[0]);
         } else {
             setAppOpt([...appOpt, selectedApp]);
         }
@@ -290,16 +295,30 @@ export default function UserTable() {
         data: applications,
         isLoading: applicationIsLoading,
         isError: applicationIsError,
-    } = useGetApplicationQuery({ page: page, limit: pageSize });
+    } = useGetApplicationQuery({ page: page, limit: 100 });
 
     let filterAppOptions = [];
 
     if (!applicationIsLoading && !applicationIsError && applications.data) {
         filterAppOptions = applications.data.map((app) => ({
-            value: app.name,
-            label: app.name,
+            id: app.id,
+            name: app.name,
         }));
     }
+
+
+    useEffect(() => {
+        setAppIdOpt(appOpt.map((app) => app[0]));
+    }, [appOpt]);
+
+    // console.log(appOpt);
+    // console.log(appIdOpt);
+
+    // const handleRoleSelect = (e) => {
+    //     setRoleOpt(e.target.value);
+    //     setPage(1);
+    // };
+
 
     const {
         data: roles,
@@ -313,7 +332,9 @@ export default function UserTable() {
     if (!rolesIsLoading && !rolesIsError && roles.data) {
         filterRoleOptions = roles.data.map((role) => ({
             value: role.roleName,
-            label: role.roleName,
+            label:
+                role.roleName.charAt(5).toUpperCase() +
+                role.roleName.slice(6).toLowerCase(),
         }));
         filterRoleOptions.unshift({ label: "All", value: "" });
     }
@@ -352,7 +373,7 @@ export default function UserTable() {
                     searchQuery={search}
                     searchHandler={handleSearchChange}
                     placeholder={"Search employee name..."}
-                    onClickAdd={() => navigate('add-user')}
+                    onClickAdd={() => navigate("add-user")}
                     title={"User"}
                     pageIndex={pagination.currentPage}
                     pageCount={totalPage}
@@ -369,6 +390,11 @@ export default function UserTable() {
                     filterAppOptions={filterAppOptions}
                     handleDeleteFilteredApp={(app) => handleDeleteFilteredApp(app)}
                     handleDeleteFilteredRole={(role) => handleDeleteFilteredRole(role)}
+
+                    // handleDeleteFilteredApp={(app) =>
+                    //     handleDeleteFilteredApp(app)
+                    // }
+
                 />
             </>
         );

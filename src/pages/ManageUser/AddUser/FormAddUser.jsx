@@ -122,9 +122,9 @@ export default function FormAddUser() {
         content = <Spinner />;
 
     const toggleSelect = (app) => {
-        if (selectedApps.includes(app)) {
+        if (selectedApps.find((selectedApp) => selectedApp.id === app.id)) {
             setSelectedApps(
-                selectedApps.filter((selectedApp) => selectedApp !== app)
+                selectedApps.filter((selectedApp) => selectedApp.id !== app.id)
             );
         } else {
             setSelectedApps([...selectedApps, app]);
@@ -313,7 +313,7 @@ export default function FormAddUser() {
                                                         key={role.id}
                                                         value={role.id}
                                                     >
-                                                        {role.roleName}
+                                                        {(role.roleName).charAt(5).toUpperCase() + (role.roleName).slice(6).toLowerCase()}
                                                     </option>
                                                 ))}
                                         </DropdownInput>
