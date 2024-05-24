@@ -265,7 +265,7 @@ export default function UserTable() {
     };
 
     const handleDeleteFilteredRole = (selectedRole) => {
-        setRoleOpt(roleOpt.filter((role) => role[0]!== selectedRole));
+        setRoleOpt(roleOpt.filter((role) => role!== selectedRole));
       }
 
     const handleAppSelect = (selectedApp) => {
@@ -275,15 +275,14 @@ export default function UserTable() {
             setAppOpt([...appOpt, selectedApp]);
         }
     };
-    
+
     const handleRoleSelect = (selectedRole) => {
-        if (roleOpt.find((role) => role[0] === selectedRole[0])) {
-            handleDeleteFilteredRole(selectedRole[0]);
+        if (roleOpt.includes(selectedRole)) {
+            handleDeleteFilteredRole-(selectedRole);
         } else {
             setRoleOpt([...roleOpt, selectedRole]);
         }
     };
-
 
     //  const handleRoleSelect = (e) => {
     //     setRoleOpt(e.target.value);
