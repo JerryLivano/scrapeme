@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 
 export default function ButtonIconAction({ modifyAccess, setModifyAccess, isModified, onClickHandler }) {
     const [modify, setModify] = useState(false)
-    console.log(setModify)
     return (
         <>
             <form onSubmit={() => setModify(false)} >

@@ -17,7 +17,7 @@ export default function UserTable() {
     const [totalPage, setTotalPages] = useState(1);
     const [search, setSearch] = useState("");
 
-    const [roleOpt, setRoleOpt] = useState("");
+    const [roleOpt, setRoleOpt] = useState([]);
     const [appOpt, setAppOpt] = useState([]);
 
     const [isClicked, setIsClicked] = useState(false);
@@ -259,6 +259,10 @@ export default function UserTable() {
         setAppOpt(appOpt.filter((app) => app !== selectedApp))
     }
 
+    const handleDeleteFilteredRole = (selectedRole) => {
+        setRoleOpt(roleOpt.filter((role) => role !== selectedRole));
+      }
+
     const handleAppSelect = (selectedApp) => {
         if (appOpt.includes(selectedApp)) {
             handleDeleteFilteredApp(selectedApp);
@@ -266,6 +270,21 @@ export default function UserTable() {
             setAppOpt([...appOpt, selectedApp]);
         }
     };
+
+    const handleRoleSelect = (selectedRole) => {
+        if (roleOpt.includes(selectedRole)) {
+            handleDeleteFilteredRole-(selectedRole);
+        } else {
+            setRoleOpt([...roleOpt, selectedRole]);
+        }
+    };
+
+    //  const handleRoleSelect = (e) => {
+    //     setRoleOpt(e.target.value);
+    //     setPage(1);
+    // };
+
+    
 
     const {
         data: applications,
@@ -281,11 +300,6 @@ export default function UserTable() {
             label: app.name,
         }));
     }
-
-    const handleRoleSelect = (e) => {
-        setRoleOpt(e.target.value);
-        setPage(1);
-    };
 
     const {
         data: roles,
@@ -347,13 +361,14 @@ export default function UserTable() {
                     setPageSize={setPageSize}
                     showFilterRole={true}
                     filterRole={roleOpt}
-                    setFilterRole={handleRoleSelect}
+                    setFilterRole={(role) => handleRoleSelect(role)}
                     filterRoleOptions={filterRoleOptions}
                     showFilterApp={true}
                     setFilterApp={(app) => handleAppSelect(app)}
                     filterApp={appOpt}
                     filterAppOptions={filterAppOptions}
                     handleDeleteFilteredApp={(app) => handleDeleteFilteredApp(app)}
+                    handleDeleteFilteredRole={(role) => handleDeleteFilteredRole(role)}
                 />
             </>
         );

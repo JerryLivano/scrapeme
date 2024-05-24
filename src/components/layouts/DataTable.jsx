@@ -16,6 +16,7 @@ import { Select } from "@mui/material";
 import FilterSearchTable from "../fragments/Filter/FIlterSearchTable";
 import ButtonDelete from "../elements/Button/ButtonDelete";
 import MultiDropdown from "../elements/Input/MultiDropdown";
+import MultiDropdownRole from "../elements/Input/MultiDropdownRole";
 export const TableScrollEvent = createContext(null);
 export const TableRef = createContext(null);
 
@@ -30,7 +31,6 @@ export default function DataTable({
     filterRole,
     setFilterRole = () => {},
     filterApp,
-    role,
     setFilterApp = () => {},
     showAddButton = false,
     onClickAdd = () => {},
@@ -51,7 +51,7 @@ export default function DataTable({
     filterRoleOptions,
     filterAppOptions,
     handleDeleteFilteredApp = () => {},
-    handleDeleteFilteredRole = () => {}
+    handleDeleteFilteredRole = () => {},
 }) {
     const [globalFilter, setGlobalFilter] = useState("");
     const onScrollSubscriber = useRef([]);
@@ -89,7 +89,8 @@ export default function DataTable({
     }, []);
     // console.log(filterRoleOptions)
     // console.log(filterAppOptions)
-    console.log(filterApp)
+    console.log(filterApp)  
+    console.log(filterRole)
     // console.log(filterRole)
     return (
         <TableRef.Provider value={tableRef}>
@@ -121,12 +122,11 @@ export default function DataTable({
                             {/* {filterRole} */}
                             {showFilterRole && (
                                 <div className='flex items-center mr-2'>
-                                    <MultiDropdown
+                                    <MultiDropdownRole
                                         options={filterRoleOptions}
-                                        filteredApp={filterApp}
-                                        value={filterRole.value}
+                                        filteredRole={filterRole}
                                         placeholder=' Role '
-                                        setFilterApp={setFilterApp}
+                                        setFilterRole={setFilterRole}
                                     />
                                 </div>
                             )}
@@ -199,6 +199,19 @@ export default function DataTable({
                                                 {item}
                                             </div>
                                             <ButtonDelete onClick={() => {handleDeleteFilteredApp(item)}} />
+                                        </div>
+                                    );
+                                })}
+                        </div>
+                        <div className="inline-flex gap-x-1">
+                            {filterRole.length > 0 &&
+                                filterRole.map((item) => {
+                                    return (
+                                        <div className='border-2 border-slate-300 inline-flex h-fit rounded-xl'>
+                                            <div className='mx-4 w-full'>
+                                                {item}
+                                            </div>
+                                            <ButtonDelete onClick={() => {handleDeleteFilteredRole(item)}} />
                                         </div>
                                     );
                                 })}

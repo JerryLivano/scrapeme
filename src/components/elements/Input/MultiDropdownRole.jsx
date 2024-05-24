@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 
-function MultiDropdown({ options, placeholder, setFilterApp, filteredApp }) {
+function MultiDropdownRole({ options, placeholder, setFilterRole, filteredRole }) {
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
     };
 
-    
     return (
         <div className='relative inline-block text-left'>
             <div>
@@ -16,9 +15,9 @@ function MultiDropdown({ options, placeholder, setFilterApp, filteredApp }) {
                     className='inline-flex justify-between w-44 rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500'
                     onClick={toggleDropdown}
                 >
-                    {filteredApp.length === 0
+                    {filteredRole.length === 0
                         ? placeholder
-                        : `${filteredApp.length} Apps Selected`}
+                        : `${filteredRole.length} Role Selected`}
                     <svg
                         className='-mr-1 ml-2 h-5 w-5'
                         xmlns='http://www.w3.org/2000/svg'
@@ -43,8 +42,8 @@ function MultiDropdown({ options, placeholder, setFilterApp, filteredApp }) {
                                     type='checkbox'
                                     id={option.value}
                                     className='ml-2 h-5 w-5 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded cursor-pointer'
-                                    checked={filteredApp.includes(option.value)}
-                                    onChange={() => setFilterApp(option.value)}
+                                    checked={filteredRole.includes(option.value)}
+                                    onChange={() => setFilterRole(option.value)}
                                 />
                                 <label
                                     key={option.value}
@@ -61,4 +60,4 @@ function MultiDropdown({ options, placeholder, setFilterApp, filteredApp }) {
     );
 }
 
-export default MultiDropdown;
+export default MultiDropdownRole;
