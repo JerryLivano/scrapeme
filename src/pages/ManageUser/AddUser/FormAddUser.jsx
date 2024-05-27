@@ -131,6 +131,10 @@ export default function FormAddUser() {
         }
     };
 
+    const deleteAddedUser = (id) => {
+        setAddedUser((prev) => prev.filter((user) => user.id !== id));
+    };
+
     const onSubmitAddedUser = (data) => {
         if (data.email === "" || data.firstName === "") {
             setEmailNotFound(true);
@@ -144,7 +148,10 @@ export default function FormAddUser() {
             return;
         }
 
-        if (addedUser.some((user) => user.email === data.email) || users.data.some((user) => user.email === data.email)) {
+        if (
+            addedUser.some((user) => user.email === data.email) ||
+            users.data.some((user) => user.email === data.email)
+        ) {
             toastError({ message: "User already added." });
             setShowAddTemp(false);
             return;
@@ -313,7 +320,12 @@ export default function FormAddUser() {
                                                         key={role.id}
                                                         value={role.id}
                                                     >
-                                                        {(role.roleName).charAt(5).toUpperCase() + (role.roleName).slice(6).toLowerCase()}
+                                                        {role.roleName
+                                                            .charAt(5)
+                                                            .toUpperCase() +
+                                                            role.roleName
+                                                                .slice(6)
+                                                                .toLowerCase()}
                                                     </option>
                                                 ))}
                                         </DropdownInput>
@@ -362,7 +374,10 @@ export default function FormAddUser() {
                 </div>
                 <hr />
                 <div className='mt-6'>
-                    <TemporaryAddUserTable userData={addedUser} />
+                    <TemporaryAddUserTable
+                        userData={addedUser}
+                        onDelete={deleteAddedUser}
+                    />
 
                     <form
                         className='flex grow basis-2/3 flex-col gap-4'
