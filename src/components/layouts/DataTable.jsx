@@ -5,18 +5,13 @@ import {
     useReactTable,
 } from "@tanstack/react-table";
 import React, { createContext, useCallback, useRef, useState } from "react";
-import { MultiSelect } from "primereact/multiselect";
 import Spinner from "../elements/Spinner/Spinner";
 import DataTablePagination from "./DataTablePagination";
-import { useGetApplicationQuery } from "../../services/applicationApiSlice";
 import DropdownInput from "../elements/Input/DropdownInput";
 import ButtonPlus from "../elements/Button/ButtonPlus";
-import { useForm } from "react-hook-form";
-import { Select } from "@mui/material";
 import FilterSearchTable from "../fragments/Filter/FIlterSearchTable";
 import ButtonDelete from "../elements/Button/ButtonDelete";
 import MultiDropdown from "../elements/Input/MultiDropdown";
-import MultiDropdownRole from "../elements/Input/MultiDropdownRole";
 export const TableScrollEvent = createContext(null);
 export const TableRef = createContext(null);
 
@@ -87,11 +82,7 @@ export default function DataTable({
             );
         };
     }, []);
-    // console.log(filterRoleOptions)
-    // console.log(filterAppOptions)
-    console.log(filterApp)  
-    console.log(filterRole)
-    // console.log(filterRole)
+
     return (
         <TableRef.Provider value={tableRef}>
             <TableScrollEvent.Provider value={contextCallback}>
@@ -122,11 +113,11 @@ export default function DataTable({
                             {/* {filterRole} */}
                             {showFilterRole && (
                                 <div className='flex items-center mr-2'>
-                                    <MultiDropdownRole
+                                    <MultiDropdown
                                         options={filterRoleOptions}
-                                        filteredRole={filterRole}
-                                        placeholder=' Role '
-                                        setFilterRole={setFilterRole}
+                                        filteredOpt={filterRole}
+                                        placeholder={"Roles"}
+                                        setFilter={setFilterRole}
                                     />
                                 </div>
                             )}
@@ -135,9 +126,9 @@ export default function DataTable({
                                 <div className='flex items-center'>
                                     <MultiDropdown
                                         options={filterAppOptions}
-                                        filteredApp={filterApp}
-                                        placeholder='--- Select Apps ---'
-                                        setFilterApp={setFilterApp}
+                                        filteredOpt={filterApp}
+                                        placeholder={"Applications"}
+                                        setFilter={setFilterApp}
                                     />
                                 </div>
                             )}
@@ -183,38 +174,56 @@ export default function DataTable({
                         </div>
                     </div>
 
-                    {/* {{ShowFilter}} */}
+                    {/* ShowFilter */}
                     <div className='w-full inline-flex items-center py-2 bg-slate-100 mb-3 border-t-2 border-slate-200'>
                         <div className='ml-4 mr-2 text-lg'>
                             Filters
                             <span className='border-r-2 ml-3 border-black'></span>
                         </div>
 
-                        <div className="inline-flex gap-x-1">
-                            {filterApp.length > 0 &&
-                                filterApp.map((item) => {
-                                    return (
-                                        <div className='border-2 border-slate-300 inline-flex h-fit rounded-xl'>
-                                            <div className='mx-4 w-full'>
-                                                {item[1]}
+                        <div className='inline-flex gap-x-1'>
+                            {/* Role */}
+                            <div className='inline-flex gap-x-1'>
+                                {filterRole.length > 0 &&
+                                    filterRole.map((item) => {
+                                        console.log(item);
+                                        return (
+                                            <div className='border-2 border-slate-300 inline-flex h-fit rounded-xl'>
+                                                <div className='mx-4 w-full'>
+                                                    {item[1]}
+                                                </div>
+                                                <ButtonDelete
+                                                    onClick={() => {
+                                                        handleDeleteFilteredRole(
+                                                            item[0]
+                                                        );
+                                                    }}
+                                                />
                                             </div>
-                                            <ButtonDelete onClick={() => {handleDeleteFilteredApp(item[0])}} />
-                                        </div>
-                                    );
-                                })}
-                        </div>
-                        <div className="inline-flex gap-x-1">
-                            {filterRole.length > 0 &&
-                                filterRole.map((item) => {
-                                    return (
-                                        <div className='border-2 border-slate-300 inline-flex h-fit rounded-xl'>
-                                            <div className='mx-4 w-full'>
-                                                {item}
+                                        );
+                                    })}
+                            </div>
+
+                            {/* Application */}
+                            <div className='inline-flex gap-x-1'>
+                                {filterApp.length > 0 &&
+                                    filterApp.map((item) => {
+                                        return (
+                                            <div className='border-2 border-slate-300 inline-flex h-fit rounded-xl'>
+                                                <div className='mx-4 w-full'>
+                                                    {item[1]}
+                                                </div>
+                                                <ButtonDelete
+                                                    onClick={() => {
+                                                        handleDeleteFilteredApp(
+                                                            item[0]
+                                                        );
+                                                    }}
+                                                />
                                             </div>
-                                            <ButtonDelete onClick={() => {handleDeleteFilteredRole(item)}} />
-                                        </div>
-                                    );
-                                })}
+                                        );
+                                    })}
+                            </div>
                         </div>
                     </div>
                     <div className='min-w-full overflow-hidden'>

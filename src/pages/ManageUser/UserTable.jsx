@@ -21,7 +21,6 @@ export default function UserTable() {
     const [appOpt, setAppOpt] = useState([]);
     const [appIdOpt, setAppIdOpt] = useState([]);
 
-    const [isClicked, setIsClicked] = useState(false);
     const [isChecked, setIsChecked] = useState(true);
 
     const [dataAuthApp, setDataAuthApp] = useState([]);
@@ -239,7 +238,7 @@ export default function UserTable() {
             page: page,
             limit: pageSize,
             search: search,
-            role: roleOpt,
+            role: roleOpt.length === 1 ? roleOpt[0][0] : "",
         },
         { refetchOnMountOrArgChange: true }
     );
@@ -264,10 +263,6 @@ export default function UserTable() {
         setAppOpt(appOpt.filter((app) => app[0] !== selectedAppId));
     };
 
-    const handleDeleteFilteredRole = (selectedRole) => {
-        setRoleOpt(roleOpt.filter((role) => role!== selectedRole));
-      }
-
     const handleAppSelect = (selectedApp) => {
         if (appOpt.find((app) => app[0] === selectedApp[0])) {
             handleDeleteFilteredApp(selectedApp[0]);
@@ -275,21 +270,6 @@ export default function UserTable() {
             setAppOpt([...appOpt, selectedApp]);
         }
     };
-
-    const handleRoleSelect = (selectedRole) => {
-        if (roleOpt.includes(selectedRole)) {
-            handleDeleteFilteredRole-(selectedRole);
-        } else {
-            setRoleOpt([...roleOpt, selectedRole]);
-        }
-    };
-
-    //  const handleRoleSelect = (e) => {
-    //     setRoleOpt(e.target.value);
-    //     setPage(1);
-    // };
-
-    
 
     const {
         data: applications,
@@ -306,19 +286,22 @@ export default function UserTable() {
         }));
     }
 
-
     useEffect(() => {
         setAppIdOpt(appOpt.map((app) => app[0]));
     }, [appOpt]);
 
-    // console.log(appOpt);
-    // console.log(appIdOpt);
 
-    // const handleRoleSelect = (e) => {
-    //     setRoleOpt(e.target.value);
-    //     setPage(1);
-    // };
+    const handleDeleteFilteredRole = (selectedRoleId) => {
+        setRoleOpt(roleOpt.filter((role) => role[0] !== selectedRoleId));
+    };
 
+    const handleRoleSelect = (selectedRole) => {
+        if (roleOpt.find((role) => role[0] === selectedRole[0])) {
+            handleDeleteFilteredRole(selectedRole[0]);
+        } else {
+            setRoleOpt([...roleOpt, selectedRole]);
+        }
+    };
 
     const {
         data: roles,
@@ -326,17 +309,15 @@ export default function UserTable() {
         isError: rolesIsError,
     } = useGetRoleQuery();
 
-
     let filterRoleOptions = [];
 
     if (!rolesIsLoading && !rolesIsError && roles.data) {
         filterRoleOptions = roles.data.map((role) => ({
-            value: role.roleName,
-            label:
+            id: role.roleName,
+            name:
                 role.roleName.charAt(5).toUpperCase() +
                 role.roleName.slice(6).toLowerCase(),
         }));
-        filterRoleOptions.unshift({ label: "All", value: "" });
     }
 
     const handleSearchChange = (value) => {
@@ -388,8 +369,12 @@ export default function UserTable() {
                     setFilterApp={(app) => handleAppSelect(app)}
                     filterApp={appOpt}
                     filterAppOptions={filterAppOptions}
-                    handleDeleteFilteredApp={(app) => handleDeleteFilteredApp(app)}
-                    handleDeleteFilteredRole={(role) => handleDeleteFilteredRole(role)}
+                    handleDeleteFilteredApp={(app) =>
+                        handleDeleteFilteredApp(app)
+                    }
+                    handleDeleteFilteredRole={(role) =>
+                        handleDeleteFilteredRole(role)
+                    }
                 />
             </>
         );
