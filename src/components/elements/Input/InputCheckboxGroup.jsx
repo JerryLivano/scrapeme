@@ -24,7 +24,7 @@ const InputCheckboxGroup = forwardRef(function InputCheckboxGroupInternal(
                         type='checkbox'
                         disabled={disabled}
                         required={required}
-                        className='h-5 w-5 text-gray-600 focus:text-gray-600 border-gray-600 rounded'
+                        className='h-5 w-5 text-indigo-600 focus:ring-indigo-500 border-gray-400 rounded cursor-pointer'
                         onClick={() =>
                             toggleSelect({ id: item.id, name: item.name })
                         }

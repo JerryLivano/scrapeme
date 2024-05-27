@@ -3,10 +3,12 @@ import DataTable from "../../../components/layouts/DataTable";
 import uuid from "react-uuid";
 import { useGetRoleQuery } from "../../../services/roleApi.Slice";
 import { useGetApplicationQuery } from "../../../services/applicationApiSlice";
+import { ButtonIcon } from "../../../components";
+import { TrashIcon } from "@heroicons/react/24/solid";
 
-export default function TemporaryAddUserTable({ userData }) {
+export default function TemporaryAddUserTable({ userData, onDelete }) {
     let content;
-    const [roleOpt, setRoleOpt] = useState("");
+    const [roleOpt, setRoleOpt] = useState([]);
     const [appOpt, setAppOpt] = useState([]);
     const [search, setSearch] = useState("");
     const [filteredUserData, setFilteredUserData] = useState([]);
@@ -186,9 +188,25 @@ export default function TemporaryAddUserTable({ userData }) {
                     );
                 },
             },
+            {
+                id: uuid(),
+                header: "",
+                cell: (row) => row.renderValue(),
+                accessorFn: (row) => (
+                    <ButtonIcon
+                        children={<TrashIcon className='w-6 h-6 text-red-600' />}
+                        type={"button"}
+                        onClick={() => onDelete(row.id)}
+                    />
+                ),
+            },
         ],
         []
     );
+
+    useEffect(() => {
+        setFilteredUserData(userData);
+    }, [userData]);
 
     useEffect(() => {
         setFilteredUserData(
@@ -241,12 +259,28 @@ export default function TemporaryAddUserTable({ userData }) {
 
     useEffect(() => {
         setFilteredUserData(
-            userData.filter((user) => user.roleName.includes(roleOpt))
+            userData.filter((user) =>
+                user.roleName.includes(
+                    roleOpt.length === 1
+                        ? roleOpt[0][0]
+                        : roleOpt.length === 0
+                        ? ""
+                        : null
+                )
+            )
         );
-    }, [roleOpt]);
+    }, [roleOpt, userData]);
 
-    const handleRoleSelect = (e) => {
-        setRoleOpt(e.target.value);
+    const handleDeleteFilteredRole = (selectedRoleId) => {
+        setRoleOpt(roleOpt.filter((role) => role[0] !== selectedRoleId));
+    };
+
+    const handleRoleSelect = (selectedRole) => {
+        if (roleOpt.find((role) => role[0] === selectedRole[0])) {
+            handleDeleteFilteredRole(selectedRole[0]);
+        } else {
+            setRoleOpt([...roleOpt, selectedRole]);
+        }
     };
 
     const handleSearchChange = (value) => {
@@ -263,12 +297,11 @@ export default function TemporaryAddUserTable({ userData }) {
 
     if (!rolesIsLoading && !rolesIsError && roles.data) {
         filterRoleOptions = roles.data.map((role) => ({
-            value: role.roleName,
-            label:
+            id: role.roleName,
+            name:
                 role.roleName.charAt(5).toUpperCase() +
                 role.roleName.slice(6).toLowerCase(),
         }));
-        filterRoleOptions.unshift({ label: "All", value: "" });
     }
 
     content = (
@@ -291,6 +324,9 @@ export default function TemporaryAddUserTable({ userData }) {
                 filterApp={appOpt}
                 filterAppOptions={filterAppOptions}
                 handleDeleteFilteredApp={(app) => handleDeleteFilteredApp(app)}
+                handleDeleteFilteredRole={(role) =>
+                    handleDeleteFilteredRole(role)
+                }
             />
         </>
     );

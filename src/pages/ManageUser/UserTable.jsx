@@ -238,7 +238,7 @@ export default function UserTable() {
             page: page,
             limit: pageSize,
             search: search,
-            role: roleOpt.length === 1 ? roleOpt[0][0] : "",
+            role: roleOpt.length === 1 ? roleOpt[0][0] : roleOpt.length === 0 ? "" : null,
         },
         { refetchOnMountOrArgChange: true }
     );
