@@ -14,7 +14,7 @@ const navigation = [
     },
     {
         name: 'Manage Application',
-        href: '/application',
+        href: '/manage-application',
         icon: ComputerDesktopIcon,
     },
     {
