@@ -1,16 +1,9 @@
 import ButtonPlus from "../../components/elements/Button/ButtonPlus";
 
-export default function TabApplication({ selectedApplication }) {
-    const dataApplications = [
-        "Recruit-ME",
-        "CV-ME",
-        "Test-ME",
-        "Pick-ME",
-        "BRM",
-        "Metrodata Academy",
-        "Team-ME",
-    ];
-
+export default function TabApplication({
+    dataApplications,
+    selectedApplication,
+}) {
     return (
         <>
             <div className='mt-8 mb-10'>
@@ -18,8 +11,11 @@ export default function TabApplication({ selectedApplication }) {
                 <div className='flex py-3 border-b-2 items-center justify-between'>
                     <div className='flex items-start gap-x-6'>
                         {dataApplications.map((app) => (
-                            <div className='items-center p-2 text-gray-500 cursor-pointer'>
-                                {app}
+                            <div
+                                className='items-center p-2 text-gray-500 cursor-pointer'
+                                id={app.id}
+                            >
+                                {app.name}
                             </div>
                         ))}
                     </div>
