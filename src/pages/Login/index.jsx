@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { Button, InputGroup, Label } from "../../components";
-import { toast } from "react-toastify";
 import { useLoginMutation } from "../../services/authApiSlice";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../../features/auth/authSlice";
@@ -10,13 +8,13 @@ import Toast from "../../components/elements/NotificationProvider/Index";
 import { setAuthToken } from "../../utils/authUtilities";
 import ButtonLogin from "../../components/elements/Button/ButtonLogin";
 import Spinner from "../../components/elements/Spinner/Spinner";
+import { InputGroup, Label } from "../../components";
 
 const Login = () => {
     const {
         register,
         handleSubmit,
-        formState: { errors },
-        reset,
+        formState: { errors }
     } = useForm();
     const [toastType, setToastType] = useState("");
 

@@ -12,7 +12,7 @@ export default function ButtonPlus({ title, onClick }) {
                 className='mr-2 h-5 w-5 rounded-md font-bold text-white'
                 aria-hidden='true'
             />
-            Add {title}
+            {title}
         </button>
     );
 }

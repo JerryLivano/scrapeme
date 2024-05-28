@@ -12,6 +12,7 @@ import AddUser from "./pages/ManageUser/AddUser";
 import ManageUserPage from "./UI/ManageUserPage";
 import ManageApplicationPage from "./UI/ManageAppPage";
 import { ToastContainer } from "react-toastify";
+import AddApplication from "./pages/ManageApp/AddApplication/Index";
 
 const App = () => {
     return (
@@ -43,7 +44,14 @@ const App = () => {
                         </Route>
 
                         {/* Application Page */}
-                        <Route path='manage-application' element={<ManageApplicationPage />} />
+                        <Route path='manage-application'>
+                            <Route index element={<ManageApplicationPage />} />
+                            <Route
+                                path='add-application'
+                                element={<AddApplication />}
+                            />
+                        </Route>
+
 
                         {/* Log Activity Page */}
                         <Route path='log-activity' element={<LogActivity />} />

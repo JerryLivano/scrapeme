@@ -354,7 +354,7 @@ export default function UserTable() {
                     searchHandler={handleSearchChange}
                     placeholder={"Search employee name..."}
                     onClickAdd={() => navigate("add-user")}
-                    title={"User"}
+                    title={"Add User"}
                     pageIndex={pagination.currentPage}
                     pageCount={totalPage}
                     pageSize={pageSize}
