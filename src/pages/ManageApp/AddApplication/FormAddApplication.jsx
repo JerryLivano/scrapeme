@@ -75,7 +75,7 @@ export default function FormAddApplication() {
                     </tr>
                     <tr className='border-b-2 items-center'>
                         <td className='font-semibold text-lg px-8'>
-                            <label htmlFor='url'>URL</label>
+                            <label htmlFor='url'>Logo</label>
                         </td>
                         <td className='w-full flex py-6'>
                             <div className='flex'>

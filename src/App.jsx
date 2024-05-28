@@ -44,7 +44,7 @@ const App = () => {
                         </Route>
 
                         {/* Application Page */}
-                        <Route path='manage-application'>
+                        <Route path='application'>
                             <Route index element={<ManageApplicationPage />} />
                             <Route
                                 path='add-application'
