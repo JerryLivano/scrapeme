@@ -1,5 +1,4 @@
 import FormAddUser from "./FormAddUser";
-import TemporaryAddUserTable from "./TemporaryAddUserTable";
 
 export default function AddUser() {
     return (

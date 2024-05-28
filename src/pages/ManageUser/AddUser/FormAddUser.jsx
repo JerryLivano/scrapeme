@@ -21,10 +21,8 @@ import SingleLineValueInput from "../../../components/elements/Input/SingleLineV
 import { useNavigate } from "react-router-dom";
 import ButtonOutline from "../../../components/elements/Button/ButtonOutline";
 import ModalConfirmAddData from "../../../components/elements/Confirmation/ModalConfirmAddData";
-import {
-    toastError,
-    toastSuccess,
-} from "../../../components/elements/Alert/Toast";
+import { toastError } from "../../../components/elements/Alert/Toast";
+import ButtonSave from "../../../components/elements/Button/ButtonSave";
 
 export default function FormAddUser() {
     let content;
@@ -222,15 +220,22 @@ export default function FormAddUser() {
                                     <td className='font-semibold text-lg px-8'>
                                         <label htmlFor='email'>Email</label>
                                     </td>
-                                    <td className={"w-80 flex py-4"}>
-                                        <SingleLineInput
-                                            {...register("email")}
-                                            notFound={emailNotFound}
-                                            error={formErrors.email?.message}
-                                            placeholder='Input Email Here...'
-                                            label='Email'
-                                            className='w-full'
-                                        />
+                                    <td className={"w-100 flex py-4"}>
+                                        <div className='flex'>
+                                            <SingleLineInput
+                                                {...register("email")}
+                                                notFound={emailNotFound}
+                                                error={
+                                                    formErrors.email?.message
+                                                }
+                                                placeholder='Input Email Here...'
+                                                label='Email'
+                                                className='w-full'
+                                                errorMessage={
+                                                    "Please enter user email"
+                                                }
+                                            />
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr className='border-b-2'>
@@ -239,7 +244,7 @@ export default function FormAddUser() {
                                             First Name
                                         </label>
                                     </td>
-                                    <td className='w-80 flex py-4'>
+                                    <td className='w-100 flex py-4'>
                                         <SingleLineValueInput
                                             {...register("firstName")}
                                             error={
@@ -258,7 +263,7 @@ export default function FormAddUser() {
                                             Last Name
                                         </label>
                                     </td>
-                                    <td className='w-80 flex py-4'>
+                                    <td className='w-100 flex py-4'>
                                         <SingleLineValueInput
                                             {...register("lastName")}
                                             error={formErrors.lastName?.message}
@@ -273,7 +278,7 @@ export default function FormAddUser() {
                                     <td className='font-semibold text-lg px-8'>
                                         <label htmlFor='nik'>NIK</label>
                                     </td>
-                                    <td className='w-80 flex py-4'>
+                                    <td className='w-100 flex py-4'>
                                         <SingleLineValueInput
                                             {...register("nik")}
                                             error={formErrors.nik?.message}
@@ -288,11 +293,11 @@ export default function FormAddUser() {
                                     <td className='font-semibold text-lg px-8'>
                                         <label htmlFor='role'>Role</label>
                                     </td>
-                                    <td className='w-80 flex py-4'>
+                                    <td className='w-100 flex py-4'>
                                         <DropdownInput
                                             placeholder='--- Select Role ---'
                                             required
-                                            className='w-full'
+                                            className='w-1/3'
                                             value={selectedRoleId}
                                             onChange={(e) => {
                                                 setSelectedRoleId(
@@ -335,7 +340,7 @@ export default function FormAddUser() {
                                     <td className='font-semibold text-lg px-8'>
                                         Application Access
                                     </td>
-                                    <td className='w-80 flex flex-col items-start py-4 font-light'>
+                                    <td className='w-100 flex flex-col items-start py-4 font-light'>
                                         <div
                                             className={`text-md ${
                                                 alertColor ? "text-red-600" : ""
@@ -396,7 +401,7 @@ export default function FormAddUser() {
                                 />
                             </span>
                             <span className='ml-3'>
-                                <Button text={"Save"} type={"submit"} />
+                                <ButtonSave text={"Save"} type={"submit"} />
                             </span>
                         </div>
                     </form>
