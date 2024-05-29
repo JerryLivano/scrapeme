@@ -1,5 +1,5 @@
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import ImageCropper from "./ImageCropper";
+import ImageCropper from "../../../components/elements/Image/ImageCropper";
 
 const Modal = ({ closeModal }) => {
   return (
@@ -23,7 +23,7 @@ const Modal = ({ closeModal }) => {
                 <XMarkIcon />
               </button>
               <ImageCropper
-                updateAvatar={updateAvatar}
+                // updateAvatar={updateAvatar}
                 closeModal={closeModal}
               />
             </div>

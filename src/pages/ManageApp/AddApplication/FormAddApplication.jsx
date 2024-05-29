@@ -3,6 +3,7 @@ import SingleLineInput from "../../../components/elements/Input/SIngleLineInput"
 import DropdownInput from "../../../components/elements/Input/DropdownInput";
 import { useState } from "react";
 import { Button } from "../../../components";
+import Modal from "./Modal";
 
 export default function FormAddApplication() {
     const [selectedStatus, setSelectedStatus] = useState("");
@@ -80,7 +81,7 @@ export default function FormAddApplication() {
                         <td className='w-full flex py-6'>
                             <div className='flex'>
 
-                                {/* sda
+                                sda
                                 <button className="-bottom-3 left-0 right-0 m-auto w-fit border-transparent text-blue-700 bg-white border "
                                     title="Change photo"
                                     onClick={() => setModalOpen(true)}> 
@@ -88,12 +89,12 @@ export default function FormAddApplication() {
                                 </button>
                                 {modalOpen && (
                                     <Modal
-                                    updateAvatar={updateAvatar}
+                                    // updateAvatar={updateAvatar}
                                     closeModal={() => setModalOpen(false)}
                                     />
-                                )} */}
+                                )}
 
-                                <SingleLineInput
+                                {/* <SingleLineInput
                                     {...register("logo")}
                                     error={formErrors.email?.message}
                                     startAdornment={"https://"}
@@ -103,7 +104,7 @@ export default function FormAddApplication() {
                                     errorMessage={
                                         "Please pick application logo"
                                     }
-                                />
+                                /> */}
                             </div>
                         </td>
                     </tr>
