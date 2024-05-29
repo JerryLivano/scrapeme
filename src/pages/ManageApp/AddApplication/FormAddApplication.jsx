@@ -1,7 +1,9 @@
 import { useForm } from "react-hook-form";
+import { LogoAddImage } from "../../../assets/imageList";
 import SingleLineInput from "../../../components/elements/Input/SIngleLineInput";
 import DropdownInput from "../../../components/elements/Input/DropdownInput";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import ImageCropper from "../../../components/elements/Image/ImageCropper";
 import { Button } from "../../../components";
 import Modal from "./Modal";
 import { useDropzone } from "react-dropzone";
@@ -18,6 +20,13 @@ export default function FormAddApplication() {
     const [imageRef, setImageRef] = useState(null);
     const statusOptions = ["Enabled", "Disabled"];
 
+    const avatarUrl = useRef(LogoAddImage);
+
+
+    const updateAvatar = (imgSrc) => {
+        avatarUrl.current = imgSrc;
+    };
+    
     const {
         register,
         handleSubmit,
@@ -43,6 +52,8 @@ export default function FormAddApplication() {
         }
     };
 
+    // console.log(modalOpen);
+
     const { getRootProps, getInputProps } = useDropzone({
         onDrop,
         accept: {
@@ -52,76 +63,76 @@ export default function FormAddApplication() {
         maxFiles: 1,
     });
 
-    const onImageLoaded = (image) => {
-        setImageRef(image);
-    };
+    // const onImageLoaded = (image) => {
+    //     setImageRef(image);
+    // };
 
-    const onCropComplete = (crop) => {
-        setCompletedCrop(crop);
-    };
+    // const onCropComplete = (crop) => {
+    //     setCompletedCrop(crop);
+    // };
 
-    const onCropChange = (crop) => {
-        setCrop(crop);
-    };
+    // const onCropChange = (crop) => {
+    //     setCrop(crop);
+    // };
 
-    const getCroppedImg = () => {
-        if (!imageRef || !completedCrop.width || !completedCrop.height) {
-            return;
-        }
-        const canvas = document.createElement("canvas");
-        const scaleX = imageRef.naturalWidth / imageRef.width;
-        const scaleY = imageRef.naturalHeight / imageRef.height;
-        canvas.width = completedCrop.width;
-        canvas.height = completedCrop.height;
-        const ctx = canvas.getContext("2d");
+    // const getCroppedImg = () => {
+    //     if (!imageRef || !completedCrop.width || !completedCrop.height) {
+    //         return;
+    //     }
+    //     const canvas = document.createElement("canvas");
+    //     const scaleX = imageRef.naturalWidth / imageRef.width;
+    //     const scaleY = imageRef.naturalHeight / imageRef.height;
+    //     canvas.width = completedCrop.width;
+    //     canvas.height = completedCrop.height;
+    //     const ctx = canvas.getContext("2d");
 
-        ctx.drawImage(
-            imageRef,
-            completedCrop.x * scaleX,
-            completedCrop.y * scaleY,
-            completedCrop.width * scaleX,
-            completedCrop.height * scaleY,
-            0,
-            0,
-            completedCrop.width,
-            completedCrop.height
-        );
+    //     ctx.drawImage(
+    //         imageRef,
+    //         completedCrop.x * scaleX,
+    //         completedCrop.y * scaleY,
+    //         completedCrop.width * scaleX,
+    //         completedCrop.height * scaleY,
+    //         0,
+    //         0,
+    //         completedCrop.width,
+    //         completedCrop.height
+    //     );
 
-        return new Promise((resolve, reject) => {
-            canvas.toBlob(
-                (blob) => {
-                    if (!blob) {
-                        console.error("Canvas is empty");
-                        return;
-                    }
-                    blob.name = "cropped.jpg";
-                    resolve(blob);
-                },
-                "image/jpeg",
-                1
-            );
-        });
-    };
+    //     return new Promise((resolve, reject) => {
+    //         canvas.toBlob(
+    //             (blob) => {
+    //                 if (!blob) {
+    //                     console.error("Canvas is empty");
+    //                     return;
+    //                 }
+    //                 blob.name = "cropped.jpg";
+    //                 resolve(blob);
+    //             },
+    //             "image/jpeg",
+    //             1
+    //         );
+    //     });
+    // };
 
-    const handleSaveCrop = async () => {
-        const croppedImage = await getCroppedImg();
-        setValue("logo", croppedImage);
+    // const handleSaveCrop = async () => {
+    //     const croppedImage = await getCroppedImg();
+    //     setValue("logo", croppedImage);
 
-        // Create a URL for the cropped image to display in the dropzone
-        const croppedImageUrl = URL.createObjectURL(croppedImage);
-        setCroppedImageUrl(croppedImageUrl);
+    //     // Create a URL for the cropped image to display in the dropzone
+    //     const croppedImageUrl = URL.createObjectURL(croppedImage);
+    //     setCroppedImageUrl(croppedImageUrl);
 
-        setModalOpen(false);
-    };
+    //     setModalOpen(false);
+    // };
 
     return (
         <div className='w-full border border-gray-300 rounded-md px-8 py-6'>
             <form
-                className='flex grow basis-2/3 flex-col gap-4'
+                className='flex items-end w-full flex-col gap-4'
                 encType='multipart/form-data'
             >
                 <table className='w-full'>
-                    <tr className='border-b-2 items-center'>
+                    <tr className='border-b-2'>
                         <td className='font-semibold text-lg px-8'>
                             <label htmlFor='name'>Application Name</label>
                         </td>
@@ -141,7 +152,7 @@ export default function FormAddApplication() {
                             </div>
                         </td>
                     </tr>
-                    <tr className='border-b-2 items-center'>
+                    <tr className='border-b-2'>
                         <td className='font-semibold text-lg px-8'>
                             <label htmlFor='url'>URL</label>
                         </td>
@@ -161,30 +172,47 @@ export default function FormAddApplication() {
                             </div>
                         </td>
                     </tr>
-                    <tr className='border-b-2 items-center'>
-                        <td className='font-semibold text-lg px-8'>
+                    <tr className='w-full border-b-2'>
+                        <td className='font-semibold text-lg px-8 '>
                             <label htmlFor='logo'>Logo</label>
                         </td>
-                        <td className='w-full flex py-6'>
-                            <div className='flex'>
+                        <td className='w-full flex py-6 justify-center'>
+                            <div className='w-full mr-8'>
                                 <div
                                     {...getRootProps({
                                         className:
-                                            "dropzone cursor-pointer border-dashed rounded-md border-2 border-gray-300 p-4 text-center",
+                                            "h-full place-content-center dropzone cursor-pointer border-dashed rounded-md border-2 border-gray-300 p-4 text-center",
                                     })}
                                 >
                                     <input {...getInputProps()} />
                                     {croppedImageUrl ? (
                                         <img
-                                            src={croppedImageUrl}
+                                            src={avatarUrl.current}
                                             alt='Cropped Image'
-                                            className='w-full h-auto'
+                                            className='w-auto h-auto'
                                         />
                                     ) : (
-                                        <p>
-                                            Drag 'n' drop a file here, or click
-                                            to select a file
-                                        </p>
+                                        <div className='relative items-center'>
+                                            <div className="w-full h-full justify-center flex ">
+                                                <img
+                                                    className='justify-items-center mr-2 w-auto'
+                                                    src={avatarUrl.current}
+                                                    alt='Logo BRM Footer'
+                                                />  
+                                            </div>
+                                             
+                                            <p>
+                                                <span className="bg-transparent text-blue-700 semibold mr-1">
+                                                Upload a pic with 
+                                                </span>
+                                                <span className="text-blue-700 font-bold">
+                                                transparent background
+                                                </span>
+                                                <p className="text-gray-400">
+                                                PNG or JPG up to 2MB
+                                                </p>
+                                            </p>
+                                        </div>
                                     )}
                                 </div>
                             </div>
@@ -218,27 +246,18 @@ export default function FormAddApplication() {
                     <Button text={"Save"} type={"submit"} />
                 </div>
             </form>
-            {console.log(logoFile)}
+            {/* {console.log(logoFile)} */}
             {modalOpen && (
-                <Modal closeModal={() => setModalOpen(false)}>
-                    <div className='crop-container'>
-                        <ReactCrop
-                            src={logoFile}
-                            crop={crop}
-                            ruleOfThirds
-                            onImageLoaded={onImageLoaded}
-                            onComplete={onCropComplete}
-                            onChange={onCropChange}
-                        />
-                    </div>
-                    <div className='modal-actions'>
-                        <Button text={"Save"} onClick={handleSaveCrop} />
-                        <Button
-                            text={"Cancel"}
-                            onClick={() => setModalOpen(false)}
-                        />
-                    </div>
-                </Modal>
+                <Modal
+                updateAvatar={updateAvatar}
+                closeModal={() => setModalOpen(false)}>
+                <ImageCropper
+                  closeModal={() => setModalOpen(false)}
+                //   onCrop={handleSaveCrop}
+                  updateAvatar={updateAvatar}
+
+                />
+              </Modal>
             )}
         </div>
     );

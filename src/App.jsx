@@ -26,6 +26,7 @@ const App = () => {
                         <Route path='password'>
                             <Route path='forgot' element={<ForgotPassword />} />
                             <Route
+                                // path='new/token'
                                 path='newpassword'
                                 element={<NewPassword />}
                             />
