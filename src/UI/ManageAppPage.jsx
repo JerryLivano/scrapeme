@@ -1,12 +1,7 @@
-import Index from "../pages/ManageApp";
-
+import Index from "../pages/ManageApp/Index";
 
 const ManageApplicationPage = () => {
-  return (
-    <div>
-        <Index/>
-    </div>
-  )
-}
+    return <Index />;
+};
 
-export default ManageApplicationPage
+export default ManageApplicationPage;

@@ -7,17 +7,13 @@ import ImageCropper from "../../../components/elements/Image/ImageCropper";
 import { Button } from "../../../components";
 import Modal from "./Modal";
 import { useDropzone } from "react-dropzone";
-import ReactCrop from "react-image-crop";
-import "react-image-crop/dist/ReactCrop.css";
 
 export default function FormAddApplication() {
     const [selectedStatus, setSelectedStatus] = useState("");
     const [modalOpen, setModalOpen] = useState(false);
     const [logoFile, setLogoFile] = useState(null);
     const [croppedImageUrl, setCroppedImageUrl] = useState(null);
-    const [crop, setCrop] = useState({ aspect: 1 });
-    const [completedCrop, setCompletedCrop] = useState(null);
-    const [imageRef, setImageRef] = useState(null);
+
     const statusOptions = ["Enabled", "Disabled"];
 
     const avatarUrl = useRef(LogoAddImage);
@@ -31,8 +27,6 @@ export default function FormAddApplication() {
         register,
         handleSubmit,
         formState: { errors: formErrors },
-        reset,
-        watch,
         setValue,
     } = useForm({
         defaultValues: {
@@ -124,6 +118,47 @@ export default function FormAddApplication() {
 
     //     setModalOpen(false);
     // };
+
+//     const handleCropComplete = (crop, imageRef) => {
+//         if (!crop || !imageRef) {
+//             return;
+//         }
+
+//         const canvas = document.createElement("canvas");
+//         const scaleX = imageRef.naturalWidth / imageRef.width;
+//         const scaleY = imageRef.naturalHeight / imageRef.height;
+//         canvas.width = crop.width;
+//         canvas.height = crop.height;
+//         const ctx = canvas.getContext("2d");
+
+//         ctx.drawImage(
+//             imageRef,
+//             crop.x * scaleX,
+//             crop.y * scaleY,
+//             crop.width * scaleX,
+//             crop.height * scaleY,
+//             0,
+//             0,
+//             crop.width,
+//             crop.height
+//         );
+
+//         canvas.toBlob(
+//             (blob) => {
+//                 if (!blob) {
+//                     console.error("Canvas is empty");
+//                     return;
+//                 }
+//                 const croppedImageUrl = URL.createObjectURL(blob);
+//                 setCroppedImageUrl(croppedImageUrl);
+//                 setValue("logo", croppedImageUrl);
+//                 setModalOpen(false);
+//             },
+//             "image/jpeg",
+//             1
+//         );
+//     };
+
 
     return (
         <div className='w-full border border-gray-300 rounded-md px-8 py-6'>
