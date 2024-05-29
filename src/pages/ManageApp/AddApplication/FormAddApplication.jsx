@@ -17,7 +17,6 @@ export default function FormAddApplication() {
         setValue,
     } = useForm({
         defaultValues: {
-            id: "",
             name: "",
             url: "",
             logo: "",
@@ -75,19 +74,19 @@ export default function FormAddApplication() {
                     </tr>
                     <tr className='border-b-2 items-center'>
                         <td className='font-semibold text-lg px-8'>
-                            <label htmlFor='url'>URL</label>
+                            <label htmlFor='logo'>Logo</label>
                         </td>
                         <td className='w-full flex py-6'>
                             <div className='flex'>
                                 <SingleLineInput
-                                    {...register("url")}
+                                    {...register("logo")}
                                     error={formErrors.email?.message}
                                     startAdornment={"https://"}
-                                    label='Url'
-                                    id='url'
+                                    label='logo'
+                                    id='logo'
                                     className='w-full'
                                     errorMessage={
-                                        "Please enter application url"
+                                        "Please pick application logo"
                                     }
                                 />
                             </div>
