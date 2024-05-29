@@ -3,7 +3,6 @@ import uuid from "react-uuid";
 import DataTable from "../../components/layouts/DataTable";
 import { useGetUserQuery } from "../../services/userApiSlice";
 import Spinner from "../../components/elements/Spinner/Spinner";
-import { CheckIcon, EllipsisVerticalIcon } from "@heroicons/react/24/solid";
 import { useNavigate } from "react-router-dom";
 import { useGetRoleQuery } from "../../services/roleApi.Slice";
 import ButtonIconAction from "../../components/elements/Button/ButtonIconAction";
@@ -377,6 +376,7 @@ export default function UserTable() {
                     }
                 />
             </>
+            
         );
     }
     return content;

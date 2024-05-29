@@ -5,13 +5,12 @@ import {
     Login,
     NewPassword,
     Settings,
-    ManageApp,
-    ManageUser,
     LogActivity,
 } from "./pages";
 import { AuthLayout, DashLayout, Layout } from "./components/layouts";
 import AddUser from "./pages/ManageUser/AddUser";
-import UserPage from "./UI/UserPage";
+import ManageUserPage from "./UI/ManageUserPage";
+import ManageApplicationPage from "./UI/ManageAppPage";
 import { ToastContainer } from "react-toastify";
 import AddApplication from "./pages/ManageApp/AddApplication/Index";
 
@@ -40,18 +39,19 @@ const App = () => {
 
                         {/* User Page */}
                         <Route path='user'>
-                            <Route index element={<UserPage />} />
+                            <Route index element={<ManageUserPage />} />
                             <Route path='add-user' element={<AddUser />} />
                         </Route>
 
                         {/* Application Page */}
                         <Route path='application'>
-                            <Route index element={<ManageApp />} />
+                            <Route index element={<ManageApplicationPage />} />
                             <Route
                                 path='add-application'
                                 element={<AddApplication />}
                             />
                         </Route>
+
 
                         {/* Log Activity Page */}
                         <Route path='log-activity' element={<LogActivity />} />

@@ -1,12 +1,5 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-// import { useState } from "react";
-// import { ProductService } from "../../services/productService";
-// import FilterTable from "../../components/fragments/Filter/FilterTable";
-// import BtnAccess from "../../components/fragments/Button/BtnAccess";
-// import DropdownInput from "../../components/elements/Input/DropdownInput";
-// import { GridTable } from "../../components/fragments";
-// import BtnModify from "../../components/fragments/Button/BtnModify";
 import UserTable from "./UserTable";
 import AddUser from "./AddUser";
 
