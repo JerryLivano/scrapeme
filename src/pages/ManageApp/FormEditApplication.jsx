@@ -38,6 +38,7 @@ export default function FormEditApplication({ application }) {
 
     const [selectedStatus, setSelectedStatus] = useState(application.isActive);
     const [showModal, setShowModal] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
 
     const statusOptions = [
         { isActive: true, status: "Enabled" },
