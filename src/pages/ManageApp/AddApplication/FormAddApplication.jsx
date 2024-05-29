@@ -6,6 +6,7 @@ import { Button } from "../../../components";
 
 export default function FormAddApplication() {
     const [selectedStatus, setSelectedStatus] = useState("");
+    const [modalOpen, setModalOpen] = useState(false);
     const statusOptions = ["Enabled", "Disabled"];
 
     const {
@@ -79,17 +80,18 @@ export default function FormAddApplication() {
                         </td>
                         <td className='w-full flex py-6'>
                             <div className='flex'>
-                                <SingleLineInput
-                                    {...register("url")}
-                                    error={formErrors.email?.message}
-                                    startAdornment={"https://"}
-                                    label='Url'
-                                    id='url'
-                                    className='w-full'
-                                    errorMessage={
-                                        "Please enter application url"
-                                    }
-                                />
+                                sda
+                                <button className="-bottom-3 left-0 right-0 m-auto w-fit border-transparent text-blue-700 bg-white border "
+                                    title="Change photo"
+                                    onClick={() => setModalOpen(true)}> 
+                                    Change
+                                </button>
+                                {modalOpen && (
+                                    <Modal
+                                    updateAvatar={updateAvatar}
+                                    closeModal={() => setModalOpen(false)}
+                                    />
+                                )}
                             </div>
                         </td>
                     </tr>
