@@ -18,7 +18,6 @@ export default function FormAddApplication() {
         setValue,
     } = useForm({
         defaultValues: {
-            id: "",
             name: "",
             url: "",
             logo: "",
@@ -76,11 +75,12 @@ export default function FormAddApplication() {
                     </tr>
                     <tr className='border-b-2 items-center'>
                         <td className='font-semibold text-lg px-8'>
-                            <label htmlFor='url'>Logo</label>
+                            <label htmlFor='logo'>Logo</label>
                         </td>
                         <td className='w-full flex py-6'>
                             <div className='flex'>
-                                sda
+
+                                {/* sda
                                 <button className="-bottom-3 left-0 right-0 m-auto w-fit border-transparent text-blue-700 bg-white border "
                                     title="Change photo"
                                     onClick={() => setModalOpen(true)}> 
@@ -91,7 +91,19 @@ export default function FormAddApplication() {
                                     updateAvatar={updateAvatar}
                                     closeModal={() => setModalOpen(false)}
                                     />
-                                )}
+                                )} */}
+
+                                <SingleLineInput
+                                    {...register("logo")}
+                                    error={formErrors.email?.message}
+                                    startAdornment={"https://"}
+                                    label='logo'
+                                    id='logo'
+                                    className='w-full'
+                                    errorMessage={
+                                        "Please pick application logo"
+                                    }
+                                />
                             </div>
                         </td>
                     </tr>
