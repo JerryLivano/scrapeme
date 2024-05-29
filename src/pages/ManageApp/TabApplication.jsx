@@ -30,7 +30,7 @@ export default function TabApplication({
                         ))}
                     </div>
                     {location.pathname !==
-                        "/applications/add-application" && (
+                        "/application/add-application" && (
                         <div className='absolute right-8 flex items-end'>
                             <ButtonPlus
                                 title={"Application"}

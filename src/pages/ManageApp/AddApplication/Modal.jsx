@@ -4,7 +4,7 @@ import ImageCropper from "../../../components/elements/Image/ImageCropper";
 const Modal = ({ closeModal }) => {
   return (
     <div
-      className="relative z-10"
+      className="relative z-50"
       aria-labelledby="crop-image-dialog"
       role="dialog"
       aria-modal="true"
