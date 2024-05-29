@@ -1,9 +1,7 @@
 import Index from "../pages/ManageUser";
 
 const ManageUserPage = () => {
-  return (
-    <Index />
-  )
-}
+    return <Index />;
+};
 
 export default ManageUserPage;

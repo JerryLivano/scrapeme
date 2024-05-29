@@ -5,25 +5,19 @@ import { useState } from "react";
 import { Button } from "../../../components";
 import Modal from "./Modal";
 import { useDropzone } from "react-dropzone";
-import ReactCrop from "react-image-crop";
-import "react-image-crop/dist/ReactCrop.css";
 
 export default function FormAddApplication() {
     const [selectedStatus, setSelectedStatus] = useState("");
     const [modalOpen, setModalOpen] = useState(false);
     const [logoFile, setLogoFile] = useState(null);
     const [croppedImageUrl, setCroppedImageUrl] = useState(null);
-    const [crop, setCrop] = useState({ aspect: 1 });
-    const [completedCrop, setCompletedCrop] = useState(null);
-    const [imageRef, setImageRef] = useState(null);
+
     const statusOptions = ["Enabled", "Disabled"];
 
     const {
         register,
         handleSubmit,
         formState: { errors: formErrors },
-        reset,
-        watch,
         setValue,
     } = useForm({
         defaultValues: {
@@ -52,66 +46,44 @@ export default function FormAddApplication() {
         maxFiles: 1,
     });
 
-    const onImageLoaded = (image) => {
-        setImageRef(image);
-    };
-
-    const onCropComplete = (crop) => {
-        setCompletedCrop(crop);
-    };
-
-    const onCropChange = (crop) => {
-        setCrop(crop);
-    };
-
-    const getCroppedImg = () => {
-        if (!imageRef || !completedCrop.width || !completedCrop.height) {
+    const handleCropComplete = (crop, imageRef) => {
+        if (!crop || !imageRef) {
             return;
         }
+
         const canvas = document.createElement("canvas");
         const scaleX = imageRef.naturalWidth / imageRef.width;
         const scaleY = imageRef.naturalHeight / imageRef.height;
-        canvas.width = completedCrop.width;
-        canvas.height = completedCrop.height;
+        canvas.width = crop.width;
+        canvas.height = crop.height;
         const ctx = canvas.getContext("2d");
 
         ctx.drawImage(
             imageRef,
-            completedCrop.x * scaleX,
-            completedCrop.y * scaleY,
-            completedCrop.width * scaleX,
-            completedCrop.height * scaleY,
+            crop.x * scaleX,
+            crop.y * scaleY,
+            crop.width * scaleX,
+            crop.height * scaleY,
             0,
             0,
-            completedCrop.width,
-            completedCrop.height
+            crop.width,
+            crop.height
         );
 
-        return new Promise((resolve, reject) => {
-            canvas.toBlob(
-                (blob) => {
-                    if (!blob) {
-                        console.error("Canvas is empty");
-                        return;
-                    }
-                    blob.name = "cropped.jpg";
-                    resolve(blob);
-                },
-                "image/jpeg",
-                1
-            );
-        });
-    };
-
-    const handleSaveCrop = async () => {
-        const croppedImage = await getCroppedImg();
-        setValue("logo", croppedImage);
-
-        // Create a URL for the cropped image to display in the dropzone
-        const croppedImageUrl = URL.createObjectURL(croppedImage);
-        setCroppedImageUrl(croppedImageUrl);
-
-        setModalOpen(false);
+        canvas.toBlob(
+            (blob) => {
+                if (!blob) {
+                    console.error("Canvas is empty");
+                    return;
+                }
+                const croppedImageUrl = URL.createObjectURL(blob);
+                setCroppedImageUrl(croppedImageUrl);
+                setValue("logo", croppedImageUrl);
+                setModalOpen(false);
+            },
+            "image/jpeg",
+            1
+        );
     };
 
     return (
@@ -218,27 +190,12 @@ export default function FormAddApplication() {
                     <Button text={"Save"} type={"submit"} />
                 </div>
             </form>
-            {console.log(logoFile)}
             {modalOpen && (
-                <Modal closeModal={() => setModalOpen(false)}>
-                    <div className='crop-container'>
-                        <ReactCrop
-                            src={logoFile}
-                            crop={crop}
-                            ruleOfThirds
-                            onImageLoaded={onImageLoaded}
-                            onComplete={onCropComplete}
-                            onChange={onCropChange}
-                        />
-                    </div>
-                    <div className='modal-actions'>
-                        <Button text={"Save"} onClick={handleSaveCrop} />
-                        <Button
-                            text={"Cancel"}
-                            onClick={() => setModalOpen(false)}
-                        />
-                    </div>
-                </Modal>
+                <Modal
+                    logoFile={logoFile}
+                    onCropComplete={handleCropComplete}
+                    closeModal={() => setModalOpen(false)}
+                />
             )}
         </div>
     );

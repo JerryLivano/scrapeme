@@ -15,7 +15,6 @@ const DropdownInput = forwardRef(function DropdownInputInternal(
     },
     ref
 ) {
-    const id = useId();
     return (
         <div className={twMerge("flex flex-col", className)}>
             <select
