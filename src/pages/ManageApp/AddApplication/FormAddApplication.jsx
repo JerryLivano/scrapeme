@@ -7,7 +7,6 @@ import ImageCropper from "../../../components/elements/Image/ImageCropper";
 import { Button } from "../../../components";
 import Modal from "./Modal";
 import { useDropzone } from "react-dropzone";
-import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 
 export default function FormAddApplication() {
@@ -22,8 +21,17 @@ export default function FormAddApplication() {
 
     const avatarUrl = useRef(LogoAddImage);
 
-    const updateAvatar = (imgSrc) => {
+    const updateAvatar = (imgSrc, fileName) => {
         avatarUrl.current = imgSrc;
+        // setCroppedImageUrl(imgSrc); // Update the cropped image URL
+        // Set the logo file name
+        setLogoFile(fileName);
+    };
+
+    const onSubmit = (data) => {
+        data.logo = avatarUrl.current;
+        data.logoFileName = logoFile; // Add the file name to the form data
+        console.log(data);
     };
 
     const {
@@ -50,8 +58,6 @@ export default function FormAddApplication() {
             setModalOpen(true);
         }
     };
-
-    // console.log(modalOpen);
 
     const { getRootProps, getInputProps } = useDropzone({
         onDrop,
@@ -129,6 +135,7 @@ export default function FormAddApplication() {
             <form
                 className='flex items-end w-full flex-col gap-4'
                 encType='multipart/form-data'
+                onSubmit={handleSubmit(onSubmit)}
             >
                 <table className='w-full'>
                     <tr className='border-b-2'>
@@ -183,7 +190,7 @@ export default function FormAddApplication() {
                                             "h-full place-content-center dropzone cursor-pointer border-dashed rounded-md border-2 border-gray-300 p-4 text-center",
                                     })}
                                 >
-                                    <input {...getInputProps()} />
+                                    <input type='file' {...getInputProps()} />
                                     {croppedImageUrl ? (
                                         <img
                                             src={avatarUrl.current}
@@ -192,9 +199,9 @@ export default function FormAddApplication() {
                                         />
                                     ) : (
                                         <div className='relative items-center'>
-                                            <div className='w-full h-full justify-center flex '>
+                                            <div className='w-full h-auto justify-center flex '>
                                                 <img
-                                                    className='justify-items-center mr-2 w-auto'
+                                                    className='justify-items-center w-24 h-24 mr-2 my-4'
                                                     src={avatarUrl.current}
                                                 />
                                             </div>
