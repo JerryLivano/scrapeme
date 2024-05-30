@@ -48,11 +48,12 @@ const NewPassword = () => {
         <>
             {showNotification && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                    <div className="bg-white p-6 rounded-md text-center">
-                        <p>Password has been updated</p>
+                    <div className="bg-white p-8 rounded-md text-center" style={{ width: '345px' }}>
+                        <p className="text-lg font-semibold">Password has been</p>
+                        <p className="text-lg font-semibold">updated</p>
                         <button
                             onClick={handleBackToLogin}
-                            className="mt-4 px-4 py-2 bg-purple-600 text-white rounded-md"
+                            className="mt-8 px-5 py-2 bg-[#5928ED] text-white rounded-md text-sm w-full"
                         >
                             Back to Log In
                         </button>
@@ -108,12 +109,13 @@ const NewPassword = () => {
                     </div>
                 </div>
 
-                <div>
+                <div className='relative w-full mt-2'>
                     <Button
                         text={"Reset Password"}
                         type='submit'
                         onClick={handleSubmit(onSubmit)}
                         disabled={buttonDisabled}
+                        className='w-full' // Menambahkan class w-full untuk mengatur lebar penuh
                     >
                         Reset Password
                     </Button>
