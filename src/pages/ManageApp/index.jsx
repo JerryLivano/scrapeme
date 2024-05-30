@@ -3,8 +3,11 @@ import Spinner from "../../components/elements/Spinner/Spinner";
 import { useGetApplicationQuery } from "../../services/applicationApiSlice";
 import TabApplication from "./TabApplication";
 import FormEditApplication from "./FormEditApplication";
+import { useLocation } from "react-router-dom";
+import FormAddApplication from "./AddApplication/FormAddApplication";
 
 export default function ApplicationPage() {
+    const [isManageApp, setIsManageApp] = useState(true);
     const [selectedApplication, setSelectedApplication] = useState({});
 
     const {
@@ -24,7 +27,7 @@ export default function ApplicationPage() {
         <>
             <div className='flex flex-col items-center'>
                 <div className='text-3xl mt-4 font-semibold'>
-                    Manage Application
+                    {isManageApp ? "Manage Application" : "Add Application"}
                 </div>
             </div>
             {isLoading ? (
@@ -41,12 +44,15 @@ export default function ApplicationPage() {
                                 dataApplications={applications.data}
                                 selectedApplication={selectedApplication}
                                 setSelectedApplication={setSelectedApplication}
+                                setIsManageApp={setIsManageApp}
+                                isManageApp={isManageApp}
                             />
-                            {selectedApplication && (
+                            {selectedApplication && isManageApp && (
                                 <FormEditApplication
                                     application={selectedApplication}
                                 />
                             )}
+                            {!isManageApp && <FormAddApplication />}
                         </>
                     )}
                 </>

@@ -35,6 +35,7 @@ export default function FormAddUser() {
     const [showAddAllUser, setShowAddAllUser] = useState(false);
     const [alertColor, setAlertColor] = useState(false);
     const [emailNotFound, setEmailNotFound] = useState(false);
+    const [registerLoading, setRegisterLoading] = useState(false);
 
     const navigate = useNavigate();
 
@@ -84,17 +85,16 @@ export default function FormAddUser() {
         isFetching: appIsFetching,
     } = useGetApplicationQuery({ page: page, limit: pageSize });
 
-    const {
-        data: users,
-        isLoading: usersIsLoading,
-        isSuccess: usersIsSuccess,
-        isFetching: usersIsFetching,
-    } = useGetUserQuery({ page: page, limit: pageSize, search: "", role: "" });
+    const { data: users } = useGetUserQuery({
+        page: page,
+        limit: pageSize,
+        search: "",
+        role: "",
+    });
 
-    const [addUser, { isLoading: registerLoading }] = useRegisterMutation();
+    const [addUser] = useRegisterMutation();
 
-    const [getCVMeUser, { isLoading: getCVMeEmployeeLoading }] =
-        useGetCvMeEmployeeMutation();
+    const [getCVMeUser] = useGetCvMeEmployeeMutation();
 
     const onSearchCVMeUser = async (email) => {
         try {
@@ -182,18 +182,22 @@ export default function FormAddUser() {
         const request = addedUser.map((x) => ({
             email: x.email,
             roleId: x.roleId,
-            authorizedApplications: x.authorizedApplications,
+            authorizedApplications: x.authorizedApplications.map(
+                (app) => app.id
+            ),
         }));
+        setShowAddAllUser(false);
+        setRegisterLoading(true);
         try {
-            setShowAddAllUser(false);
             for (const user of request) {
                 await addUser(user).unwrap();
             }
+            setRegisterLoading(false);
             setAddedUser([]);
             resetAllUser();
             navigate(-1);
         } catch (error) {
-            console.error(error);
+            toastError({ message: error.message });
         }
     };
 
@@ -201,7 +205,8 @@ export default function FormAddUser() {
         onSearchCVMeUser(watch("email"));
     }, [watch("email")]);
 
-    if (appIsSuccess && roleIsSuccess) {
+    if (registerLoading) content = <Spinner />;
+    if (appIsSuccess && roleIsSuccess && !registerLoading) {
         content = (
             <>
                 <div className='w-full px-8 mb-8'>
@@ -296,6 +301,7 @@ export default function FormAddUser() {
                                     <td className='w-100 flex py-4'>
                                         <DropdownInput
                                             required
+                                            placeholder={"---Select Role---"}
                                             className='w-1/3'
                                             value={selectedRoleId}
                                             onChange={(e) => {

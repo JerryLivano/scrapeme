@@ -12,7 +12,6 @@ import AddUser from "./pages/ManageUser/AddUser";
 import ManageUserPage from "./UI/ManageUserPage";
 import ManageApplicationPage from "./UI/ManageAppPage";
 import { ToastContainer } from "react-toastify";
-import AddApplication from "./pages/ManageApp/AddApplication/Index";
 
 const App = () => {
     return (
@@ -27,7 +26,7 @@ const App = () => {
                             <Route path='forgot' element={<ForgotPassword />} />
                             <Route
                                 // path='new/token'
-                                path='newpassword'
+                                path='new-password'
                                 element={<NewPassword />}
                             />
                         </Route>
@@ -45,14 +44,7 @@ const App = () => {
                         </Route>
 
                         {/* Application Page */}
-                        <Route path='application'>
-                            <Route index element={<ManageApplicationPage />} />
-                            <Route
-                                path='add-application'
-                                element={<AddApplication />}
-                            />
-                        </Route>
-
+                        <Route path='application' element={<ManageApplicationPage />} />
 
                         {/* Log Activity Page */}
                         <Route path='log-activity' element={<LogActivity />} />

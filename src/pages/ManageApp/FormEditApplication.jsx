@@ -83,8 +83,8 @@ export default function FormEditApplication({ application }) {
         try {
             await updateApplication(request).unwrap();
             toastSuccess({ message: "Successfully updated application" });
-        } catch (error) {
-            toastError({ message: error.message });
+        } catch {
+            toastError({ message: "Failed to update application" });
         }
 
         setShowModal(false);
