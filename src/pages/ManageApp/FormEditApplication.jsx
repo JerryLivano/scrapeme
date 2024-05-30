@@ -25,20 +25,16 @@ export default function FormEditApplication({ application }) {
         defaultValues: {
             name: application.name || "",
             url: application.url
-                ? application.url.replace(/^https?:\/\//, "").replace(/\/$/, '')
+                ? application.url.replace(/^https?:\/\//, "").replace(/\/$/, "")
                 : "",
             logo: application.photo || "",
-            status: application.isActive || false,
         },
     });
-
-    console.log(application.isActive);
 
     const { handleSubmit: handleSubmitOpenModal } = useForm({});
 
     const [selectedStatus, setSelectedStatus] = useState(application.isActive);
     const [showModal, setShowModal] = useState(false);
-    const [modalOpen, setModalOpen] = useState(false);
 
     const statusOptions = [
         { isActive: true, status: "Enabled" },
@@ -50,7 +46,9 @@ export default function FormEditApplication({ application }) {
         setValue("name", application.name);
         setValue(
             "url",
-            application.url ? application.url.replace(/^https?:\/\//, "").replace(/\/$/, '') : ""
+            application.url
+                ? application.url.replace(/^https?:\/\//, "").replace(/\/$/, "")
+                : ""
         );
         setValue("logo", application.photo);
         setValue("status", application.isActive);
@@ -74,8 +72,11 @@ export default function FormEditApplication({ application }) {
             id: application.id,
             name: data.name.trim(),
             photo: data.logo.trim(),
-            url: `https://${data.url.trim().replace(/^https?:\/\//, "").replace(/\/$/, '')}`,
-            isActive: data.status === "true" ? true : false,
+            url: `https://${data.url
+                .trim()
+                .replace(/^https?:\/\//, "")
+                .replace(/\/$/, "")}`,
+            isActive: selectedStatus,
         };
 
         try {
@@ -164,18 +165,26 @@ export default function FormEditApplication({ application }) {
                                     <DropdownInput
                                         required
                                         className='w-1/3'
-                                        value={selectedStatus}
                                         onChange={(e) => {
-                                            setSelectedStatus(e.target.value);
-                                            setValue("status", e.target.value);
+                                            setSelectedStatus(
+                                                e.target.value === "Enabled"
+                                            );
+                                            setValue(
+                                                "status",
+                                                e.target.value === "Enabled"
+                                            );
                                         }}
                                     >
-                                        {statusOptions.map((status) => (
+                                        {statusOptions.map((option) => (
                                             <option
-                                                key={status.isActive}
-                                                value={status.isActive}
+                                                key={option.status}
+                                                value={option.status}
+                                                selected={
+                                                    option.isActive ===
+                                                    application.isActive
+                                                }
                                             >
-                                                {status.status}
+                                                {option.status}
                                             </option>
                                         ))}
                                     </DropdownInput>

@@ -22,11 +22,10 @@ export default function FormAddApplication() {
 
     const avatarUrl = useRef(LogoAddImage);
 
-
     const updateAvatar = (imgSrc) => {
         avatarUrl.current = imgSrc;
     };
-    
+
     const {
         register,
         handleSubmit,
@@ -193,23 +192,22 @@ export default function FormAddApplication() {
                                         />
                                     ) : (
                                         <div className='relative items-center'>
-                                            <div className="w-full h-full justify-center flex ">
+                                            <div className='w-full h-full justify-center flex '>
                                                 <img
                                                     className='justify-items-center mr-2 w-auto'
                                                     src={avatarUrl.current}
-                                                    alt='Logo BRM Footer'
-                                                />  
+                                                />
                                             </div>
-                                             
+
                                             <p>
-                                                <span className="bg-transparent text-blue-700 semibold mr-1">
-                                                Upload a pic with 
+                                                <span className='bg-transparent text-indigo-500 semibold mr-1'>
+                                                    Upload a pic with
                                                 </span>
-                                                <span className="text-blue-700 font-bold">
-                                                transparent background
+                                                <span className='text-indigo-500 font-bold'>
+                                                    transparent background
                                                 </span>
-                                                <p className="text-gray-400">
-                                                PNG or JPG up to 2MB
+                                                <p className='text-gray-400'>
+                                                    PNG or JPG up to 2MB
                                                 </p>
                                             </p>
                                         </div>
@@ -249,15 +247,15 @@ export default function FormAddApplication() {
             {/* {console.log(logoFile)} */}
             {modalOpen && (
                 <Modal
-                updateAvatar={updateAvatar}
-                closeModal={() => setModalOpen(false)}>
-                <ImageCropper
-                  closeModal={() => setModalOpen(false)}
-                //   onCrop={handleSaveCrop}
-                  updateAvatar={updateAvatar}
-
-                />
-              </Modal>
+                    updateAvatar={updateAvatar}
+                    closeModal={() => setModalOpen(false)}
+                >
+                    <ImageCropper
+                        closeModal={() => setModalOpen(false)}
+                        //   onCrop={handleSaveCrop}
+                        updateAvatar={updateAvatar}
+                    />
+                </Modal>
             )}
         </div>
     );
