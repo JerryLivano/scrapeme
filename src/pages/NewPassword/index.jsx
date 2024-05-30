@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ButtonLogin from "../../components/elements/Button/ButtonLogin";
 import { Button, InputGroup, Label } from "../../components";
 
 function latency(delay) {
@@ -49,8 +50,8 @@ const NewPassword = () => {
             {showNotification && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
                     <div className="bg-white p-8 rounded-md text-center" style={{ width: '345px' }}>
-                        <p className="text-lg font-semibold">Password has been</p>
-                        <p className="text-lg font-semibold">updated</p>
+                    <p className="text-lg font-semibold">Password has been<br />updated</p>
+
                         <button
                             onClick={handleBackToLogin}
                             className="mt-8 px-5 py-2 bg-[#5928ED] text-white rounded-md text-sm w-full"
@@ -109,16 +110,8 @@ const NewPassword = () => {
                     </div>
                 </div>
 
-                <div className='relative w-full mt-2'>
-                    <Button
-                        text={"Reset Password"}
-                        type='submit'
-                        onClick={handleSubmit(onSubmit)}
-                        disabled={buttonDisabled}
-                        className='w-full' // Menambahkan class w-full untuk mengatur lebar penuh
-                    >
-                        Reset Password
-                    </Button>
+                <div>
+                    <ButtonLogin text={"Reset Password"} type={"submit"} />
                 </div>
             </form>
         </>
