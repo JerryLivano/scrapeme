@@ -19,11 +19,22 @@ export default function FormAddApplication() {
     const [imageRef, setImageRef] = useState(null);
     const statusOptions = ["Enabled", "Disabled"];
 
+
     const avatarUrl = useRef(LogoAddImage);
 
 
-    const updateAvatar = (imgSrc) => {
+    const updateAvatar = (imgSrc, fileName) => {
+        // setImageRef(image);
         avatarUrl.current = imgSrc;
+        // setCroppedImageUrl(imgSrc); // Update the cropped image URL
+        // Set the logo file name
+        setLogoFile(fileName);
+    };
+
+    const onSubmit = (data) => {
+        data.logo = avatarUrl.current;
+        data.logoFileName = logoFile; // Add the file name to the form data
+        console.log(data);
     };
     
     const {
@@ -43,6 +54,7 @@ export default function FormAddApplication() {
         mode: "onChange",
     });
 
+
     const onDrop = (acceptedFiles) => {
         if (acceptedFiles.length) {
             const file = acceptedFiles[0];
@@ -51,7 +63,6 @@ export default function FormAddApplication() {
         }
     };
 
-    // console.log(modalOpen);
 
     const { getRootProps, getInputProps } = useDropzone({
         onDrop,
@@ -129,6 +140,7 @@ export default function FormAddApplication() {
             <form
                 className='flex items-end w-full flex-col gap-4'
                 encType='multipart/form-data'
+                onSubmit={handleSubmit(onSubmit)}
             >
                 <table className='w-full'>
                     <tr className='border-b-2'>
@@ -183,7 +195,7 @@ export default function FormAddApplication() {
                                             "h-full place-content-center dropzone cursor-pointer border-dashed rounded-md border-2 border-gray-300 p-4 text-center",
                                     })}
                                 >
-                                    <input {...getInputProps()} />
+                                    <input type="file" {...getInputProps()} />
                                     {croppedImageUrl ? (
                                         <img
                                             src={avatarUrl.current}
@@ -242,7 +254,7 @@ export default function FormAddApplication() {
                     </tr>
                 </table>
                 <div className='grow basis-1/3 flex justify-end py-4'>
-                    <Button text={"Save"} type={"submit"} />
+                    <Button text={"Save"} type={"submit"}/>
                 </div>
             </form>
             {/* {console.log(logoFile)} */}
