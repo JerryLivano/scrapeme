@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { ArrowLeftIcon } from "@heroicons/react/20/solid";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import ButtonLogin from "../../components/elements/Button/ButtonLogin";
 import { Button, InputGroup, Label } from "../../components";
 
 //#region latency waiting for transfer data to server and get email feedback from server--manual delay for test
@@ -67,14 +68,7 @@ const ForgotPassword = () => {
                 </div>
 
                 <div>
-                    <Button
-                        text={"Submit"}
-                        type='submit'
-                        onClick={handleSubmit(onSubmit)}
-                        disabled={buttonDisabled}
-                    >
-                        Submit
-                    </Button>
+                    <ButtonLogin text={"Submit"} type={"submit"} />
                 </div>
             </form>
             <p className='mt-6 text-sm text-center text-gray-500 float-end'>
