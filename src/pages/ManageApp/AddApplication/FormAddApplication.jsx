@@ -21,11 +21,19 @@ export default function FormAddApplication() {
 
     const avatarUrl = useRef(LogoAddImage);
 
-
-    const updateAvatar = (imgSrc) => {
+    const updateAvatar = (imgSrc, fileName) => {
         avatarUrl.current = imgSrc;
+        // setCroppedImageUrl(imgSrc); // Update the cropped image URL
+        // Set the logo file name
+        setLogoFile(fileName);
     };
-    
+
+    const onSubmit = (data) => {
+        data.logo = avatarUrl.current;
+        data.logoFileName = logoFile; // Add the file name to the form data
+        console.log(data);
+    };
+
     const {
         register,
         handleSubmit,
@@ -50,8 +58,6 @@ export default function FormAddApplication() {
             setModalOpen(true);
         }
     };
-
-    // console.log(modalOpen);
 
     const { getRootProps, getInputProps } = useDropzone({
         onDrop,
@@ -129,6 +135,7 @@ export default function FormAddApplication() {
             <form
                 className='flex items-end w-full flex-col gap-4'
                 encType='multipart/form-data'
+                onSubmit={handleSubmit(onSubmit)}
             >
                 <table className='w-full'>
                     <tr className='border-b-2'>
@@ -183,7 +190,7 @@ export default function FormAddApplication() {
                                             "h-full place-content-center dropzone cursor-pointer border-dashed rounded-md border-2 border-gray-300 p-4 text-center",
                                     })}
                                 >
-                                    <input {...getInputProps()} />
+                                    <input type='file' {...getInputProps()} />
                                     {croppedImageUrl ? (
                                         <img
                                             src={avatarUrl.current}
@@ -192,23 +199,22 @@ export default function FormAddApplication() {
                                         />
                                     ) : (
                                         <div className='relative items-center'>
-                                            <div className="w-full h-auto justify-center flex ">
+                                            <div className='w-full h-auto justify-center flex '>
                                                 <img
                                                     className='justify-items-center w-24 h-24 mr-2 my-4'
                                                     src={avatarUrl.current}
-                                                    alt='Logo BRM Footer'
-                                                />  
+                                                />
                                             </div>
-                                             
+
                                             <p>
-                                                <span className="bg-transparent text-blue-700 semibold mr-1">
-                                                Upload a pic with 
+                                                <span className='bg-transparent text-indigo-500 semibold mr-1'>
+                                                    Upload a pic with
                                                 </span>
-                                                <span className="text-blue-700 font-bold">
-                                                transparent background
+                                                <span className='text-indigo-500 font-bold'>
+                                                    transparent background
                                                 </span>
-                                                <p className="text-gray-400">
-                                                PNG or JPG up to 2MB
+                                                <p className='text-gray-400'>
+                                                    PNG or JPG up to 2MB
                                                 </p>
                                             </p>
                                         </div>
@@ -248,15 +254,15 @@ export default function FormAddApplication() {
             {/* {console.log(logoFile)} */}
             {modalOpen && (
                 <Modal
-                updateAvatar={updateAvatar}
-                closeModal={() => setModalOpen(false)}>
-                <ImageCropper
-                  closeModal={() => setModalOpen(false)}
-                //   onCrop={handleSaveCrop}
-                  updateAvatar={updateAvatar}
-
-                />
-              </Modal>
+                    updateAvatar={updateAvatar}
+                    closeModal={() => setModalOpen(false)}
+                >
+                    <ImageCropper
+                        closeModal={() => setModalOpen(false)}
+                        //   onCrop={handleSaveCrop}
+                        updateAvatar={updateAvatar}
+                    />
+                </Modal>
             )}
         </div>
     );

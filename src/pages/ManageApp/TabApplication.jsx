@@ -5,16 +5,16 @@ import { useState } from "react";
 export default function TabApplication({
     dataApplications,
     selectedApplication,
-    setSelectedApplication
+    setSelectedApplication,
 }) {
     const navigate = useNavigate();
 
     const editApplication = (app) => {
-        if (location.pathname === '/application/add-application') {
-            navigate('/application');
+        if (location.pathname === "/application/add-application") {
+            navigate(-1, { state: { setSelectedApplication: app } });
         }
         setSelectedApplication(app);
-    }
+    };
 
     return (
         <>
@@ -22,31 +22,35 @@ export default function TabApplication({
                 <div className='flex items-start font-semibold text-lg pt-2'>
                     Application
                 </div>
-                <div className='flex border-b-2 py-2 border-gray-300 items-center justify-between'>
-                    <div className='flex items-start gap-x-6'>
+                <div className='flex py-2 items-end justify-between'>
+                    <div className='flex items-start h-full w-full'>
                         {dataApplications.map((app) => (
-                            <button
-                                key={app.id}
-                                className={`text-gray-400 inline-flex text-lg py-3 -mb-2 px-1 h-fit border-b-2 ${
-                                    selectedApplication && selectedApplication.id === app.id
-                                        ? "border-b-indigo-600 text-indigo-600"
-                                        : "border-transparent hover:border-indigo-600 hover:text-indigo-600"
-                                }`}
-                                onClick={() => editApplication(app)}
-                            >
-                                {app.name}
-                            </button>
+                            <div className="pt-1">
+                                <button
+                                    key={app.id}
+                                    className={`text-gray-400 inline-flex text-lg whitespace-nowrap py-3 px-4 h-fit border-b-2 ${
+                                        selectedApplication &&
+                                        selectedApplication.id === app.id
+                                            ? "border-b-indigo-600 text-indigo-600"
+                                            : "border-gray-300 hover:border-indigo-600 hover:text-indigo-600"
+                                    }`}
+                                    onClick={() => editApplication(app)}
+                                >
+                                    {app.name}
+                                </button>
+                            </div>
                         ))}
                     </div>
-                    {location.pathname !==
-                        "/application/add-application" && (
-                        <div className='flex items-end'>
+                    <div className='border-b-2 border-gray-300 w-full '></div>
+                    <div className='h-full border-b-2 border-gray-300 pl-3 pb-3'>
+                        {location.pathname !==
+                            "/application/add-application" && (
                             <ButtonPlus
                                 title={"Application"}
-                                onClick={() => navigate('add-application')}
+                                onClick={() => navigate("add-application")}
                             />
-                        </div>
-                    )}
+                        )}
+                    </div>
                 </div>
             </div>
         </>

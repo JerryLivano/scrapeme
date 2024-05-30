@@ -119,8 +119,8 @@ const ImageCropper = ({ closeModal, updateAvatar }) => {
             display: "none",
             border: "1px solid black",
             objectFit: "contain",
-            width: 50,
-            height: 50,
+            // width: 50,
+            // height: 50,
           }}
         />
       )}

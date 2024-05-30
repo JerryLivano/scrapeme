@@ -4,11 +4,6 @@ import UserTable from "./UserTable";
 import AddUser from "./AddUser";
 
 const ManageUser = () => {
-    const navigate = useNavigate();
-    const HandleAddUser = () => {
-        navigate("/add-user");
-    };
-
     return (
         <>
             <div className='flex flex-col items-center mb-4'>

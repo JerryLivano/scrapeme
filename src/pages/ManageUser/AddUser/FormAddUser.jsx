@@ -295,7 +295,6 @@ export default function FormAddUser() {
                                     </td>
                                     <td className='w-100 flex py-4'>
                                         <DropdownInput
-                                            placeholder='--- Select Role ---'
                                             required
                                             className='w-1/3'
                                             value={selectedRoleId}
