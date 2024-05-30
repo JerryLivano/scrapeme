@@ -7,7 +7,6 @@ import ImageCropper from "../../../components/elements/Image/ImageCropper";
 import { Button } from "../../../components";
 import Modal from "./Modal";
 import { useDropzone } from "react-dropzone";
-import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 
 export default function FormAddApplication() {
@@ -193,9 +192,9 @@ export default function FormAddApplication() {
                                         />
                                     ) : (
                                         <div className='relative items-center'>
-                                            <div className="w-full h-full justify-center flex ">
+                                            <div className="w-full h-auto justify-center flex ">
                                                 <img
-                                                    className='justify-items-center mr-2 w-auto'
+                                                    className='justify-items-center w-24 h-24 mr-2 my-4'
                                                     src={avatarUrl.current}
                                                     alt='Logo BRM Footer'
                                                 />  

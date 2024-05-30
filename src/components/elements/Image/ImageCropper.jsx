@@ -8,6 +8,8 @@ import setCanvasPreview from "./setCanvasPreview";
 
 const ASPECT_RATIO = 1;
 const MIN_DIMENSION = 150;
+// const MIN_DIMENSION_WIDTH = 150;
+// const MAX_DIMENSION_WIDTH = 300;
 
 const ImageCropper = ({ closeModal, updateAvatar }) => {
   const imgRef = useRef(null);
@@ -75,7 +77,9 @@ const ImageCropper = ({ closeModal, updateAvatar }) => {
             onChange={(pixelCrop, percentCrop) => setCrop(percentCrop)}
             keepSelection
             aspect={ASPECT_RATIO}
-            minWidth={MIN_DIMENSION}
+            minWidth={40}
+            maxWidth={500}
+            minHeight={10}
           >
             <img
               ref={imgRef}
@@ -95,6 +99,7 @@ const ImageCropper = ({ closeModal, updateAvatar }) => {
                   crop,
                   imgRef.current.width,
                   imgRef.current.height
+                  
                 )
               );
               const dataUrl = previewCanvasRef.current.toDataURL();
@@ -114,8 +119,8 @@ const ImageCropper = ({ closeModal, updateAvatar }) => {
             display: "none",
             border: "1px solid black",
             objectFit: "contain",
-            width: 150,
-            height: 150,
+            width: 50,
+            height: 50,
           }}
         />
       )}
