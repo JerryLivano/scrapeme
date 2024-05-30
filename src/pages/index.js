@@ -1,4 +1,4 @@
-import Login from "./Login/Index";
+import Login from "./Login";
 import ForgotPassword from "./ForgotPassword/Index";
 import ErrorPage from "./404";
 import HomePage from "./Dashboard/Index";

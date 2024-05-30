@@ -68,6 +68,7 @@ const ForgotPassword = () => {
 
                 <div>
                     <Button
+                        text={"Submit"}
                         type='submit'
                         onClick={handleSubmit(onSubmit)}
                         disabled={buttonDisabled}
