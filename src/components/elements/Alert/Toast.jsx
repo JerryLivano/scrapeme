@@ -3,7 +3,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 export function toastSuccess({ message }) {
     toast.success(message, {
-        position: "top-center",
+        position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -11,7 +11,7 @@ export function toastSuccess({ message }) {
         draggable: true,
         progress: undefined,
         theme: "light",
-        className: "min-w-fit whitespace-nowrap",
+        className: "min-w-fit mr-8 mt-8 whitespace-nowrap",
     });
 }
 

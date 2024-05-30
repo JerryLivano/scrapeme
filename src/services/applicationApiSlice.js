@@ -14,9 +14,18 @@ export const applicationApiSlice = apiSlice.enhanceEndpoints({
             },
             providesTags: ["Application"]
         }),
+        updateApplication: builder.mutation({
+            query: (data) => ({
+                url: `/application`,
+                method: "PUT",
+                body: data,
+            }),
+            invalidatesTags: ["Application"],
+        })
     })
 });
 
 export const {
-    useGetApplicationQuery
+    useGetApplicationQuery,
+    useUpdateApplicationMutation
 } = applicationApiSlice;

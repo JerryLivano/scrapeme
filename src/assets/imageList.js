@@ -2,7 +2,7 @@ import LogoMA from "./img/metrodataacademy.png";
 import LogoMASquare from "./img/metrodataacademy_square.png";
 import LogoMAFooter from "./img/logo-ma-footer.png";
 import LogoPortalMe from "./img/PortalMe.png";
-
+import LogoAddImage from "./img/Addimage.png"
 import LogoBRMDashboard from "./img/BRM.png";
 import LogoCVMeDashboard from "./img/cvMe.png";
 import LogoMADashboard from "./img/MA.png";
@@ -16,7 +16,7 @@ export {
     LogoMASquare,
     LogoMAFooter,
     LogoPortalMe,
-
+    LogoAddImage,
     LogoBRMDashboard,
     LogoCVMeDashboard,
     LogoMADashboard,
