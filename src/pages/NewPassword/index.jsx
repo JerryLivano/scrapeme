@@ -1,8 +1,9 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import ButtonLogin from "../../components/elements/Button/ButtonLogin";
 import { Button, InputGroup, Label } from "../../components";
+import { useForgotPassMutation } from "../../services/authApiSlice";
 
 function latency(delay) {
     return new Promise(function (resolve) {
@@ -13,7 +14,12 @@ function latency(delay) {
 const NewPassword = () => {
     const [buttonDisabled, setButtonDisabled] = useState(false);
     const [showNotification, setShowNotification] = useState(false);
+    const [resetPassword] = useForgotPassMutation();
+    const [searchParams, setSearchParams] = useSearchParams();
     const navigate = useNavigate();
+
+    const email = searchParams.get("email");
+    const otp = searchParams.get("tkn");
 
     const {
         register,
@@ -30,12 +36,36 @@ const NewPassword = () => {
                 alert("Passwords do not match!");
                 return;
             }
+
+            console.log(data);
+            
+            await resetPassword(data)
+            .unwrap()
+            .then(async (payload) => {
+                
+                // Do success path logic here.
+                setButtonDisabled(true);
+                await latency(1000);
+                setShowNotification(true);
+                reset();
+                setButtonDisabled(false);
+
+                navigate("/")
+            })
+            .catch(() => {
+
+                // Do error handling here.
+                console.log("error");
+            })
+            
+            /*
             console.log(data);
             setButtonDisabled(true);
             await latency(1000);
             setShowNotification(true);
             reset();
             setButtonDisabled(false);
+            */
         } catch (error) {
             alert(error.message);
         }
@@ -71,6 +101,10 @@ const NewPassword = () => {
                 <div className='text-center'>
                     <p className='text-sm text-gray-500'>*New password must be different from the previous password</p>
                 </div>
+
+
+                <input type="hidden" {...register("otp")} value={otp ?? ""} name="otp" id="otp"></input>
+                <input type="hidden" {...register("email")} value={email ?? ""} name="email" id="email"></input>
 
                 <div>
                     <Label
