@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import SingleLineInput from "../../components/elements/Input/SIngleLineInput";
+import SingleLineInput from "../../components/elements/Input/SingleLineInput";
 import DropdownInput from "../../components/elements/Input/DropdownInput";
 import { Button } from "../../components";
 import DropzoneInput from "../../components/elements/Input/DropzoneInput";
 import ButtonText from "../../components/elements/Button/ButtonText";
-import Modal from "./AddApplication/Modal";
 import ModalConfirmAddData from "../../components/elements/Confirmation/ModalConfirmAddData";
 import {
     toastError,

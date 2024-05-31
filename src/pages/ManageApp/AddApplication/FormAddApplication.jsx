@@ -1,11 +1,10 @@
 import { useForm } from "react-hook-form";
 import { LogoAddImage } from "../../../assets/imageList";
-import SingleLineInput from "../../../components/elements/Input/SIngleLineInput";
+import SingleLineInput from "../../../components/elements/Input/SingleLineInput";
 import DropdownInput from "../../../components/elements/Input/DropdownInput";
 import { useState, useRef } from "react";
-import ImageCropper from "../../../components/elements/Image/ImageCropper";
 import { Button } from "../../../components";
-import Modal from "./Modal";
+import ImageCropper from "../../../components/elements/Image/ImageCropper";
 import { useDropzone } from "react-dropzone";
 import "react-image-crop/dist/ReactCrop.css";
 
@@ -14,32 +13,31 @@ export default function FormAddApplication() {
     const [modalOpen, setModalOpen] = useState(false);
     const [logoFile, setLogoFile] = useState(null);
     const [croppedImageUrl, setCroppedImageUrl] = useState(null);
-    const [crop, setCrop] = useState({ aspect: 1 });
-    const [completedCrop, setCompletedCrop] = useState(null);
-    const [imageRef, setImageRef] = useState(null);
     const statusOptions = ["Enabled", "Disabled"];
 
     const avatarUrl = useRef(LogoAddImage);
 
     const updateAvatar = (imgSrc, fileName) => {
         avatarUrl.current = imgSrc;
-        // setCroppedImageUrl(imgSrc); // Update the cropped image URL
-        // Set the logo file name
         setLogoFile(fileName);
     };
 
+    
+    
     const onSubmit = (data) => {
-        data.logo = avatarUrl.current;
-        data.logoFileName = logoFile; // Add the file name to the form data
+        
+        const fileName = logoFile; 
+        // const fileId = fileName ? fileName.replace(/\.[^/.]+$/, "") : ""; 
+        data.logoFileName = fileName;
+        data.logoId = fileName; 
         console.log(data);
+        // console.log(fileName);
+        // console.log(logoFile);
     };
-
     const {
         register,
         handleSubmit,
         formState: { errors: formErrors },
-        reset,
-        watch,
         setValue,
     } = useForm({
         defaultValues: {
@@ -54,7 +52,7 @@ export default function FormAddApplication() {
     const onDrop = (acceptedFiles) => {
         if (acceptedFiles.length) {
             const file = acceptedFiles[0];
-            setLogoFile(URL.createObjectURL(file));
+            setLogoFile(file);
             setModalOpen(true);
         }
     };
@@ -67,68 +65,6 @@ export default function FormAddApplication() {
         },
         maxFiles: 1,
     });
-
-    // const onImageLoaded = (image) => {
-    //     setImageRef(image);
-    // };
-
-    // const onCropComplete = (crop) => {
-    //     setCompletedCrop(crop);
-    // };
-
-    // const onCropChange = (crop) => {
-    //     setCrop(crop);
-    // };
-
-    // const getCroppedImg = () => {
-    //     if (!imageRef || !completedCrop.width || !completedCrop.height) {
-    //         return;
-    //     }
-    //     const canvas = document.createElement("canvas");
-    //     const scaleX = imageRef.naturalWidth / imageRef.width;
-    //     const scaleY = imageRef.naturalHeight / imageRef.height;
-    //     canvas.width = completedCrop.width;
-    //     canvas.height = completedCrop.height;
-    //     const ctx = canvas.getContext("2d");
-
-    //     ctx.drawImage(
-    //         imageRef,
-    //         completedCrop.x * scaleX,
-    //         completedCrop.y * scaleY,
-    //         completedCrop.width * scaleX,
-    //         completedCrop.height * scaleY,
-    //         0,
-    //         0,
-    //         completedCrop.width,
-    //         completedCrop.height
-    //     );
-
-    //     return new Promise((resolve, reject) => {
-    //         canvas.toBlob(
-    //             (blob) => {
-    //                 if (!blob) {
-    //                     console.error("Canvas is empty");
-    //                     return;
-    //                 }
-    //                 blob.name = "cropped.jpg";
-    //                 resolve(blob);
-    //             },
-    //             "image/jpeg",
-    //             1
-    //         );
-    //     });
-    // };
-
-    // const handleSaveCrop = async () => {
-    //     const croppedImage = await getCroppedImg();
-    //     setValue("logo", croppedImage);
-
-    //     // Create a URL for the cropped image to display in the dropzone
-    //     const croppedImageUrl = URL.createObjectURL(croppedImage);
-    //     setCroppedImageUrl(croppedImageUrl);
-
-    //     setModalOpen(false);
-    // };
 
     return (
         <div className='w-full border border-gray-300 rounded-md px-8 py-6'>
@@ -251,18 +187,12 @@ export default function FormAddApplication() {
                     <Button text={"Save"} type={"submit"} />
                 </div>
             </form>
-            {/* {console.log(logoFile)} */}
             {modalOpen && (
-                <Modal
+                <ImageCropper
+                    file={logoFile}
                     updateAvatar={updateAvatar}
                     closeModal={() => setModalOpen(false)}
-                >
-                    <ImageCropper
-                        closeModal={() => setModalOpen(false)}
-                        //   onCrop={handleSaveCrop}
-                        updateAvatar={updateAvatar}
-                    />
-                </Modal>
+                />
             )}
         </div>
     );
