@@ -15,6 +15,8 @@ export default function FormAddApplication() {
     const [croppedImageUrl, setCroppedImageUrl] = useState(null);
     const statusOptions = ["Enabled", "Disabled"];
 
+    const [logoUrl, setLogoUrl] = useState(""); 
+
     const avatarUrl = useRef(LogoAddImage);
 
     const updateAvatar = (imgSrc, fileName) => {
@@ -22,18 +24,11 @@ export default function FormAddApplication() {
         setLogoFile(fileName);
     };
 
-    
-    
     const onSubmit = (data) => {
-        
-        const fileName = logoFile; 
-        // const fileId = fileName ? fileName.replace(/\.[^/.]+$/, "") : ""; 
-        data.logoFileName = fileName;
-        data.logoId = fileName; 
+        data.logo = logoFile; 
         console.log(data);
-        // console.log(fileName);
-        // console.log(logoFile);
     };
+
     const {
         register,
         handleSubmit,
@@ -43,7 +38,7 @@ export default function FormAddApplication() {
         defaultValues: {
             name: "",
             url: "",
-            logo: "",
+            logo: "", 
             status: "",
         },
         mode: "onChange",
@@ -65,6 +60,7 @@ export default function FormAddApplication() {
         },
         maxFiles: 1,
     });
+
 
     return (
         <div className='w-full border border-gray-300 rounded-md px-8 py-6'>
@@ -126,7 +122,7 @@ export default function FormAddApplication() {
                                             "h-full place-content-center dropzone cursor-pointer border-dashed rounded-md border-2 border-gray-300 p-4 text-center",
                                     })}
                                 >
-                                    <input type='file' {...getInputProps()} />
+                                    <input type='file' {...getInputProps()}/>
                                     {croppedImageUrl ? (
                                         <img
                                             src={avatarUrl.current}
