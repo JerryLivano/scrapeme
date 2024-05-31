@@ -22,12 +22,18 @@ export default function FormAddApplication() {
         setLogoFile(fileName);
     };
 
+    
+    
     const onSubmit = (data) => {
-        data.logo = avatarUrl.current;
-        data.logoFileName = logoFile;
+        
+        const fileName = logoFile; 
+        // const fileId = fileName ? fileName.replace(/\.[^/.]+$/, "") : ""; 
+        data.logoFileName = fileName;
+        data.logoId = fileName; 
         console.log(data);
+        // console.log(fileName);
+        // console.log(logoFile);
     };
-
     const {
         register,
         handleSubmit,
