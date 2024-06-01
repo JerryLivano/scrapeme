@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import SingleLineInput from "../../components/elements/Input/SingleLineInput";
 import DropdownInput from "../../components/elements/Input/DropdownInput";
+import ImageCropper from "../../components/elements/Image/ImageCropper";
 import { Button } from "../../components";
 import DropzoneInput from "../../components/elements/Input/DropzoneInput";
 import ButtonText from "../../components/elements/Button/ButtonText";
@@ -35,6 +36,7 @@ export default function FormEditApplication({ application }) {
 
     const [selectedStatus, setSelectedStatus] = useState(application.isActive);
     const [showModal, setShowModal] = useState(false);
+    const [editPic, setEditPic] = useState(false);
 
     const statusOptions = [
         { isActive: true, status: "Enabled" },

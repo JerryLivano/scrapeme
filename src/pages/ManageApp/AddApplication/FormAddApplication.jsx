@@ -15,8 +15,6 @@ export default function FormAddApplication() {
     const [croppedImageUrl, setCroppedImageUrl] = useState(null);
     const statusOptions = ["Enabled", "Disabled"];
 
-    const [logoUrl, setLogoUrl] = useState(""); 
-
     const avatarUrl = useRef(LogoAddImage);
 
     const updateAvatar = (imgSrc, fileName) => {
