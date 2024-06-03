@@ -275,7 +275,9 @@ export default function UserTable() {
     const {
         data: roles,
         isLoading: rolesIsLoading,
+        isSuccess: roleIsSuccess,
         isError: rolesIsError,
+        isFetching: roleIsFetching,
     } = useGetRoleQuery();
 
     let filterRoleOptions = [];
@@ -296,7 +298,8 @@ export default function UserTable() {
         });
     };
 
-    if (isLoading || isFetching) content = <Spinner />;
+    if (isLoading || isFetching || rolesIsLoading || roleIsFetching)
+        content = <Spinner />;
     if (isError) {
         if ("status" in error) {
             content = (
@@ -307,7 +310,7 @@ export default function UserTable() {
         }
     }
 
-    if (isSuccess) {
+    if (isSuccess && roleIsSuccess) {
         const { data, pagination } = users;
         const dataCount = pagination.totalRecords;
         content = (
@@ -346,7 +349,7 @@ export default function UserTable() {
                     }
                 />
 
-                <FormModalEditUser 
+                <FormModalEditUser
                     open={showEditUser}
                     setOpen={setShowEditUser}
                     user={selectedUser}

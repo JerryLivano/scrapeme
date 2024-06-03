@@ -202,6 +202,12 @@ export default function FormAddUser() {
     };
 
     useEffect(() => {
+        if (roles && roles.data) {
+            setValue("roleId", roles.data[0].id);
+        }
+    }, [roles]);
+
+    useEffect(() => {
         onSearchCVMeUser(watch("email"));
     }, [watch("email")]);
 
@@ -301,9 +307,9 @@ export default function FormAddUser() {
                                     <td className='w-100 flex py-4'>
                                         <DropdownInput
                                             required
-                                            placeholder={"---Select Role---"}
                                             className='w-1/3'
                                             value={selectedRoleId}
+                                            {...register("roleId")}
                                             onChange={(e) => {
                                                 setSelectedRoleId(
                                                     e.target.value
@@ -329,6 +335,10 @@ export default function FormAddUser() {
                                                     <option
                                                         key={role.id}
                                                         value={role.id}
+                                                        selected={
+                                                            role.id ===
+                                                            watch("roleId")
+                                                        }
                                                     >
                                                         {role.roleName
                                                             .charAt(5)
@@ -369,7 +379,11 @@ export default function FormAddUser() {
                                 </tr>
                             </table>
                             <div className='grow basis-1/3 flex justify-end py-4'>
-                                <Button text={"Add"} type={"submit"} className={"w-36"} />
+                                <Button
+                                    text={"Add"}
+                                    type={"submit"}
+                                    className={"w-36"}
+                                />
                             </div>
                         </form>
                         <ModalConfirmAddData
