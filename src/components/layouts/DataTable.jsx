@@ -245,10 +245,10 @@ export default function DataTable({
                                                     (header) => (
                                                         <th
                                                             key={header.id}
-                                                            className='whitespace-nowrap border-b text-gray-600 border-gray-300 bg-gray-50 px-6 py-3 text-left text-sm font-semibold uppercase'
+                                                            className='whitespace-nowrap border-b text-gray-600 border-gray-300 bg-gray-50 px-6 py-3 text-sm font-semibold uppercase text-center'
                                                         >
                                                             {header.isPlaceholder ? null : (
-                                                                <div className='flex items-center justify-between'>
+                                                                <div className='flex items-center justify-center'>
                                                                     {flexRender(
                                                                         header
                                                                             .column
