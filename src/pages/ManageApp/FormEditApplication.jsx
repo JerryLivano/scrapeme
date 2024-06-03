@@ -70,8 +70,6 @@ export default function FormEditApplication({ application }) {
             return;
         }
 
-        console.log(onSubmit);
-
         const request = {
             id: application.id,
             name: data.name.trim(),

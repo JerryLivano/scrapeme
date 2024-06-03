@@ -369,7 +369,7 @@ export default function FormAddUser() {
                                 </tr>
                             </table>
                             <div className='grow basis-1/3 flex justify-end py-4'>
-                                <Button text={"Add"} type={"submit"} />
+                                <Button text={"Add"} type={"submit"} className={"w-36"} />
                             </div>
                         </form>
                         <ModalConfirmAddData

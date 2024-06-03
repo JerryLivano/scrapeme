@@ -30,7 +30,6 @@ const NewPassword = () => {
                 alert("Passwords do not match!");
                 return;
             }
-            console.log(data);
             setButtonDisabled(true);
             await latency(1000);
             setShowNotification(true);
