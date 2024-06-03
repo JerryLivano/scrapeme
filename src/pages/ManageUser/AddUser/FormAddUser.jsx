@@ -203,7 +203,13 @@ export default function FormAddUser() {
 
     useEffect(() => {
         if (roles && roles.data) {
-            setValue("roleId", roles.data[0].id);
+            const employeeRole = roles.data.filter((role) =>
+                role.roleName.toLowerCase().includes("employee")
+            );
+            if (employeeRole) {
+                setValue("roleId", employeeRole[0].id);
+                setSelectedRoleId(employeeRole[0].id);
+            }
         }
     }, [roles]);
 
@@ -337,7 +343,7 @@ export default function FormAddUser() {
                                                         value={role.id}
                                                         selected={
                                                             role.id ===
-                                                            watch("roleId")
+                                                            selectedRoleId
                                                         }
                                                     >
                                                         {role.roleName
