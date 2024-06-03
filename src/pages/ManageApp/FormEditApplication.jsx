@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import SingleLineInput from "../../components/elements/Input/SingleLineInput";
 import DropdownInput from "../../components/elements/Input/DropdownInput";
@@ -32,11 +32,11 @@ export default function FormEditApplication({ application }) {
         },
     });
 
-    const { handleSubmit: handleSubmitOpenModal } = useForm({});
-
     const [selectedStatus, setSelectedStatus] = useState(application.isActive);
     const [showModal, setShowModal] = useState(false);
-    const [editPic, setEditPic] = useState(false);
+    const [showImageCropper, setShowImageCropper] = useState(false);
+    const [imageFile, setImageFile] = useState(null);
+    const fileInputRef = useRef(null);
 
     const statusOptions = [
         { isActive: true, status: "Enabled" },
@@ -59,7 +59,7 @@ export default function FormEditApplication({ application }) {
     const [updateApplication, { isLoading: updateAppLoading }] =
         useUpdateApplicationMutation();
 
-    const onUpdateApplication = async (data) => {
+    const onSubmit = async (data) => {
         if (
             data.name.trim() === "" ||
             data.url.trim() === "" ||
@@ -69,6 +69,8 @@ export default function FormEditApplication({ application }) {
             toastError({ message: "Field cannot be empty" });
             return;
         }
+
+        console.log(onSubmit);
 
         const request = {
             id: application.id,
@@ -91,6 +93,18 @@ export default function FormEditApplication({ application }) {
         setShowModal(false);
     };
 
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            console.log("File selected:", file);
+            setImageFile(file); 
+            setShowImageCropper(true);
+            setValue("logo", file.name);
+        }
+    };
+    
+    console.log(imageFile);
+
     return (
         <>
             {updateAppLoading && <Spinner />}
@@ -99,9 +113,7 @@ export default function FormEditApplication({ application }) {
                     <form
                         className='flex grow basis-2/3 flex-col gap-4'
                         encType='multipart/form-data'
-                        onSubmit={handleSubmitOpenModal(() =>
-                            setShowModal(true)
-                        )}
+                        onSubmit={handleSubmit(onSubmit)}
                     >
                         <table className='w-full'>
                             <tr className='border-b-2 items-center'>
@@ -155,6 +167,7 @@ export default function FormEditApplication({ application }) {
                                         <ButtonText
                                             text={"Change"}
                                             type={"button"}
+                                            onClick={() => fileInputRef.current.click()}
                                         />
                                     </div>
                                 </td>
@@ -200,12 +213,29 @@ export default function FormEditApplication({ application }) {
                     <ModalConfirmAddData
                         title={"Confirm Update Application"}
                         message={`Are you sure want to update ${application.name}?`}
-                        onConfirmHandler={handleSubmit(onUpdateApplication)}
+                        onConfirmHandler={handleSubmit(onSubmit)}
                         openModal={showModal}
                         setOpenModal={setShowModal}
                         typeButton={"submit"}
                     />
                 </div>
+            )}
+            <input
+                type="file"
+                ref={fileInputRef}
+                style={{ display: "none" }}
+                onChange={handleFileChange}
+                accept="image/*"
+            />
+            {showImageCropper && (
+                <ImageCropper
+                    closeModal={() => setShowImageCropper(false)}
+                    updateAvatar={(croppedImage) => {
+                        setValue("logo", croppedImage);
+                        setShowImageCropper(false);
+                    }}
+                    file={imageFile}
+                />
             )}
         </>
     );

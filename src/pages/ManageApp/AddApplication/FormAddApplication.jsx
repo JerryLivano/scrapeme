@@ -20,8 +20,10 @@ export default function FormAddApplication() {
     const updateAvatar = (imgSrc, fileName) => {
         avatarUrl.current = imgSrc;
         setLogoFile(fileName);
+        console.log(updateAvatar);
     };
 
+    console.log(logoFile);
     const onSubmit = (data) => {
         data.logo = logoFile; 
         console.log(data);
