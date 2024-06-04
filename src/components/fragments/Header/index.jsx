@@ -29,7 +29,7 @@ const Header = (props) => {
     //#region Ari handle logout button
     const handleLogout = () => {
         removeAuthToken();
-        navigate("/login");
+        navigate("/");
     };
 
     useEffect(() => {

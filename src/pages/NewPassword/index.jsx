@@ -65,7 +65,7 @@ const NewPassword = () => {
     };
 
     const handleBackToLogin = () => {
-        navigate("/login"); // arahkan ke halaman login
+        navigate("/"); // arahkan ke halaman login
     };
 
     const handleBackToForgotPassword = () => {
