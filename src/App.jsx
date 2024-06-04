@@ -27,6 +27,7 @@ const App = () => {
                         path='forgot-password'
                         element={<ForgotPassword />}
                     />
+                    <Route path='reset-password' element={<NewPassword />} />
                 </Route>
 
                 {/* Protected Pages */}

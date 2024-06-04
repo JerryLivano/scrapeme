@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import { useLoginMutation } from "../../services/authApiSlice";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../../features/auth/authSlice";
@@ -14,7 +14,7 @@ const Login = () => {
     const {
         register,
         handleSubmit,
-        formState: { errors }
+        formState: { errors },
     } = useForm();
     const [toastType, setToastType] = useState("");
 
@@ -70,14 +70,13 @@ const Login = () => {
                         <div>
                             <div className='flex items-center justify-between'>
                                 <Label htmlFor='password' name='Password' />
-                                <div className='text-sm'>
-                                    <a
-                                        href='/password/forgot'
-                                        className='font-semibold text-indigo-600 hover:text-indigo-500'
-                                    >
+                                <NavLink
+                                    to={'forgot-password'}
+                                >
+                                    <div className='text-sm font-semibold text-indigo-600 hover:text-indigo-500 cursor-pointer'>
                                         Forgot password?
-                                    </a>
-                                </div>
+                                    </div>
+                                </NavLink>
                             </div>
 
                             <div className='relative w-full mt-2'>
