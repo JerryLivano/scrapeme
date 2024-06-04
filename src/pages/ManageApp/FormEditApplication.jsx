@@ -59,38 +59,44 @@ export default function FormEditApplication({ application }) {
     const [updateApplication, { isLoading: updateAppLoading }] =
         useUpdateApplicationMutation();
 
-    const onSubmit = async (data) => {
-        if (
-            data.name.trim() === "" ||
-            data.url.trim() === "" ||
-            data.logo.trim() === ""
-        ) {
+        const onSubmit = async (data) => {
+            if (
+                data.name.trim() === "" ||
+                data.url.trim() === "" ||
+                data.logo.trim() === ""
+            ) {
+                setShowModal(false);
+                toastError({ message: "Field cannot be empty" });
+                return;
+            }
+        
+            const request = {
+                id: application.id,
+                name: data.name.trim(),
+                photo: data.logo.trim(),
+                url: `https://${data.url
+                    .trim()
+                    .replace(/^https?:\/\//, "")
+                    .replace(/\/$/, "")}`,
+                isActive: selectedStatus,
+            };
+        
+            try {
+                await updateApplication(request).unwrap();
+                toastSuccess({ message: "Successfully updated application" });
+            } catch {
+                toastError({ message: "Failed to update application" });
+            }
+        
             setShowModal(false);
-            toastError({ message: "Field cannot be empty" });
-            return;
-        }
-
-        const request = {
-            id: application.id,
-            name: data.name.trim(),
-            photo: data.logo.trim(),
-            url: `https://${data.url
-                .trim()
-                .replace(/^https?:\/\//, "")
-                .replace(/\/$/, "")}`,
-            isActive: selectedStatus,
+            
+            if (imageFile) {
+                localStorage.setItem('updatelogo', imageFile.name);  // Storing the filename
+            }
         };
+        
 
-        try {
-            await updateApplication(request).unwrap();
-            toastSuccess({ message: "Successfully updated application" });
-        } catch {
-            toastError({ message: "Failed to update application" });
-        }
-
-        setShowModal(false);
-    };
-
+    // console.log(imageFile);
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -233,6 +239,10 @@ export default function FormEditApplication({ application }) {
                     file={imageFile}
                 />
             )}
+
+            {/* <script>
+                document.querySelector
+            </script> */}
         </>
     );
 }

@@ -23,9 +23,15 @@ export default function FormAddApplication() {
     };
 
     console.log(logoFile);
+
     const onSubmit = (data) => {
-        data.logo = logoFile; 
+        if (logoFile) {
+            data.logo = logoFile;
+            localStorage.setItem('applicationLogo', logoFile);
+        }
+        console.log('Form submitted:', data);
     };
+    
 
     const {
         register,
