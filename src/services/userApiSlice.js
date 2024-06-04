@@ -28,10 +28,19 @@ export const userApiSlice = apiSlice
                 }),
                 invalidatesTags: ["User"]
             }),
+            updateUser: builder.mutation({
+                query: (body) => ({
+                    url: "/user",
+                    method: "PUT",
+                    body
+                }),
+                invalidatesTags: ["User"]
+            })
         })
     });
 
 export const {
     useGetUserQuery,
-    useRegisterMutation
+    useRegisterMutation,
+    useUpdateUserMutation
 } = userApiSlice;

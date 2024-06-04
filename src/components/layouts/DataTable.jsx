@@ -186,7 +186,6 @@ export default function DataTable({
                             <div className='inline-flex gap-x-1'>
                                 {filterRole.length > 0 &&
                                     filterRole.map((item) => {
-                                        console.log(item);
                                         return (
                                             <div className='border-2 border-slate-300 inline-flex h-fit rounded-xl'>
                                                 <div className='mx-4 w-full'>
@@ -246,10 +245,10 @@ export default function DataTable({
                                                     (header) => (
                                                         <th
                                                             key={header.id}
-                                                            className='whitespace-nowrap border-b text-gray-600 border-gray-300 bg-gray-50 px-6 py-3 text-left text-sm font-semibold uppercase'
+                                                            className='whitespace-nowrap border-b text-gray-600 border-gray-300 bg-gray-50 px-6 py-3 text-sm font-semibold uppercase text-center'
                                                         >
                                                             {header.isPlaceholder ? null : (
-                                                                <div className='flex items-center justify-between'>
+                                                                <div className='flex items-center justify-center'>
                                                                     {flexRender(
                                                                         header
                                                                             .column

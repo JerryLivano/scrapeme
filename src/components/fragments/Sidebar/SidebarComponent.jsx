@@ -28,23 +28,26 @@ const SidebarComponent = () => {
                                         <a
                                             href={item.href}
                                             className={classNames(
-                                                item.href ===
-                                                    `${location.pathname}`
+                                                location.pathname.includes(
+                                                    item.href
+                                                )
                                                     ? "bg-gray-50"
                                                     : "text-gray-700 hover:text-blue-950 hover:bg-gray-50",
                                                 "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
                                             )}
                                             aria-current={
-                                                item.href ===
-                                                `${location.pathname}`
+                                                location.pathname.includes(
+                                                    item.href
+                                                )
                                                     ? "page"
                                                     : undefined
                                             }
                                         >
                                             <item.icon
                                                 className={classNames(
-                                                    item.href ===
-                                                        `${location.pathname}`
+                                                    location.pathname.includes(
+                                                        item.href
+                                                    )
                                                         ? "text-blue-950"
                                                         : "text-blue-950 ",
                                                     "h-6 w-6 shrink-0"
@@ -59,8 +62,9 @@ const SidebarComponent = () => {
                                                 <>
                                                     <Disclosure.Button
                                                         className={classNames(
-                                                            item.href ===
-                                                                `${location.pathname}`
+                                                            location.pathname.includes(
+                                                                item.href
+                                                            )
                                                                 ? "bg-gray-50 text-indigo-600"
                                                                 : "hover:bg-gray-50 hover:text-indigo-600",
                                                             "flex items-center w-full text-left rounded-md p-2 gap-x-3 text-sm leading-6 font-semibold text-gray-700"
@@ -68,8 +72,9 @@ const SidebarComponent = () => {
                                                     >
                                                         <item.icon
                                                             className={classNames(
-                                                                item.href ===
-                                                                    `${location.pathname}`
+                                                                location.pathname.includes(
+                                                                    item.href
+                                                                )
                                                                     ? "text-indigo-600"
                                                                     : "text-gray-400 hover:text-indigo-600",
                                                                 "w-6 h-6 shrink-0"

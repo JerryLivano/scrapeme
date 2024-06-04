@@ -22,18 +22,11 @@ export default function FormAddApplication() {
         setLogoFile(fileName);
     };
 
-    
-    
+    console.log(logoFile);
     const onSubmit = (data) => {
-        
-        const fileName = logoFile; 
-        // const fileId = fileName ? fileName.replace(/\.[^/.]+$/, "") : ""; 
-        data.logoFileName = fileName;
-        data.logoId = fileName; 
-        console.log(data);
-        // console.log(fileName);
-        // console.log(logoFile);
+        data.logo = logoFile; 
     };
+
     const {
         register,
         handleSubmit,
@@ -43,7 +36,7 @@ export default function FormAddApplication() {
         defaultValues: {
             name: "",
             url: "",
-            logo: "",
+            logo: "", 
             status: "",
         },
         mode: "onChange",
@@ -65,6 +58,7 @@ export default function FormAddApplication() {
         },
         maxFiles: 1,
     });
+
 
     return (
         <div className='w-full border border-gray-300 rounded-md px-8 py-6'>
@@ -126,7 +120,7 @@ export default function FormAddApplication() {
                                             "h-full place-content-center dropzone cursor-pointer border-dashed rounded-md border-2 border-gray-300 p-4 text-center",
                                     })}
                                 >
-                                    <input type='file' {...getInputProps()} />
+                                    <input type='file' {...getInputProps()}/>
                                     {croppedImageUrl ? (
                                         <img
                                             src={avatarUrl.current}

@@ -38,7 +38,7 @@ const NewPassword = () => {
                 alert("Passwords do not match!");
                 return;
             }
-
+          
             setButtonDisabled(true);
             
             await resetPassword(data)

@@ -8,6 +8,8 @@ import { useGetRoleQuery } from "../../services/roleApi.Slice";
 import ButtonIconAction from "../../components/elements/Button/ButtonIconAction";
 import InputCheckbox from "../../components/elements/Input/InputCheckbox";
 import { useGetApplicationQuery } from "../../services/applicationApiSlice";
+import { Button } from "../../components";
+import FormModalEditUser from "./EditUser/FormModalEditUser";
 
 export default function UserTable() {
     let content;
@@ -19,16 +21,10 @@ export default function UserTable() {
     const [roleOpt, setRoleOpt] = useState([]);
     const [appOpt, setAppOpt] = useState([]);
     const [appIdOpt, setAppIdOpt] = useState([]);
-
-    const [isChecked, setIsChecked] = useState(true);
-
     const [dataAuthApp, setDataAuthApp] = useState([]);
-    const [selectedUser, setSelectedUser] = useState("");
-    const [accId, setAccId] = useState([]);
 
-    const toggleCheckbox = () => {
-        setIsChecked(!isChecked);
-    };
+    const [showEditUser, setShowEditUser] = useState(false);
+    const [selectedUser, setSelectedUser] = useState("");
 
     const cols = useMemo(
         () => [
@@ -73,11 +69,8 @@ export default function UserTable() {
                     return (
                         <InputCheckbox
                             value={"Recruit-ME"}
-                            dataApp={row.authorizedApplications.map((app) => ({
-                                name: app.name,
-                            }))}
-                            isModified={accId.some(
-                                (accId) => accId === row.accountId
+                            app={row.authorizedApplications.map(
+                                (app) => app.name
                             )}
                         />
                     );
@@ -91,11 +84,8 @@ export default function UserTable() {
                     return (
                         <InputCheckbox
                             value={"CV-ME"}
-                            dataApp={row.authorizedApplications.map((app) => ({
-                                name: app.name,
-                            }))}
-                            isModified={accId.some(
-                                (accId) => accId === row.accountId
+                            app={row.authorizedApplications.map(
+                                (app) => app.name
                             )}
                         />
                     );
@@ -109,11 +99,8 @@ export default function UserTable() {
                     return (
                         <InputCheckbox
                             value={"Test-ME"}
-                            dataApp={row.authorizedApplications.map((app) => ({
-                                name: app.name,
-                            }))}
-                            isModified={accId.some(
-                                (accId) => accId === row.accountId
+                            app={row.authorizedApplications.map(
+                                (app) => app.name
                             )}
                         />
                     );
@@ -127,11 +114,8 @@ export default function UserTable() {
                     return (
                         <InputCheckbox
                             value={"Pick-ME"}
-                            dataApp={row.authorizedApplications.map((app) => ({
-                                name: app.name,
-                            }))}
-                            isModified={accId.some(
-                                (accId) => accId === row.accountId
+                            app={row.authorizedApplications.map(
+                                (app) => app.name
                             )}
                         />
                     );
@@ -145,11 +129,8 @@ export default function UserTable() {
                     return (
                         <InputCheckbox
                             value={"Team-ME"}
-                            dataApp={row.authorizedApplications.map((app) => ({
-                                name: app.name,
-                            }))}
-                            isModified={accId.some(
-                                (accId) => accId === row.accountId
+                            app={row.authorizedApplications.map(
+                                (app) => app.name
                             )}
                         />
                     );
@@ -163,11 +144,8 @@ export default function UserTable() {
                     return (
                         <InputCheckbox
                             value={"BRM"}
-                            dataApp={row.authorizedApplications.map((app) => ({
-                                name: app.name,
-                            }))}
-                            isModified={accId.some(
-                                (accId) => accId === row.accountId
+                            app={row.authorizedApplications.map(
+                                (app) => app.name
                             )}
                         />
                     );
@@ -181,11 +159,8 @@ export default function UserTable() {
                     return (
                         <InputCheckbox
                             value={"Metrodata Academy"}
-                            dataApp={row.authorizedApplications.map((app) => ({
-                                name: app.name,
-                            }))}
-                            isModified={accId.some(
-                                (accId) => accId === row.accountId
+                            app={row.authorizedApplications.map(
+                                (app) => app.name
                             )}
                         />
                     );
@@ -193,30 +168,21 @@ export default function UserTable() {
             },
             {
                 id: uuid(),
-                header: "Modify Access",
+                header: "Action",
                 cell: (row) => row.renderValue(),
-                accessorFn: (row) => {
-                    const [modifyAccess, setModifyAccess] = useState(false);
-
-                    useEffect(() => {
-                        if (accId.some((accId) => accId === row.accountId)) {
-                            setAccId(
-                                accId.filter((accId) => accId !== row.accountId)
-                            );
-                        } else {
-                            setAccId([...accId, row.accountId]);
-                        }
-                    }, [accId]);
-
-                    return (
-                        <div className='flex justify-center'>
-                            <ButtonIconAction
-                                modifyAccess={modifyAccess}
-                                setModifyAccess={setModifyAccess}
-                            />
-                        </div>
-                    );
-                },
+                accessorFn: (row) => (
+                    <div className='w-full'>
+                        <Button
+                            text={"Edit"}
+                            type={"button"}
+                            className={"w-24"}
+                            onClick={() => {
+                                setShowEditUser(true);
+                                setSelectedUser(row);
+                            }}
+                        />
+                    </div>
+                ),
             },
         ],
         []
@@ -237,7 +203,12 @@ export default function UserTable() {
             page: page,
             limit: pageSize,
             search: search,
-            role: roleOpt.length === 1 ? roleOpt[0][0] : roleOpt.length === 0 ? "" : null,
+            role:
+                roleOpt.length === 1
+                    ? roleOpt[0][0]
+                    : roleOpt.length === 0
+                    ? ""
+                    : null,
         },
         { refetchOnMountOrArgChange: true }
     );
@@ -274,7 +245,7 @@ export default function UserTable() {
         data: applications,
         isLoading: applicationIsLoading,
         isError: applicationIsError,
-    } = useGetApplicationQuery({ page: page, limit: 100 });
+    } = useGetApplicationQuery({ page: 1, limit: 100 });
 
     let filterAppOptions = [];
 
@@ -288,7 +259,6 @@ export default function UserTable() {
     useEffect(() => {
         setAppIdOpt(appOpt.map((app) => app[0]));
     }, [appOpt]);
-
 
     const handleDeleteFilteredRole = (selectedRoleId) => {
         setRoleOpt(roleOpt.filter((role) => role[0] !== selectedRoleId));
@@ -305,7 +275,9 @@ export default function UserTable() {
     const {
         data: roles,
         isLoading: rolesIsLoading,
+        isSuccess: roleIsSuccess,
         isError: rolesIsError,
+        isFetching: roleIsFetching,
     } = useGetRoleQuery();
 
     let filterRoleOptions = [];
@@ -326,7 +298,8 @@ export default function UserTable() {
         });
     };
 
-    if (isLoading || isFetching) content = <Spinner />;
+    if (isLoading || isFetching || rolesIsLoading || roleIsFetching)
+        content = <Spinner />;
     if (isError) {
         if ("status" in error) {
             content = (
@@ -337,7 +310,7 @@ export default function UserTable() {
         }
     }
 
-    if (isSuccess) {
+    if (isSuccess && roleIsSuccess) {
         const { data, pagination } = users;
         const dataCount = pagination.totalRecords;
         content = (
@@ -375,8 +348,15 @@ export default function UserTable() {
                         handleDeleteFilteredRole(role)
                     }
                 />
+
+                <FormModalEditUser
+                    open={showEditUser}
+                    setOpen={setShowEditUser}
+                    user={selectedUser}
+                    roles={roles.data}
+                    applications={applications.data}
+                />
             </>
-            
         );
     }
     return content;

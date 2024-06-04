@@ -1,4 +1,3 @@
-// ImageCropper.js
 import { useRef, useState, useEffect } from "react";
 import ReactCrop, {
     centerCrop,
@@ -7,6 +6,7 @@ import ReactCrop, {
 } from "react-image-crop";
 import setCanvasPreview from "./setCanvasPreview";
 import ReactDOM from "react-dom";
+import "react-image-crop/dist/ReactCrop.css"; 
 
 const ASPECT_RATIO = 1;
 const MIN_DIMENSION = 150;
@@ -17,26 +17,30 @@ const ImageCropper = ({ closeModal, updateAvatar, file }) => {
     const [imgSrc, setImgSrc] = useState("");
     const [crop, setCrop] = useState();
     const [error, setError] = useState("");
-
+    
     useEffect(() => {
-        const reader = new FileReader();
-        reader.addEventListener("load", () => {
-            const imageElement = new Image();
-            const imageUrl = reader.result?.toString() || "";
-            imageElement.src = imageUrl;
+        if (file && file instanceof Blob) {
+            const reader = new FileReader();
+            reader.addEventListener("load", () => {
+                const imageElement = new Image();
+                const imageUrl = reader.result?.toString() || "";
+                imageElement.src = imageUrl;
 
-            imageElement.addEventListener("load", (e) => {
-                if (error) setError("");
-                const { naturalWidth, naturalHeight } = e.currentTarget;
-                if (naturalWidth < MIN_DIMENSION || naturalHeight < MIN_DIMENSION) {
-                    setError("Image must be at least 150 x 150 pixels.");
-                    return setImgSrc("");
-                }
+                imageElement.addEventListener("load", (e) => {
+                    if (error) setError("");
+                    const { naturalWidth, naturalHeight } = e.currentTarget;
+                    if (naturalWidth < MIN_DIMENSION || naturalHeight < MIN_DIMENSION) {
+                        setError("Image must be at least 150 x 150 pixels.");
+                        return setImgSrc("");
+                    }
+                });
+                setImgSrc(imageUrl);
             });
-            setImgSrc(imageUrl);
-        });
-        reader.readAsDataURL(file);
-    }, [file]);
+            reader.readAsDataURL(file);
+        } else {
+            setError("Invalid file type.");
+        }
+    }, [file, error]);
 
     const onImageLoad = (e) => {
         const { width, height } = e.currentTarget;
