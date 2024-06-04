@@ -59,49 +59,46 @@ export default function FormEditApplication({ application }) {
     const [updateApplication, { isLoading: updateAppLoading }] =
         useUpdateApplicationMutation();
 
-        const onSubmit = async (data) => {
-            if (
-                data.name.trim() === "" ||
-                data.url.trim() === "" ||
-                data.logo.trim() === ""
-            ) {
-                setShowModal(false);
-                toastError({ message: "Field cannot be empty" });
-                return;
-            }
-        
-            const request = {
-                id: application.id,
-                name: data.name.trim(),
-                photo: data.logo.trim(),
-                url: `https://${data.url
-                    .trim()
-                    .replace(/^https?:\/\//, "")
-                    .replace(/\/$/, "")}`,
-                isActive: selectedStatus,
-            };
-        
-            try {
-                await updateApplication(request).unwrap();
-                toastSuccess({ message: "Successfully updated application" });
-            } catch {
-                toastError({ message: "Failed to update application" });
-            }
-        
+    const onSubmit = async (data) => {
+        if (
+            data.name.trim() === "" ||
+            data.url.trim() === "" ||
+            data.logo.trim() === ""
+        ) {
             setShowModal(false);
-            
-            if (imageFile) {
-                localStorage.setItem('updatelogo', imageFile.name);  // Storing the filename
-            }
-        };
-        
+            toastError({ message: "Field cannot be empty" });
+            return;
+        }
 
-    // console.log(imageFile);
+        const request = {
+            id: application.id,
+            name: data.name.trim(),
+            photo: data.logo.trim(),
+            url: `https://${data.url
+                .trim()
+                .replace(/^https?:\/\//, "")
+                .replace(/\/$/, "")}`,
+            isActive: selectedStatus,
+        };
+
+        try {
+            await updateApplication(request).unwrap();
+            toastSuccess({ message: "Successfully updated application" });
+        } catch {
+            toastError({ message: "Failed to update application" });
+        }
+
+        setShowModal(false);
+
+        if (imageFile) {
+            localStorage.setItem("updatelogo", imageFile.name); // Storing the filename
+        }
+    };
+
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (file) {
-            console.log("File selected:", file);
-            setImageFile(file); 
+            setImageFile(file);
             setShowImageCropper(true);
             setValue("logo", file.name);
         }
@@ -169,7 +166,9 @@ export default function FormEditApplication({ application }) {
                                         <ButtonText
                                             text={"Change"}
                                             type={"button"}
-                                            onClick={() => fileInputRef.current.click()}
+                                            onClick={() =>
+                                                fileInputRef.current.click()
+                                            }
                                         />
                                     </div>
                                 </td>
@@ -209,7 +208,11 @@ export default function FormEditApplication({ application }) {
                             </tr>
                         </table>
                         <div className='grow basis-1/3 flex justify-end py-4'>
-                            <Button text={"Save"} type={"submit"} className={"px-16"} />
+                            <Button
+                                text={"Save"}
+                                type={"submit"}
+                                className={"px-16"}
+                            />
                         </div>
                     </form>
                     <ModalConfirmAddData
@@ -223,11 +226,11 @@ export default function FormEditApplication({ application }) {
                 </div>
             )}
             <input
-                type="file"
+                type='file'
                 ref={fileInputRef}
                 style={{ display: "none" }}
                 onChange={handleFileChange}
-                accept="image/*"
+                accept='image/*'
             />
             {showImageCropper && (
                 <ImageCropper

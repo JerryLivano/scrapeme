@@ -7,52 +7,49 @@ import ImageCropper from "../../../components/elements/Image/ImageCropper";
 import { useDropzone } from "react-dropzone";
 import "react-image-crop/dist/ReactCrop.css";
 import SingleLineInput from "../../../components/elements/Input/SIngleLineInput";
+import { useCreateApplicationMutation } from "../../../services/applicationApiSlice";
+import {
+    toastError,
+    toastSuccess,
+} from "../../../components/elements/Alert/Toast";
+import ModalConfirmAddData from "../../../components/elements/Confirmation/ModalConfirmAddData";
 
 export default function FormAddApplication() {
-    const [selectedStatus, setSelectedStatus] = useState("");
     const [modalOpen, setModalOpen] = useState(false);
     const [logoFile, setLogoFile] = useState(null);
-    const [croppedImageUrl, setCroppedImageUrl] = useState(null);
-    const statusOptions = ["Enabled", "Disabled"];
+    const [showAddApplication, setShowAddApplication] = useState(false);
+    const statusOptions = ["Disabled", "Enabled"];
 
-    const avatarUrl = useRef(LogoAddImage);
-
-    const updateAvatar = (imgSrc, fileName) => {
-        avatarUrl.current = imgSrc;
-        setLogoFile(fileName);
-    };
-
-    console.log(logoFile);
-
-    const onSubmit = (data) => {
-        if (logoFile) {
-            data.logo = logoFile;
-            localStorage.setItem('applicationLogo', logoFile);
-        }
-        console.log('Form submitted:', data);
-    };
-    
+    const [nameNotFound, setNameNotFound] = useState(false);
+    const [urlNotFOund, setUrlNotFound] = useState(false);
 
     const {
         register,
         handleSubmit,
+        watch,
+        reset: formAppReset,
         formState: { errors: formErrors },
         setValue,
     } = useForm({
         defaultValues: {
             name: "",
             url: "",
-            logo: "", 
-            status: "",
+            logo: "",
+            isActive: false,
         },
         mode: "onChange",
     });
 
+    const { handleSubmit: openModal } = useForm({});
+
+    const [createApplication, { isLoading: createAppLoading }] =
+        useCreateApplicationMutation();
+
     const onDrop = (acceptedFiles) => {
         if (acceptedFiles.length) {
             const file = acceptedFiles[0];
-            setLogoFile(file);
             setModalOpen(true);
+            setLogoFile(file);
         }
     };
 
@@ -65,20 +62,59 @@ export default function FormAddApplication() {
         maxFiles: 1,
     });
 
+    const avatarUrl = useRef(LogoAddImage);
+    const updateAvatar = (imgSrc) => {
+        avatarUrl.current = imgSrc;
+        setValue("logo", imgSrc.slice(imgSrc.indexOf(",") + 1));
+        setLogoFile(imgSrc);
+    };
+
+    const onSubmit = async (data) => {
+        if (data.name.trim() === "" || data.url.trim() === "") {
+            if (data.name.trim() === "") {
+                setNameNotFound(true);
+            }
+
+            if (data.url.trim() === "") {
+                setUrlNotFound(true);
+            }
+
+            setShowAddApplication(false);
+            window.scrollTo(0, 0);
+            return;
+        }
+
+        try {
+            const request = {
+                name: data.name,
+                url: `https://${data.url}`,
+                isActive: data.isActive,
+                image: data.logo,
+            };
+            await createApplication(request).unwrap();
+            formAppReset();
+            avatarUrl.current = LogoAddImage;
+            toastSuccess({ message: "Successfully created application" });
+        } catch {
+            toastError({ message: "Failed to create application" });
+        }
+        setShowAddApplication(false);
+        return;
+    };
 
     return (
         <div className='w-full border border-gray-300 rounded-md px-8 py-6'>
             <form
                 className='flex items-end w-full flex-col gap-4'
                 encType='multipart/form-data'
-                onSubmit={handleSubmit(onSubmit)}
+                onSubmit={openModal(() => setShowAddApplication(true))}
             >
                 <table className='w-full'>
                     <tr className='border-b-2'>
                         <td className='font-semibold text-lg px-8'>
                             <label htmlFor='name'>Application Name</label>
                         </td>
-                        <td className='w-full flex pt-2 pb-6'>
+                        <td className='w-full flex py-6'>
                             <div className='flex'>
                                 <SingleLineInput
                                     {...register("name")}
@@ -87,9 +123,8 @@ export default function FormAddApplication() {
                                     label='Name'
                                     id='name'
                                     className='w-full'
-                                    errorMessage={
-                                        "Please enter application name"
-                                    }
+                                    notFound={nameNotFound}
+                                    errorMessage={"Fill in this field"}
                                 />
                             </div>
                         </td>
@@ -107,9 +142,8 @@ export default function FormAddApplication() {
                                     label='Url'
                                     id='url'
                                     className='w-full'
-                                    errorMessage={
-                                        "Please enter application url"
-                                    }
+                                    notFound={urlNotFOund}
+                                    errorMessage={"Fill in this field"}
                                 />
                             </div>
                         </td>
@@ -119,42 +153,48 @@ export default function FormAddApplication() {
                             <label htmlFor='logo'>Logo</label>
                         </td>
                         <td className='w-full flex py-6 justify-center'>
-                            <div className='w-full mr-8'>
+                            <div className='w-full'>
                                 <div
                                     {...getRootProps({
                                         className:
                                             "h-full place-content-center dropzone cursor-pointer border-dashed rounded-md border-2 border-gray-300 p-4 text-center",
                                     })}
                                 >
-                                    <input type='file' {...getInputProps()}/>
-                                    {croppedImageUrl ? (
-                                        <img
-                                            src={avatarUrl.current}
-                                            alt='Cropped Image'
-                                            className='w-auto h-auto'
-                                        />
-                                    ) : (
-                                        <div className='relative items-center'>
+                                    <input
+                                        type='file'
+                                        {...register("logo")}
+                                        {...getInputProps()}
+                                    />
+                                    <div className='relative items-center'>
+                                        {avatarUrl.current === LogoAddImage ? (
+                                            <>
+                                                <div className='w-full h-auto justify-center flex '>
+                                                    <img
+                                                        className='justify-items-center w-16 h-16'
+                                                        src={avatarUrl.current}
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <span className='bg-transparent text-indigo-500 semibold mr-1'>
+                                                        Upload a pic with
+                                                    </span>
+                                                    <span className='text-indigo-500 font-bold'>
+                                                        transparent background
+                                                    </span>
+                                                </div>
+                                                <div className='text-gray-400'>
+                                                    PNG or JPG up to 2MB
+                                                </div>
+                                            </>
+                                        ) : (
                                             <div className='w-full h-auto justify-center flex '>
                                                 <img
-                                                    className='justify-items-center w-24 h-24 mr-2 my-4'
+                                                    className='justify-items-center w-36 h-36'
                                                     src={avatarUrl.current}
                                                 />
                                             </div>
-
-                                            <p>
-                                                <span className='bg-transparent text-indigo-500 semibold mr-1'>
-                                                    Upload a pic with
-                                                </span>
-                                                <span className='text-indigo-500 font-bold'>
-                                                    transparent background
-                                                </span>
-                                                <p className='text-gray-400'>
-                                                    PNG or JPG up to 2MB
-                                                </p>
-                                            </p>
-                                        </div>
-                                    )}
+                                        )}
+                                    </div>
                                 </div>
                             </div>
                         </td>
@@ -165,17 +205,25 @@ export default function FormAddApplication() {
                         </td>
                         <td className='w-full flex py-6'>
                             <DropdownInput
-                                placeholder={"--- Select Status ---"}
                                 required
                                 className='w-1/3'
-                                value={selectedStatus}
                                 onChange={(e) => {
-                                    setSelectedStatus(e.target.value);
-                                    setValue("status", e.target.value);
+                                    setValue(
+                                        "isActive",
+                                        e.target.value === "Enabled"
+                                    );
                                 }}
                             >
                                 {statusOptions.map((status) => (
-                                    <option key={status} value={status}>
+                                    <option
+                                        key={status}
+                                        value={status}
+                                        selected={
+                                            watch("isActive")
+                                                ? status === "Enabled"
+                                                : status === "Disabled"
+                                        }
+                                    >
                                         {status}
                                     </option>
                                 ))}
@@ -187,6 +235,16 @@ export default function FormAddApplication() {
                     <Button text={"Save"} type={"submit"} className={"px-16"} />
                 </div>
             </form>
+
+            <ModalConfirmAddData
+                title={"Confirm Add Application"}
+                message={`Are you sure want to add ${watch("name")}?`}
+                onConfirmHandler={handleSubmit(onSubmit)}
+                openModal={showAddApplication}
+                setOpenModal={setShowAddApplication}
+                typeButton={"submit"}
+            />
+
             {modalOpen && (
                 <ImageCropper
                     file={logoFile}

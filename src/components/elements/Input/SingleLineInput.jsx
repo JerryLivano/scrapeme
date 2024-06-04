@@ -27,8 +27,6 @@ const SingleLineInput = forwardRef(function SingleLineInputInternal(
     const id = useId();
     const [showError, setShowError] = useState(false);
 
-    console.log(showError);
-
     return (
         <>
             <div className='relative flex h-full w-full items-center rounded-md'>

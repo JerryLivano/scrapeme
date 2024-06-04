@@ -134,7 +134,7 @@ export default function FormAddUser() {
     };
 
     const onSubmitAddedUser = (data) => {
-        if (data.email === "" || data.firstName === "") {
+        if (data.email.trim() === "" || data.firstName.trim() === "") {
             setEmailNotFound(true);
             setShowAddTemp(false);
             window.scrollTo(0, 0);
@@ -167,10 +167,15 @@ export default function FormAddUser() {
             authorizedApplications: [],
         });
         setAlertColor(false);
-        setEmailNotFound(false);
         setSelectedApps([]);
         setShowAddTemp(false);
     };
+
+    useEffect(() => {
+        if (watch("email").trim() !== "" || watch("firstName").trim() !== "") {
+            setEmailNotFound(false);
+        }
+    }, [watch("email")]);
 
     const onSubmitAllUser = async () => {
         if (addedUser.length === 0) {

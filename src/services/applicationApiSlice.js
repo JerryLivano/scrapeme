@@ -21,11 +21,19 @@ export const applicationApiSlice = apiSlice.enhanceEndpoints({
                 body: data,
             }),
             invalidatesTags: ["Application"],
+        }),
+        createApplication: builder.mutation({
+            query: (data) => ({
+                url: `/application`,
+                method: "POST",
+                body: data
+            })
         })
     })
 });
 
 export const {
     useGetApplicationQuery,
-    useUpdateApplicationMutation
+    useUpdateApplicationMutation,
+    useCreateApplicationMutation
 } = applicationApiSlice;

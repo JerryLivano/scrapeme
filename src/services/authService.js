@@ -40,8 +40,6 @@ export const login = async (userdata) => {
     }
 }
 
-
-
 const getUserRole = () => {
     return localStorage.getItem('role');
 }
