@@ -16,7 +16,7 @@ export default function TabApplication({
                     Application
                 </div>
                 <div className='flex py-2 items-end justify-between'>
-                    <div className='flex items-start h-full w-full'>
+                    <div className='flex items-start h-full w-fit'>
                         {dataApplications.map((app) => (
                             <div className='pt-1'>
                                 <button
