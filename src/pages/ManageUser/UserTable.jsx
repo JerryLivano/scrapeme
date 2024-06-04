@@ -245,7 +245,7 @@ export default function UserTable() {
         data: applications,
         isLoading: applicationIsLoading,
         isError: applicationIsError,
-    } = useGetApplicationQuery({ page: page, limit: 100 });
+    } = useGetApplicationQuery({ page: 1, limit: 100 });
 
     let filterAppOptions = [];
 
