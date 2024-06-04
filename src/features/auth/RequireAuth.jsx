@@ -13,7 +13,9 @@ export default function RequireAuth({ children, permissions }) {
         if (!token) {
             navigate("/", { replace: true, state: { from: location } });
             setAllowed(true);
+            return;
         }
+
         const role = extractRole(token);
         if (!permissions.includes(role)) {
             if (Object.values(Role).includes(role)) {

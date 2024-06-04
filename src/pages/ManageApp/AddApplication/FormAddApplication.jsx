@@ -1,12 +1,12 @@
 import { useForm } from "react-hook-form";
 import { LogoAddImage } from "../../../assets/imageList";
-import SingleLineInput from "../../../components/elements/Input/SingleLineInput";
 import DropdownInput from "../../../components/elements/Input/DropdownInput";
 import { useState, useRef } from "react";
 import { Button } from "../../../components";
 import ImageCropper from "../../../components/elements/Image/ImageCropper";
 import { useDropzone } from "react-dropzone";
 import "react-image-crop/dist/ReactCrop.css";
+import SingleLineInput from "../../../components/elements/Input/SIngleLineInput";
 
 export default function FormAddApplication() {
     const [selectedStatus, setSelectedStatus] = useState("");

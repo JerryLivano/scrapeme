@@ -27,10 +27,12 @@ const SingleLineInput = forwardRef(function SingleLineInputInternal(
     const id = useId();
     const [showError, setShowError] = useState(false);
 
+    console.log(showError);
+
     return (
         <>
-            <div className='relative inline-flex h-full w-full items-center rounded-md'>
-                <div className='inline-flex w-96'>
+            <div className='relative flex h-full w-full items-center rounded-md'>
+                <div className='flex w-96'>
                     {startAdornment && (
                         <span className='form-input whitespace-nowrap rounded-s-md border-0 bg-[#F3F4F6] px-3 text-sm text-gray-500 font-medium leading-6 shadow-sm ring-1 ring-inset ring-[#E1E3EA] placeholder:text-gray-400 focus:ring-inset  focus:ring-[#E1E3EA]'>
                             {startAdornment}
@@ -68,13 +70,13 @@ const SingleLineInput = forwardRef(function SingleLineInputInternal(
                         <ExclamationCircleIcon />
                     </div>
                 )}
+                {error && <ErrorMessage error={error} />}
+                {showError ? (
+                    <div className='absolute right-[-230px]'>
+                        <ErrorLabel message={errorMessage} />
+                    </div>
+                ) : null}
             </div>
-            {error && <ErrorMessage error={error} />}
-            {showError && (
-                <div className='absolute right-[-230px] mt-2'>
-                    <ErrorLabel message={errorMessage} />
-                </div>
-            )}
         </>
     );
 });

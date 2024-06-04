@@ -137,16 +137,13 @@ export default function FormAddUser() {
         if (data.email === "" || data.firstName === "") {
             setEmailNotFound(true);
             setShowAddTemp(false);
+            window.scrollTo(0, 0);
             return;
-        }
-
-        if (selectedApps.length == 0) {
+        } else if (selectedApps.length == 0) {
             setAlertColor(true);
             setShowAddTemp(false);
             return;
-        }
-
-        if (
+        } else if (
             addedUser.some((user) => user.email === data.email) ||
             users.data.some((user) => user.email === data.email)
         ) {

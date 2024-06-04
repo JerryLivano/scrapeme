@@ -1,6 +1,5 @@
 import { useEffect, useState, useRef } from "react";
 import { useForm } from "react-hook-form";
-import SingleLineInput from "../../components/elements/Input/SingleLineInput";
 import DropdownInput from "../../components/elements/Input/DropdownInput";
 import ImageCropper from "../../components/elements/Image/ImageCropper";
 import { Button } from "../../components";
@@ -13,6 +12,7 @@ import {
 } from "../../components/elements/Alert/Toast";
 import { useUpdateApplicationMutation } from "../../services/applicationApiSlice";
 import Spinner from "../../components/elements/Spinner/Spinner";
+import SingleLineInput from "../../components/elements/Input/SIngleLineInput";
 
 export default function FormEditApplication({ application }) {
     const {
@@ -100,8 +100,6 @@ export default function FormEditApplication({ application }) {
             setValue("logo", file.name);
         }
     };
-    
-    console.log(imageFile);
 
     return (
         <>
