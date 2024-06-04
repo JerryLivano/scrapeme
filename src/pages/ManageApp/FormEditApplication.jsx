@@ -228,8 +228,8 @@ export default function FormEditApplication({ application }) {
             {showImageCropper && (
                 <ImageCropper
                     closeModal={() => setShowImageCropper(false)}
-                    updateAvatar={(croppedImage) => {
-                        setValue("logo", croppedImage);
+                    updateAvatar={(croppedImage, imageFile) => {
+                        setValue("logo", imageFile);
                         setShowImageCropper(false);
                     }}
                     file={imageFile}
