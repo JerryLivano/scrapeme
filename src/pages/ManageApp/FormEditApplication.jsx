@@ -205,7 +205,7 @@ export default function FormEditApplication({ application }) {
                             </tr>
                         </table>
                         <div className='grow basis-1/3 flex justify-end py-4'>
-                            <Button text={"Save"} type={"submit"} />
+                            <Button text={"Save"} type={"submit"} className={"px-16"} />
                         </div>
                     </form>
                     <ModalConfirmAddData
