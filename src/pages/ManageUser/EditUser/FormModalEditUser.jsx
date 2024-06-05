@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import FormModal from "../../../components/fragments/Form/FormModal";
-import SingleLineInput from "../../../components/elements/Input/SIngleLineInput";
+import SingleLineInput from "../../../components/elements/Input/SingleLineInput";
 import ModalSingleLineInput from "../../../components/elements/Input/Modal/ModalSingleLineInput";
 import { useEffect, useState } from "react";
 import ModalDropdownInput from "../../../components/elements/Input/Modal/ModalDropdownInput";

@@ -6,7 +6,7 @@ import { Button } from "../../../components";
 import ImageCropper from "../../../components/elements/Image/ImageCropper";
 import { useDropzone } from "react-dropzone";
 import "react-image-crop/dist/ReactCrop.css";
-import SingleLineInput from "../../../components/elements/Input/SIngleLineInput";
+import SingleLineInput from "../../../components/elements/Input/SingleLineInput";
 import { useCreateApplicationMutation } from "../../../services/applicationApiSlice";
 import {
     toastError,

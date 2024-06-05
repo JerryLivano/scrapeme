@@ -12,7 +12,7 @@ import {
 } from "../../components/elements/Alert/Toast";
 import { useUpdateApplicationMutation } from "../../services/applicationApiSlice";
 import Spinner from "../../components/elements/Spinner/Spinner";
-import SingleLineInput from "../../components/elements/Input/SIngleLineInput";
+import SingleLineInput from "../../components/elements/Input/SingleLineInput";
 import { LinkIcon } from "@heroicons/react/24/solid";
 
 export default function FormEditApplication({ application }) {

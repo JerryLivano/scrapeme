@@ -13,7 +13,7 @@ import {
     useGetUserQuery,
     useRegisterMutation,
 } from "../../../services/userApiSlice";
-import SingleLineInput from "../../../components/elements/Input/SIngleLineInput";
+import SingleLineInput from "../../../components/elements/Input/SingleLineInput";
 import Spinner from "../../../components/elements/Spinner/Spinner";
 import TemporaryAddUserTable from "./TemporaryAddUserTable";
 import { useGetCvMeEmployeeMutation } from "../../../services/employeeAPiSlice";
