@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
-import { Button, Label } from "../../elements";
+import { Button, Label } from "../../elements/Index";
 import { useNavigate } from "react-router-dom";
-import InputGroup from "../InputGroup/Index";
+import InputGroup from "../InputGroup/index";
 import { ToastContainer, toast } from "react-toastify";
 import { AuthService } from "../../../services/authService";
 import { setAuthToken } from "../../../utils/authUtilities";

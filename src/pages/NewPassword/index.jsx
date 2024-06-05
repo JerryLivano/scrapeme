@@ -69,7 +69,7 @@ const NewPassword = () => {
     };
 
     const handleBackToForgotPassword = () => {
-        navigate("/password/forgot")
+        navigate("/forgot-password")
     }
 
     return (
