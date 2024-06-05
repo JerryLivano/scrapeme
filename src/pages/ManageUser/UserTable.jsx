@@ -26,8 +26,14 @@ export default function UserTable() {
     const [showEditUser, setShowEditUser] = useState(false);
     const [selectedUser, setSelectedUser] = useState("");
 
-    const cols = useMemo(
-        () => [
+    const {
+        data: applications,
+        isLoading: applicationIsLoading,
+        isError: applicationIsError,
+    } = useGetApplicationQuery({ page: 1, limit: 100 });
+
+    const cols = useMemo(() => {
+        const staticColumns = [
             {
                 id: uuid(),
                 header: "",
@@ -61,132 +67,45 @@ export default function UserTable() {
                     row.role.charAt(5).toUpperCase() +
                         row.role.slice(6).toLowerCase() || "",
             },
-            {
-                id: uuid(),
-                header: "Recruit-ME",
-                cell: (row) => row.renderValue(),
-                accessorFn: (row) => {
-                    return (
-                        <InputCheckbox
-                            value={"Recruit-ME"}
-                            app={row.authorizedApplications.map(
-                                (app) => app.name
-                            )}
-                        />
-                    );
-                },
-            },
-            {
-                id: uuid(),
-                header: "CV-ME",
-                cell: (row) => row.renderValue(),
-                accessorFn: (row) => {
-                    return (
-                        <InputCheckbox
-                            value={"CV-ME"}
-                            app={row.authorizedApplications.map(
-                                (app) => app.name
-                            )}
-                        />
-                    );
-                },
-            },
-            {
-                id: uuid(),
-                header: "Test-ME",
-                cell: (row) => row.renderValue(),
-                accessorFn: (row) => {
-                    return (
-                        <InputCheckbox
-                            value={"Test-ME"}
-                            app={row.authorizedApplications.map(
-                                (app) => app.name
-                            )}
-                        />
-                    );
-                },
-            },
-            {
-                id: uuid(),
-                header: "Pick-ME",
-                cell: (row) => row.renderValue(),
-                accessorFn: (row) => {
-                    return (
-                        <InputCheckbox
-                            value={"Pick-ME"}
-                            app={row.authorizedApplications.map(
-                                (app) => app.name
-                            )}
-                        />
-                    );
-                },
-            },
-            {
-                id: uuid(),
-                header: "Team-ME",
-                cell: (row) => row.renderValue(),
-                accessorFn: (row) => {
-                    return (
-                        <InputCheckbox
-                            value={"Team-ME"}
-                            app={row.authorizedApplications.map(
-                                (app) => app.name
-                            )}
-                        />
-                    );
-                },
-            },
-            {
-                id: uuid(),
-                header: "BRM",
-                cell: (row) => row.renderValue(),
-                accessorFn: (row) => {
-                    return (
-                        <InputCheckbox
-                            value={"BRM"}
-                            app={row.authorizedApplications.map(
-                                (app) => app.name
-                            )}
-                        />
-                    );
-                },
-            },
-            {
-                id: uuid(),
-                header: "Metrodata Academy",
-                cell: (row) => row.renderValue(),
-                accessorFn: (row) => {
-                    return (
-                        <InputCheckbox
-                            value={"Metrodata Academy"}
-                            app={row.authorizedApplications.map(
-                                (app) => app.name
-                            )}
-                        />
-                    );
-                },
-            },
-            {
-                id: uuid(),
-                header: "Action",
-                cell: (row) => row.renderValue(),
-                accessorFn: (row) => (
-                    <div className='w-full'>
-                        <Button
-                            text={"Edit"}
-                            type={"button"}
-                            className={"w-24"}
-                            onClick={() => {
-                                setShowEditUser(true);
-                                setSelectedUser(row);
-                            }}
-                        />
-                    </div>
-                ),
-            },
-        ],
-        []
-    );
+        ];
+
+        const dynamicColumnObjects = applications
+            ? applications.data.map((app) => ({
+                  id: uuid(),
+                  header: app.name,
+                  cell: (row) => row.renderValue(),
+                  accessorFn: (row) => (
+                      <InputCheckbox
+                          value={app.name}
+                          app={row.authorizedApplications.map(
+                              (application) => application.name
+                          )}
+                      />
+                  ),
+              }))
+            : [];
+
+        const actionColumn = {
+            id: uuid(),
+            header: "Action",
+            cell: (row) => row.renderValue(),
+            accessorFn: (row) => (
+                <div className='w-full'>
+                    <Button
+                        text={"Edit"}
+                        type={"button"}
+                        className={"w-24"}
+                        onClick={() => {
+                            setShowEditUser(true);
+                            setSelectedUser(row);
+                        }}
+                    />
+                </div>
+            ),
+        };
+
+        return [...staticColumns, ...dynamicColumnObjects, actionColumn];
+    }, [applications]);
 
     const navigate = useNavigate();
 
@@ -241,12 +160,6 @@ export default function UserTable() {
         }
     };
 
-    const {
-        data: applications,
-        isLoading: applicationIsLoading,
-        isError: applicationIsError,
-    } = useGetApplicationQuery({ page: 1, limit: 100 });
-
     let filterAppOptions = [];
 
     if (!applicationIsLoading && !applicationIsError && applications.data) {
@@ -298,7 +211,13 @@ export default function UserTable() {
         });
     };
 
-    if (isLoading || isFetching || rolesIsLoading || roleIsFetching)
+    if (
+        isLoading ||
+        isFetching ||
+        rolesIsLoading ||
+        roleIsFetching ||
+        applicationIsLoading
+    )
         content = <Spinner />;
     if (isError) {
         if ("status" in error) {
