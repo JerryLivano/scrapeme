@@ -3,7 +3,7 @@ import { ArrowLeftIcon } from "@heroicons/react/20/solid";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import ButtonLogin from "../../components/elements/Button/ButtonLogin";
-import { Button, InputGroup, Label } from "../../components";
+import { Button, InputGroup, Label } from "../../components/index.js";
 import { useForgotPasswordMutation } from "../../services/authApiSlice";
 import Spinner from "../../components/elements/Spinner/Spinner";
 

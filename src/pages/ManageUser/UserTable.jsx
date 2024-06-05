@@ -8,7 +8,7 @@ import { useGetRoleQuery } from "../../services/roleApi.Slice";
 import ButtonIconAction from "../../components/elements/Button/ButtonIconAction";
 import InputCheckbox from "../../components/elements/Input/InputCheckbox";
 import { useGetApplicationQuery } from "../../services/applicationApiSlice";
-import { Button } from "../../components";
+import { Button } from "../../components/index";
 import FormModalEditUser from "./EditUser/FormModalEditUser";
 
 export default function UserTable() {

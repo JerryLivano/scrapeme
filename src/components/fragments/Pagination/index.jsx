@@ -1,6 +1,6 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 import React from "react";
-import { UsePagination } from "../../../hoooks/Index";
+import { UsePagination } from "../../../hoooks/Index.js";
 
 export default function Pagination({
     postsPerPage,
