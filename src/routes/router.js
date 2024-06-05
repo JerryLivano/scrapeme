@@ -1,3 +1,4 @@
+/*
 import { createBrowserRouter } from 'react-router-dom';
 import { HomePage, ErrorPage, ForgotPassword, Login, ManageApp, ManageUser, LogActivity, AppList, AddUser } from '../pages';
 import Reference from '../Reference';
@@ -48,5 +49,6 @@ const router = createBrowserRouter([
 
 
 ]);
+*/
 
 // export default router;

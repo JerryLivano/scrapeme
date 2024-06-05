@@ -1,4 +1,4 @@
-import Index from "../pages/ManageApp/index";
+import Index from "../pages/ManageApp";
 
 const ManageApplicationPage = () => {
     return <Index />;
