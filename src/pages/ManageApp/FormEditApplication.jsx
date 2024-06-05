@@ -12,7 +12,8 @@ import {
 } from "../../components/elements/Alert/Toast";
 import { useUpdateApplicationMutation } from "../../services/applicationApiSlice";
 import Spinner from "../../components/elements/Spinner/Spinner";
-import SingleLineInput from "../../components/elements/Input/SIngleLineInput";
+import SingleLineInput from "../../components/elements/Input/SingleLineInput";
+import { LinkIcon } from "@heroicons/react/24/solid";
 
 export default function FormEditApplication({ application }) {
     const {
@@ -114,54 +115,57 @@ export default function FormEditApplication({ application }) {
                         encType='multipart/form-data'
                         onSubmit={handleSubmit(onSubmit)}
                     >
-                        <table className='w-full'>
-                            <tr className='border-b-2 items-center'>
-                                <td className='font-semibold text-lg px-8'>
-                                    <label htmlFor='name'>
-                                        Application Name
-                                    </label>
-                                </td>
-                                <td className='w-full flex py-6'>
-                                    <div className='flex'>
-                                        <SingleLineInput
-                                            {...register("name")}
-                                            error={formErrors.name?.message}
-                                            label='Name'
-                                            id='name'
-                                            className='w-full'
-                                            errorMessage={
-                                                "Please enter application name"
-                                            }
-                                        />
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr className='border-b-2 items-center'>
-                                <td className='font-semibold text-lg px-8'>
-                                    <label htmlFor='url'>URL</label>
-                                </td>
-                                <td className='w-full flex py-6'>
-                                    <div className='flex'>
-                                        <SingleLineInput
-                                            {...register("url")}
-                                            error={formErrors.url?.message}
-                                            startAdornment={"https://"}
-                                            label='Url'
-                                            id='url'
-                                            className='w-full'
-                                            errorMessage={
-                                                "Please enter application url"
-                                            }
-                                        />
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr className='border-b-2 items-center'>
-                                <td className='font-semibold text-lg px-8'>
+                        <div className='border-b-2 w-full pl-6 py-8 items-center'>
+                            <SingleLineInput
+                                {...register("name")}
+                                error={formErrors.name?.message}
+                                label='Application Name'
+                                className='w-full'
+                                errorMessage={"Please enter application name"}
+                            />
+                        </div>
+                        <div className='border-b-2 w-full pl-6 py-8 items-center'>
+                            <SingleLineInput
+                                {...register("url")}
+                                error={formErrors.url?.message}
+                                startAdornment={"https://"}
+                                label='URL'
+                                className='w-full'
+                                errorMessage={"Please enter application url"}
+                            />
+                        </div>
+                        <div className='border-b-2 w-full pl-6 py-8 items-center'>
+                            <div className='flex h-full w-full items-center justify-between'>
+                                <div className='w-2/5 font-semibold text-lg'>
                                     <label htmlFor='logo'>Logo</label>
-                                </td>
-                                <td className='w-full flex justify-between py-6'>
-                                    <DropzoneInput urlImage={watch("logo")} />
+                                </div>
+                                <div className='flex w-full items-center justify-between'>
+                                    <div className='flex items-center'>
+                                        <span className='mr-2'>
+                                            <LinkIcon className='w-5 h-5 text-gray-500' />
+                                        </span>
+                                        <div className='text-md'>
+                                            <a
+                                                href={`${
+                                                    import.meta.env.VITE_API_URL
+                                                }/application/${
+                                                    application.id
+                                                }/base64`}
+                                                target='__blank'
+                                                className='underline'
+                                            >
+                                                {`Logo ${application.name}`}
+                                            </a>
+                                            <img
+                                                src={`${
+                                                    import.meta.env.VITE_API_URL
+                                                }/application/${
+                                                    application.id
+                                                }/base64`}
+                                                alt=''
+                                            />
+                                        </div>
+                                    </div>
                                     <div className='mr-20'>
                                         <ButtonText
                                             text={"Change"}
@@ -171,42 +175,38 @@ export default function FormEditApplication({ application }) {
                                             }
                                         />
                                     </div>
-                                </td>
-                            </tr>
-                            <tr className='items-center'>
-                                <td className='font-semibold text-lg px-8'>
-                                    <label htmlFor='status'>Status</label>
-                                </td>
-                                <td className='w-full flex py-6'>
-                                    <DropdownInput
-                                        required
-                                        className='w-1/3'
-                                        onChange={(e) => {
-                                            setSelectedStatus(
-                                                e.target.value === "Enabled"
-                                            );
-                                            setValue(
-                                                "status",
-                                                e.target.value === "Enabled"
-                                            );
-                                        }}
+                                </div>
+                            </div>
+                        </div>
+                        <div className='w-full pl-6 py-8 items-center'>
+                            <DropdownInput
+                                required
+                                label={"Status"}
+                                className={"w-1/4"}
+                                onChange={(e) => {
+                                    setSelectedStatus(
+                                        e.target.value === "Enabled"
+                                    );
+                                    setValue(
+                                        "status",
+                                        e.target.value === "Enabled"
+                                    );
+                                }}
+                            >
+                                {statusOptions.map((option) => (
+                                    <option
+                                        key={option.status}
+                                        value={option.status}
+                                        selected={
+                                            option.isActive ===
+                                            application.isActive
+                                        }
                                     >
-                                        {statusOptions.map((option) => (
-                                            <option
-                                                key={option.status}
-                                                value={option.status}
-                                                selected={
-                                                    option.isActive ===
-                                                    application.isActive
-                                                }
-                                            >
-                                                {option.status}
-                                            </option>
-                                        ))}
-                                    </DropdownInput>
-                                </td>
-                            </tr>
-                        </table>
+                                        {option.status}
+                                    </option>
+                                ))}
+                            </DropdownInput>
+                        </div>
                         <div className='grow basis-1/3 flex justify-end py-4'>
                             <Button
                                 text={"Save"}

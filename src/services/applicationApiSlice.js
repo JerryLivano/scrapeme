@@ -28,12 +28,17 @@ export const applicationApiSlice = apiSlice.enhanceEndpoints({
                 method: "POST",
                 body: data
             })
-        })
+        }),
+        convertBase64: builder.query({
+            query: (guid) => `/application/${guid}/base64`
+        }),
+        providesTags: ["Application"]
     })
 });
 
 export const {
     useGetApplicationQuery,
     useUpdateApplicationMutation,
-    useCreateApplicationMutation
+    useCreateApplicationMutation,
+    useConvertBase64Query
 } = applicationApiSlice;

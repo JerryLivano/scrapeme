@@ -6,7 +6,7 @@ import { Button } from "../../../components";
 import ImageCropper from "../../../components/elements/Image/ImageCropper";
 import { useDropzone } from "react-dropzone";
 import "react-image-crop/dist/ReactCrop.css";
-import SingleLineInput from "../../../components/elements/Input/SIngleLineInput";
+import SingleLineInput from "../../../components/elements/Input/SingleLineInput";
 import { useCreateApplicationMutation } from "../../../services/applicationApiSlice";
 import {
     toastError,
@@ -109,128 +109,101 @@ export default function FormAddApplication() {
                 encType='multipart/form-data'
                 onSubmit={openModal(() => setShowAddApplication(true))}
             >
-                <table className='w-full'>
-                    <tr className='border-b-2'>
-                        <td className='font-semibold text-lg px-8'>
-                            <label htmlFor='name'>Application Name</label>
-                        </td>
-                        <td className='w-full flex py-6'>
-                            <div className='flex'>
-                                <SingleLineInput
-                                    {...register("name")}
-                                    error={formErrors.name?.message}
-                                    placeholder='Input Application Name Here...'
-                                    label='Name'
-                                    id='name'
-                                    className='w-full'
-                                    notFound={nameNotFound}
-                                    errorMessage={"Fill in this field"}
-                                />
-                            </div>
-                        </td>
-                    </tr>
-                    <tr className='border-b-2'>
-                        <td className='font-semibold text-lg px-8'>
-                            <label htmlFor='url'>URL</label>
-                        </td>
-                        <td className='w-full flex py-6'>
-                            <div className='flex'>
-                                <SingleLineInput
-                                    {...register("url")}
-                                    error={formErrors.url?.message}
-                                    startAdornment={"https://"}
-                                    label='Url'
-                                    id='url'
-                                    className='w-full'
-                                    notFound={urlNotFOund}
-                                    errorMessage={"Fill in this field"}
-                                />
-                            </div>
-                        </td>
-                    </tr>
-                    <tr className='w-full border-b-2'>
-                        <td className='font-semibold text-lg px-8 '>
+                <div className='border-b-2 w-full pl-6 py-8 items-center'>
+                    <SingleLineInput
+                        {...register("name")}
+                        error={formErrors.name?.message}
+                        placeholder='Input Application Name Here...'
+                        label='Application Name'
+                        notFound={nameNotFound}
+                        errorMessage={"Fill in this field"}
+                    />
+                </div>
+                <div className='border-b-2 w-full pl-6 py-8 items-center'>
+                    <SingleLineInput
+                        {...register("url")}
+                        error={formErrors.url?.message}
+                        startAdornment={"https://"}
+                        label='URL'
+                        notFound={urlNotFOund}
+                        errorMessage={"Fill in this field"}
+                    />
+                </div>
+                <div className='border-b-2 w-full pl-6 py-8 items-center'>
+                    <div className='flex h-full w-full items-center justify-between'>
+                        <div className='w-2/5 font-semibold text-lg'>
                             <label htmlFor='logo'>Logo</label>
-                        </td>
-                        <td className='w-full flex py-6 justify-center'>
-                            <div className='w-full'>
-                                <div
-                                    {...getRootProps({
-                                        className:
-                                            "h-full place-content-center dropzone cursor-pointer border-dashed rounded-md border-2 border-gray-300 p-4 text-center",
-                                    })}
-                                >
-                                    <input
-                                        type='file'
-                                        {...register("logo")}
-                                        {...getInputProps()}
-                                    />
-                                    <div className='relative items-center'>
-                                        {avatarUrl.current === LogoAddImage ? (
-                                            <>
-                                                <div className='w-full h-auto justify-center flex '>
-                                                    <img
-                                                        className='justify-items-center w-16 h-16'
-                                                        src={avatarUrl.current}
-                                                    />
-                                                </div>
-                                                <div>
-                                                    <span className='bg-transparent text-indigo-500 semibold mr-1'>
-                                                        Upload a pic with
-                                                    </span>
-                                                    <span className='text-indigo-500 font-bold'>
-                                                        transparent background
-                                                    </span>
-                                                </div>
-                                                <div className='text-gray-400'>
-                                                    PNG or JPG up to 2MB
-                                                </div>
-                                            </>
-                                        ) : (
+                        </div>
+                        <div className='w-full flex justify-center'>
+                            <div
+                                {...getRootProps({
+                                    className:
+                                        "w-full h-full place-content-center dropzone cursor-pointer border-dashed rounded-md border-2 border-gray-300 p-4 text-center",
+                                })}
+                            >
+                                <input
+                                    type='file'
+                                    {...register("logo")}
+                                    {...getInputProps()}
+                                />
+                                <div className='relative items-center'>
+                                    {avatarUrl.current === LogoAddImage ? (
+                                        <>
                                             <div className='w-full h-auto justify-center flex '>
                                                 <img
-                                                    className='justify-items-center w-36 h-36'
+                                                    className='justify-items-center w-16 h-16'
                                                     src={avatarUrl.current}
                                                 />
                                             </div>
-                                        )}
-                                    </div>
+                                            <div>
+                                                <span className='bg-transparent text-indigo-500 semibold mr-1'>
+                                                    Upload a pic with
+                                                </span>
+                                                <span className='text-indigo-500 font-bold'>
+                                                    transparent background
+                                                </span>
+                                            </div>
+                                            <div className='text-gray-400'>
+                                                PNG or JPG up to 2MB
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <div className='w-full h-auto justify-center flex '>
+                                            <img
+                                                className='justify-items-center w-36 h-36'
+                                                src={avatarUrl.current}
+                                            />
+                                        </div>
+                                    )}
                                 </div>
                             </div>
-                        </td>
-                    </tr>
-                    <tr className='items-center'>
-                        <td className='font-semibold text-lg px-8'>
-                            <label htmlFor='status'>Status</label>
-                        </td>
-                        <td className='w-full flex py-6'>
-                            <DropdownInput
-                                required
-                                className='w-1/3'
-                                onChange={(e) => {
-                                    setValue(
-                                        "isActive",
-                                        e.target.value === "Enabled"
-                                    );
-                                }}
+                        </div>
+                    </div>
+                </div>
+                <div className='w-full pl-6 py-8 items-center'>
+                    <DropdownInput
+                        required
+                        label={"Status"}
+                        className='w-1/4'
+                        onChange={(e) => {
+                            setValue("isActive", e.target.value === "Enabled");
+                        }}
+                    >
+                        {statusOptions.map((status) => (
+                            <option
+                                key={status}
+                                value={status}
+                                selected={
+                                    watch("isActive")
+                                        ? status === "Enabled"
+                                        : status === "Disabled"
+                                }
                             >
-                                {statusOptions.map((status) => (
-                                    <option
-                                        key={status}
-                                        value={status}
-                                        selected={
-                                            watch("isActive")
-                                                ? status === "Enabled"
-                                                : status === "Disabled"
-                                        }
-                                    >
-                                        {status}
-                                    </option>
-                                ))}
-                            </DropdownInput>
-                        </td>
-                    </tr>
-                </table>
+                                {status}
+                            </option>
+                        ))}
+                    </DropdownInput>
+                </div>
                 <div className='grow basis-1/3 flex justify-end py-4'>
                     <Button text={"Save"} type={"submit"} className={"px-16"} />
                 </div>

@@ -12,6 +12,7 @@ import ButtonPlus from "../elements/Button/ButtonPlus";
 import FilterSearchTable from "../fragments/Filter/FIlterSearchTable";
 import ButtonDelete from "../elements/Button/ButtonDelete";
 import MultiDropdown from "../elements/Input/MultiDropdown";
+import DropdownPageInput from "../elements/Input/DropdownPageInput";
 export const TableScrollEvent = createContext(null);
 export const TableRef = createContext(null);
 
@@ -147,7 +148,7 @@ export default function DataTable({
                                 {/* Page Size */}
                                 {showPageSize && (
                                     <div className='flex flex-row items-center'>
-                                        <DropdownInput
+                                        <DropdownPageInput
                                             value={
                                                 table.getState().pagination
                                                     .pageSize
@@ -167,7 +168,7 @@ export default function DataTable({
                                                     </option>
                                                 )
                                             )}
-                                        </DropdownInput>
+                                        </DropdownPageInput>
                                     </div>
                                 )}
                             </div>
