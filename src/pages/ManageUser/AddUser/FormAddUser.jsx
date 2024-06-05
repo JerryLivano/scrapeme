@@ -1,11 +1,11 @@
-import { Button, InputGroup } from "../../../components";
+import { Button, InputGroup } from "../../../components/index.js";
 import { useForm } from "react-hook-form";
 import DropdownInput from "../../../components/elements/Input/DropdownInput";
 import {
     useGetRoleByIdQuery,
     useGetRoleQuery,
 } from "../../../services/roleApi.Slice";
-import { useGetApplicationQuery } from "../../../services/applicationApiSlice";
+import { useGetApplicationQuery } from "../../../services/applicationApiSlice.js";
 import { useEffect, useState } from "react";
 import InputCheckboxGroup from "../../../components/elements/Input/InputCheckboxGroup";
 import uuid from "react-uuid";
@@ -13,7 +13,7 @@ import {
     useGetUserQuery,
     useRegisterMutation,
 } from "../../../services/userApiSlice";
-import SingleLineInput from "../../../components/elements/Input/SIngleLineInput";
+import SingleLineInput from "../../../components/elements/Input/SingleLineInput.jsx";
 import Spinner from "../../../components/elements/Spinner/Spinner";
 import TemporaryAddUserTable from "./TemporaryAddUserTable";
 import { useGetCvMeEmployeeMutation } from "../../../services/employeeAPiSlice";

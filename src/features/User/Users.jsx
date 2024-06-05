@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux"
-import { fetchUserList } from "../../app/api/userSlice";
+import { fetchUserList } from "../../app/api/userSlice.js";
 
 
 const Users = (props) => {

@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import DropdownInput from "../../components/elements/Input/DropdownInput";
 import ImageCropper from "../../components/elements/Image/ImageCropper";
-import { Button } from "../../components";
+import { Button } from "../../components/index.js";
 import DropzoneInput from "../../components/elements/Input/DropzoneInput";
 import ButtonText from "../../components/elements/Button/ButtonText";
 import ModalConfirmAddData from "../../components/elements/Confirmation/ModalConfirmAddData";
@@ -15,7 +15,7 @@ import {
     useUpdateApplicationMutation,
 } from "../../services/applicationApiSlice";
 import Spinner from "../../components/elements/Spinner/Spinner";
-import SingleLineInput from "../../components/elements/Input/SIngleLineInput";
+import SingleLineInput from "../../components/elements/Input/SingleLineInput";
 import { LinkIcon } from "@heroicons/react/24/solid";
 import FormModal from "../../components/fragments/Form/FormModal";
 

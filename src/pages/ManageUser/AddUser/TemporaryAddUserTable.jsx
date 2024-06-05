@@ -3,7 +3,7 @@ import DataTable from "../../../components/layouts/DataTable";
 import uuid from "react-uuid";
 import { useGetRoleQuery } from "../../../services/roleApi.Slice";
 import { useGetApplicationQuery } from "../../../services/applicationApiSlice";
-import { ButtonIcon } from "../../../components";
+import { ButtonIcon } from "../../../components/index.js";
 import { TrashIcon } from "@heroicons/react/24/solid";
 
 export default function TemporaryAddUserTable({ userData, onDelete }) {

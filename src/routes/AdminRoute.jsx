@@ -1,6 +1,7 @@
-import { Navigate } from "react-router-dom";
-import { AuthService } from "../services/AuthServices";
+// import { Navigate } from "react-router-dom";
+// import { AuthService } from "../services/AuthServices";
 
+/*
 export const AdminRoute = (props) => {
     const { children } = { ...props };
     return AuthService.getUserRole() === "admin" ? (
@@ -9,3 +10,4 @@ export const AdminRoute = (props) => {
         <Navigate to={'home'} />
     );
 };
+*/

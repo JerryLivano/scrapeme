@@ -7,8 +7,8 @@ import {
     Settings,
     LogActivity,
 } from "./pages";
-import { AuthLayout, DashLayout, Layout } from "./components/layouts";
-import AddUser from "./pages/ManageUser/AddUser";
+import { AuthLayout, DashLayout, Layout } from "./components/layouts/index";
+import AddUser from "./pages/ManageUser/AddUser/index";
 import ManageUserPage from "./UI/ManageUserPage";
 import ManageApplicationPage from "./UI/ManageAppPage";
 import { ToastContainer } from "react-toastify";
