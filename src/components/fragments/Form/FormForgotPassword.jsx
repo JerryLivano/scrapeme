@@ -1,10 +1,10 @@
 import { useForm } from "react-hook-form";
-import Label from "../../elements/Label";
+import Label from "../../elements/Label/Index";
 import { ArrowLeftIcon } from "@heroicons/react/20/solid";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { Button } from "../../elements";
-import InputGroup from "../InputGroup";
+import InputGroup from "../InputGroup/Index";
 
 //#region latency waiting for transfer data to server and get email feedback from server--manual delay for test
 
@@ -80,7 +80,7 @@ const FormForgotPassword = () => {
             </form>
             <p className='mt-6 text-sm text-center text-gray-500 float-end'>
                 <Link
-                    to={"/login"}
+                    to={"/"}
                     className='font-bold leading-6 text-indigo-600 hover:text-indigo-500 flex gap-x-2 items-center'
                 >
                     <ArrowLeftIcon className='h-5 w-5' />

@@ -1,5 +1,5 @@
-import { LogoMASquare } from "../../assets";
 import { Outlet } from "react-router-dom";
+import { LogoMASquare } from "../../assets/imageList";
 
 const AuthLayout = () => {
     return (

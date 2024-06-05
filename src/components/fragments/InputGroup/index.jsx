@@ -27,10 +27,10 @@ export default function InputGroup({
                         disabled={disabled}
                         className={
                             errors[name]
-                                ? "block w-full rounded-md border-0 py-1.5 pr-10 text-red-900 ring-1 ring-inset ring-red-300 placeholder:text-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500 sm:text-sm sm:leading-6"
+                                ? "block w-96 rounded-md border-0 py-1.5 pr-10 text-red-900 ring-1 ring-inset ring-red-300 placeholder:text-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500 sm:text-sm sm:leading-6"
                                 : disabled
-                                ? "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-500 disabled:ring-gray-200 sm:text-sm sm:leading-6"
-                                : "block w-full rounded-md border-0 py-1.5 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                ? "block w-96 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-500 disabled:ring-gray-200 sm:text-sm sm:leading-6"
+                                : "block w-96 rounded-md border-0 py-1.5 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         }
                         aria-invalid={errors[name] ? "true" : "false"}
                         aria-describedby={`${id}-error`}
@@ -49,7 +49,6 @@ export default function InputGroup({
                     <input
                         id={id}
                         name={name}
-                        // type={type}
                         placeholder={placeholder}
                         disabled={disabled}
                         className={
@@ -73,8 +72,6 @@ export default function InputGroup({
                     />
                 </>
             )}
-
-
 
             {type == "date" && (
                 <>
@@ -171,7 +168,7 @@ export default function InputGroup({
             
             <div className='inset-y-0 right-0 flex items-center pr-3 pointer-events-none static float-end mt-[-28px]'>
                 <button
-                    hidden={type == "password" ? false : true}
+                    hidden={type !== "password"}
                     type='button'
                     className='ml-1 pointer-events-auto'
                     onClick={() => setShowPassword(!showPassword)}

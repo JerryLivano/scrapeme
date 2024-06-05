@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { Button, Label } from "../../elements";
 import { useNavigate } from "react-router-dom";
-import InputGroup from "../InputGroup";
+import InputGroup from "../InputGroup/Index";
 import { ToastContainer, toast } from "react-toastify";
 import { AuthService } from "../../../services/authService";
 import { setAuthToken } from "../../../utils/authUtilities";
@@ -25,7 +25,7 @@ const FormLogin = () => {
             const payload = await AuthService.login(userData).unwrap();
             setAuthToken(payload.data.token);
             localStorage.setItem("PortalToken", payload.data.token);
-            navigate("/homepage", { replace: true });
+            navigate("home", { replace: true });
         } catch (error) {
             toast.error("Invalid username or password");
             reset();

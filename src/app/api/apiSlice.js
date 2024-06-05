@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { selectCurrentToken, setCredentials } from '../../features/auth/authSlice'
+import { getAuthToken } from '../../utils/authUtilities';
 
 const urls = {
     development: "https://localhost:7160",
@@ -9,13 +10,13 @@ const urls = {
 /**
  * Header
  */
+
     const baseQuery = fetchBaseQuery({
         // baseUrl: urls[process.env.NODE_ENV],
         baseUrl: `${import.meta.env.VITE_API_URL}`,
         credentials: 'same-origin',
         prepareHeaders: (headers, { getState }) => {
-            const token = getState().auth.token;
-
+            const token = getAuthToken();
             if (token) {
                 headers.set("Authorization", `Bearer ${token}`)
             }

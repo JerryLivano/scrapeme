@@ -1,17 +1,9 @@
-const ButtonIcon = (props) => {
-    const {
-        children,
-        className = `-m-2.5 p-2.5 text-white hover:text-white`,
-        type = 'button',
-        onClick = () => {},
-    } = { ...props };
+export default function ButtonIcon({ children, type, onClick }) {
     return (
-        <>
-            <button className={className} type={type} onClick={() => onClick()}>
+        <div className="flex items-center justify-center">
+            <button type={type} onClick={onClick}>
                 {children}
             </button>
-        </>
+        </div>
     );
-};
-
-export default ButtonIcon;
+}

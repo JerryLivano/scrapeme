@@ -1,24 +1,18 @@
-const Button = (props) => {
-    const {
-        children,
-        bgColor = "bg-[#5c6ac4]",
-        size,
-        textColor = "text-white",
-        type = "button",
-        onClick = () => {},
-        disabled,
-        className = `flex justify-center w-full h-full rounded-md px-3 py-1.5 text-sm font-semibold leading-6 shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 ${bgColor} ${size} ${textColor}`,
-    } = { ...props };
+import { twMerge } from "tailwind-merge";
 
+const Button = ({ text, type, onClick, disabled, className }) => {
     return (
         <>
             <button
-                className={className}
+                className={twMerge(
+                    `flex justify-center rounded-md py-2 w-16 text-sm font-semibold leading-6 shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 bg-[#5928ED] text-white`,
+                    className
+                )}
                 type={type}
-                onClick={() => onClick()}
+                onClick={onClick}
                 disabled={disabled}
             >
-                {children}
+                {text}
             </button>
         </>
     );

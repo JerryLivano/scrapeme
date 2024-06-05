@@ -6,6 +6,6 @@ export const AdminRoute = (props) => {
     return AuthService.getUserRole() === "admin" ? (
         children
     ) : (
-        <Navigate to='/homepage' />
+        <Navigate to={'home'} />
     );
 };

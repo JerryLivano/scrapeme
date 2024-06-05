@@ -3,33 +3,25 @@ import { HomeIcon, UsersIcon, ComputerDesktopIcon, ClipboardDocumentListIcon } f
 
 const navigation = [
     {
-        name: 'HomePage',
-        href: '/homepage',
+        name: 'Home Page',
+        href: '/home',
         icon: HomeIcon,
     },
     {
         name: 'Manage User',
-        href: '/manageuser',
+        href: '/user',
         icon: UsersIcon,
     },
     {
         name: 'Manage Application',
-        href: '/manageapp',
+        href: '/application',
         icon: ComputerDesktopIcon,
     },
     {
         name: 'Log Activity',
-        href: '/logactivity',
+        href: '/log-activity',
         icon: ClipboardDocumentListIcon,
     },
-    
-    // {
-    //     name: 'Parent',
-    //     icon: UserIcon,
-    //     children: {
-    //         name: "Children", href: "/children"
-    //     }
-    // },
 ];
 
 const teams = [
