@@ -1,10 +1,10 @@
 import { useForm } from "react-hook-form";
-import Label from "../../elements/Label/Index";
+import Label from "../../elements/Label/index";
 import { ArrowLeftIcon } from "@heroicons/react/20/solid";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { Button } from "../../elements";
-import InputGroup from "../InputGroup/Index";
+import { Button } from "../../elements/Index";
+import InputGroup from "../InputGroup/index";
 
 //#region latency waiting for transfer data to server and get email feedback from server--manual delay for test
 
