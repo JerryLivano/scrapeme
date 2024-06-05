@@ -6,7 +6,7 @@ import Title from "./Title";
 import TextArea from "./TextArea";
 import Select from "./Select";
 import Toggles from "./Toggles";
-import Notification from "./NotificationProvider";
+import Notification from "./NotificationProvider/Index";
 import Alert from "./Alert";
 export {
     Button,

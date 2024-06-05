@@ -7,7 +7,7 @@ import Header from "./Header/index";
 import Footer from "./Footer/Footer";
 import InputGroup from "./InputGroup";
 import SlideOvers from "./SlideOvers";
-import Autocomplete from "./Combobox";
+import Autocomplete from "./Combobox/Index";
 import Pagination from "./Pagination";
 import GridTable from "./GridTable";
 

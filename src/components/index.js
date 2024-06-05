@@ -1,3 +1,3 @@
-export * from "./elements/Index";
+export * from "./elements";
 export * from "./fragments";
 export * from "./layouts";
