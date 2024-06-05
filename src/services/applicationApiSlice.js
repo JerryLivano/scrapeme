@@ -29,10 +29,10 @@ export const applicationApiSlice = apiSlice.enhanceEndpoints({
                 body: data
             })
         }),
-        convertBase64: builder.query({
-            query: (guid) => `/application/${guid}/base64`
+        getUrlImage: builder.query({
+            query: (guid) => `/application/${guid}/base64`,
+            providesTags: ["Application"]
         }),
-        providesTags: ["Application"]
     })
 });
 
@@ -40,5 +40,5 @@ export const {
     useGetApplicationQuery,
     useUpdateApplicationMutation,
     useCreateApplicationMutation,
-    useConvertBase64Query
+    useGetUrlImageQuery
 } = applicationApiSlice;
