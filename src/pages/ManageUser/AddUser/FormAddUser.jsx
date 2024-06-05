@@ -234,138 +234,90 @@ export default function FormAddUser() {
                                 setShowAddTemp(true)
                             )}
                         >
-                            <table className='w-full'>
-                                <tr className='border-b-2'>
-                                    <td className='font-semibold text-lg px-8'>
-                                        <label htmlFor='email'>Email</label>
-                                    </td>
-                                    <td className={"w-100 flex py-4"}>
-                                        <div className='flex'>
-                                            <SingleLineInput
-                                                {...register("email")}
-                                                notFound={emailNotFound}
-                                                error={
-                                                    formErrors.email?.message
+                            <div className='border-b-2 w-full pl-6 py-8 items-center'>
+                                <SingleLineInput
+                                    {...register("email")}
+                                    notFound={emailNotFound}
+                                    error={formErrors.email?.message}
+                                    placeholder='Input Email Here...'
+                                    label='Email'
+                                    errorMessage={"Please enter user email"}
+                                />
+                            </div>
+                            <div className='border-b-2 w-full pl-6 py-8 items-center'>
+                                <SingleLineValueInput
+                                    {...register("firstName")}
+                                    error={formErrors.firstName?.message}
+                                    value={watch("firstName")}
+                                    label='First Name'
+                                    disabled
+                                />
+                            </div>
+                            <div className='border-b-2 w-full pl-6 py-8 items-center'>
+                                <SingleLineValueInput
+                                    {...register("lastName")}
+                                    error={formErrors.lastName?.message}
+                                    value={watch("lastName")}
+                                    disabled
+                                    label='Last Name'
+                                />
+                            </div>
+                            <div className='border-b-2 w-full pl-6 py-8 items-center'>
+                                <SingleLineValueInput
+                                    {...register("nik")}
+                                    error={formErrors.nik?.message}
+                                    value={watch("nik")}
+                                    disabled
+                                    label='NIK'
+                                />
+                            </div>
+                            <div className='border-b-2 w-full pl-6 py-8 items-center'>
+                                <DropdownInput
+                                    required
+                                    label={"Role"}
+                                    className='w-1/4'
+                                    value={selectedRoleId}
+                                    {...register("roleId")}
+                                    onChange={(e) => {
+                                        setSelectedRoleId(e.target.value);
+                                        setValue("roleId", e.target.value);
+                                    }}
+                                    disabled={
+                                        !roleIsSuccess || roles.length === 0
+                                    }
+                                    error={
+                                        !roleIsSuccess || roles.length === 0
+                                            ? "No role available"
+                                            : ""
+                                    }
+                                >
+                                    {roleIsSuccess &&
+                                        roles.data.map((role) => (
+                                            <option
+                                                key={role.id}
+                                                value={role.id}
+                                                selected={
+                                                    role.id === selectedRoleId
                                                 }
-                                                placeholder='Input Email Here...'
-                                                label='Email'
-                                                className='w-full'
-                                                errorMessage={
-                                                    "Please enter user email"
-                                                }
-                                            />
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr className='border-b-2'>
-                                    <td className='font-semibold text-lg px-8'>
-                                        <label htmlFor='first-name'>
-                                            First Name
-                                        </label>
-                                    </td>
-                                    <td className='w-100 flex py-4'>
-                                        <SingleLineValueInput
-                                            {...register("firstName")}
-                                            error={
-                                                formErrors.firstName?.message
-                                            }
-                                            value={watch("firstName")}
-                                            disabled
-                                            label='First Name'
-                                            className='w-full'
-                                        />
-                                    </td>
-                                </tr>
-                                <tr className='border-b-2'>
-                                    <td className='font-semibold text-lg px-8'>
-                                        <label htmlFor='last-name'>
-                                            Last Name
-                                        </label>
-                                    </td>
-                                    <td className='w-100 flex py-4'>
-                                        <SingleLineValueInput
-                                            {...register("lastName")}
-                                            error={formErrors.lastName?.message}
-                                            value={watch("lastName")}
-                                            disabled
-                                            label='Last Name'
-                                            className='w-full'
-                                        />
-                                    </td>
-                                </tr>
-                                <tr className='border-b-2'>
-                                    <td className='font-semibold text-lg px-8'>
-                                        <label htmlFor='nik'>NIK</label>
-                                    </td>
-                                    <td className='w-100 flex py-4'>
-                                        <SingleLineValueInput
-                                            {...register("nik")}
-                                            error={formErrors.nik?.message}
-                                            value={watch("nik")}
-                                            disabled
-                                            label='NIK'
-                                            className='w-full'
-                                        />
-                                    </td>
-                                </tr>
-                                <tr className='border-b-2'>
-                                    <td className='font-semibold text-lg px-8'>
-                                        <label htmlFor='role'>Role</label>
-                                    </td>
-                                    <td className='w-100 flex py-4'>
-                                        <DropdownInput
-                                            required
-                                            className='w-1/3'
-                                            value={selectedRoleId}
-                                            {...register("roleId")}
-                                            onChange={(e) => {
-                                                setSelectedRoleId(
-                                                    e.target.value
-                                                );
-                                                setValue(
-                                                    "roleId",
-                                                    e.target.value
-                                                );
-                                            }}
-                                            disabled={
-                                                !roleIsSuccess ||
-                                                roles.length === 0
-                                            }
-                                            error={
-                                                !roleIsSuccess ||
-                                                roles.length === 0
-                                                    ? "No role available"
-                                                    : ""
-                                            }
-                                        >
-                                            {roleIsSuccess &&
-                                                roles.data.map((role) => (
-                                                    <option
-                                                        key={role.id}
-                                                        value={role.id}
-                                                        selected={
-                                                            role.id ===
-                                                            selectedRoleId
-                                                        }
-                                                    >
-                                                        {role.roleName
-                                                            .charAt(5)
-                                                            .toUpperCase() +
-                                                            role.roleName
-                                                                .slice(6)
-                                                                .toLowerCase()}
-                                                    </option>
-                                                ))}
-                                        </DropdownInput>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td className='font-semibold text-lg px-8'>
-                                        Application Access
-                                    </td>
-                                    <td className='w-100 flex flex-col items-start py-4 font-light'>
+                                            >
+                                                {role.roleName
+                                                    .charAt(5)
+                                                    .toUpperCase() +
+                                                    role.roleName
+                                                        .slice(6)
+                                                        .toLowerCase()}
+                                            </option>
+                                        ))}
+                                </DropdownInput>
+                            </div>
+                            <div className='w-full pl-6 py-8 items-center'>
+                                <div className='flex h-full w-full items-center justify-between'>
+                                    <div className='w-2/5 font-semibold text-lg'>
+                                        <label htmlFor='logo'>Application Access</label>
+                                    </div>
+                                    <div className='w-full flex flex-col items-start font-light'>
                                         <div
-                                            className={`text-md ${
+                                            className={`text-md mb-2 ${
                                                 alertColor ? "text-red-600" : ""
                                             }`}
                                         >
@@ -383,9 +335,9 @@ export default function FormAddUser() {
                                                     : ""
                                             }
                                         />
-                                    </td>
-                                </tr>
-                            </table>
+                                    </div>
+                                </div>
+                            </div>
                             <div className='grow basis-1/3 flex justify-end py-4'>
                                 <Button
                                     text={"Add"}
