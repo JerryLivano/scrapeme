@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { Button, Label } from "../../elements/Index";
+import { Button, Label } from "../../elements/index";
 import { useNavigate } from "react-router-dom";
 import InputGroup from "../InputGroup/index";
 import { ToastContainer, toast } from "react-toastify";
