@@ -13,8 +13,14 @@ export default function TemporaryAddUserTable({ userData, onDelete }) {
     const [search, setSearch] = useState("");
     const [filteredUserData, setFilteredUserData] = useState([]);
 
-    const cols = useMemo(
-        () => [
+    const {
+        data: applications,
+        isLoading: applicationIsLoading,
+        isError: applicationIsError,
+    } = useGetApplicationQuery({ page: 1, limit: 100 });
+
+    const cols = useMemo(() => {
+        const staticColumns = [
             {
                 id: uuid(),
                 header: "",
@@ -26,7 +32,7 @@ export default function TemporaryAddUserTable({ userData, onDelete }) {
                 header: "Name",
                 isBlack: true,
                 cell: (row) => row.renderValue(),
-                accessorFn: (row) => row.firstName + " " + row.lastName || "",
+                accessorFn: (row) => row.name || "",
             },
             {
                 id: uuid(),
@@ -45,164 +51,42 @@ export default function TemporaryAddUserTable({ userData, onDelete }) {
                 header: "Role",
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) =>
-                    row.roleName.charAt(5).toUpperCase() +
-                        row.roleName.slice(6).toLowerCase() || "",
+                    row.role.charAt(5).toUpperCase() +
+                        row.role.slice(6).toLowerCase() || "",
             },
-            {
-                id: uuid(),
-                header: "Recruit-ME",
-                cell: (row) => row.renderValue(),
-                accessorFn: (row) => {
-                    const isChecked = row.authorizedApplications.find(
-                        (app) => app.name === "Recruit-ME"
-                    );
-                    return (
-                        <div className='flex justify-center'>
-                            <input
-                                type='checkbox'
-                                checked={isChecked}
-                                onChange={() => {}}
-                                className='form-checkbox h-5 w-5 text-gray-600'
-                            />
-                        </div>
-                    );
-                },
-            },
-            {
-                id: uuid(),
-                header: "CV-ME",
-                cell: (row) => row.renderValue(),
-                accessorFn: (row) => {
-                    const isChecked = row.authorizedApplications.find(
-                        (app) => app.name === "CV-ME"
-                    );
-                    return (
-                        <div className='flex justify-center'>
-                            <input
-                                type='checkbox'
-                                checked={isChecked}
-                                onChange={() => {}}
-                                className='form-checkbox h-5 w-5 text-gray-600'
-                            />
-                        </div>
-                    );
-                },
-            },
-            {
-                id: uuid(),
-                header: "Test-ME",
-                cell: (row) => row.renderValue(),
-                accessorFn: (row) => {
-                    const isChecked = row.authorizedApplications.find(
-                        (app) => app.name === "Test-ME"
-                    );
-                    return (
-                        <div className='flex justify-center'>
-                            <input
-                                type='checkbox'
-                                checked={isChecked}
-                                onChange={() => {}}
-                                className='form-checkbox h-5 w-5 text-gray-600'
-                            />
-                        </div>
-                    );
-                },
-            },
-            {
-                id: uuid(),
-                header: "Pick-ME",
-                cell: (row) => row.renderValue(),
-                accessorFn: (row) => {
-                    const isChecked = row.authorizedApplications.find(
-                        (app) => app.name === "Pick-ME"
-                    );
-                    return (
-                        <div className='flex justify-center'>
-                            <input
-                                type='checkbox'
-                                checked={isChecked}
-                                onChange={() => {}}
-                                className='form-checkbox h-5 w-5 text-gray-600'
-                            />
-                        </div>
-                    );
-                },
-            },
-            {
-                id: uuid(),
-                header: "Team-ME",
-                cell: (row) => row.renderValue(),
-                accessorFn: (row) => {
-                    const isChecked = row.authorizedApplications.find(
-                        (app) => app.name === "Team-ME"
-                    );
-                    return (
-                        <div className='flex justify-center'>
-                            <input
-                                type='checkbox'
-                                checked={isChecked}
-                                onChange={() => {}}
-                                className='form-checkbox h-5 w-5 text-gray-600'
-                            />
-                        </div>
-                    );
-                },
-            },
-            {
-                id: uuid(),
-                header: "BRM",
-                cell: (row) => row.renderValue(),
-                accessorFn: (row) => {
-                    const isChecked = row.authorizedApplications.find(
-                        (app) => app.name === "BRM"
-                    );
-                    return (
-                        <div className='flex justify-center'>
-                            <input
-                                type='checkbox'
-                                checked={isChecked}
-                                onChange={() => {}}
-                                className='form-checkbox h-5 w-5 text-gray-600'
-                            />
-                        </div>
-                    );
-                },
-            },
-            {
-                id: uuid(),
-                header: "Metrodata Academy",
-                cell: (row) => row.renderValue(),
-                accessorFn: (row) => {
-                    const isChecked = row.authorizedApplications.find(
-                        (app) => app.name === "Metrodata Academy"
-                    );
-                    return (
-                        <div className='flex justify-center'>
-                            <input
-                                type='checkbox'
-                                checked={isChecked}
-                                onChange={() => {}}
-                                className='form-checkbox h-5 w-5 text-gray-600'
-                            />
-                        </div>
-                    );
-                },
-            },
-            {
-                id: uuid(),
-                header: "",
-                cell: (row) => row.renderValue(),
-                accessorFn: (row) => (
-                    <ButtonIcon
-                        children={<TrashIcon className='w-6 h-6 text-red-600' />}
-                        type={"button"}
-                        onClick={() => onDelete(row.id)}
-                    />
-                ),
-            },
-        ],
-        []
-    );
+        ];
+
+        const dynamicColumnObjects = applications
+            ? applications.data.map((app) => ({
+                  id: uuid(),
+                  header: app.name,
+                  cell: (row) => row.renderValue(),
+                  accessorFn: (row) => (
+                      <InputCheckbox
+                          value={app.name}
+                          app={row.authorizedApplications.map(
+                              (application) => application.name
+                          )}
+                      />
+                  ),
+              }))
+            : [];
+
+        const actionColumn = {
+            id: uuid(),
+            header: "",
+            cell: (row) => row.renderValue(),
+            accessorFn: (row) => (
+                <ButtonIcon
+                    children={<TrashIcon className='w-6 h-6 text-red-600' />}
+                    type={"button"}
+                    onClick={() => onDelete(row.id)}
+                />
+            ),
+        };
+
+        return [...staticColumns, ...dynamicColumnObjects, actionColumn];
+    }, [applications]);
 
     useEffect(() => {
         setFilteredUserData(userData);
@@ -241,12 +125,6 @@ export default function TemporaryAddUserTable({ userData, onDelete }) {
             )
         );
     }, [appOpt, userData]);
-
-    const {
-        data: applications,
-        isLoading: applicationIsLoading,
-        isError: applicationIsError,
-    } = useGetApplicationQuery({ page: 1, limit: 100 });
 
     let filterAppOptions = [];
 

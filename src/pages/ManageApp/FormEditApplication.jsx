@@ -9,11 +9,15 @@ import ModalConfirmAddData from "../../components/elements/Confirmation/ModalCon
 import {
     toastError,
     toastSuccess,
-} from "../../components/elements/Alert/Toast.jsx";
-import { useUpdateApplicationMutation } from "../../services/applicationApiSlice";
+} from "../../components/elements/Alert/Toast";
+import {
+    useGetUrlImageQuery,
+    useUpdateApplicationMutation,
+} from "../../services/applicationApiSlice";
 import Spinner from "../../components/elements/Spinner/Spinner";
 import SingleLineInput from "../../components/elements/Input/SingleLineInput";
 import { LinkIcon } from "@heroicons/react/24/solid";
+import FormModal from "../../components/fragments/Form/FormModal";
 
 export default function FormEditApplication({ application }) {
     const {
@@ -37,6 +41,7 @@ export default function FormEditApplication({ application }) {
     const [showModal, setShowModal] = useState(false);
     const [showImageCropper, setShowImageCropper] = useState(false);
     const [imageFile, setImageFile] = useState(null);
+    const [openImageModal, setOpenImageModal] = useState(false);
     const fileInputRef = useRef(null);
 
     const statusOptions = [
@@ -56,6 +61,12 @@ export default function FormEditApplication({ application }) {
         setValue("logo", application.photo);
         setValue("status", application.isActive);
     }, [application, setValue]);
+
+    const {
+        data: imageData,
+        isLoading: imageLoading,
+        isSuccess: imageSuccess,
+    } = useGetUrlImageQuery(application.id);
 
     const [updateApplication, { isLoading: updateAppLoading }] =
         useUpdateApplicationMutation();
@@ -88,12 +99,7 @@ export default function FormEditApplication({ application }) {
         } catch {
             toastError({ message: "Failed to update application" });
         }
-
         setShowModal(false);
-
-        if (imageFile) {
-            localStorage.setItem("updatelogo", imageFile.name); // Storing the filename
-        }
     };
 
     const handleFileChange = (e) => {
@@ -144,29 +150,23 @@ export default function FormEditApplication({ application }) {
                                         <span className='mr-2'>
                                             <LinkIcon className='w-5 h-5 text-gray-500' />
                                         </span>
-                                        <div className='text-md'>
-                                            <a
-                                                href={`${
-                                                    import.meta.env.VITE_API_URL
-                                                }/application/${
-                                                    application.id
-                                                }/base64`}
-                                                target='__blank'
-                                                className='underline'
-                                            >
-                                                {`Logo ${application.name}`}
-                                            </a>
-                                            <img
-                                                src={`${
-                                                    import.meta.env.VITE_API_URL
-                                                }/application/${
-                                                    application.id
-                                                }/base64`}
-                                                alt=''
-                                            />
+                                        <div
+                                            className='text-md w-fit underline cursor-pointer'
+                                            onClick={() =>
+                                                setOpenImageModal(true)
+                                            }
+                                        >
+                                            {`Logo ${application.name}`}
                                         </div>
                                     </div>
-                                    <div className='mr-20'>
+                                    <div className='mr-20 items-center'>
+                                        <input
+                                            type='file'
+                                            ref={fileInputRef}
+                                            style={{ display: "none" }}
+                                            onChange={handleFileChange}
+                                            accept='image/*'
+                                        />
                                         <ButtonText
                                             text={"Change"}
                                             type={"button"}
@@ -223,15 +223,21 @@ export default function FormEditApplication({ application }) {
                         setOpenModal={setShowModal}
                         typeButton={"submit"}
                     />
+                    <FormModal
+                        open={openImageModal}
+                        setOpen={setOpenImageModal}
+                        titleForm={`Logo ${application.name}`}
+                    >
+                        <div className='w-96 items-center justify-center flex'>
+                            {imageSuccess && !imageLoading ? (
+                                <img src={imageData.data} alt='' />
+                            ) : (
+                                <Spinner />
+                            )}
+                        </div>
+                    </FormModal>
                 </div>
             )}
-            <input
-                type='file'
-                ref={fileInputRef}
-                style={{ display: "none" }}
-                onChange={handleFileChange}
-                accept='image/*'
-            />
             {showImageCropper && (
                 <ImageCropper
                     closeModal={() => setShowImageCropper(false)}
@@ -242,10 +248,6 @@ export default function FormEditApplication({ application }) {
                     file={imageFile}
                 />
             )}
-
-            {/* <script>
-                document.querySelector
-            </script> */}
         </>
     );
 }
