@@ -2,14 +2,14 @@ import { useEffect, useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import DropdownInput from "../../components/elements/Input/DropdownInput";
 import ImageCropper from "../../components/elements/Image/ImageCropper";
-import { Button } from "../../components";
+import { Button } from "../../components/index.js";
 import DropzoneInput from "../../components/elements/Input/DropzoneInput";
 import ButtonText from "../../components/elements/Button/ButtonText";
 import ModalConfirmAddData from "../../components/elements/Confirmation/ModalConfirmAddData";
 import {
     toastError,
     toastSuccess,
-} from "../../components/elements/Alert/Toast";
+} from "../../components/elements/Alert/Toast.jsx";
 import { useUpdateApplicationMutation } from "../../services/applicationApiSlice";
 import Spinner from "../../components/elements/Spinner/Spinner";
 import SingleLineInput from "../../components/elements/Input/SingleLineInput";

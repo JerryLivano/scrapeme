@@ -1,4 +1,4 @@
-import Index from "../pages/ManageUser";
+import Index from "../pages/ManageUser/index";
 
 const ManageUserPage = () => {
     return <Index />;

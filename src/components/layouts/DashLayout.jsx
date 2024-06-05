@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Header, SidebarDesktop, SidebarMobile, Footer } from "../fragments/index";
+import { Header, SidebarDesktop, SidebarMobile, Footer } from "../fragments/index.js";
 import { Outlet } from "react-router-dom";
 
 const DashLayout = () => {

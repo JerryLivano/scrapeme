@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import ButtonLogin from "../../components/elements/Button/ButtonLogin";
-import { Button, InputGroup, Label } from "../../components";
+import { Button, InputGroup, Label } from "../../components/index";
 import { useResetPassMutation } from "../../services/authApiSlice";
 import Spinner from "../../components/elements/Spinner/Spinner";
 

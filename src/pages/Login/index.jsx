@@ -4,11 +4,11 @@ import { useNavigate, NavLink } from "react-router-dom";
 import { useLoginMutation } from "../../services/authApiSlice";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../../features/auth/authSlice";
-import Toast from "../../components/elements/NotificationProvider/Index";
+import Toast from "../../components/elements/NotificationProvider/Index.jsx";
 import { setAuthToken } from "../../utils/authUtilities";
 import ButtonLogin from "../../components/elements/Button/ButtonLogin";
 import Spinner from "../../components/elements/Spinner/Spinner";
-import { InputGroup, Label } from "../../components";
+import { InputGroup, Label } from "../../components/index.js";
 
 const Login = () => {
     const {

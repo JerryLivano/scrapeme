@@ -4,7 +4,7 @@ import SingleLineInput from "../../../components/elements/Input/SingleLineInput"
 import ModalSingleLineInput from "../../../components/elements/Input/Modal/ModalSingleLineInput";
 import { useEffect, useState } from "react";
 import ModalDropdownInput from "../../../components/elements/Input/Modal/ModalDropdownInput";
-import { Button } from "../../../components";
+import { Button } from "../../../components/index";
 import ModalGroupCheckboxInput from "./ModalGroupCheckboxInput";
 import { useUpdateUserMutation } from "../../../services/userApiSlice";
 import {
