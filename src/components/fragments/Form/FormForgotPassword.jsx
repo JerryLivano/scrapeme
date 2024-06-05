@@ -3,8 +3,8 @@ import Label from "../../elements/Label";
 import { ArrowLeftIcon } from "@heroicons/react/20/solid";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { Button } from "../../elements";
-import InputGroup from "../InputGroup";
+import { Button } from "../../elements/index";
+import InputGroup from "../InputGroup/index";
 
 //#region latency waiting for transfer data to server and get email feedback from server--manual delay for test
 

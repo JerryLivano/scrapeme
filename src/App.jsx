@@ -7,7 +7,7 @@ import {
     Settings,
     LogActivity,
 } from "./pages";
-import { AuthLayout, DashLayout, Layout } from "./components/layouts";
+import { AuthLayout, DashLayout, Layout } from "./components/layouts/index";
 import AddUser from "./pages/ManageUser/AddUser";
 import ManageUserPage from "./UI/ManageUserPage";
 import ManageApplicationPage from "./UI/ManageAppPage";
