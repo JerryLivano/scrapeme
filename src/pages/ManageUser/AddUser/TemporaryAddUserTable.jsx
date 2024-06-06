@@ -5,6 +5,7 @@ import { useGetRoleQuery } from "../../../services/roleApi.Slice";
 import { useGetApplicationQuery } from "../../../services/applicationApiSlice";
 import { ButtonIcon } from "../../../components/index.js";
 import { TrashIcon } from "@heroicons/react/24/solid";
+import InputCheckbox from "../../../components/elements/Input/InputCheckbox.jsx";
 
 export default function TemporaryAddUserTable({ userData, onDelete }) {
     let content;
@@ -12,6 +13,8 @@ export default function TemporaryAddUserTable({ userData, onDelete }) {
     const [appOpt, setAppOpt] = useState([]);
     const [search, setSearch] = useState("");
     const [filteredUserData, setFilteredUserData] = useState([]);
+
+    console.log(userData);
 
     const {
         data: applications,
@@ -24,15 +27,15 @@ export default function TemporaryAddUserTable({ userData, onDelete }) {
             {
                 id: uuid(),
                 header: "",
-                cell: (row) => row.renderValue(),
-                accessorFn: (row) => row.no || "",
+                cell: (row) => row.row.index + 1,
+                accessorFn: (row, i) => i + 1,
             },
             {
                 id: uuid(),
                 header: "Name",
                 isBlack: true,
                 cell: (row) => row.renderValue(),
-                accessorFn: (row) => row.name || "",
+                accessorFn: (row) => `${row.firstName} ${row.lastName}` || "",
             },
             {
                 id: uuid(),
@@ -51,8 +54,8 @@ export default function TemporaryAddUserTable({ userData, onDelete }) {
                 header: "Role",
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) =>
-                    row.role.charAt(5).toUpperCase() +
-                        row.role.slice(6).toLowerCase() || "",
+                    row.roleName.charAt(5).toUpperCase() +
+                        row.roleName.slice(6).toLowerCase() || "",
             },
         ];
 
