@@ -3,12 +3,12 @@ import Spinner from "../../components/elements/Spinner/Spinner";
 import { useGetApplicationQuery } from "../../services/applicationApiSlice";
 import TabApplication from "./TabApplication";
 import FormEditApplication from "./FormEditApplication";
-import { useLocation } from "react-router-dom";
 import FormAddApplication from "./AddApplication/FormAddApplication";
 
 export default function ApplicationPage() {
     const [isManageApp, setIsManageApp] = useState(true);
     const [selectedApplication, setSelectedApplication] = useState({});
+    const [isDropzone, setIsDropzone] = useState(false);
 
     const {
         data: applications,
@@ -49,10 +49,13 @@ export default function ApplicationPage() {
                                 setSelectedApplication={setSelectedApplication}
                                 setIsManageApp={setIsManageApp}
                                 isManageApp={isManageApp}
+                                setIsDropzone={setIsDropzone}
                             />
                             {selectedApplication && isManageApp && (
                                 <FormEditApplication
                                     application={selectedApplication}
+                                    isDropzone={isDropzone}
+                                    setIsDropzone={setIsDropzone}
                                 />
                             )}
                             {!isManageApp && <FormAddApplication />}

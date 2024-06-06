@@ -8,6 +8,7 @@ export default function TabApplication({
     setSelectedApplication,
     isManageApp,
     setIsManageApp,
+    setIsDropzone
 }) {
     return (
         <>
@@ -18,7 +19,7 @@ export default function TabApplication({
                 <div className='flex py-2 items-end justify-between'>
                     <div className='flex items-start h-full w-fit'>
                         {dataApplications.map((app) => (
-                            <div className='pt-1'>
+                            <div className='pt-1' key={app.id}>
                                 <button
                                     key={app.id}
                                     className={`text-gray-400 inline-flex text-lg whitespace-nowrap py-3 px-4 h-fit border-b-2 ${
@@ -31,6 +32,7 @@ export default function TabApplication({
                                     onClick={() => {
                                         setIsManageApp(true);
                                         setSelectedApplication(app);
+                                        setIsDropzone(false);
                                     }}
                                 >
                                     {app.name}
