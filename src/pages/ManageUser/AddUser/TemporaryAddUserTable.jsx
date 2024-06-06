@@ -97,10 +97,12 @@ export default function TemporaryAddUserTable({ userData, onDelete }) {
 
     useEffect(() => {
         setFilteredUserData(
-            userData.filter((user) =>
-                (user.firstName + " " + user.lastName)
-                    .toLowerCase()
-                    .includes(search.toLowerCase())
+            userData.filter(
+                (user) =>
+                    (user.firstName + " " + user.lastName)
+                        .toLowerCase()
+                        .includes(search.toLowerCase()) ||
+                    user.email.toLowerCase().includes(search.toLowerCase())
             )
         );
     }, [userData, search]);
@@ -197,7 +199,7 @@ export default function TemporaryAddUserTable({ userData, onDelete }) {
                 filterRole={roleOpt}
                 setFilterRole={handleRoleSelect}
                 filterRoleOptions={filterRoleOptions}
-                placeholder={"Search employee name..."}
+                placeholder={"Search by name or email..."}
                 searchQuery={search}
                 searchHandler={handleSearchChange}
                 showFilterApp={true}
