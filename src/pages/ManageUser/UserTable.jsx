@@ -244,7 +244,7 @@ export default function UserTable() {
                     showAddButton
                     searchQuery={search}
                     searchHandler={handleSearchChange}
-                    placeholder={"Search employee name..."}
+                    placeholder={"Search by name or email..."}
                     onClickAdd={() => navigate("add-user")}
                     title={"Add User"}
                     pageIndex={pagination.currentPage}
