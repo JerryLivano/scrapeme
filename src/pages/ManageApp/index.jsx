@@ -49,10 +49,13 @@ export default function ApplicationPage() {
                                 setSelectedApplication={setSelectedApplication}
                                 setIsManageApp={setIsManageApp}
                                 isManageApp={isManageApp}
+                                setIsDropzone={setIsDropzone}
                             />
                             {selectedApplication && isManageApp && (
                                 <FormEditApplication
                                     application={selectedApplication}
+                                    isDropzone={isDropzone}
+                                    setIsDropzone={setIsDropzone}
                                 />
                             )}
                             {!isManageApp && <FormAddApplication />}

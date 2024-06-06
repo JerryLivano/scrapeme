@@ -19,13 +19,28 @@ import { LinkIcon } from "@heroicons/react/24/solid";
 import FormModal from "../../components/fragments/Form/FormModal";
 import { useDropzone } from "react-dropzone";
 import { LogoAddImage } from "../../assets/imageList.js";
+import ErrorLabel from "../../components/fragments/Notification/ErrorLabel.jsx";
+import { ExclamationCircleIcon } from "@heroicons/react/24/outline";
 
-export default function FormEditApplication({ application }) {
+export default function FormEditApplication({
+    application,
+    isDropzone,
+    setIsDropzone,
+}) {
+    const { handleSubmit: openModalSubmit } = useForm({});
+
+    const {
+        data: imageData,
+        isLoading: imageLoading,
+        isSuccess: imageSuccess,
+    } = useGetUrlImageQuery(application.id);
+
     const {
         register,
         handleSubmit,
         watch,
         setValue,
+        reset: resetUpdateApp,
         formState: { errors: formErrors },
     } = useForm({
         mode: "onChange",
@@ -34,26 +49,26 @@ export default function FormEditApplication({ application }) {
             url: application.url
                 ? application.url.replace(/^https?:\/\//, "").replace(/\/$/, "")
                 : "",
-            logo: application.photo || "",
+            logo: imageSuccess
+                ? imageData.data.slice(imageData.data.indexOf(",") + 1)
+                : "",
+            isActive: application.isActive,
         },
     });
 
-    const [selectedStatus, setSelectedStatus] = useState(application.isActive);
-
-    const [isDropzone, setIsDropzone] = useState(false);
-    const [showModal, setShowModal] = useState(false);
+    const [showUpdateApplication, setShowUpdateApplication] = useState(false);
     const [openImageModal, setOpenImageModal] = useState(false);
 
+    const [nameNotFound, setNameNotFound] = useState(false);
+    const [urlNotFound, setUrlNotFound] = useState(false);
     const [imageNotFound, setImageNotFound] = useState(false);
+
     const [showImageError, setShowImageError] = useState(false);
     const [errorImageMessage, setErrorImageMessage] = useState("");
     const [modalOpen, setModalOpen] = useState(false);
     const [logoFile, setLogoFile] = useState(null);
 
-    const statusOptions = [
-        { isActive: true, status: "Enabled" },
-        { isActive: false, status: "Disabled" },
-    ];
+    const statusOptions = ["Disabled", "Enabled"];
 
     useEffect(() => {
         if (!application) return;
@@ -64,15 +79,14 @@ export default function FormEditApplication({ application }) {
                 ? application.url.replace(/^https?:\/\//, "").replace(/\/$/, "")
                 : ""
         );
-        setValue("logo", application.photo);
-        setValue("status", application.isActive);
+        setValue(
+            "logo",
+            imageSuccess
+                ? imageData.data.slice(imageData.data.indexOf(",") + 1)
+                : ""
+        );
+        setValue("isActive", application.isActive);
     }, [application, setValue]);
-
-    const {
-        data: imageData,
-        isLoading: imageLoading,
-        isSuccess: imageSuccess,
-    } = useGetUrlImageQuery(application.id);
 
     const [updateApplication, { isLoading: updateAppLoading }] =
         useUpdateApplicationMutation();
@@ -103,25 +117,29 @@ export default function FormEditApplication({ application }) {
     };
 
     const onSubmit = async (data) => {
-        if (
-            data.name.trim() === "" ||
-            data.url.trim() === "" ||
-            data.logo.trim() === ""
-        ) {
-            setShowModal(false);
-            toastError({ message: "Field cannot be empty" });
+        if (data.name.trim() === "" || data.url.trim() === "") {
+            if (data.name.trim() === "") {
+                setNameNotFound(true);
+            }
+
+            if (data.url.trim() === "") {
+                setUrlNotFound(true);
+            }
+
+            setShowUpdateApplication(false);
+            window.scrollTo(0, 0);
             return;
         }
 
         const request = {
             id: application.id,
             name: data.name.trim(),
-            photo: data.logo.trim(),
+            image: data.logo,
             url: `https://${data.url
                 .trim()
                 .replace(/^https?:\/\//, "")
                 .replace(/\/$/, "")}`,
-            isActive: selectedStatus,
+            isActive: data.isActive,
         };
 
         try {
@@ -130,18 +148,22 @@ export default function FormEditApplication({ application }) {
         } catch {
             toastError({ message: "Failed to update application" });
         }
-        setShowModal(false);
+        avatarUrl.current = LogoAddImage;
+        setIsDropzone(false);
+        setShowUpdateApplication(false);
     };
 
     return (
         <>
-            {updateAppLoading && <Spinner />}
-            {!updateAppLoading && (
+            {updateAppLoading && imageLoading && <Spinner />}
+            {!updateAppLoading && imageSuccess && (
                 <div className='w-full border border-gray-300 rounded-md px-8 py-6'>
                     <form
                         className='flex grow basis-2/3 flex-col gap-4'
                         encType='multipart/form-data'
-                        onSubmit={handleSubmit(onSubmit)}
+                        onSubmit={openModalSubmit(() =>
+                            setShowUpdateApplication(true)
+                        )}
                     >
                         <div className='border-b-2 w-full pl-6 py-8 items-center'>
                             <SingleLineInput
@@ -149,7 +171,8 @@ export default function FormEditApplication({ application }) {
                                 error={formErrors.name?.message}
                                 label='Application Name'
                                 className='w-full'
-                                errorMessage={"Please enter application name"}
+                                notFound={nameNotFound}
+                                errorMessage={"Fill in this field"}
                             />
                         </div>
                         <div className='border-b-2 w-full pl-6 py-8 items-center'>
@@ -159,7 +182,8 @@ export default function FormEditApplication({ application }) {
                                 startAdornment={"https://"}
                                 label='URL'
                                 className='w-full'
-                                errorMessage={"Please enter application url"}
+                                notFound={urlNotFound}
+                                errorMessage={"Fill in this field"}
                             />
                         </div>
                         <div className='border-b-2 w-full pl-6 py-8 items-center'>
@@ -283,25 +307,23 @@ export default function FormEditApplication({ application }) {
                                 label={"Status"}
                                 className={"w-1/4"}
                                 onChange={(e) => {
-                                    setSelectedStatus(
-                                        e.target.value === "Enabled"
-                                    );
                                     setValue(
-                                        "status",
+                                        "isActive",
                                         e.target.value === "Enabled"
                                     );
                                 }}
                             >
                                 {statusOptions.map((option) => (
                                     <option
-                                        key={option.status}
-                                        value={option.status}
+                                        key={option}
+                                        value={option}
                                         selected={
-                                            option.isActive ===
-                                            application.isActive
+                                            watch("isActive")
+                                                ? option === "Enabled"
+                                                : option === "Disabled"
                                         }
                                     >
-                                        {option.status}
+                                        {option}
                                     </option>
                                 ))}
                             </DropdownInput>
@@ -318,8 +340,8 @@ export default function FormEditApplication({ application }) {
                         title={"Confirm Update Application"}
                         message={`Are you sure want to update ${application.name}?`}
                         onConfirmHandler={handleSubmit(onSubmit)}
-                        openModal={showModal}
-                        setOpenModal={setShowModal}
+                        openModal={showUpdateApplication}
+                        setOpenModal={setShowUpdateApplication}
                         typeButton={"submit"}
                     />
 
