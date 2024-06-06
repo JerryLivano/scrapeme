@@ -64,8 +64,8 @@ export default function UserTable() {
                 header: "Role",
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) =>
-                    row.role.charAt(5).toUpperCase() +
-                        row.role.slice(6).toLowerCase() || "",
+                    row.roleName.charAt(5).toUpperCase() +
+                        row.roleName.slice(6).toLowerCase() || "",
             },
         ];
 
