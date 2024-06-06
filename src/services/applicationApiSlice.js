@@ -33,6 +33,10 @@ export const applicationApiSlice = apiSlice.enhanceEndpoints({
             query: (guid) => `/application/${guid}/base64`,
             providesTags: ["Application"]
         }),
+        getPermissionApplication: builder.query({
+            query: () => `/application/permission-based`,
+            providesTags: ["Application"]
+        })
     })
 });
 
@@ -40,5 +44,6 @@ export const {
     useGetApplicationQuery,
     useUpdateApplicationMutation,
     useCreateApplicationMutation,
-    useGetUrlImageQuery
+    useGetUrlImageQuery,
+    useGetPermissionApplicationQuery
 } = applicationApiSlice;
