@@ -156,7 +156,7 @@ export default function FormEditApplication({
     return (
         <>
             {updateAppLoading && imageLoading && <Spinner />}
-            {!updateAppLoading && imageSuccess && (
+            {!updateAppLoading && (
                 <div className='w-full border border-gray-300 rounded-md px-8 py-6'>
                     <form
                         className='flex grow basis-2/3 flex-col gap-4'
@@ -354,7 +354,7 @@ export default function FormEditApplication({
                             {imageSuccess && !imageLoading ? (
                                 <img src={imageData.data} alt='' />
                             ) : (
-                                <Spinner />
+                                <div className="text-xl mt-3 font-semibold">Image Not Found</div>
                             )}
                         </div>
                     </FormModal>
