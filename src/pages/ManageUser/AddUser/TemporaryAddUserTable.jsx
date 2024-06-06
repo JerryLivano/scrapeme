@@ -14,8 +14,6 @@ export default function TemporaryAddUserTable({ userData, onDelete }) {
     const [search, setSearch] = useState("");
     const [filteredUserData, setFilteredUserData] = useState([]);
 
-    console.log(userData);
-
     const {
         data: applications,
         isLoading: applicationIsLoading,
