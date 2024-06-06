@@ -15,10 +15,7 @@ export default function ApplicationPage() {
         isLoading,
         isSuccess,
         isError,
-    } = useGetApplicationQuery(
-        { page: 1, limit: 100 },
-        { refetchOnMountOrArgChange: true }
-    );
+    } = useGetApplicationQuery({ page: 1, limit: 100 });
 
     useEffect(() => {
         if (isSuccess && applications.data.length > 0) {

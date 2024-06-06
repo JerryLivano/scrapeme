@@ -32,14 +32,14 @@ const AppListItem = () => {
                                         key={app.id}
                                     >
                                         <div className='flex flex-col divide-y divide-gray-200 rounded-2xl h-48 w-48 bg-slate-200 hover:bg-slate-400 text-center shadow'>
-                                            <div className='flex flex-1 flex-col justify-center items-center p-4'>
+                                            <div className='flex flex-col justify-between items-center p-4'>
                                                 <div className="h-30 mb-2">
                                                     <img
-                                                        className="h-[120px]"
+                                                        className="h-[130px]"
                                                         src={app.image}
                                                     />
                                                 </div>
-                                                <div className='font-medium text-blue-800'>
+                                                <div className='text-blue-800 font-semibold'>
                                                     {app.name}
                                                 </div>
                                             </div>
