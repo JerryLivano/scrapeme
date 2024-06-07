@@ -30,6 +30,7 @@ export default function UserTable() {
         data: applications,
         isLoading: applicationIsLoading,
         isError: applicationIsError,
+        isSuccess: applicationIsSuccess
     } = useGetApplicationQuery({ page: 1, limit: 100 });
 
     const cols = useMemo(() => {
@@ -229,7 +230,7 @@ export default function UserTable() {
         }
     }
 
-    if (isSuccess && roleIsSuccess) {
+    if (isSuccess && roleIsSuccess && applicationIsSuccess) {
         const { data, pagination } = users;
         const dataCount = pagination.totalRecords;
         content = (
