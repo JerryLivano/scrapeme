@@ -25,6 +25,6 @@ export function toastError({ message }) {
         draggable: true,
         progress: undefined,
         theme: "light",
-        className: "min-w-fit mr-8 mt-8 whitespace-nowrap",
+        className: "mr-8 flex break-words max-w-96 mt-8 whitespace-normal",
     });
 }
