@@ -230,9 +230,10 @@ export default function FormAddUser() {
                     <div className='border border-gray-300 rounded-md px-8 py-6'>
                         <form
                             className='flex grow basis-2/3 flex-col gap-4'
-                            onSubmit={handleSubmitOpenModal(() =>
-                                setShowAddTemp(true)
-                            )}
+                            onSubmit={(e) => {
+                                e.preventDefault(); 
+                                onSubmitAddedUser(watch()); 
+                            }}
                         >
                             <div className='border-b-2 w-full pl-6 py-8 items-center'>
                                 <SingleLineInput
