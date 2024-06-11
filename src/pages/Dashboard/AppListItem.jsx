@@ -12,6 +12,7 @@ const AppListItem = () => {
         isLoading,
         isError,
     } = useGetPermissionApplicationQuery();
+    console.log(applications);
 
     const [loginApplication, { isLoading: loginLoading }] =
         useLoginApplicationMutation();
