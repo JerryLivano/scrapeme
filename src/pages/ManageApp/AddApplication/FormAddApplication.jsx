@@ -13,7 +13,7 @@ import {
     toastSuccess,
 } from "../../../components/elements/Alert/Toast";
 import ModalConfirmAddData from "../../../components/elements/Confirmation/ModalConfirmAddData";
-import { ExclamationCircleIcon } from "@heroicons/react/24/outline";
+import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import ErrorLabel from "../../../components/fragments/Notification/ErrorLabel";
 
 export default function FormAddApplication() {
@@ -50,13 +50,46 @@ export default function FormAddApplication() {
     const [createApplication, { isLoading: createAppLoading }] =
         useCreateApplicationMutation();
 
-    const onDrop = (acceptedFiles) => {
-        if (acceptedFiles.length) {
-            const file = acceptedFiles[0];
-            setModalOpen(true);
-            setLogoFile(file);
-        }
-    };
+        const onDrop = (acceptedFiles, rejectedFiles) => {
+            let fileRejected = false;
+            let sizeError = false;
+            let typeError = false;
+        
+            rejectedFiles.forEach(rejected => {
+                if (rejected.errors.some(e => e.code === 'file-too-large')) {
+                    sizeError = true;
+                }
+                if (rejected.errors.some(e => e.code === 'file-invalid-type')) {
+                    typeError = true;
+                }
+            });
+        
+            if (sizeError) {
+                setShowImageError(true);
+                toastError({ message: "Picture size is more than 10MB" });
+                setLogoFile(null);
+                fileRejected = true;
+            }
+        
+            if (typeError) {
+                setShowImageError(true);
+                toastError({ message: 'Picture format is not png or jpg or jpeg' });
+                setLogoFile(null);
+                fileRejected = true;
+            }
+        
+            if (!fileRejected && acceptedFiles.length) {
+                const file = acceptedFiles[0];
+                if (file.size > 10 * 1024 * 1024) {
+                    setShowImageError(true);
+                    toastError({ message: "File cannot exceed 10MB" });
+                    setLogoFile(null);
+                    return;
+                }
+                setModalOpen(true);
+                setLogoFile(file);
+            }
+        };
 
     const { getRootProps, getInputProps } = useDropzone({
         onDrop,
@@ -64,7 +97,7 @@ export default function FormAddApplication() {
             "image/jpeg": [],
             "image/png": [],
         },
-        maxSize: 2 * 1024 * 1024,
+        maxSize: 10 * 1024 * 1024,
         maxFiles: 1,
     });
 
@@ -196,7 +229,7 @@ export default function FormAddApplication() {
                                                     </span>
                                                 </div>
                                                 <div className='text-gray-400'>
-                                                    PNG or JPG up to 2MB
+                                                    PNG or JPG or JPEG up to 2MB
                                                 </div>
                                             </>
                                         ) : (
@@ -221,7 +254,7 @@ export default function FormAddApplication() {
                                         }
                                         className='cursor-pointer py-1'
                                     >
-                                        <ExclamationCircleIcon className='w-7 h-7 text-red-600' />
+                                        <ExclamationTriangleIcon className='w-7 h-7 text-red-600' />
                                     </span>
                                     {showImageError && (
                                         <div className='ml-2'>

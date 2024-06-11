@@ -1,3 +1,7 @@
+import { ExclamationTriangleIcon } from "@heroicons/react/24/solid";
+import { toastError, toastSuccess } from "../../components/elements/Alert/Toast";
+
+
 export default function InputDropFile({
     register,
     setValue,
@@ -12,15 +16,9 @@ export default function InputDropFile({
     const onDrop = (acceptedFiles) => {
         if (acceptedFiles.length) {
             const file = acceptedFiles[0];
-            if (file.size > 2 * 1024 * 1024) {
-                setShowImageError(true);
-                setErrorImageMessage("File size exceeds 2MB");
-                return;
-            }
             setModalOpen(true);
             setLogoFile(file);
             setShowImageError(false);
-            setErrorImageMessage("");
         }
     };
 
@@ -31,6 +29,7 @@ export default function InputDropFile({
             "image/png": [],
         },
         maxFiles: 1,
+        maxSize: 10 * 1024 * 1024,
     });
 
     const updateAvatar = (imgSrc) => {
@@ -93,7 +92,7 @@ export default function InputDropFile({
                         onMouseLeave={() => setShowImageError(false)}
                         className='cursor-pointer py-1'
                     >
-                        <ExclamationCircleIcon className='w-7 h-7 text-red-600' />
+                        <ExclamationTriangleIcon className='w-7 h-7 text-red-600' />
                     </span>
                     {showImageError && (
                         <div className='ml-2'>

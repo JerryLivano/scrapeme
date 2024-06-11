@@ -20,7 +20,7 @@ import FormModal from "../../components/fragments/Form/FormModal";
 import { useDropzone } from "react-dropzone";
 import { LogoAddImage } from "../../assets/imageList.js";
 import ErrorLabel from "../../components/fragments/Notification/ErrorLabel.jsx";
-import { ExclamationCircleIcon } from "@heroicons/react/24/outline";
+import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 
 export default function FormEditApplication({
     application,
@@ -87,13 +87,46 @@ export default function FormEditApplication({
         );
         setValue("isActive", application.isActive);
     }, [application, setValue]);
-
+    
     const [updateApplication, { isLoading: updateAppLoading }] =
         useUpdateApplicationMutation();
 
-    const onDrop = (acceptedFiles) => {
-        if (acceptedFiles.length) {
+    const onDrop = (acceptedFiles, rejectedFiles) => {
+        let fileRejected = false;
+        let sizeError = false;
+        let typeError = false;
+    
+        rejectedFiles.forEach(rejected => {
+            if (rejected.errors.some(e => e.code === 'file-too-large')) {
+                sizeError = true;
+            }
+            if (rejected.errors.some(e => e.code === 'file-invalid-type')) {
+                typeError = true;
+            }
+        });
+    
+        if (sizeError) {
+            setShowImageError(true);
+            toastError({ message: "Picture size is more than 10MB" });
+            setLogoFile(null);
+            fileRejected = true;
+        }
+    
+        if (typeError) {
+            setShowImageError(true);
+            toastError({ message: 'Picture format is not png or jpg or jpeg' });
+            setLogoFile(null);
+            fileRejected = true;
+        }
+    
+        if (!fileRejected && acceptedFiles.length) {
             const file = acceptedFiles[0];
+            if (file.size > 10 * 1024 * 1024) {
+                setShowImageError(true);
+                toastError({ message: "File cannot exceed 10MB" });
+                setLogoFile(null);
+                return;
+            }
             setModalOpen(true);
             setLogoFile(file);
         }
@@ -107,6 +140,7 @@ export default function FormEditApplication({
         },
         maxSize: 2 * 1024 * 1024,
         maxFiles: 1,
+        
     });
 
     const avatarUrl = useRef(LogoAddImage);
@@ -129,7 +163,9 @@ export default function FormEditApplication({
             setShowUpdateApplication(false);
             window.scrollTo(0, 0);
             return;
+            
         }
+        console.log(data);
 
         const request = {
             id: application.id,
@@ -231,7 +267,7 @@ export default function FormEditApplication({
                                                                 </span>
                                                             </div>
                                                             <div className='text-gray-400'>
-                                                                PNG or JPG up to
+                                                                PNG or JPG or JPEG up to
                                                                 2MB
                                                             </div>
                                                         </>
@@ -259,7 +295,7 @@ export default function FormEditApplication({
                                                     }
                                                     className='cursor-pointer py-1'
                                                 >
-                                                    <ExclamationCircleIcon className='w-7 h-7 text-red-600' />
+                                                    <ExclamationTriangleIcon className='w-7 h-7 text-red-600' />
                                                 </span>
                                                 {showImageError && (
                                                     <div className='ml-2'>

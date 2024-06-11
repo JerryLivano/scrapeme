@@ -1,6 +1,6 @@
 import { useId, useState } from "react";
 import InputLabel from "./Modal/InputLabel";
-import { ExclamationCircleIcon, LinkIcon } from "@heroicons/react/24/solid";
+import { ExclamationTriangleIcon, LinkIcon } from "@heroicons/react/24/solid";
 import { useDropzone } from "react-dropzone";
 import ErrorLabel from "../../fragments/Notification/ErrorLabel";
 import { LogoAddImage } from "../../../assets/imageList";
@@ -101,7 +101,7 @@ export default function InputDropzone(
                                     }
                                     className='cursor-pointer py-1'
                                 >
-                                    <ExclamationCircleIcon className='w-7 h-7 text-red-600' />
+                                    <ExclamationTriangleIcon className='w-7 h-7 text-red-600' />
                                 </span>
                                 {showImageError && (
                                     <div className='ml-2'>
