@@ -139,8 +139,10 @@ export default function LogActivityTable({}) {
     }, [roles]);
 
     const handleRoleSelect = (selectedRole) => {
-        setRoleOpt([selectedRole]);
-        setIsEmployee(!isEmployee);
+        if (roleOpt[0][0] !== selectedRole[0]) {
+            setRoleOpt([selectedRole]);
+            setIsEmployee(!isEmployee);
+        }
     };
 
     let filteredRoleOptions = [];
