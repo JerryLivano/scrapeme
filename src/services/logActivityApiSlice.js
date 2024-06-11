@@ -12,15 +12,26 @@ export const logActivityApiSlice = apiSlice.enhanceEndpoints({
                     limit,
                     startDate,
                     endDate,
-                    role
+                    role,
+                    apps
                 } = args;
-                return `/log-activity?search=${search}&page=${page}&limit=${limit}&startDate=${startDate}&endDate=${endDate}&role=${role}`;
+                const appsParams = apps && apps.length > 0 ? apps.map((app) => `appFilter=${app}`).join('&') : '';
+                return `/log-activity?search=${search}&page=${page}&limit=${limit}&startDate=${startDate}&endDate=${endDate}&role=${role}${appsParams ? `&${appsParams}` : ''}`;
             },
             providesTags: ["LogActivity"]
+        }),
+        loginApplication: builder.mutation({
+            query: (body) => ({
+                url: "/log-activity/application-access",
+                method: "POST",
+                body
+            }),
+            invalidatesTags: ["LogActivity"]
         })
     })
 });
 
 export const {
-    useGetLogActivityQuery
+    useGetLogActivityQuery,
+    useLoginApplicationMutation
 } = logActivityApiSlice;

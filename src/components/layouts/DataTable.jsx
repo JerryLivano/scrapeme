@@ -185,10 +185,15 @@ export default function DataTable({
                         <div className='inline-flex gap-x-1'>
                             {/* Role */}
                             <div className='inline-flex gap-x-1'>
-                                {filterRole.length > 0 &&
+                                {filterRole &&
+                                    filterRole.length > 0 &&
                                     filterRole.map((item) => {
+                                        console.log(filterRole);
                                         return (
-                                            <div className='border-2 border-slate-300 inline-flex h-fit rounded-xl'>
+                                            <div
+                                                key={item[0]}
+                                                className='border-2 border-slate-300 inline-flex h-fit rounded-xl'
+                                            >
                                                 <div className='mx-4 w-full'>
                                                     {item[1]}
                                                 </div>
