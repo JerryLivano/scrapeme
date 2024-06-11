@@ -66,7 +66,7 @@ export default function FormAddApplication() {
         
             if (sizeError) {
                 setShowImageError(true);
-                toastError({ message: "Picture size is more than 10MB" });
+                toastError({ message: "Picture size is more than 2MB" });
                 setLogoFile(null);
                 fileRejected = true;
             }
@@ -80,9 +80,9 @@ export default function FormAddApplication() {
         
             if (!fileRejected && acceptedFiles.length) {
                 const file = acceptedFiles[0];
-                if (file.size > 10 * 1024 * 1024) {
+                if (file.size > 2 * 1024 * 1024) {
                     setShowImageError(true);
-                    toastError({ message: "File cannot exceed 10MB" });
+                    toastError({ message: "File cannot exceed 2MB" });
                     setLogoFile(null);
                     return;
                 }

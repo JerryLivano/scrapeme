@@ -10,6 +10,7 @@ const AppListItem = () => {
         isLoading,
         isError,
     } = useGetPermissionApplicationQuery();
+    console.log(applications);
 
     return (
         <>

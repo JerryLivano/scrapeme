@@ -107,7 +107,7 @@ export default function FormEditApplication({
     
         if (sizeError) {
             setShowImageError(true);
-            toastError({ message: "Picture size is more than 10MB" });
+            toastError({ message: "Picture size is more than 2MB" });
             setLogoFile(null);
             fileRejected = true;
         }
@@ -121,9 +121,9 @@ export default function FormEditApplication({
     
         if (!fileRejected && acceptedFiles.length) {
             const file = acceptedFiles[0];
-            if (file.size > 10 * 1024 * 1024) {
+            if (file.size > 2 * 1024 * 1024) {
                 setShowImageError(true);
-                toastError({ message: "File cannot exceed 10MB" });
+                toastError({ message: "File cannot exceed 2MB" });
                 setLogoFile(null);
                 return;
             }
@@ -150,8 +150,19 @@ export default function FormEditApplication({
         setLogoFile(imgSrc);
     };
 
+    useEffect(() => {
+        if (
+            watch("name") !== "" 
+        ) {
+            setNameNotFound(false);
+        }
+    });
+
     const onSubmit = async (data) => {
-        if (data.name.trim() === "" || data.url.trim() === "") {
+        if (
+            data.name.trim() === "" ||
+            data.url.trim() === ""
+        ) {
             if (data.name.trim() === "") {
                 setNameNotFound(true);
             }
