@@ -110,12 +110,18 @@ export default function FormAddApplication() {
 
     useEffect(() => {
         if (
-            watch("name").trim() !== "" ||
-            watch("url").trim() !== "" ||
-            avatarUrl.current !== LogoAddImage
+            watch("name").trim() !== "" 
         ) {
             setNameNotFound(false);
+        }
+        if (
+            watch("url").trim() !== ""
+        ) {
             setUrlNotFound(false);
+        }
+        if (
+            avatarUrl.current !== LogoAddImage
+        ) {
             setImageNotFound(false);
         }
     });
