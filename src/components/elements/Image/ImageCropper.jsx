@@ -70,7 +70,7 @@ const ImageCropper = ({ closeModal, updateAvatar, file }) => {
             )
         );
         const dataUrl = previewCanvasRef.current.toDataURL();
-        updateAvatar(dataUrl);
+        updateAvatar(dataUrl, file.name);
         closeModal();
     };
 
