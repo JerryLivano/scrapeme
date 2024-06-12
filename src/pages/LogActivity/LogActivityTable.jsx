@@ -14,6 +14,7 @@ export default function LogActivityTable({}) {
     const [search, setSearch] = useState("");
     const [date, setDate] = useState({});
     const [selectedRoleId, setSelectedRoleId] = useState("");
+    const [isAdmin, setIsAdmin] = useState(true);
     const [isEmployee, setIsEmployee] = useState(true);
 
     // Filter App
@@ -70,6 +71,17 @@ export default function LogActivityTable({}) {
             },
         ];
 
+        const adminColumns = isAdmin
+            ? [
+                {
+                    id: uuid(),
+                    header: "Action",
+                    cell: (row) => row.renderValue(),
+                    accessorFn: (row) => row.action || "",
+                },
+            ]
+            : [];
+
         const dynamicColumns = isEmployee
             ? [
                   {
@@ -95,8 +107,8 @@ export default function LogActivityTable({}) {
               ]
             : [];
 
-        return [...staticColumns, ...dynamicColumns];
-    }, [logActivities, selectedRoleId, isEmployee]);
+        return [...staticColumns, ...dynamicColumns, ...adminColumns];
+    }, [logActivities, selectedRoleId, isEmployee, isAdmin]);
 
     const formatDateTime = (dateTime) => {
         const date = new Date(dateTime);
