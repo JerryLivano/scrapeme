@@ -197,7 +197,7 @@ export default function DataTable({
                                 {filterRole &&
                                     filterRole.length > 0 &&
                                     filterRole.map((item) => {
-                                        console.log(filterRole);
+                                        // console.log(filterRole);
                                         return (
                                             <div
                                                 key={item[0]}

@@ -176,7 +176,7 @@ export default function FormEditApplication({
             return;
             
         }
-        console.log(data);
+        // console.log(data);
 
         const request = {
             id: application.id,
