@@ -14,7 +14,6 @@ export default function LogActivityTable({}) {
     const [search, setSearch] = useState("");
     const [date, setDate] = useState({});
     const [selectedRoleId, setSelectedRoleId] = useState("");
-    const [isAdmin, setIsAdmin] = useState(true);
     const [isEmployee, setIsEmployee] = useState(true);
 
     // Filter App
@@ -71,17 +70,6 @@ export default function LogActivityTable({}) {
             },
         ];
 
-        const adminColumns = isAdmin
-            ? [
-                {
-                    id: uuid(),
-                    header: "Action",
-                    cell: (row) => row.renderValue(),
-                    accessorFn: (row) => row.action || "",
-                },
-            ]
-            : [];
-
         const dynamicColumns = isEmployee
             ? [
                   {
@@ -105,10 +93,17 @@ export default function LogActivityTable({}) {
                           formatDateTime(row.createdDate) || "",
                   },
               ]
-            : [];
+            : [
+                  {
+                      id: uuid(),
+                      header: "Action",
+                      cell: (row) => row.renderValue(),
+                      accessorFn: (row) => row.action || "",
+                  },
+              ];
 
-        return [...staticColumns, ...dynamicColumns, ...adminColumns];
-    }, [logActivities, selectedRoleId, isEmployee, isAdmin]);
+        return [...staticColumns, ...dynamicColumns];
+    }, [logActivities, selectedRoleId, isEmployee]);
 
     const formatDateTime = (dateTime) => {
         const date = new Date(dateTime);
@@ -211,7 +206,7 @@ export default function LogActivityTable({}) {
     const handleDateFilter = (value) => {
         setDate(value);
         setPage(1);
-    }
+    };
 
     const handleSearchChange = (value) => {
         setSearch((prev) => {
