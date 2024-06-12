@@ -13,6 +13,7 @@ import FilterSearchTable from "../fragments/Filter/FIlterSearchTable";
 import ButtonDelete from "../elements/Button/ButtonDelete";
 import MultiDropdown from "../elements/Input/MultiDropdown";
 import DropdownPageInput from "../elements/Input/DropdownPageInput";
+import RangeDatePickerInput from "../fragments/Filter/RangeDatePickerInput";
 export const TableScrollEvent = createContext(null);
 export const TableRef = createContext(null);
 
@@ -48,6 +49,9 @@ export default function DataTable({
     filterAppOptions,
     handleDeleteFilteredApp = () => {},
     handleDeleteFilteredRole = () => {},
+    showFilterDate = false,
+    filterDate,
+    setFilterDate
 }) {
     const [globalFilter, setGlobalFilter] = useState("");
     const onScrollSubscriber = useRef([]);
@@ -134,44 +138,49 @@ export default function DataTable({
                                 </div>
                             )}
                         </div>
-                        <div className='flex items-center'>
-                            <div className='flex ml-3'>
-                                {/* Add Button */}
-                                {showAddButton && (
-                                    <span className='mr-3'>
-                                        <ButtonPlus
-                                            title={title}
-                                            onClick={onClickAdd}
-                                        />
-                                    </span>
-                                )}
-                                {/* Page Size */}
-                                {showPageSize && (
-                                    <div className='flex flex-row items-center'>
-                                        <DropdownPageInput
-                                            value={
-                                                table.getState().pagination
-                                                    .pageSize
-                                            }
-                                            onChange={(e) => {
-                                                setPageSize(
-                                                    Number(e.target.value)
-                                                );
-                                                pageChange(0);
-                                            }}
-                                            className='max-w-[70px]'
-                                        >
-                                            {[5, 10, 15, 20, 25].map(
-                                                (pageSize) => (
-                                                    <option key={pageSize}>
-                                                        {pageSize}
-                                                    </option>
-                                                )
-                                            )}
-                                        </DropdownPageInput>
-                                    </div>
-                                )}
-                            </div>
+                        <div className='flex items-center justify-end'>
+                            {/* Date Picker */}
+                            {showFilterDate && (
+                                <div className='flex items-center w-[220px]'>
+                                    <RangeDatePickerInput
+                                        className='w-full'
+                                        displayFormat={"DD/MM/YYYY"}
+                                        value={filterDate}
+                                        onChange={setFilterDate}
+                                        placeholder='Date'
+                                    />
+                                </div>
+                            )}
+                            {/* Add Button */}
+                            {showAddButton && (
+                                <div className='flex ml-3'>
+                                    <ButtonPlus
+                                        title={title}
+                                        onClick={onClickAdd}
+                                    />
+                                </div>
+                            )}
+                            {/* Page Size */}
+                            {showPageSize && (
+                                <div className='flex flex-row ml-3 items-center'>
+                                    <DropdownPageInput
+                                        value={
+                                            table.getState().pagination.pageSize
+                                        }
+                                        onChange={(e) => {
+                                            setPageSize(Number(e.target.value));
+                                            pageChange(0);
+                                        }}
+                                        className='max-w-[70px]'
+                                    >
+                                        {[5, 10, 15, 20, 25].map((pageSize) => (
+                                            <option key={pageSize}>
+                                                {pageSize}
+                                            </option>
+                                        ))}
+                                    </DropdownPageInput>
+                                </div>
+                            )}
                         </div>
                     </div>
 

@@ -33,8 +33,8 @@ export default function LogActivityTable({}) {
             search: search,
             page: page,
             limit: pageSize,
-            startDate: date.startDate ?? "",
-            endDate: date.endDate ?? "",
+            startDate: date.startDate ? date.startDate : "",
+            endDate: date.endDate ? date.endDate : "",
             role: selectedRoleId,
             apps: appIdOpt,
         },
@@ -195,6 +195,12 @@ export default function LogActivityTable({}) {
         setAppIdOpt(appOpt.map((app) => app[0]));
     }, [appOpt]);
 
+    // Filter Date
+    const handleDateFilter = (value) => {
+        setDate(value);
+        setPage(1);
+    }
+
     const handleSearchChange = (value) => {
         setSearch((prev) => {
             if (value !== prev) setPage(1);
@@ -246,6 +252,9 @@ export default function LogActivityTable({}) {
                     handleDeleteFilteredApp={(app) =>
                         handleDeleteFilteredApp(app)
                     }
+                    showFilterDate
+                    filterDate={date}
+                    setFilterDate={handleDateFilter}
                 />
             </>
         );
