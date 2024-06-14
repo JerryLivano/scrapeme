@@ -2,11 +2,13 @@ import { useEffect, useMemo, useState } from "react";
 import { useGetLogActivityQuery } from "../../services/logActivityApiSlice";
 import { useGetRoleQuery } from "../../services/roleApi.Slice";
 import { useGetApplicationQuery } from "../../services/applicationApiSlice";
+import { Button } from "../../components";
 import Spinner from "../../components/elements/Spinner/Spinner";
 import DataTable from "../../components/layouts/DataTable";
 import uuid from "react-uuid";
-import ModalDataAdd from "./LogDetail/ModalDataAdd";
+import ModalDataAdd from "./LogDetail/ModalDataAddApp";
 import ButtonDetail from "../../components/elements/Button/ButtonDetail";
+import ModalDataChange from "./LogDetail/ModalDataManageAPp";
 
 export default function LogActivityTable() {
     let content;
@@ -17,8 +19,9 @@ export default function LogActivityTable() {
     const [date, setDate] = useState({});
     const [selectedRoleId, setSelectedRoleId] = useState("");
     const [isEmployee, setIsEmployee] = useState(true);
-    const [openModal, setOpenModal] = useState(false);
-    const [selectedUser, setSelectedUser] = useState(null); 
+    const [openEditModal, setOpenEditModal] = useState(false);
+    const [openAddModal, setOpenAddModal] = useState(false);
+    const [selectedUser, setSelectedUser] = useState({});
 
     // Filter App
     const [appOpt, setAppOpt] = useState([]);
@@ -74,6 +77,17 @@ export default function LogActivityTable() {
             },
         ];
 
+
+        const handleDetailModal = (action) => {
+            // Logic to open modal based on row.action
+            if (action === "EDIT_APPLICATION") {
+                setOpenEditModal(true);
+                
+            } else if (action === "ADD_APPLICATION"){
+                setOpenAddModal(true); 
+            }
+        };
+
         const dynamicColumns = isEmployee
             ? [
                   {
@@ -95,7 +109,7 @@ export default function LogActivityTable() {
                       cell: (row) => row.renderValue(),
                       accessorFn: (row) =>
                           formatDateTime(row.createdDate) || "",
-                  },  
+                  },
               ]
             : [
                   {
@@ -113,25 +127,26 @@ export default function LogActivityTable() {
                   {
                     id: uuid(),
                     header: "Detail",
-                    cell: (row) => (
+                    cell: (row) => row.renderValue(),
+                    accessorFn: (row) => (
                         <div className='w-full'>
                             <ButtonDetail
                                 type={"button"}
                                 className={"w-24"}
                                 onClick={() => {
-                                    setOpenModal(true);
-                                    setSelectedUser(row);
+                                    handleDetailModal(row.action);
+                                    setSelectedUser(row)
                                 }}
                             />
                         </div>
                     ),
-                },
-                  
+                  },
               ];
 
         return [...staticColumns, ...dynamicColumns];
     }, [logActivities, selectedRoleId, isEmployee]);
 
+    
     const formatDateTime = (dateTime) => {
         const date = new Date(dateTime);
         const options = {
@@ -169,26 +184,8 @@ export default function LogActivityTable() {
                 );
                 setSelectedRoleId(employeeRole[0].id);
             }
-            // const adminRole = roles.data.filter((role) =>
-            //     role.roleName.toLowerCase().includes("admin")
-            // );
-            // if (adminRole) {
-            //     setRoleOpt(
-            //         adminRole.map((role) => [
-            //             role.id,
-            //             role.roleName.charAt(5).toUpperCase() +
-            //                 role.roleName.slice(6).toLowerCase(),
-            //         ])
-            //     );
-            //     setSelectedRoleId(adminRole[0].id);
-            // }
         }
     }, [roles]);
-
-    const handleRowClick = (user) => {
-        setSelectedUser(user); 
-        setOpenModal(true); 
-    };
 
     const handleRoleSelect = (selectedRole) => {
         if (roleOpt[0][0] !== selectedRole[0]) {
@@ -206,7 +203,6 @@ export default function LogActivityTable() {
                 role.roleName.slice(6).toLowerCase(),
         }));
     }
-
     useEffect(() => {
         if (roleOpt.length === 0) {
             setSelectedRoleId("");
@@ -222,12 +218,12 @@ export default function LogActivityTable() {
         isError: applicationError,
         isLoading: applicationLoading,
     } = useGetApplicationQuery(
-        { 
-            page: 1, 
-            limit: 100, 
+        {
+            page: 1,
+            limit: 100,
         }
     );
-    
+
     const colsadd = useMemo(() => {
         const dataChanged = [
             {
@@ -241,10 +237,7 @@ export default function LogActivityTable() {
                 header: "AppName",
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) => {
-                    console.log("row", row);
-                    console.log("row.new_value:", row.new_value);
-                    const newValueObj = row.new_value ? JSON.parse(row.new_value) : {};
-                    console.log("newValueObj:", newValueObj);
+                    const newValueObj = row.newValue ? JSON.parse(row.newValue) : {};
                     return newValueObj.nameApp || "";
                 },
             },
@@ -253,7 +246,7 @@ export default function LogActivityTable() {
                 header: "URL",
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) => {
-                    const newValueObj = row.new_value ? JSON.parse(row.new_value) : {};
+                    const newValueObj = row.newValue ? JSON.parse(row.newValue) : {};
                     return newValueObj.urlApp || "";
                 },
             },
@@ -262,7 +255,7 @@ export default function LogActivityTable() {
                 header: "LOGO",
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) => {
-                    const newValueObj = row.new_value ? JSON.parse(row.new_value) : {};
+                    const newValueObj = row.newValue ? JSON.parse(row.newValue) : {};
                     return newValueObj.image_name || "";
                 },
             },
@@ -271,17 +264,14 @@ export default function LogActivityTable() {
                 header: "STATUS",
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) => {
-                    const newValueObj = row.new_value ? JSON.parse(row.new_value) : {};
+                    const newValueObj = row.newValue ? JSON.parse(row.newValue) : {};
                     return newValueObj.isActive ? "Active" : "Inactive";
                 },
             },
         ];
-    
+
         return [...dataChanged];
     }, [logActivities]);
-    
-    
-
 
     const handleDeleteFilteredApp = (selectedAppId) => {
         setAppOpt(appOpt.filter((app) => app[0] !== selectedAppId));
@@ -369,24 +359,19 @@ export default function LogActivityTable() {
                     setFilterDate={handleDateFilter}
                 />
                 <ModalDataAdd
-                    open={openModal}
-                    setOpen={setOpenModal}
-                    titleForm={selectedUser ? selectedUser.action : 'logaction'}
+                    open={openAddModal}
+                    setOpen={setOpenAddModal}
+                    titleForm={selectedUser?.action || 'logaction'}
                     selectedUser={selectedUser}
+                    columns={colsadd}
                 />
 
-                {/* New DataTable for Applications */}
-                <DataTable
-                    rowCount={pagination.totalRecords}
-                    onRowClick={handleRowClick}
-                    data={logActivities.data}
+                <ModalDataChange 
+                    open={openEditModal}
+                    setOpen={setOpenEditModal}
+                    titleForm={selectedUser?.action || 'logaction'}
+                    selectedUser={selectedUser}
                     columns={colsadd}
-                    filterApp={roleOpt}
-                    pageindex={page}
-                    pageCount={totalPage}
-                    pageSize={pageSize}
-                    pageChange={(pageindex) => handlePageChange(pageindex + 1)}
-                    
                 />
             </>
         );

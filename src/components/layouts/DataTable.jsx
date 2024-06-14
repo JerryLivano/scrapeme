@@ -186,6 +186,7 @@ export default function DataTable({
 
                     {/* ShowFilter */}
                     <div className='w-full inline-flex items-center py-2 bg-slate-100 mb-3 border-t-2 border-slate-200'>
+
                         <div className='ml-4 mr-2 text-lg'>
                             Filters
                             <span className='border-r-2 ml-3 border-black'></span>
@@ -220,7 +221,8 @@ export default function DataTable({
 
                             {/* Application */}
                             <div className='inline-flex gap-x-1'>
-                                {filterApp.length > 0 &&
+                                {filterApp && 
+                                    filterApp.length > 0 &&
                                     filterApp.map((item) => {
                                         return (
                                             <div className='border-2 border-slate-300 inline-flex h-fit rounded-xl'>

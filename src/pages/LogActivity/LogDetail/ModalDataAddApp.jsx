@@ -1,11 +1,16 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/solid";
+import { useState } from "react";
 import { Fragment } from "react";
+import DataTable from "../../../components/layouts/DataTable";
 
-export default function FormModal({ open, setOpen, titleForm, children }) {
+export default function ModalDataAdd({ open, setOpen, titleForm, children, columns, data, selectedUser }) {
+
+    const [roleOpt, setRoleOpt] = useState([]);
+    // console.log('Modal selectedUser data:', selectedUser);
     return (
         <Transition.Root show={open} as={Fragment}>
-            <Dialog as={"div"} className={"relative z-[60]"} onClose={() => {}}>
+            <Dialog as={"div"} className={"relative z-[60]"} onClose={() => setOpen(false)}>
                 <Transition.Child
                     as={Fragment}
                     enter='ease-out duration-300'
@@ -29,9 +34,9 @@ export default function FormModal({ open, setOpen, titleForm, children }) {
                             leaveFrom='opacity-100 translate-y-0 sm:scale-100'
                             leaveTo='opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'
                         >
-                            <Dialog.Panel className='relative overflow-visible rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:p-6'>
-                                <div className='mx-5 mb-2 flex items-start justify-between rounded-t border-b border-solid border-[#E1E3EA] pb-6 pt-3 '>
-                                    <h3 className='text-xl font-semibold text-[#181C32]'>
+                            <Dialog.Panel className='relative overflow-visible rounded-lg bg-white px-4 pb-4 pt-5 shadow-xl transition-all sm:my-8 sm:p-6'>
+                                <div className='mx-5 mb-2 flex justify-between rounded-t border-b border-solid border-[#E1E3EA] pb-6 pt-3 '>
+                                    <h3 className='text-xl w-full text-center font-semibold text-[#181C32]'>
                                         {titleForm}
                                     </h3>
                                     <button
@@ -43,6 +48,28 @@ export default function FormModal({ open, setOpen, titleForm, children }) {
                                 </div>
                                 {/*body*/}
                                 {children}
+                            
+                                <div className='mt-4'>
+                                    <div className="font-normal text-start">
+                                        Old Data
+                                    </div>
+                                    <DataTable
+                                        rowCount={selectedUser.data?.length || 0}
+                                        data={selectedUser.data || []}
+                                        columns={columns}
+                                    />
+                                </div>
+                                <div className='mt-4'>
+                                    <div className="font-normal text-start">
+                                        Recent Data
+                                    </div>
+                                    <DataTable
+                                        rowCount={selectedUser.data?.length || 0}
+                                        data={selectedUser.data || []}
+                                        columns={columns}
+                                    />
+                                </div>
+                                
                             </Dialog.Panel>
                         </Transition.Child>
                     </div>
