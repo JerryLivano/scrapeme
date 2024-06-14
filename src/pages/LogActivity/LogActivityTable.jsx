@@ -1,12 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
 import { useGetLogActivityQuery } from "../../services/logActivityApiSlice";
 import { useGetRoleQuery } from "../../services/roleApi.Slice";
+import { useGetApplicationQuery } from "../../services/applicationApiSlice";
 import Spinner from "../../components/elements/Spinner/Spinner";
 import DataTable from "../../components/layouts/DataTable";
 import uuid from "react-uuid";
-import { useGetApplicationQuery } from "../../services/applicationApiSlice";
+import ModalDataAdd from "./LogDetail/ModalDataAdd";
+import ButtonDetail from "../../components/elements/Button/ButtonDetail";
 
-export default function LogActivityTable({}) {
+export default function LogActivityTable() {
     let content;
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(10);
@@ -15,6 +17,8 @@ export default function LogActivityTable({}) {
     const [date, setDate] = useState({});
     const [selectedRoleId, setSelectedRoleId] = useState("");
     const [isEmployee, setIsEmployee] = useState(true);
+    const [openModal, setOpenModal] = useState(false);
+    const [selectedUser, setSelectedUser] = useState(null); 
 
     // Filter App
     const [appOpt, setAppOpt] = useState([]);
@@ -91,7 +95,7 @@ export default function LogActivityTable({}) {
                       cell: (row) => row.renderValue(),
                       accessorFn: (row) =>
                           formatDateTime(row.createdDate) || "",
-                  },
+                  },  
               ]
             : [
                   {
@@ -100,6 +104,29 @@ export default function LogActivityTable({}) {
                       cell: (row) => row.renderValue(),
                       accessorFn: (row) => row.action || "",
                   },
+                  {
+                      id: uuid(),
+                      header: "Date Modified",
+                      cell: (row) => row.renderValue(),
+                      accessorFn: (row) => row.createdDate || "",
+                  },
+                  {
+                    id: uuid(),
+                    header: "Detail",
+                    cell: (row) => (
+                        <div className='w-full'>
+                            <ButtonDetail
+                                type={"button"}
+                                className={"w-24"}
+                                onClick={() => {
+                                    setOpenModal(true);
+                                    setSelectedUser(row);
+                                }}
+                            />
+                        </div>
+                    ),
+                },
+                  
               ];
 
         return [...staticColumns, ...dynamicColumns];
@@ -142,8 +169,26 @@ export default function LogActivityTable({}) {
                 );
                 setSelectedRoleId(employeeRole[0].id);
             }
+            // const adminRole = roles.data.filter((role) =>
+            //     role.roleName.toLowerCase().includes("admin")
+            // );
+            // if (adminRole) {
+            //     setRoleOpt(
+            //         adminRole.map((role) => [
+            //             role.id,
+            //             role.roleName.charAt(5).toUpperCase() +
+            //                 role.roleName.slice(6).toLowerCase(),
+            //         ])
+            //     );
+            //     setSelectedRoleId(adminRole[0].id);
+            // }
         }
     }, [roles]);
+
+    const handleRowClick = (user) => {
+        setSelectedUser(user); 
+        setOpenModal(true); 
+    };
 
     const handleRoleSelect = (selectedRole) => {
         if (roleOpt[0][0] !== selectedRole[0]) {
@@ -176,7 +221,67 @@ export default function LogActivityTable({}) {
         isSuccess: applicationSuccess,
         isError: applicationError,
         isLoading: applicationLoading,
-    } = useGetApplicationQuery({ page: 1, limit: 100 });
+    } = useGetApplicationQuery(
+        { 
+            page: 1, 
+            limit: 100, 
+        }
+    );
+    
+    const colsadd = useMemo(() => {
+        const dataChanged = [
+            {
+                id: uuid(),
+                header: "",
+                cell: (row) => row.renderValue(),
+                accessorFn: (row) => row.no || "",
+            },
+            {
+                id: uuid(),
+                header: "AppName",
+                cell: (row) => row.renderValue(),
+                accessorFn: (row) => {
+                    console.log("row", row);
+                    console.log("row.new_value:", row.new_value);
+                    const newValueObj = row.new_value ? JSON.parse(row.new_value) : {};
+                    console.log("newValueObj:", newValueObj);
+                    return newValueObj.nameApp || "";
+                },
+            },
+            {
+                id: uuid(),
+                header: "URL",
+                cell: (row) => row.renderValue(),
+                accessorFn: (row) => {
+                    const newValueObj = row.new_value ? JSON.parse(row.new_value) : {};
+                    return newValueObj.urlApp || "";
+                },
+            },
+            {
+                id: uuid(),
+                header: "LOGO",
+                cell: (row) => row.renderValue(),
+                accessorFn: (row) => {
+                    const newValueObj = row.new_value ? JSON.parse(row.new_value) : {};
+                    return newValueObj.image_name || "";
+                },
+            },
+            {
+                id: uuid(),
+                header: "STATUS",
+                cell: (row) => row.renderValue(),
+                accessorFn: (row) => {
+                    const newValueObj = row.new_value ? JSON.parse(row.new_value) : {};
+                    return newValueObj.isActive ? "Active" : "Inactive";
+                },
+            },
+        ];
+    
+        return [...dataChanged];
+    }, [logActivities]);
+    
+    
+
 
     const handleDeleteFilteredApp = (selectedAppId) => {
         setAppOpt(appOpt.filter((app) => app[0] !== selectedAppId));
@@ -262,6 +367,26 @@ export default function LogActivityTable({}) {
                     showFilterDate
                     filterDate={date}
                     setFilterDate={handleDateFilter}
+                />
+                <ModalDataAdd
+                    open={openModal}
+                    setOpen={setOpenModal}
+                    titleForm={selectedUser ? selectedUser.action : 'logaction'}
+                    selectedUser={selectedUser}
+                />
+
+                {/* New DataTable for Applications */}
+                <DataTable
+                    rowCount={pagination.totalRecords}
+                    onRowClick={handleRowClick}
+                    data={logActivities.data}
+                    columns={colsadd}
+                    filterApp={roleOpt}
+                    pageindex={page}
+                    pageCount={totalPage}
+                    pageSize={pageSize}
+                    pageChange={(pageindex) => handlePageChange(pageindex + 1)}
+                    
                 />
             </>
         );

@@ -396,7 +396,7 @@ export default function FormEditApplication({
                         setOpenModal={setShowUpdateApplication}
                         typeButton={"submit"}
                     />
-
+                    
                     <FormModal
                         open={openImageModal}
                         setOpen={setOpenImageModal}
@@ -410,7 +410,7 @@ export default function FormEditApplication({
                             )}
                         </div>
                     </FormModal>
-
+                    
                     {modalOpen && (
                         <ImageCropper
                             file={logoFile}
