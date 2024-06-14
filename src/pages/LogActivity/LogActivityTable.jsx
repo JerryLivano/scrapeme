@@ -6,9 +6,11 @@ import { Button } from "../../components";
 import Spinner from "../../components/elements/Spinner/Spinner";
 import DataTable from "../../components/layouts/DataTable";
 import uuid from "react-uuid";
-import ModalDataAdd from "./LogDetail/ModalDataAddApp";
 import ButtonDetail from "../../components/elements/Button/ButtonDetail";
-import ModalDataChange from "./LogDetail/ModalDataManageAPp";
+import InputCheckbox from "../../components/elements/Input/InputCheckbox";
+import ModalDataManageUser from "./LogDetail/ModalDataManageUser";
+import ModalDataManageApp from "./LogDetail/ModalDataManageAPp";
+import ModalDataAddApp from "./LogDetail/ModalDataAddApp";
 
 export default function LogActivityTable() {
     let content;
@@ -19,8 +21,9 @@ export default function LogActivityTable() {
     const [date, setDate] = useState({});
     const [selectedRoleId, setSelectedRoleId] = useState("");
     const [isEmployee, setIsEmployee] = useState(true);
-    const [openEditModal, setOpenEditModal] = useState(false);
-    const [openAddModal, setOpenAddModal] = useState(false);
+    const [openEditAppModal, setOpenEditAppModal] = useState(false);
+    const [openAddModal, setOpenAddAppModal] = useState(false);
+    const [openEditUserModal, setOpenEditUserModal] = useState(false);
     const [selectedUser, setSelectedUser] = useState({});
 
     // Filter App
@@ -81,11 +84,13 @@ export default function LogActivityTable() {
         const handleDetailModal = (action) => {
             // Logic to open modal based on row.action
             if (action === "EDIT_APPLICATION") {
-                setOpenEditModal(true);
+                setOpenEditAppModal(true);
                 
             } else if (action === "ADD_APPLICATION"){
-                setOpenAddModal(true); 
-            }
+                setOpenAddAppModal(true); 
+            } else if (action === "EDIT_USER"){
+                setOpenEditUserModal(true); 
+            } 
         };
 
         const dynamicColumns = isEmployee
@@ -224,7 +229,7 @@ export default function LogActivityTable() {
         }
     );
 
-    const colsadd = useMemo(() => {
+    const colsapp = useMemo(() => {
         const dataChanged = [
             {
                 id: uuid(),
@@ -272,6 +277,64 @@ export default function LogActivityTable() {
 
         return [...dataChanged];
     }, [logActivities]);
+
+
+    const colsuser = useMemo(() => {
+        const staticColumns = [
+            {
+                id: uuid(),
+                header: "",
+                cell: (row) => row.renderValue(),
+                accessorFn: (row) => row.no || "",
+            },
+            {
+                id: uuid(),
+                header: "Name",
+                isBlack: true,
+                cell: (row) => row.renderValue(),
+                accessorFn: (row) => row.name || "",
+            },
+            {
+                id: uuid(),
+                header: "Email",
+                cell: (row) => row.renderValue(),
+                accessorFn: (row) => row.email || "",
+            },
+            {
+                id: uuid(),
+                header: "NIK",
+                cell: (row) => row.renderValue(),
+                accessorFn: (row) => row.nik || "",
+            },
+            {
+                id: uuid(),
+                header: "Role",
+                cell: (row) => row.renderValue(),
+                accessorFn: (row) =>
+                    row.roleName.charAt(5).toUpperCase() +
+                        row.roleName.slice(6).toLowerCase() || "",
+            },
+        ];
+
+        const dynamicColumnObjects = applications
+            ? applications.data.map((app) => ({
+                  id: uuid(),
+                  header: app.name,
+                  cell: (row) => row.renderValue(),
+                  accessorFn: (row) => (
+                      <InputCheckbox
+                          value={app.name}
+                          app={row.authorizedApplications.map(
+                              (application) => application.name
+                          )}
+                      />
+                  ),
+              }))
+            : [];
+
+        return [...staticColumns, ...dynamicColumnObjects];
+    }, [applications]);
+
 
     const handleDeleteFilteredApp = (selectedAppId) => {
         setAppOpt(appOpt.filter((app) => app[0] !== selectedAppId));
@@ -358,20 +421,28 @@ export default function LogActivityTable() {
                     filterDate={date}
                     setFilterDate={handleDateFilter}
                 />
-                <ModalDataAdd
+                <ModalDataAddApp
                     open={openAddModal}
-                    setOpen={setOpenAddModal}
+                    setOpen={setOpenAddAppModal}
                     titleForm={selectedUser?.action || 'logaction'}
                     selectedUser={selectedUser}
-                    columns={colsadd}
+                    columns={colsapp}
                 />
 
-                <ModalDataChange 
-                    open={openEditModal}
-                    setOpen={setOpenEditModal}
+                <ModalDataManageApp
+                    open={openEditAppModal}
+                    setOpen={setOpenEditAppModal}
                     titleForm={selectedUser?.action || 'logaction'}
                     selectedUser={selectedUser}
-                    columns={colsadd}
+                    columns={colsapp}
+                />
+
+                <ModalDataManageUser 
+                    open={openEditUserModal}
+                    setOpen={setOpenEditUserModal}
+                    titleForm={selectedUser?.action || 'logaction'}
+                    selectedUser={selectedUser}
+                    columns={colsuser}
                 />
             </>
         );
