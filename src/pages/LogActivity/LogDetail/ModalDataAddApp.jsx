@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Fragment } from "react";
 import DataTable from "../../../components/layouts/DataTable";
 
-export default function ModalDataAddApp({ open, setOpen, titleForm, children, columns, data, selectedUser }) {
+export default function ModalDataManageApp({ open, setOpen, titleForm, children, columns, data, selectedUser }) {
 
     const [roleOpt, setRoleOpt] = useState([]);
     // console.log('Modal selectedUser data:', selectedUser);
@@ -50,19 +50,6 @@ export default function ModalDataAddApp({ open, setOpen, titleForm, children, co
                                 {children}
                             
                                 <div className='mt-4'>
-                                    <div className="font-normal text-start">
-                                        Old Data
-                                    </div>
-                                    <DataTable
-                                        rowCount={selectedUser.data?.length || 0}
-                                        data={selectedUser.data || []}
-                                        columns={columns}
-                                    />
-                                </div>
-                                <div className='mt-4'>
-                                    <div className="font-normal text-start">
-                                        Recent Data
-                                    </div>
                                     <DataTable
                                         rowCount={selectedUser.data?.length || 0}
                                         data={selectedUser.data || []}

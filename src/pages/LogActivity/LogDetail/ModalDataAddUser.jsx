@@ -50,9 +50,6 @@ export default function ModalDataAddUser({ open, setOpen, titleForm, children, c
                                 {children}
                             
                                 <div className='mt-4'>
-                                    <div className="font-normal text-start">
-                                        Old Data
-                                    </div>
                                     <DataTable
                                         rowCount={selectedUser.data?.length || 0}
                                         data={selectedUser.data || []}
