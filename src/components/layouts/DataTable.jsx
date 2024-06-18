@@ -9,11 +9,13 @@ import Spinner from "../elements/Spinner/Spinner";
 import DataTablePagination from "./DataTablePagination";
 import DropdownInput from "../elements/Input/DropdownInput";
 import ButtonPlus from "../elements/Button/ButtonPlus";
+import { Controller } from "react-hook-form";
 import FilterSearchTable from "../fragments/Filter/FIlterSearchTable";
 import ButtonDelete from "../elements/Button/ButtonDelete";
 import MultiDropdown from "../elements/Input/MultiDropdown";
 import DropdownPageInput from "../elements/Input/DropdownPageInput";
 import RangeDatePickerInput from "../fragments/Filter/RangeDatePickerInput";
+import Datepicker from "react-tailwindcss-datepicker";
 export const TableScrollEvent = createContext(null);
 export const TableRef = createContext(null);
 
@@ -101,7 +103,7 @@ export default function DataTable({
                             </div>
                         </div>
                     )}
-                    <div className='flex justify-between items-center w-full mb-2'>
+                    <div className='flex justify-between items-center mt-6 mb-2'>
                         {/* Search */}
                         <div className='flex items-center'>
                             {showGlobalFilter && (
@@ -138,19 +140,21 @@ export default function DataTable({
                                 </div>
                             )}
                         </div>
-                        <div className='flex items-center justify-end'>
+                        <div className='flex items-center'>
                             {/* Date Picker */}
-                            {showFilterDate && (
-                                <div className='flex items-center w-[220px]'>
+                            {showFilterDate ? (
+                                <div className='flex items-center'>
                                     <RangeDatePickerInput
-                                        className='w-full'
+                                        className='h-full'
                                         displayFormat={"DD/MM/YYYY"}
                                         value={filterDate}
                                         onChange={setFilterDate}
                                         placeholder='Date'
+                                        showFooter
+                                        showShortcuts
                                     />
                                 </div>
-                            )}
+                            ): null }
                             {/* Add Button */}
                             {showAddButton && (
                                 <div className='flex ml-3'>

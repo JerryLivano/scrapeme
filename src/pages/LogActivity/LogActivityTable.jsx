@@ -3,6 +3,7 @@ import { useGetLogActivityQuery } from "../../services/logActivityApiSlice";
 import { useGetRoleQuery } from "../../services/roleApi.Slice";
 import { useGetApplicationQuery } from "../../services/applicationApiSlice";
 import { Button } from "../../components";
+// import {Daterangetype} from "react-tailwindcss-datepicker";
 import Spinner from "../../components/elements/Spinner/Spinner";
 import DataTable from "../../components/layouts/DataTable";
 import uuid from "react-uuid";
@@ -36,6 +37,7 @@ export default function LogActivityTable() {
     const {
         data: logActivities,
         isLoading: logLoading,
+        // control,
         isSuccess: logSuccess,
         isError: logError,
     } = useGetLogActivityQuery(
@@ -397,6 +399,7 @@ export default function LogActivityTable() {
                     columns={cols}
                     showPageSize
                     showGlobalFilter
+                    showFilterDate
                     showPagination
                     searchQuery={search}
                     searchHandler={handleSearchChange}
@@ -417,10 +420,12 @@ export default function LogActivityTable() {
                     handleDeleteFilteredApp={(app) =>
                         handleDeleteFilteredApp(app)
                     }
-                    showFilterDate
                     filterDate={date}
                     setFilterDate={handleDateFilter}
                 />
+
+
+
                 <ModalDataAddApp
                     open={openAddModal}
                     setOpen={setOpenAddAppModal}
