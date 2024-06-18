@@ -399,6 +399,7 @@ export default function LogActivityTable() {
                     columns={cols}
                     showPageSize
                     showGlobalFilter
+                    showFilter
                     showFilterDate
                     showPagination
                     searchQuery={search}

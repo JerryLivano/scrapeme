@@ -243,6 +243,7 @@ export default function UserTable() {
                     showGlobalFilter
                     showPagination
                     showAddButton
+                    showFilter
                     searchQuery={search}
                     searchHandler={handleSearchChange}
                     placeholder={"Search by name or email..."}

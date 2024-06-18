@@ -35,6 +35,7 @@ export default function DataTable({
     onClickAdd = () => {},
     showPagination = false,
     showPageSize = false,
+    showFilter = false,
     showTitle = false,
     filterFn = filterFns.fuzzy,
     pageCount,
@@ -188,13 +189,17 @@ export default function DataTable({
                         </div>
                     </div>
 
+                    
                     {/* ShowFilter */}
+                    {showFilter ? (
                     <div className='w-full inline-flex items-center py-2 bg-slate-100 mb-3 border-t-2 border-slate-200'>
-
+                    
+                    
                         <div className='ml-4 mr-2 text-lg'>
                             Filters
                             <span className='border-r-2 ml-3 border-black'></span>
                         </div>
+                    
 
                         <div className='inline-flex gap-x-1'>
                             {/* Role */}
@@ -246,6 +251,9 @@ export default function DataTable({
                             </div>
                         </div>
                     </div>
+                    ) : null}
+
+                    
                     <div className='min-w-full overflow-hidden'>
                         <div
                             className='w-full overflow-x-auto overflow-y-visible'
