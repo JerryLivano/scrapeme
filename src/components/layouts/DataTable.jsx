@@ -104,7 +104,7 @@ export default function DataTable({
                             </div>
                         </div>
                     )}
-                    <div className='flex justify-between items-center mt-6 mb-2'>
+                    <div className='flex justify-between items-center mt-2 mb-2'>
                         {/* Search */}
                         <div className='flex items-center'>
                             {showGlobalFilter && (
