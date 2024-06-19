@@ -21,6 +21,7 @@ export default function FormModalEditUser({
 }) {
     const [authApp, setAuthApp] = useState([]);
     const [errorSelectApp, setErrorSelectApp] = useState(false);
+    const statusOptions = ["Active", "Inactive"];
 
     const {
         register,
@@ -37,6 +38,7 @@ export default function FormModalEditUser({
             name: user.name,
             nik: user.nik,
             roleId: user.roleId,
+            isActive: user.isActive,
             authApp: user.authorizedApplications,
         },
     });
@@ -48,6 +50,7 @@ export default function FormModalEditUser({
             setValue("nik", user.nik);
             setValue("roleId", user.roleId);
             setValue("authApp", user.authorizedApplications);
+            setValue("isActive", user.isActive);
             setAuthApp(user.authorizedApplications);
         }
     }, [user, open, setValue]);
@@ -74,7 +77,8 @@ export default function FormModalEditUser({
                 const request = {
                     accountId: user.accountId,
                     roleId: data.roleId,
-                    authorizedApplications: authApp.map((app) => app.name),
+                    isActive: data.isActive,
+                    authorizedApplications: authApp.map((app) => app.id),
                 };
                 await updateUser(request).unwrap();
                 toastSuccess({ message: "Successfully updated User" });
@@ -137,6 +141,30 @@ export default function FormModalEditUser({
                             >
                                 {role.roleName.charAt(5).toUpperCase() +
                                     role.roleName.slice(6).toLowerCase()}
+                            </option>
+                        ))}
+                    </ModalDropdownInput>
+
+                    {/* Status */}
+                    <ModalDropdownInput
+                        required
+                        label={"Status"}
+                        onChange={(e) => {
+                            setValue("isActive", e.target.value === "Active");
+                        }}
+                        errors={errorsForm.isActive?.message}
+                    >
+                        {statusOptions.map((option) => (
+                            <option
+                                key={option}
+                                value={option}
+                                selected={
+                                    watch("isActive")
+                                        ? option === "Active"
+                                        : option === "Inactive"
+                                }
+                            >
+                                {option}
                             </option>
                         ))}
                     </ModalDropdownInput>

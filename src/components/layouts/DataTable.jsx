@@ -15,7 +15,6 @@ import ButtonDelete from "../elements/Button/ButtonDelete";
 import MultiDropdown from "../elements/Input/MultiDropdown";
 import DropdownPageInput from "../elements/Input/DropdownPageInput";
 import RangeDatePickerInput from "../fragments/Filter/RangeDatePickerInput";
-import Datepicker from "react-tailwindcss-datepicker";
 export const TableScrollEvent = createContext(null);
 export const TableRef = createContext(null);
 
@@ -54,7 +53,12 @@ export default function DataTable({
     handleDeleteFilteredRole = () => {},
     showFilterDate = false,
     filterDate,
-    setFilterDate
+    setFilterDate,
+    // status
+    showFilterStatus = false,
+    filterStatus,
+    setFilterStatus,
+    filterStatusOptions,
 }) {
     const [globalFilter, setGlobalFilter] = useState("");
     const onScrollSubscriber = useRef([]);
@@ -131,13 +135,32 @@ export default function DataTable({
                             )}
                             {/* {filterApp} */}
                             {showFilterApp && (
-                                <div className='flex items-center'>
+                                <div className='flex items-center mr-2'>
                                     <MultiDropdown
                                         options={filterAppOptions}
                                         filteredOpt={filterApp}
                                         placeholder={"Applications"}
                                         setFilter={setFilterApp}
                                     />
+                                </div>
+                            )}
+                            {/* Status */}
+                            {showFilterStatus && (
+                                <div className='flex items-center'>
+                                    <DropdownInput
+                                        value={filterStatus}
+                                        onChange={setFilterStatus}
+                                        className={"max-w-fit"}
+                                    >
+                                        {filterStatusOptions.map((option) => (
+                                            <option
+                                                key={option.value}
+                                                value={option.value}
+                                            >
+                                                {option.label}
+                                            </option>
+                                        ))}
+                                    </DropdownInput>
                                 </div>
                             )}
                         </div>
@@ -155,7 +178,7 @@ export default function DataTable({
                                         showShortcuts
                                     />
                                 </div>
-                            ): null }
+                            ) : null}
                             {/* Add Button */}
                             {showAddButton && (
                                 <div className='flex ml-3'>
@@ -189,71 +212,65 @@ export default function DataTable({
                         </div>
                     </div>
 
-                    
                     {/* ShowFilter */}
                     {showFilter ? (
-                    <div className='w-full inline-flex items-center py-2 bg-slate-100 mb-3 border-t-2 border-slate-200'>
-                    
-                    
-                        <div className='ml-4 mr-2 text-lg'>
-                            Filters
-                            <span className='border-r-2 ml-3 border-black'></span>
-                        </div>
-                    
-
-                        <div className='inline-flex gap-x-1'>
-                            {/* Role */}
-                            <div className='inline-flex gap-x-1'>
-                                {filterRole &&
-                                    filterRole.length > 0 &&
-                                    filterRole.map((item) => {
-                                        // console.log(filterRole);
-                                        return (
-                                            <div
-                                                key={item[0]}
-                                                className='border-2 border-slate-300 inline-flex h-fit rounded-xl'
-                                            >
-                                                <div className='mx-4 w-full'>
-                                                    {item[1]}
-                                                </div>
-                                                <ButtonDelete
-                                                    onClick={() => {
-                                                        handleDeleteFilteredRole(
-                                                            item[0]
-                                                        );
-                                                    }}
-                                                />
-                                            </div>
-                                        );
-                                    })}
+                        <div className='w-full inline-flex items-center py-2 bg-slate-100 mb-3 border-t-2 border-slate-200'>
+                            <div className='ml-4 mr-2 text-lg'>
+                                Filters
+                                <span className='border-r-2 ml-3 border-black'></span>
                             </div>
 
-                            {/* Application */}
                             <div className='inline-flex gap-x-1'>
-                                {filterApp && 
-                                    filterApp.length > 0 &&
-                                    filterApp.map((item) => {
-                                        return (
-                                            <div className='border-2 border-slate-300 inline-flex h-fit rounded-xl'>
-                                                <div className='mx-4 w-full'>
-                                                    {item[1]}
+                                {/* Role */}
+                                <div className='inline-flex gap-x-1'>
+                                    {filterRole &&
+                                        filterRole.length > 0 &&
+                                        filterRole.map((item) => {
+                                            return (
+                                                <div
+                                                    key={item[0]}
+                                                    className='border-2 border-slate-300 inline-flex h-fit rounded-xl'
+                                                >
+                                                    <div className='mx-4 w-full'>
+                                                        {item[1]}
+                                                    </div>
+                                                    <ButtonDelete
+                                                        onClick={() => {
+                                                            handleDeleteFilteredRole(
+                                                                item[0]
+                                                            );
+                                                        }}
+                                                    />
                                                 </div>
-                                                <ButtonDelete
-                                                    onClick={() => {
-                                                        handleDeleteFilteredApp(
-                                                            item[0]
-                                                        );
-                                                    }}
-                                                />
-                                            </div>
-                                        );
-                                    })}
+                                            );
+                                        })}
+                                </div>
+
+                                {/* Application */}
+                                <div className='inline-flex gap-x-1'>
+                                    {filterApp &&
+                                        filterApp.length > 0 &&
+                                        filterApp.map((item) => {
+                                            return (
+                                                <div className='border-2 border-slate-300 inline-flex h-fit rounded-xl'>
+                                                    <div className='mx-4 w-full'>
+                                                        {item[1]}
+                                                    </div>
+                                                    <ButtonDelete
+                                                        onClick={() => {
+                                                            handleDeleteFilteredApp(
+                                                                item[0]
+                                                            );
+                                                        }}
+                                                    />
+                                                </div>
+                                            );
+                                        })}
+                                </div>
                             </div>
                         </div>
-                    </div>
                     ) : null}
 
-                    
                     <div className='min-w-full overflow-hidden'>
                         <div
                             className='w-full overflow-x-auto overflow-y-visible'
