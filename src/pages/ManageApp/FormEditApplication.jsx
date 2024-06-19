@@ -240,7 +240,7 @@ export default function FormEditApplication({
                             <div className='flex h-full w-full items-center justify-between'>
                                 <div className='w-2/5 font-semibold text-lg'>
                                     <label htmlFor='logo'>
-                                        
+                                        Logo
                                     </label>
                                 </div>
                                 {isDropzone ? (

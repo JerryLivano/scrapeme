@@ -7,7 +7,6 @@ import DataTable from "../../../components/layouts/DataTable";
 export default function ModalDataAddApp({ open, setOpen, titleForm, children, columns, data, selectedUser }) {
 
     const [roleOpt, setRoleOpt] = useState([]);
-    // console.log('Modal selectedUser data:', selectedUser);
     return (
         <Transition.Root show={open} as={Fragment}>
             <Dialog as={"div"} className={"relative z-[60]"} onClose={() => setOpen(false)}>

@@ -4,10 +4,7 @@ import { useState } from "react";
 import { Fragment } from "react";
 import DataTable from "../../../components/layouts/DataTable";
 
-export default function ModalDataManageApp({ open, setOpen, titleForm, children, columns, data, selectedUser }) {
-
-    const [roleOpt, setRoleOpt] = useState([]);
-    // console.log('Modal selectedUser data:', selectedUser);
+export default function ModalDataManageApp({ open, setOpen, titleForm, children, columns, selectedUser }) {
     return (
         <Transition.Root show={open} as={Fragment}>
             <Dialog as={"div"} className={"relative z-[60]"} onClose={() => setOpen(false)}>

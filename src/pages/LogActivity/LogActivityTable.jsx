@@ -82,17 +82,15 @@ export default function LogActivityTable() {
             },
         ];
 
-
         const handleDetailModal = (action) => {
             // Logic to open modal based on row.action
             if (action === "EDIT_APPLICATION") {
                 setOpenEditAppModal(true);
-                
-            } else if (action === "ADD_APPLICATION"){
-                setOpenAddAppModal(true); 
-            } else if (action === "EDIT_USER"){
-                setOpenEditUserModal(true); 
-            } 
+            } else if (action === "ADD_APPLICATION") {
+                setOpenAddAppModal(true);
+            } else if (action === "EDIT_USER") {
+                setOpenEditUserModal(true);
+            }
         };
 
         const dynamicColumns = isEmployee
@@ -123,7 +121,16 @@ export default function LogActivityTable() {
                       id: uuid(),
                       header: "Action",
                       cell: (row) => row.renderValue(),
-                      accessorFn: (row) => row.action || "",
+                      accessorFn: (row) => {
+                          return row.action
+                              .split("_")
+                              .map(
+                                  (word) =>
+                                      word.charAt(0).toUpperCase() +
+                                      word.slice(1)
+                              )
+                              .join(" ");
+                      },
                   },
                   {
                       id: uuid(),
@@ -132,28 +139,27 @@ export default function LogActivityTable() {
                       accessorFn: (row) => row.createdDate || "",
                   },
                   {
-                    id: uuid(),
-                    header: "Detail",
-                    cell: (row) => row.renderValue(),
-                    accessorFn: (row) => (
-                        <div className='w-full'>
-                            <ButtonDetail
-                                type={"button"}
-                                className={"w-24"}
-                                onClick={() => {
-                                    handleDetailModal(row.action);
-                                    setSelectedUser(row)
-                                }}
-                            />
-                        </div>
-                    ),
+                      id: uuid(),
+                      header: "Detail",
+                      cell: (row) => row.renderValue(),
+                      accessorFn: (row) => (
+                          <div className='w-full flex items-center justify-center'>
+                              <ButtonDetail
+                                  type={"button"}
+                                  className={"w-24"}
+                                  onClick={() => {
+                                      handleDetailModal(row.action);
+                                      setSelectedUser(row);
+                                  }}
+                              />
+                          </div>
+                      ),
                   },
               ];
 
         return [...staticColumns, ...dynamicColumns];
     }, [logActivities, selectedRoleId, isEmployee]);
 
-    
     const formatDateTime = (dateTime) => {
         const date = new Date(dateTime);
         const options = {
@@ -224,12 +230,10 @@ export default function LogActivityTable() {
         isSuccess: applicationSuccess,
         isError: applicationError,
         isLoading: applicationLoading,
-    } = useGetApplicationQuery(
-        {
-            page: 1,
-            limit: 100,
-        }
-    );
+    } = useGetApplicationQuery({
+        page: 1,
+        limit: 100,
+    });
 
     const colsapp = useMemo(() => {
         const dataChanged = [
@@ -244,7 +248,9 @@ export default function LogActivityTable() {
                 header: "AppName",
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) => {
-                    const newValueObj = row.newValue ? JSON.parse(row.newValue) : {};
+                    const newValueObj = row.newValue
+                        ? JSON.parse(row.newValue)
+                        : {};
                     return newValueObj.nameApp || "";
                 },
             },
@@ -253,7 +259,9 @@ export default function LogActivityTable() {
                 header: "URL",
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) => {
-                    const newValueObj = row.newValue ? JSON.parse(row.newValue) : {};
+                    const newValueObj = row.newValue
+                        ? JSON.parse(row.newValue)
+                        : {};
                     return newValueObj.urlApp || "";
                 },
             },
@@ -262,7 +270,9 @@ export default function LogActivityTable() {
                 header: "LOGO",
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) => {
-                    const newValueObj = row.newValue ? JSON.parse(row.newValue) : {};
+                    const newValueObj = row.newValue
+                        ? JSON.parse(row.newValue)
+                        : {};
                     return newValueObj.image_name || "";
                 },
             },
@@ -271,7 +281,9 @@ export default function LogActivityTable() {
                 header: "STATUS",
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) => {
-                    const newValueObj = row.newValue ? JSON.parse(row.newValue) : {};
+                    const newValueObj = row.newValue
+                        ? JSON.parse(row.newValue)
+                        : {};
                     return newValueObj.isActive ? "Active" : "Inactive";
                 },
             },
@@ -279,7 +291,6 @@ export default function LogActivityTable() {
 
         return [...dataChanged];
     }, [logActivities]);
-
 
     const colsuser = useMemo(() => {
         const staticColumns = [
@@ -336,7 +347,6 @@ export default function LogActivityTable() {
 
         return [...staticColumns, ...dynamicColumnObjects];
     }, [applications]);
-
 
     const handleDeleteFilteredApp = (selectedAppId) => {
         setAppOpt(appOpt.filter((app) => app[0] !== selectedAppId));
@@ -425,12 +435,10 @@ export default function LogActivityTable() {
                     setFilterDate={handleDateFilter}
                 />
 
-
-
                 <ModalDataAddApp
                     open={openAddModal}
                     setOpen={setOpenAddAppModal}
-                    titleForm={selectedUser?.action || 'logaction'}
+                    titleForm={selectedUser?.action}
                     selectedUser={selectedUser}
                     columns={colsapp}
                 />
@@ -438,15 +446,15 @@ export default function LogActivityTable() {
                 <ModalDataManageApp
                     open={openEditAppModal}
                     setOpen={setOpenEditAppModal}
-                    titleForm={selectedUser?.action || 'logaction'}
+                    titleForm={selectedUser?.action || "Log Action"}
                     selectedUser={selectedUser}
                     columns={colsapp}
                 />
 
-                <ModalDataManageUser 
+                <ModalDataManageUser
                     open={openEditUserModal}
                     setOpen={setOpenEditUserModal}
-                    titleForm={selectedUser?.action || 'logaction'}
+                    titleForm={selectedUser?.action || "Log Action"}
                     selectedUser={selectedUser}
                     columns={colsuser}
                 />
