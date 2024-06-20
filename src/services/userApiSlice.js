@@ -13,10 +13,11 @@ export const userApiSlice = apiSlice
                         page,
                         limit,
                         search,
-                        role
+                        role,
+                        isActive
                     } = args;
                     const appsParams = apps && apps.length > 0 ? apps.map((app) => `app=${app}`).join('&') : '';
-                    return `/user?${appsParams ? `${appsParams}&` : ''}search=${search}&page=${page}&limit=${limit}&role=${role}`;
+                    return `/user?${appsParams ? `${appsParams}&` : ''}search=${search}&page=${page}&limit=${limit}&role=${role}&isActive=${isActive}`;
                 },
                 providesTags: ["User"]
             }),

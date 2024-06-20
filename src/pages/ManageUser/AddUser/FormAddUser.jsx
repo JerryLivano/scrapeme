@@ -31,7 +31,6 @@ export default function FormAddUser() {
     const [addedUser, setAddedUser] = useState([]);
     const [selectedRoleId, setSelectedRoleId] = useState("");
     const [selectedApps, setSelectedApps] = useState([]);
-    const [showAddTemp, setShowAddTemp] = useState(false);
     const [showAddAllUser, setShowAddAllUser] = useState(false);
     const [alertColor, setAlertColor] = useState(false);
     const [emailNotFound, setEmailNotFound] = useState(false);
@@ -41,7 +40,7 @@ export default function FormAddUser() {
 
     const {
         register,
-        handleSubmit,
+        handleSubmit: handleSubmitUser,
         formState: { errors: formErrors },
         reset,
         watch,
@@ -59,8 +58,6 @@ export default function FormAddUser() {
         },
         mode: "onChange",
     });
-
-    const { handleSubmit: handleSubmitOpenModal } = useForm({});
 
     const { handleSubmit: handleSubmitOpenModalAllUser } = useForm({});
 
@@ -90,6 +87,7 @@ export default function FormAddUser() {
         limit: pageSize,
         search: "",
         role: "",
+        isActive: true
     });
 
     const [addUser] = useRegisterMutation();
@@ -134,21 +132,19 @@ export default function FormAddUser() {
     };
 
     const onSubmitAddedUser = (data) => {
+        console.log(users);
         if (data.email.trim() === "" || data.firstName.trim() === "") {
             setEmailNotFound(true);
-            setShowAddTemp(false);
             window.scrollTo(0, 0);
             return;
         } else if (selectedApps.length == 0) {
             setAlertColor(true);
-            setShowAddTemp(false);
             return;
         } else if (
             addedUser.some((user) => user.email === data.email) ||
             users.data.some((user) => user.email === data.email)
         ) {
             toastError({ message: "User already added." });
-            setShowAddTemp(false);
             return;
         }
 
@@ -166,9 +162,8 @@ export default function FormAddUser() {
             roleName: "",
             authorizedApplications: [],
         });
-        setAlertColor(false);
         setSelectedApps([]);
-        setShowAddTemp(false);
+        setAlertColor(false);
     };
 
     useEffect(() => {
@@ -231,8 +226,8 @@ export default function FormAddUser() {
                         <form
                             className='flex grow basis-2/3 flex-col gap-4'
                             onSubmit={(e) => {
-                                e.preventDefault(); 
-                                onSubmitAddedUser(watch()); 
+                                e.preventDefault();
+                                handleSubmitUser(onSubmitAddedUser)(e);
                             }}
                         >
                             <div className='border-b-2 w-full pl-6 py-8 items-center'>
@@ -314,7 +309,9 @@ export default function FormAddUser() {
                             <div className='w-full pl-6 py-8 items-center'>
                                 <div className='flex h-full w-full items-center justify-between'>
                                     <div className='w-2/5 font-semibold text-lg'>
-                                        <label htmlFor='logo'>Application Access</label>
+                                        <label htmlFor='logo'>
+                                            Application Access
+                                        </label>
                                     </div>
                                     <div className='w-full flex flex-col items-start font-light'>
                                         <div
@@ -347,14 +344,6 @@ export default function FormAddUser() {
                                 />
                             </div>
                         </form>
-                        <ModalConfirmAddData
-                            title={"Confirm Add Temporary User"}
-                            message={"Are you sure want to add user?"}
-                            onConfirmHandler={handleSubmit(onSubmitAddedUser)}
-                            openModal={showAddTemp}
-                            setOpenModal={setShowAddTemp}
-                            typeButton={"submit"}
-                        />
                     </div>
                 </div>
                 <hr />

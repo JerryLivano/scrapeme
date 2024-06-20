@@ -26,11 +26,13 @@ export default function UserTable() {
     const [showEditUser, setShowEditUser] = useState(false);
     const [selectedUser, setSelectedUser] = useState("");
 
+    const [status, setStatus] = useState("Active");
+
     const {
         data: applications,
         isLoading: applicationIsLoading,
         isError: applicationIsError,
-        isSuccess: applicationIsSuccess
+        isSuccess: applicationIsSuccess,
     } = useGetApplicationQuery({ page: 1, limit: 100 });
 
     const cols = useMemo(() => {
@@ -129,6 +131,7 @@ export default function UserTable() {
                     : roleOpt.length === 0
                     ? ""
                     : null,
+            isActive: status === "Active",
         },
         { refetchOnMountOrArgChange: true }
     );
@@ -212,6 +215,12 @@ export default function UserTable() {
         });
     };
 
+    // status
+    const handleStatus = (e) => {
+        setStatus(e.target.value);
+        setPage(1);
+    };
+
     if (
         isLoading ||
         isFetching ||
@@ -243,6 +252,7 @@ export default function UserTable() {
                     showGlobalFilter
                     showPagination
                     showAddButton
+                    showFilter
                     searchQuery={search}
                     searchHandler={handleSearchChange}
                     placeholder={"Search by name or email..."}
@@ -267,6 +277,13 @@ export default function UserTable() {
                     handleDeleteFilteredRole={(role) =>
                         handleDeleteFilteredRole(role)
                     }
+                    showFilterStatus
+                    filterStatus={status}
+                    setFilterStatus={handleStatus}
+                    filterStatusOptions={[
+                        { label: "Active", value: "Active" },
+                        { label: "Inactive", value: "Inactive" },
+                    ]}
                 />
 
                 <FormModalEditUser

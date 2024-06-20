@@ -9,10 +9,12 @@ import Spinner from "../elements/Spinner/Spinner";
 import DataTablePagination from "./DataTablePagination";
 import DropdownInput from "../elements/Input/DropdownInput";
 import ButtonPlus from "../elements/Button/ButtonPlus";
+import { Controller } from "react-hook-form";
 import FilterSearchTable from "../fragments/Filter/FIlterSearchTable";
 import ButtonDelete from "../elements/Button/ButtonDelete";
 import MultiDropdown from "../elements/Input/MultiDropdown";
 import DropdownPageInput from "../elements/Input/DropdownPageInput";
+import RangeDatePickerInput from "../fragments/Filter/RangeDatePickerInput";
 export const TableScrollEvent = createContext(null);
 export const TableRef = createContext(null);
 
@@ -32,6 +34,7 @@ export default function DataTable({
     onClickAdd = () => {},
     showPagination = false,
     showPageSize = false,
+    showFilter = false,
     showTitle = false,
     filterFn = filterFns.fuzzy,
     pageCount,
@@ -48,6 +51,14 @@ export default function DataTable({
     filterAppOptions,
     handleDeleteFilteredApp = () => {},
     handleDeleteFilteredRole = () => {},
+    showFilterDate = false,
+    filterDate,
+    setFilterDate,
+    // status
+    showFilterStatus = false,
+    filterStatus,
+    setFilterStatus,
+    filterStatusOptions,
 }) {
     const [globalFilter, setGlobalFilter] = useState("");
     const onScrollSubscriber = useRef([]);
@@ -97,7 +108,7 @@ export default function DataTable({
                             </div>
                         </div>
                     )}
-                    <div className='flex justify-between items-center w-full mb-2'>
+                    <div className='flex justify-between items-center mt-2 mb-2'>
                         {/* Search */}
                         <div className='flex items-center'>
                             {showGlobalFilter && (
@@ -124,7 +135,7 @@ export default function DataTable({
                             )}
                             {/* {filterApp} */}
                             {showFilterApp && (
-                                <div className='flex items-center'>
+                                <div className='flex items-center mr-2'>
                                     <MultiDropdown
                                         options={filterAppOptions}
                                         filteredOpt={filterApp}
@@ -133,104 +144,133 @@ export default function DataTable({
                                     />
                                 </div>
                             )}
+                            {/* Status */}
+                            {showFilterStatus && (
+                                <div className='flex items-center'>
+                                    <DropdownInput
+                                        value={filterStatus}
+                                        onChange={setFilterStatus}
+                                        className={"max-w-fit"}
+                                    >
+                                        {filterStatusOptions.map((option) => (
+                                            <option
+                                                key={option.value}
+                                                value={option.value}
+                                            >
+                                                {option.label}
+                                            </option>
+                                        ))}
+                                    </DropdownInput>
+                                </div>
+                            )}
                         </div>
                         <div className='flex items-center'>
-                            <div className='flex ml-3'>
-                                {/* Add Button */}
-                                {showAddButton && (
-                                    <span className='mr-3'>
-                                        <ButtonPlus
-                                            title={title}
-                                            onClick={onClickAdd}
-                                        />
-                                    </span>
-                                )}
-                                {/* Page Size */}
-                                {showPageSize && (
-                                    <div className='flex flex-row items-center'>
-                                        <DropdownPageInput
-                                            value={
-                                                table.getState().pagination
-                                                    .pageSize
-                                            }
-                                            onChange={(e) => {
-                                                setPageSize(
-                                                    Number(e.target.value)
-                                                );
-                                                pageChange(0);
-                                            }}
-                                            className='max-w-[70px]'
-                                        >
-                                            {[5, 10, 15, 20, 25].map(
-                                                (pageSize) => (
-                                                    <option key={pageSize}>
-                                                        {pageSize}
-                                                    </option>
-                                                )
-                                            )}
-                                        </DropdownPageInput>
-                                    </div>
-                                )}
-                            </div>
+                            {/* Date Picker */}
+                            {showFilterDate ? (
+                                <div className='flex items-center'>
+                                    <RangeDatePickerInput
+                                        className='h-full'
+                                        displayFormat={"DD/MM/YYYY"}
+                                        value={filterDate}
+                                        onChange={setFilterDate}
+                                        placeholder='Date'
+                                        showFooter
+                                        showShortcuts
+                                    />
+                                </div>
+                            ) : null}
+                            {/* Add Button */}
+                            {showAddButton && (
+                                <div className='flex ml-3'>
+                                    <ButtonPlus
+                                        title={title}
+                                        onClick={onClickAdd}
+                                    />
+                                </div>
+                            )}
+                            {/* Page Size */}
+                            {showPageSize && (
+                                <div className='flex flex-row ml-3 items-center'>
+                                    <DropdownPageInput
+                                        value={
+                                            table.getState().pagination.pageSize
+                                        }
+                                        onChange={(e) => {
+                                            setPageSize(Number(e.target.value));
+                                            pageChange(0);
+                                        }}
+                                        className='max-w-[70px]'
+                                    >
+                                        {[5, 10, 15, 20, 25].map((pageSize) => (
+                                            <option key={pageSize}>
+                                                {pageSize}
+                                            </option>
+                                        ))}
+                                    </DropdownPageInput>
+                                </div>
+                            )}
                         </div>
                     </div>
 
                     {/* ShowFilter */}
-                    <div className='w-full inline-flex items-center py-2 bg-slate-100 mb-3 border-t-2 border-slate-200'>
-                        <div className='ml-4 mr-2 text-lg'>
-                            Filters
-                            <span className='border-r-2 ml-3 border-black'></span>
-                        </div>
-
-                        <div className='inline-flex gap-x-1'>
-                            {/* Role */}
-                            <div className='inline-flex gap-x-1'>
-                                {filterRole &&
-                                    filterRole.length > 0 &&
-                                    filterRole.map((item) => {
-                                        // console.log(filterRole);
-                                        return (
-                                            <div
-                                                key={item[0]}
-                                                className='border-2 border-slate-300 inline-flex h-fit rounded-xl'
-                                            >
-                                                <div className='mx-4 w-full'>
-                                                    {item[1]}
-                                                </div>
-                                                <ButtonDelete
-                                                    onClick={() => {
-                                                        handleDeleteFilteredRole(
-                                                            item[0]
-                                                        );
-                                                    }}
-                                                />
-                                            </div>
-                                        );
-                                    })}
+                    {showFilter ? (
+                        <div className='w-full inline-flex items-center py-2 bg-slate-100 mb-3 border-t-2 border-slate-200'>
+                            <div className='ml-4 mr-2 text-lg'>
+                                Filters
+                                <span className='border-r-2 ml-3 border-black'></span>
                             </div>
 
-                            {/* Application */}
                             <div className='inline-flex gap-x-1'>
-                                {filterApp.length > 0 &&
-                                    filterApp.map((item) => {
-                                        return (
-                                            <div className='border-2 border-slate-300 inline-flex h-fit rounded-xl'>
-                                                <div className='mx-4 w-full'>
-                                                    {item[1]}
+                                {/* Role */}
+                                <div className='inline-flex gap-x-1'>
+                                    {filterRole &&
+                                        filterRole.length > 0 &&
+                                        filterRole.map((item) => {
+                                            return (
+                                                <div
+                                                    key={item[0]}
+                                                    className='border-2 border-slate-300 inline-flex h-fit rounded-xl'
+                                                >
+                                                    <div className='mx-4 w-full'>
+                                                        {item[1]}
+                                                    </div>
+                                                    <ButtonDelete
+                                                        onClick={() => {
+                                                            handleDeleteFilteredRole(
+                                                                item[0]
+                                                            );
+                                                        }}
+                                                    />
                                                 </div>
-                                                <ButtonDelete
-                                                    onClick={() => {
-                                                        handleDeleteFilteredApp(
-                                                            item[0]
-                                                        );
-                                                    }}
-                                                />
-                                            </div>
-                                        );
-                                    })}
+                                            );
+                                        })}
+                                </div>
+
+                                {/* Application */}
+                                <div className='inline-flex gap-x-1'>
+                                    {filterApp &&
+                                        filterApp.length > 0 &&
+                                        filterApp.map((item) => {
+                                            return (
+                                                <div className='border-2 border-slate-300 inline-flex h-fit rounded-xl'>
+                                                    <div className='mx-4 w-full'>
+                                                        {item[1]}
+                                                    </div>
+                                                    <ButtonDelete
+                                                        onClick={() => {
+                                                            handleDeleteFilteredApp(
+                                                                item[0]
+                                                            );
+                                                        }}
+                                                    />
+                                                </div>
+                                            );
+                                        })}
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    ) : null}
+
                     <div className='min-w-full overflow-hidden'>
                         <div
                             className='w-full overflow-x-auto overflow-y-visible'
@@ -316,6 +356,12 @@ export default function DataTable({
                                                                     .isBlack
                                                                     ? ""
                                                                     : "text-gray-600"
+                                                            } ${
+                                                                cell.column
+                                                                    .columnDef
+                                                                    .isCenter
+                                                                    ? "text-center"
+                                                                    : ""
                                                             } border-gray-300 px-6 py-4 text-sm`}
                                                         >
                                                             {flexRender(

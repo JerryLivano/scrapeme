@@ -19,9 +19,11 @@ const DropdownInput = forwardRef(function DropdownInputInternal(
     const id = useId();
     return (
         <div className='flex h-full w-full items-center'>
-            <div className='w-2/5 items-start font-semibold text-lg'>
-                <InputLabel label={label} htmlFor={id} />
-            </div>
+            {label && (
+                <div className='w-2/5 items-start font-semibold text-lg'>
+                    <InputLabel label={label} htmlFor={id} />
+                </div>
+            )}
             <div className='flex w-full'>
                 <div className={className}>
                     <select

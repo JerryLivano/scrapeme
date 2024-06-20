@@ -67,6 +67,7 @@ export default function FormEditApplication({
     const [errorImageMessage, setErrorImageMessage] = useState("");
     const [modalOpen, setModalOpen] = useState(false);
     const [logoFile, setLogoFile] = useState(null);
+    const [logoName, setLogoName] = useState("");
 
     const statusOptions = ["Disabled", "Enabled"];
 
@@ -144,10 +145,11 @@ export default function FormEditApplication({
     });
 
     const avatarUrl = useRef(LogoAddImage);
-    const updateAvatar = (imgSrc) => {
+    const updateAvatar = (imgSrc, fileName) => {
         avatarUrl.current = imgSrc;
         setValue("logo", imgSrc.slice(imgSrc.indexOf(",") + 1));
         setLogoFile(imgSrc);
+        setLogoName(fileName);
     };
 
     useEffect(() => {
@@ -182,6 +184,7 @@ export default function FormEditApplication({
             id: application.id,
             name: data.name.trim(),
             image: data.logo,
+            imageName: logoName,
             url: `https://${data.url
                 .trim()
                 .replace(/^https?:\/\//, "")
@@ -236,7 +239,9 @@ export default function FormEditApplication({
                         <div className='border-b-2 w-full pl-6 py-8 items-center'>
                             <div className='flex h-full w-full items-center justify-between'>
                                 <div className='w-2/5 font-semibold text-lg'>
-                                    <label htmlFor='logo'>Logo</label>
+                                    <label htmlFor='logo'>
+                                        Logo
+                                    </label>
                                 </div>
                                 {isDropzone ? (
                                     <div className='w-full'>
@@ -332,7 +337,7 @@ export default function FormEditApplication({
                                                     setOpenImageModal(true)
                                                 }
                                             >
-                                                {`Logo ${application.name}`}
+                                                {` ${application.imageName}`}
                                             </div>
                                         </div>
                                         <div className='mr-20 items-center'>
@@ -391,7 +396,7 @@ export default function FormEditApplication({
                         setOpenModal={setShowUpdateApplication}
                         typeButton={"submit"}
                     />
-
+                    
                     <FormModal
                         open={openImageModal}
                         setOpen={setOpenImageModal}
@@ -405,7 +410,7 @@ export default function FormEditApplication({
                             )}
                         </div>
                     </FormModal>
-
+                    
                     {modalOpen && (
                         <ImageCropper
                             file={logoFile}

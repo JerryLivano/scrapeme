@@ -1,12 +1,16 @@
 import { useEffect, useMemo, useState } from "react";
 import { useGetLogActivityQuery } from "../../services/logActivityApiSlice";
 import { useGetRoleQuery } from "../../services/roleApi.Slice";
+import { useGetApplicationQuery } from "../../services/applicationApiSlice";
 import Spinner from "../../components/elements/Spinner/Spinner";
 import DataTable from "../../components/layouts/DataTable";
 import uuid from "react-uuid";
-import { useGetApplicationQuery } from "../../services/applicationApiSlice";
+import ButtonDetail from "../../components/elements/Button/ButtonDetail";
+import InputCheckbox from "../../components/elements/Input/InputCheckbox";
+import ModalDetailAddLog from "./ModalDetailAddLog";
+import ModalDetailEditLog from "./ModalDetailEditLog";
 
-export default function LogActivityTable({}) {
+export default function LogActivityTable() {
     let content;
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(10);
@@ -14,8 +18,15 @@ export default function LogActivityTable({}) {
     const [search, setSearch] = useState("");
     const [date, setDate] = useState({});
     const [selectedRoleId, setSelectedRoleId] = useState("");
-    const [isAdmin, setIsAdmin] = useState(true);
     const [isEmployee, setIsEmployee] = useState(true);
+
+    // Open Modal
+    const [selectedData, setSelectedData] = useState({});
+    const [detailType, setDetailType] = useState("");
+    const [oldData, setOldData] = useState([]);
+    const [newData, setNewData] = useState([]);
+    const [openAddModal, setOpenAddModal] = useState(false);
+    const [openEditModal, setOpenEditModal] = useState(false);
 
     // Filter App
     const [appOpt, setAppOpt] = useState([]);
@@ -34,14 +45,21 @@ export default function LogActivityTable({}) {
             search: search,
             page: page,
             limit: pageSize,
-            startDate: date.startDate ?? "",
-            endDate: date.endDate ?? "",
+            startDate: date.startDate ? date.startDate : "",
+            endDate: date.endDate ? date.endDate : "",
             role: selectedRoleId,
             apps: appIdOpt,
         },
         { refetchOnMountOrArgChange: true }
     );
 
+    useEffect(() => {
+        if (logSuccess && logActivities) {
+            setTotalPages(logActivities.pagination.totalPages);
+        }
+    }, [logSuccess, logActivities]);
+
+    console.log(logActivities);
     const cols = useMemo(() => {
         const staticColumns = [
             {
@@ -60,27 +78,18 @@ export default function LogActivityTable({}) {
             {
                 id: uuid(),
                 header: "Email",
+                isCenter: true,
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) => row.employee.email || "",
             },
             {
                 id: uuid(),
                 header: "Nik",
+                isCenter: true,
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) => row.employee.nik || "",
             },
         ];
-
-        const adminColumns = isAdmin
-            ? [
-                {
-                    id: uuid(),
-                    header: "Action",
-                    cell: (row) => row.renderValue(),
-                    accessorFn: (row) => row.action || "",
-                },
-            ]
-            : [];
 
         const dynamicColumns = isEmployee
             ? [
@@ -92,23 +101,209 @@ export default function LogActivityTable({}) {
                   },
                   {
                       id: uuid(),
-                      header: "Start Date",
+                      header: "Date",
+                      cell: (row) => row.renderValue(),
+                      accessorFn: (row) =>
+                          formatDateTime(row.createdDate) || "",
+                  },
+              ]
+            : [
+                  {
+                      id: uuid(),
+                      header: "Action",
+                      isCenter: true,
+                      cell: (row) => row.renderValue(),
+                      accessorFn: (row) => {
+                          return row.action
+                              .split("_")
+                              .map(
+                                  (word) =>
+                                      word.charAt(0).toUpperCase() +
+                                      word.slice(1)
+                              )
+                              .join(" ");
+                      },
+                  },
+                  {
+                      id: uuid(),
+                      header: "Date Modified",
+                      isCenter: true,
                       cell: (row) => row.renderValue(),
                       accessorFn: (row) =>
                           formatDateTime(row.createdDate) || "",
                   },
                   {
                       id: uuid(),
-                      header: "End Date",
+                      header: "Detail",
                       cell: (row) => row.renderValue(),
-                      accessorFn: (row) =>
-                          formatDateTime(row.createdDate) || "",
+                      accessorFn: (row) => (
+                          <div className='w-full flex items-center justify-center'>
+                              <ButtonDetail
+                                  type={"button"}
+                                  onClick={() => {
+                                      if (
+                                          row.action
+                                              .toLowerCase()
+                                              .includes("edit")
+                                      ) {
+                                          setOpenEditModal(true);
+                                      } else if (
+                                          row.action
+                                              .toLowerCase()
+                                              .includes("add")
+                                      ) {
+                                          setOpenAddModal(true);
+                                      }
+                                      setOldData(
+                                          row.oldValue
+                                              ? [JSON.parse(row.oldValue)]
+                                              : []
+                                      );
+                                      setNewData([JSON.parse(row.newValue)]);
+                                      setDetailType(
+                                          row.type.charAt(0) +
+                                              row.type.slice(1).toLowerCase()
+                                      );
+                                      setSelectedData(row);
+                                  }}
+                              />
+                          </div>
+                      ),
                   },
-              ]
+              ];
+
+        return [...staticColumns, ...dynamicColumns];
+    }, [logActivities, selectedRoleId, isEmployee]);
+
+    // Application
+    const {
+        data: applications,
+        isSuccess: applicationSuccess,
+        isError: applicationError,
+        isLoading: applicationLoading,
+    } = useGetApplicationQuery({
+        page: 1,
+        limit: 100,
+    });
+
+    const colsApp = useMemo(
+        () => [
+            {
+                id: uuid(),
+                header: "",
+                cell: (row) => row.row.index + 1,
+                accessorFn: (row, i) => i + 1,
+            },
+            {
+                id: uuid(),
+                header: "App Name",
+                cell: (row) => row.renderValue(),
+                accessorFn: (row) => row.nameApp,
+            },
+            {
+                id: uuid(),
+                header: "URL",
+                cell: (row) => row.renderValue(),
+                accessorFn: (row) => (
+                    <a
+                        href={row.urlApp}
+                        target='_blank'
+                        className='underline text-blue-700'
+                    >
+                        {row.urlApp}
+                    </a>
+                ),
+            },
+            {
+                id: uuid(),
+                header: "LOGO",
+                cell: (row) => row.renderValue(),
+                accessorFn: (row) => (
+                    <a
+                        href={row.image}
+                        target='_blank'
+                        className='underline text-blue-700'
+                    >
+                        {row.image_name}
+                    </a>
+                ),
+            },
+            {
+                id: uuid(),
+                header: "STATUS",
+                cell: (row) => row.renderValue(),
+                accessorFn: (row) => (row.isActive ? "ACTIVE" : "INACTIVE"),
+            },
+        ],
+        [logActivities]
+    );
+
+    const colsUser = useMemo(() => {
+        const staticColumns = [
+            {
+                id: uuid(),
+                header: "",
+                cell: (row) => row.row.index + 1,
+                accessorFn: (row, i) => i + 1,
+            },
+            {
+                id: uuid(),
+                header: "Name",
+                isBlack: true,
+                cell: (row) => row.renderValue(),
+                accessorFn: (row) => row.name || "",
+            },
+            {
+                id: uuid(),
+                header: "Email",
+                cell: (row) => row.renderValue(),
+                accessorFn: (row) => row.email || "",
+            },
+            {
+                id: uuid(),
+                header: "NIK",
+                cell: (row) => row.renderValue(),
+                accessorFn: (row) => row.nik || "",
+            },
+            {
+                id: uuid(),
+                header: "Role",
+                cell: (row) => row.renderValue(),
+                accessorFn: (row) =>
+                    row.role.charAt(5).toUpperCase() +
+                        row.role.slice(6).toLowerCase() || "",
+            },
+        ];
+
+        const dynamicColumnObjects = applications
+            ? applications.data.map((app) => ({
+                  id: uuid(),
+                  header: app.name,
+                  cell: (row) => row.renderValue(),
+                  accessorFn: (row) => (
+                      <InputCheckbox
+                          value={app.name}
+                          app={row.authorizedApplications}
+                      />
+                  ),
+              }))
             : [];
 
-        return [...staticColumns, ...dynamicColumns, ...adminColumns];
-    }, [logActivities, selectedRoleId, isEmployee, isAdmin]);
+        const staticColumnsStatus = [
+            {
+                id: uuid(),
+                header: "Status",
+                cell: (row) => row.renderValue(),
+                accessorFn: (row) => (row.isActive ? "ACTIVE" : "INACTIVE"),
+            },
+        ];
+
+        return [
+            ...staticColumns,
+            ...dynamicColumnObjects,
+            ...staticColumnsStatus,
+        ];
+    }, [logActivities, applications]);
 
     const formatDateTime = (dateTime) => {
         const date = new Date(dateTime);
@@ -153,7 +348,11 @@ export default function LogActivityTable({}) {
     const handleRoleSelect = (selectedRole) => {
         if (roleOpt[0][0] !== selectedRole[0]) {
             setRoleOpt([selectedRole]);
-            setIsEmployee(!isEmployee);
+            if (selectedRole[1].toLowerCase().includes("employee")) {
+                setIsEmployee(true);
+            } else {
+                setIsEmployee(false);
+            }
         }
     };
 
@@ -166,7 +365,6 @@ export default function LogActivityTable({}) {
                 role.roleName.slice(6).toLowerCase(),
         }));
     }
-
     useEffect(() => {
         if (roleOpt.length === 0) {
             setSelectedRoleId("");
@@ -176,13 +374,6 @@ export default function LogActivityTable({}) {
     }, [roleOpt]);
 
     // Filter App
-    const {
-        data: applications,
-        isSuccess: applicationSuccess,
-        isError: applicationError,
-        isLoading: applicationLoading,
-    } = useGetApplicationQuery({ page: 1, limit: 100 });
-
     const handleDeleteFilteredApp = (selectedAppId) => {
         setAppOpt(appOpt.filter((app) => app[0] !== selectedAppId));
     };
@@ -207,6 +398,12 @@ export default function LogActivityTable({}) {
         setAppIdOpt(appOpt.map((app) => app[0]));
     }, [appOpt]);
 
+    // Filter Date
+    const handleDateFilter = (value) => {
+        setDate(value);
+        setPage(1);
+    };
+
     const handleSearchChange = (value) => {
         setSearch((prev) => {
             if (value !== prev) setPage(1);
@@ -229,15 +426,18 @@ export default function LogActivityTable({}) {
     }
 
     if (roleSuccess && logSuccess && applicationSuccess) {
-        const pagination = logActivities.pagination;
+        const { data, pagination } = logActivities;
+        const dataCount = pagination.totalRecords;
         content = (
             <>
                 <DataTable
-                    rowCount={pagination.totalRecords}
-                    data={logActivities.data}
+                    rowCount={dataCount}
+                    data={data}
                     columns={cols}
                     showPageSize
                     showGlobalFilter
+                    showFilter
+                    showFilterDate
                     showPagination
                     searchQuery={search}
                     searchHandler={handleSearchChange}
@@ -258,6 +458,33 @@ export default function LogActivityTable({}) {
                     handleDeleteFilteredApp={(app) =>
                         handleDeleteFilteredApp(app)
                     }
+                    filterDate={date}
+                    setFilterDate={handleDateFilter}
+                />
+
+                <ModalDetailAddLog
+                    open={openAddModal}
+                    setOpen={setOpenAddModal}
+                    titleForm={detailType}
+                    columns={
+                        detailType.toLowerCase().includes("application")
+                            ? colsApp
+                            : colsUser
+                    }
+                    data={newData}
+                />
+
+                <ModalDetailEditLog
+                    open={openEditModal}
+                    setOpen={setOpenEditModal}
+                    titleForm={detailType}
+                    columns={
+                        detailType.toLowerCase().includes("application")
+                            ? colsApp
+                            : colsUser
+                    }
+                    oldData={oldData}
+                    newData={newData}
                 />
             </>
         );

@@ -19,6 +19,7 @@ import ErrorLabel from "../../../components/fragments/Notification/ErrorLabel";
 export default function FormAddApplication() {
     const [modalOpen, setModalOpen] = useState(false);
     const [logoFile, setLogoFile] = useState(null);
+    const [logoName, setLogoName] = useState("");
     const [showAddApplication, setShowAddApplication] = useState(false);
     const statusOptions = ["Disabled", "Enabled"];
 
@@ -102,10 +103,11 @@ export default function FormAddApplication() {
     });
 
     const avatarUrl = useRef(LogoAddImage);
-    const updateAvatar = (imgSrc) => {
+    const updateAvatar = (imgSrc, fileName) => {
         avatarUrl.current = imgSrc;
         setValue("logo", imgSrc.slice(imgSrc.indexOf(",") + 1));
         setLogoFile(imgSrc);
+        setLogoName(fileName);
     };
 
     useEffect(() => {
@@ -156,7 +158,9 @@ export default function FormAddApplication() {
                 url: `https://${data.url}`,
                 isActive: data.isActive,
                 image: data.logo,
+                imageName: logoName
             };
+
             await createApplication(request).unwrap();
             formAppReset();
             avatarUrl.current = LogoAddImage;
