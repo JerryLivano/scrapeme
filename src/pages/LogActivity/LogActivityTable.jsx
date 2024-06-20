@@ -2,16 +2,13 @@ import { useEffect, useMemo, useState } from "react";
 import { useGetLogActivityQuery } from "../../services/logActivityApiSlice";
 import { useGetRoleQuery } from "../../services/roleApi.Slice";
 import { useGetApplicationQuery } from "../../services/applicationApiSlice";
-import { Button } from "../../components";
-// import {Daterangetype} from "react-tailwindcss-datepicker";
 import Spinner from "../../components/elements/Spinner/Spinner";
 import DataTable from "../../components/layouts/DataTable";
 import uuid from "react-uuid";
 import ButtonDetail from "../../components/elements/Button/ButtonDetail";
 import InputCheckbox from "../../components/elements/Input/InputCheckbox";
-import ModalDataManageUser from "./LogDetail/ModalDataManageUser";
-import ModalDataManageApp from "./LogDetail/ModalDataManageAPp";
-import ModalDataAddApp from "./LogDetail/ModalDataAddApp";
+import ModalDetailAddLog from "./ModalDetailAddLog";
+import ModalDetailEditLog from "./ModalDetailEditLog";
 
 export default function LogActivityTable() {
     let content;
@@ -22,10 +19,14 @@ export default function LogActivityTable() {
     const [date, setDate] = useState({});
     const [selectedRoleId, setSelectedRoleId] = useState("");
     const [isEmployee, setIsEmployee] = useState(true);
-    const [openEditAppModal, setOpenEditAppModal] = useState(false);
-    const [openAddModal, setOpenAddAppModal] = useState(false);
-    const [openEditUserModal, setOpenEditUserModal] = useState(false);
-    const [selectedUser, setSelectedUser] = useState({});
+
+    // Open Modal
+    const [selectedData, setSelectedData] = useState({});
+    const [detailType, setDetailType] = useState("");
+    const [oldData, setOldData] = useState([]);
+    const [newData, setNewData] = useState([]);
+    const [openAddModal, setOpenAddModal] = useState(false);
+    const [openEditModal, setOpenEditModal] = useState(false);
 
     // Filter App
     const [appOpt, setAppOpt] = useState([]);
@@ -37,7 +38,6 @@ export default function LogActivityTable() {
     const {
         data: logActivities,
         isLoading: logLoading,
-        // control,
         isSuccess: logSuccess,
         isError: logError,
     } = useGetLogActivityQuery(
@@ -71,27 +71,18 @@ export default function LogActivityTable() {
             {
                 id: uuid(),
                 header: "Email",
+                isCenter: true,
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) => row.employee.email || "",
             },
             {
                 id: uuid(),
                 header: "Nik",
+                isCenter: true,
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) => row.employee.nik || "",
             },
         ];
-
-        const handleDetailModal = (action) => {
-            // Logic to open modal based on row.action
-            if (action === "EDIT_APPLICATION") {
-                setOpenEditAppModal(true);
-            } else if (action === "ADD_APPLICATION") {
-                setOpenAddAppModal(true);
-            } else if (action === "EDIT_USER") {
-                setOpenEditUserModal(true);
-            }
-        };
 
         const dynamicColumns = isEmployee
             ? [
@@ -103,14 +94,7 @@ export default function LogActivityTable() {
                   },
                   {
                       id: uuid(),
-                      header: "Start Date",
-                      cell: (row) => row.renderValue(),
-                      accessorFn: (row) =>
-                          formatDateTime(row.createdDate) || "",
-                  },
-                  {
-                      id: uuid(),
-                      header: "End Date",
+                      header: "Date",
                       cell: (row) => row.renderValue(),
                       accessorFn: (row) =>
                           formatDateTime(row.createdDate) || "",
@@ -120,6 +104,7 @@ export default function LogActivityTable() {
                   {
                       id: uuid(),
                       header: "Action",
+                      isCenter: true,
                       cell: (row) => row.renderValue(),
                       accessorFn: (row) => {
                           return row.action
@@ -135,8 +120,10 @@ export default function LogActivityTable() {
                   {
                       id: uuid(),
                       header: "Date Modified",
+                      isCenter: true,
                       cell: (row) => row.renderValue(),
-                      accessorFn: (row) => row.createdDate || "",
+                      accessorFn: (row) =>
+                          formatDateTime(row.createdDate) || "",
                   },
                   {
                       id: uuid(),
@@ -146,10 +133,27 @@ export default function LogActivityTable() {
                           <div className='w-full flex items-center justify-center'>
                               <ButtonDetail
                                   type={"button"}
-                                  className={"w-24"}
                                   onClick={() => {
-                                      handleDetailModal(row.action);
-                                      setSelectedUser(row);
+                                      if (
+                                          row.action
+                                              .toLowerCase()
+                                              .includes("edit")
+                                      ) {
+                                          setOpenEditModal(true);
+                                      } else if (
+                                          row.action
+                                              .toLowerCase()
+                                              .includes("add")
+                                      ) {
+                                          setOpenAddModal(true);
+                                      }
+                                      setOldData(row.oldValue ? [JSON.parse(row.oldValue)] : []);
+                                      setNewData([JSON.parse(row.newValue)]);
+                                      setDetailType(
+                                          row.type.charAt(0) +
+                                              row.type.slice(1).toLowerCase()
+                                      );
+                                      setSelectedData(row);
                                   }}
                               />
                           </div>
@@ -159,6 +163,115 @@ export default function LogActivityTable() {
 
         return [...staticColumns, ...dynamicColumns];
     }, [logActivities, selectedRoleId, isEmployee]);
+
+    // Application
+    const {
+        data: applications,
+        isSuccess: applicationSuccess,
+        isError: applicationError,
+        isLoading: applicationLoading,
+    } = useGetApplicationQuery({
+        page: 1,
+        limit: 100,
+    });
+
+    const colsApp = useMemo(
+        () => [
+            {
+                id: uuid(),
+                header: "",
+                cell: (row) => row.row.index + 1,
+                accessorFn: (row, i) => i + 1,
+            },
+            {
+                id: uuid(),
+                header: "App Name",
+                cell: (row) => row.renderValue(),
+                accessorFn: (row) => row.nameApp,
+            },
+            {
+                id: uuid(),
+                header: "URL",
+                cell: (row) => row.renderValue(),
+                accessorFn: (row) => (
+                    <a href={row.urlApp} target='_blank' className="underline text-blue-700">
+                        {row.urlApp}
+                    </a>
+                ),
+            },
+            {
+                id: uuid(),
+                header: "LOGO",
+                cell: (row) => row.renderValue(),
+                accessorFn: (row) => (
+                    <a href={row.image} target='_blank' className="underline text-blue-700">
+                        {row.image_name}
+                    </a>
+                ),
+            },
+            {
+                id: uuid(),
+                header: "STATUS",
+                cell: (row) => row.renderValue(),
+                accessorFn: (row) => (row.isActive ? "ACTIVE" : "INACTIVE"),
+            },
+        ],
+        [logActivities]
+    );
+
+    const colsUser = useMemo(() => {
+        const staticColumns = [
+            {
+                id: uuid(),
+                header: "",
+                cell: (row) => row.row.index + 1,
+                accessorFn: (row, i) => i + 1,
+            },
+            {
+                id: uuid(),
+                header: "Name",
+                isBlack: true,
+                cell: (row) => row.renderValue(),
+                accessorFn: (row) => row.name || "",
+            },
+            {
+                id: uuid(),
+                header: "Email",
+                cell: (row) => row.renderValue(),
+                accessorFn: (row) => row.email || "",
+            },
+            {
+                id: uuid(),
+                header: "NIK",
+                cell: (row) => row.renderValue(),
+                accessorFn: (row) => row.nik || "",
+            },
+            {
+                id: uuid(),
+                header: "Role",
+                cell: (row) => row.renderValue(),
+                accessorFn: (row) =>
+                    row.role.charAt(5).toUpperCase() +
+                        row.role.slice(6).toLowerCase() || "",
+            },
+        ];
+
+        const dynamicColumnObjects = applications
+            ? applications.data.map((app) => ({
+                  id: uuid(),
+                  header: app.name,
+                  cell: (row) => row.renderValue(),
+                  accessorFn: (row) => (
+                      <InputCheckbox
+                          value={app.name}
+                          app={row.authorizedApplications}
+                      />
+                  ),
+              }))
+            : [];
+
+        return [...staticColumns, ...dynamicColumnObjects];
+    }, [logActivities, applications]);
 
     const formatDateTime = (dateTime) => {
         const date = new Date(dateTime);
@@ -203,7 +316,11 @@ export default function LogActivityTable() {
     const handleRoleSelect = (selectedRole) => {
         if (roleOpt[0][0] !== selectedRole[0]) {
             setRoleOpt([selectedRole]);
-            setIsEmployee(!isEmployee);
+            if (selectedRole[1].toLowerCase().includes("employee")) {
+                setIsEmployee(true);
+            } else {
+                setIsEmployee(false);
+            }
         }
     };
 
@@ -225,129 +342,6 @@ export default function LogActivityTable() {
     }, [roleOpt]);
 
     // Filter App
-    const {
-        data: applications,
-        isSuccess: applicationSuccess,
-        isError: applicationError,
-        isLoading: applicationLoading,
-    } = useGetApplicationQuery({
-        page: 1,
-        limit: 100,
-    });
-
-    const colsapp = useMemo(() => {
-        const dataChanged = [
-            {
-                id: uuid(),
-                header: "",
-                cell: (row) => row.renderValue(),
-                accessorFn: (row) => row.no || "",
-            },
-            {
-                id: uuid(),
-                header: "AppName",
-                cell: (row) => row.renderValue(),
-                accessorFn: (row) => {
-                    const newValueObj = row.newValue
-                        ? JSON.parse(row.newValue)
-                        : {};
-                    return newValueObj.nameApp || "";
-                },
-            },
-            {
-                id: uuid(),
-                header: "URL",
-                cell: (row) => row.renderValue(),
-                accessorFn: (row) => {
-                    const newValueObj = row.newValue
-                        ? JSON.parse(row.newValue)
-                        : {};
-                    return newValueObj.urlApp || "";
-                },
-            },
-            {
-                id: uuid(),
-                header: "LOGO",
-                cell: (row) => row.renderValue(),
-                accessorFn: (row) => {
-                    const newValueObj = row.newValue
-                        ? JSON.parse(row.newValue)
-                        : {};
-                    return newValueObj.image_name || "";
-                },
-            },
-            {
-                id: uuid(),
-                header: "STATUS",
-                cell: (row) => row.renderValue(),
-                accessorFn: (row) => {
-                    const newValueObj = row.newValue
-                        ? JSON.parse(row.newValue)
-                        : {};
-                    return newValueObj.isActive ? "Active" : "Inactive";
-                },
-            },
-        ];
-
-        return [...dataChanged];
-    }, [logActivities]);
-
-    const colsuser = useMemo(() => {
-        const staticColumns = [
-            {
-                id: uuid(),
-                header: "",
-                cell: (row) => row.renderValue(),
-                accessorFn: (row) => row.no || "",
-            },
-            {
-                id: uuid(),
-                header: "Name",
-                isBlack: true,
-                cell: (row) => row.renderValue(),
-                accessorFn: (row) => row.name || "",
-            },
-            {
-                id: uuid(),
-                header: "Email",
-                cell: (row) => row.renderValue(),
-                accessorFn: (row) => row.email || "",
-            },
-            {
-                id: uuid(),
-                header: "NIK",
-                cell: (row) => row.renderValue(),
-                accessorFn: (row) => row.nik || "",
-            },
-            {
-                id: uuid(),
-                header: "Role",
-                cell: (row) => row.renderValue(),
-                accessorFn: (row) =>
-                    row.roleName.charAt(5).toUpperCase() +
-                        row.roleName.slice(6).toLowerCase() || "",
-            },
-        ];
-
-        const dynamicColumnObjects = applications
-            ? applications.data.map((app) => ({
-                  id: uuid(),
-                  header: app.name,
-                  cell: (row) => row.renderValue(),
-                  accessorFn: (row) => (
-                      <InputCheckbox
-                          value={app.name}
-                          app={row.authorizedApplications.map(
-                              (application) => application.name
-                          )}
-                      />
-                  ),
-              }))
-            : [];
-
-        return [...staticColumns, ...dynamicColumnObjects];
-    }, [applications]);
-
     const handleDeleteFilteredApp = (selectedAppId) => {
         setAppOpt(appOpt.filter((app) => app[0] !== selectedAppId));
     };
@@ -435,28 +429,29 @@ export default function LogActivityTable() {
                     setFilterDate={handleDateFilter}
                 />
 
-                <ModalDataAddApp
+                <ModalDetailAddLog
                     open={openAddModal}
-                    setOpen={setOpenAddAppModal}
-                    titleForm={selectedUser?.action}
-                    selectedUser={selectedUser}
-                    columns={colsapp}
+                    setOpen={setOpenAddModal}
+                    titleForm={detailType}
+                    columns={
+                        detailType.toLowerCase().includes("application")
+                            ? colsApp
+                            : colsUser
+                    }
+                    data={newData}
                 />
 
-                <ModalDataManageApp
-                    open={openEditAppModal}
-                    setOpen={setOpenEditAppModal}
-                    titleForm={selectedUser?.action || "Log Action"}
-                    selectedUser={selectedUser}
-                    columns={colsapp}
-                />
-
-                <ModalDataManageUser
-                    open={openEditUserModal}
-                    setOpen={setOpenEditUserModal}
-                    titleForm={selectedUser?.action || "Log Action"}
-                    selectedUser={selectedUser}
-                    columns={colsuser}
+                <ModalDetailEditLog
+                    open={openEditModal}
+                    setOpen={setOpenEditModal}
+                    titleForm={detailType}
+                    columns={
+                        detailType.toLowerCase().includes("application")
+                            ? colsApp
+                            : colsUser
+                    }
+                    oldData={oldData}
+                    newData={newData}
                 />
             </>
         );

@@ -1,4 +1,4 @@
-import { ExclamationCircleIcon } from "@heroicons/react/24/solid";
+import { InformationCircleIcon } from "@heroicons/react/24/solid";
 
 export default function ButtonDetail({onClick, disabled }) {
     return (
@@ -7,10 +7,9 @@ export default function ButtonDetail({onClick, disabled }) {
             type='button'
             onClick={onClick}
             disabled={disabled}
-
         >
-            <ExclamationCircleIcon
-                className='mr-2 h-5 w-5 -ml-2 rounded-full font-bold text-white bg-black'
+            <InformationCircleIcon
+                className='h-6 w-6 rounded-full font-bold text-white bg-black'
                 aria-hidden='true'
             />
         </button>

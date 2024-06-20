@@ -356,6 +356,12 @@ export default function DataTable({
                                                                     .isBlack
                                                                     ? ""
                                                                     : "text-gray-600"
+                                                            } ${
+                                                                cell.column
+                                                                    .columnDef
+                                                                    .isCenter
+                                                                    ? "text-center"
+                                                                    : ""
                                                             } border-gray-300 px-6 py-4 text-sm`}
                                                         >
                                                             {flexRender(
