@@ -53,6 +53,13 @@ export default function LogActivityTable() {
         { refetchOnMountOrArgChange: true }
     );
 
+    useEffect(() => {
+        if (logSuccess && logActivities) {
+            setTotalPages(logActivities.pagination.totalPages);
+        }
+    }, [logSuccess, logActivities]);
+
+    console.log(logActivities);
     const cols = useMemo(() => {
         const staticColumns = [
             {
@@ -147,7 +154,11 @@ export default function LogActivityTable() {
                                       ) {
                                           setOpenAddModal(true);
                                       }
-                                      setOldData(row.oldValue ? [JSON.parse(row.oldValue)] : []);
+                                      setOldData(
+                                          row.oldValue
+                                              ? [JSON.parse(row.oldValue)]
+                                              : []
+                                      );
                                       setNewData([JSON.parse(row.newValue)]);
                                       setDetailType(
                                           row.type.charAt(0) +
@@ -194,7 +205,11 @@ export default function LogActivityTable() {
                 header: "URL",
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) => (
-                    <a href={row.urlApp} target='_blank' className="underline text-blue-700">
+                    <a
+                        href={row.urlApp}
+                        target='_blank'
+                        className='underline text-blue-700'
+                    >
                         {row.urlApp}
                     </a>
                 ),
@@ -204,7 +219,11 @@ export default function LogActivityTable() {
                 header: "LOGO",
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) => (
-                    <a href={row.image} target='_blank' className="underline text-blue-700">
+                    <a
+                        href={row.image}
+                        target='_blank'
+                        className='underline text-blue-700'
+                    >
                         {row.image_name}
                     </a>
                 ),
@@ -270,7 +289,20 @@ export default function LogActivityTable() {
               }))
             : [];
 
-        return [...staticColumns, ...dynamicColumnObjects];
+        const staticColumnsStatus = [
+            {
+                id: uuid(),
+                header: "Status",
+                cell: (row) => row.renderValue(),
+                accessorFn: (row) => (row.isActive ? "ACTIVE" : "INACTIVE"),
+            },
+        ];
+
+        return [
+            ...staticColumns,
+            ...dynamicColumnObjects,
+            ...staticColumnsStatus,
+        ];
     }, [logActivities, applications]);
 
     const formatDateTime = (dateTime) => {
@@ -394,12 +426,13 @@ export default function LogActivityTable() {
     }
 
     if (roleSuccess && logSuccess && applicationSuccess) {
-        const pagination = logActivities.pagination;
+        const { data, pagination } = logActivities;
+        const dataCount = pagination.totalRecords;
         content = (
             <>
                 <DataTable
-                    rowCount={pagination.totalRecords}
-                    data={logActivities.data}
+                    rowCount={dataCount}
+                    data={data}
                     columns={cols}
                     showPageSize
                     showGlobalFilter
