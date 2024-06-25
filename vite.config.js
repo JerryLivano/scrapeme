@@ -7,4 +7,11 @@ export default defineConfig({
         host: true
     },
     plugins: [react()],
+    build: {
+        rollupOptions: {
+            external: [
+                "dayjs"
+            ]
+        }
+    }
 });
