@@ -114,7 +114,7 @@ const ProfileData = () => {
                     <div className='w-full py-4 px-2 border-t-2 border-gray-200'>
                         <div className='flex h-full w-full items-center justify-between'>
                             <div className='w-[260px] font-semibold'>
-                                <label htmlFor='password'>Password</label>
+                                <label htmlFor='password'>Change Password</label>
                             </div>
                             <div className='flex w-full' id='password'>
                                 <form
