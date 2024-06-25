@@ -77,7 +77,14 @@ const App = () => {
                     <Route path='log-activity' element={<LogActivity />} />
 
                     {/* Profile Page */}
-                    <Route path='profile' element={<ProfilePage />} />
+                    <Route
+                        path='profile'
+                        element={
+                            <RequireAuth permissions={Permission.Profile}>
+                                <ProfilePage />
+                            </RequireAuth>
+                        }
+                    />
 
                     <Route path='setting' element={<Settings />} />
                 </Route>

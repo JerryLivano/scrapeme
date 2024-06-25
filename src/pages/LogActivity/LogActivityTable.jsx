@@ -59,7 +59,6 @@ export default function LogActivityTable() {
         }
     }, [logSuccess, logActivities]);
 
-    console.log(logActivities);
     const cols = useMemo(() => {
         const staticColumns = [
             {
@@ -141,6 +140,7 @@ export default function LogActivityTable() {
                               <ButtonDetail
                                   type={"button"}
                                   onClick={() => {
+                                    console.log(row)
                                       if (
                                           row.action
                                               .toLowerCase()

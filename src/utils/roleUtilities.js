@@ -18,5 +18,6 @@ export const Permission = {
     Home: [Role.ADMIN, Role.EMPLOYEE],
     User: [Role.ADMIN],
     Application: [Role.ADMIN],
-    LogActivity: [Role.ADMIN, Role.EMPLOYEE]
+    LogActivity: [Role.ADMIN, Role.EMPLOYEE],
+    Profile: [Role.ADMIN, Role.EMPLOYEE]
 };
