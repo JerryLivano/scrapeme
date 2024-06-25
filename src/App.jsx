@@ -15,6 +15,7 @@ import { ToastContainer } from "react-toastify";
 import RequireAuth from "./features/auth/RequireAuth";
 import { Permission } from "./utils/roleUtilities";
 import ProfilePage from "./pages/Profile/Index";
+import { extractId, getAuthToken } from "./utils/authUtilities";
 
 const App = () => {
     return (
@@ -81,7 +82,9 @@ const App = () => {
                         path='profile'
                         element={
                             <RequireAuth permissions={Permission.Profile}>
-                                <ProfilePage />
+                                <ProfilePage 
+                                    accountId={extractId(getAuthToken())}
+                                />
                             </RequireAuth>
                         }
                     />

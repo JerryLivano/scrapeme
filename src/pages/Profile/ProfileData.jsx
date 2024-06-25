@@ -17,9 +17,7 @@ import DataTable from "../../components/layouts/DataTable";
 import uuid from "react-uuid";
 import { useGetApplicationQuery } from "../../services/applicationApiSlice";
 
-const ProfileData = () => {
-    const token = getAuthToken();
-    const userId = extractId(token);
+const ProfileData = ({ userId }) => {
 
     const [passwordError, setPasswordError] = useState(false);
     const [errorLabel, setErrorLabel] = useState("");
