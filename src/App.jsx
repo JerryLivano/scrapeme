@@ -82,9 +82,7 @@ const App = () => {
                         path='profile'
                         element={
                             <RequireAuth permissions={Permission.Profile}>
-                                <ProfilePage 
-                                    accountId={extractId(getAuthToken())}
-                                />
+                                <ProfilePage />
                             </RequireAuth>
                         }
                     />

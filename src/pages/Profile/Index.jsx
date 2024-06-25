@@ -1,7 +1,9 @@
 import React from "react";
 import ProfileData from "./ProfileData";
+import { extractId, getAuthToken } from "../../utils/authUtilities";
 
-const ProfilePage = ({accountId}) => {
+const ProfilePage = () => {
+    const accountId = extractId(getAuthToken());
     return (
         <>
             <div className='flex flex-col items-center mb-4'>
