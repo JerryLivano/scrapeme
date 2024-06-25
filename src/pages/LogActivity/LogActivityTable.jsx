@@ -59,7 +59,6 @@ export default function LogActivityTable() {
         }
     }, [logSuccess, logActivities]);
 
-    console.log(logActivities);
     const cols = useMemo(() => {
         const staticColumns = [
             {
@@ -141,6 +140,7 @@ export default function LogActivityTable() {
                               <ButtonDetail
                                   type={"button"}
                                   onClick={() => {
+                                    console.log(row)
                                       if (
                                           row.action
                                               .toLowerCase()
@@ -191,18 +191,21 @@ export default function LogActivityTable() {
             {
                 id: uuid(),
                 header: "",
+                isCenter: true,
                 cell: (row) => row.row.index + 1,
                 accessorFn: (row, i) => i + 1,
             },
             {
                 id: uuid(),
                 header: "App Name",
+                isCenter: true,
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) => row.nameApp,
             },
             {
                 id: uuid(),
                 header: "URL",
+                isCenter: true,
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) => (
                     <a
@@ -217,6 +220,7 @@ export default function LogActivityTable() {
             {
                 id: uuid(),
                 header: "LOGO",
+                isCenter: true,
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) => (
                     <a
@@ -231,6 +235,7 @@ export default function LogActivityTable() {
             {
                 id: uuid(),
                 header: "STATUS",
+                isCenter: true,
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) => (row.isActive ? "ACTIVE" : "INACTIVE"),
             },
@@ -243,6 +248,7 @@ export default function LogActivityTable() {
             {
                 id: uuid(),
                 header: "",
+                isCenter: true,
                 cell: (row) => row.row.index + 1,
                 accessorFn: (row, i) => i + 1,
             },
@@ -250,24 +256,28 @@ export default function LogActivityTable() {
                 id: uuid(),
                 header: "Name",
                 isBlack: true,
+                isCenter: true,
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) => row.name || "",
             },
             {
                 id: uuid(),
                 header: "Email",
+                isCenter: true,
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) => row.email || "",
             },
             {
                 id: uuid(),
                 header: "NIK",
+                isCenter: true,
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) => row.nik || "",
             },
             {
                 id: uuid(),
                 header: "Role",
+                isCenter: true,
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) =>
                     row.role.charAt(5).toUpperCase() +
@@ -279,6 +289,7 @@ export default function LogActivityTable() {
             ? applications.data.map((app) => ({
                   id: uuid(),
                   header: app.name,
+                  isCenter: true,
                   cell: (row) => row.renderValue(),
                   accessorFn: (row) => (
                       <InputCheckbox
@@ -293,6 +304,7 @@ export default function LogActivityTable() {
             {
                 id: uuid(),
                 header: "Status",
+                isCenter: true,
                 cell: (row) => row.renderValue(),
                 accessorFn: (row) => (row.isActive ? "ACTIVE" : "INACTIVE"),
             },

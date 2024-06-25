@@ -36,6 +36,18 @@ export const userApiSlice = apiSlice
                     body
                 }),
                 invalidatesTags: ["User"]
+            }),
+            getPermissionBasedUser: builder.query({
+                query: (id) => `user/${id}`,
+                providesTags: ["User"]
+            }),
+            changePassword: builder.mutation({
+                query: (body) => ({
+                    url: "/user/change-password",
+                    method: "POST",
+                    body
+                }),
+                invalidatesTags: ["User"]
             })
         })
     });
@@ -43,5 +55,7 @@ export const userApiSlice = apiSlice
 export const {
     useGetUserQuery,
     useRegisterMutation,
-    useUpdateUserMutation
+    useUpdateUserMutation,
+    useGetPermissionBasedUserQuery,
+    useChangePasswordMutation
 } = userApiSlice;

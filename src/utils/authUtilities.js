@@ -34,6 +34,10 @@ export const extractRole = (token) => {
     return decodeToken(token).role;
 };
 
+export const extractId = (token) => {
+    return decodeToken(token).id;
+}
+
 export const extractProfilePicture = (token) => {
     return decodeToken(token).profilePicture;
 };

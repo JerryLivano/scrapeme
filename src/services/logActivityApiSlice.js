@@ -27,11 +27,26 @@ export const logActivityApiSlice = apiSlice.enhanceEndpoints({
                 body
             }),
             invalidatesTags: ["LogActivity"]
+        }),
+        getPermissionBasedLog: builder.query({
+            query: (args) => {
+                const {
+                    apps,
+                    startDate,
+                    endDate,
+                    page,
+                    limit
+                } = args;
+                const appsParams = apps && apps.length > 0 ? apps.map((app) => `appFilter=${app}`).join('&') + '&' : '';
+                return `/log-activity/permission-based?${appsParams}startDate=${startDate}&endDate=${endDate}&page=${page}&limit=${limit}`;
+            },
+            providesTags: ["LogActivity"]
         })
     })
 });
 
 export const {
     useGetLogActivityQuery,
-    useLoginApplicationMutation
+    useLoginApplicationMutation,
+    useGetPermissionBasedLogQuery
 } = logActivityApiSlice;

@@ -14,6 +14,8 @@ import ManageApplicationPage from "./UI/ManageAppPage";
 import { ToastContainer } from "react-toastify";
 import RequireAuth from "./features/auth/RequireAuth";
 import { Permission } from "./utils/roleUtilities";
+import ProfilePage from "./pages/Profile/Index";
+import { extractId, getAuthToken } from "./utils/authUtilities";
 
 const App = () => {
     return (
@@ -74,6 +76,19 @@ const App = () => {
 
                     {/* Log Activity Page */}
                     <Route path='log-activity' element={<LogActivity />} />
+
+                    {/* Profile Page */}
+                    <Route
+                        path='profile'
+                        element={
+                            <RequireAuth permissions={Permission.Profile}>
+                                <ProfilePage 
+                                    accountId={extractId(getAuthToken())}
+                                />
+                            </RequireAuth>
+                        }
+                    />
+
                     <Route path='setting' element={<Settings />} />
                 </Route>
             </Routes>

@@ -1,6 +1,5 @@
 import { HomeIcon, UsersIcon, ComputerDesktopIcon, ClipboardDocumentListIcon } from '@heroicons/react/24/outline';
 
-
 const navigation = [
     {
         name: 'Home Page',
@@ -31,7 +30,7 @@ const teams = [
 ];
 
 const userNavigation = [
-    { name: 'Account Settings', href: '#' },
+    { name: 'Account Settings', href: 'profile' },
     { name: 'Sign out', href: '#' },
 ];
 
