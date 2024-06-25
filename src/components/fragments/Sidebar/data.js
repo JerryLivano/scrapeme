@@ -31,7 +31,7 @@ const teams = [
 ];
 
 const userNavigation = [
-    { name: 'Account Settings', href: '#' },
+    { name: 'Account Settings', href: 'profile' },
     { name: 'Sign out', href: '#' },
 ];
 

@@ -14,6 +14,7 @@ import ManageApplicationPage from "./UI/ManageAppPage";
 import { ToastContainer } from "react-toastify";
 import RequireAuth from "./features/auth/RequireAuth";
 import { Permission } from "./utils/roleUtilities";
+import ProfilePage from "./pages/Profile/Index";
 
 const App = () => {
     return (
@@ -74,6 +75,10 @@ const App = () => {
 
                     {/* Log Activity Page */}
                     <Route path='log-activity' element={<LogActivity />} />
+
+                    {/* Profile Page */}
+                    <Route path='profile' element={<ProfilePage />} />
+
                     <Route path='setting' element={<Settings />} />
                 </Route>
             </Routes>

@@ -106,12 +106,10 @@ const Header = (props) => {
                                             {({ active }) =>
                                                 item.name === "Sign out" ? (
                                                     <button
-                                                        //#region Ari test logout
                                                         onClick={() =>
                                                             handleLogout()
                                                         }
                                                         className='flex justify-start px-3 py-2 text-sm hover:bg-gray-100 w-48 justify-self-center'
-                                                        //#endregion
                                                     >
                                                         {item.name}
                                                     </button>

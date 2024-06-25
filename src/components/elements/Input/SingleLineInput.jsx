@@ -4,6 +4,7 @@ import ErrorLabel from "../../fragments/Notification/ErrorLabel";
 import ErrorMessage from "../../layouts/ErrorMessage";
 import { twMerge } from "tailwind-merge";
 import InputLabel from "./Modal/InputLabel";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 
 const SingleLineInput = forwardRef(function SingleLineInputInternal(
     {
@@ -21,19 +22,24 @@ const SingleLineInput = forwardRef(function SingleLineInputInternal(
         startAdornment,
         endAdornment,
         inputClassName,
+        isPassword = false,
+        inputLabel = true,
         ...props
     },
     ref
 ) {
     const id = useId();
+    const [showPassword, setShowPassword] = useState(false);
     const [showError, setShowError] = useState(false);
 
     return (
         <>
             <div className='flex h-full w-full items-center'>
-                <div className='w-2/5 items-start font-semibold text-lg'>
-                    <InputLabel label={label} htmlFor={id} />
-                </div>
+                {inputLabel && (
+                    <div className='w-2/5 items-start font-semibold text-lg'>
+                        <InputLabel label={label} htmlFor={id} />
+                    </div>
+                )}
                 <div className='flex w-full items-start'>
                     <div className='flex w-3/5 relative'>
                         {startAdornment && (
@@ -50,6 +56,13 @@ const SingleLineInput = forwardRef(function SingleLineInputInternal(
                         )}
                         <input
                             id={id}
+                            type={
+                                isPassword
+                                    ? showPassword
+                                        ? "text"
+                                        : "password"
+                                    : "text"
+                            }
                             placeholder={placeholder ?? ""}
                             disabled={disabled}
                             required={required}
@@ -74,6 +87,18 @@ const SingleLineInput = forwardRef(function SingleLineInputInternal(
                             ref={ref}
                             {...props}
                         />
+                        {isPassword && (
+                            <div
+                                className='absolute inset-y-0 right-3 flex items-center text-gray-500 cursor-pointer'
+                                onClick={() => setShowPassword(!showPassword)}
+                            >
+                                {showPassword ? (
+                                    <EyeSlashIcon className='w-5 h-5' />
+                                ) : (
+                                    <EyeIcon className='w-5 h-5' />
+                                )}
+                            </div>
+                        )}
                         {notFound && (
                             <div
                                 className='absolute inset-y-0 right-2 flex items-center text-red-600 cursor-pointer'
