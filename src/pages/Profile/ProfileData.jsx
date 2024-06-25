@@ -187,8 +187,6 @@ const ProfileData = () => {
         setPage(newPageNumber);
     };
 
-    console.log(appIdOpt);
-
     return (
         <>
             {userLoading && logsLoading && applicationLoading && <Spinner />}
