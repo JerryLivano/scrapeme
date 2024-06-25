@@ -11,7 +11,7 @@ import {
     toastError,
     toastSuccess,
 } from "../../components/elements/Alert/Toast";
-import SingleLineInputProfile from "../../components/elements/Input/SIngleLineInputProfile";
+import SingleLineInputProfile from "../../components/elements/Input/SingleLineInputProfile";
 import { useGetPermissionBasedLogQuery } from "../../services/logActivityApiSlice";
 import DataTable from "../../components/layouts/DataTable";
 import uuid from "react-uuid";
