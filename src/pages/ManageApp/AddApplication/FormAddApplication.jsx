@@ -141,21 +141,22 @@ export default function FormAddApplication() {
             if (data.name.trim() === "") {
                 setNameNotFound(true);
             }
-
+    
             if (data.url.trim() === "") {
                 setUrlNotFound(true);
             }
-
+    
             if (avatarUrl.current === LogoAddImage) {
                 setImageNotFound(true);
                 setErrorImageMessage("Fill in this field");
             }
-
+    
             setShowAddApplication(false);
             window.scrollTo(0, 0);
             return;
         }
-
+    
+        setShowAddApplication(false);
         try {
             const request = {
                 name: data.name,
@@ -164,18 +165,24 @@ export default function FormAddApplication() {
                 image: data.logo,
                 imageName: logoName
             };
-
+    
             await createApplication(request).unwrap();
             formAppReset();
             avatarUrl.current = LogoAddImage;
+    
+            // Save success message to localStorage
+            localStorage.setItem('toastMessage', JSON.stringify({ type: 'success', message: 'Successfully created application' }));
+    
             location.reload();
-            toastSuccess({ message: "Successfully created application" });
-        } catch {
-            toastError({ message: "Failed to create application" });
+        } catch (error) {
+            // Save error message to localStorage
+            localStorage.setItem('toastMessage', JSON.stringify({ type: 'error', message: 'Failed to create application' }));
+    
+            location.reload();
         }
-        setShowAddApplication(false);
-        return;
     };
+    
+    
 
     return (
         <div className='w-full border border-gray-300 rounded-md px-8 py-6'>

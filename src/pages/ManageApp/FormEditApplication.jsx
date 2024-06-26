@@ -133,6 +133,18 @@ export default function FormEditApplication({
         }
     };
 
+    useEffect(() => {
+        const toastMessage = JSON.parse(localStorage.getItem('toastMessage'));
+        if (toastMessage) {
+            if (toastMessage.type === 'success') {
+                toastSuccess({ message: toastMessage.message });
+            } else {
+                toastError({ message: toastMessage.message });
+            }
+            localStorage.removeItem('toastMessage');
+        }
+    }, []);
+
     const { getRootProps, getInputProps } = useDropzone({
         onDrop,
         accept: {
