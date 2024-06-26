@@ -21,7 +21,7 @@ import SingleLineValueInput from "../../../components/elements/Input/SingleLineV
 import { useNavigate } from "react-router-dom";
 import ButtonOutline from "../../../components/elements/Button/ButtonOutline";
 import ModalConfirmAddData from "../../../components/elements/Confirmation/ModalConfirmAddData";
-import { toastError } from "../../../components/elements/Alert/Toast";
+import { toastError, toastSuccess } from "../../../components/elements/Alert/Toast";
 import ButtonSave from "../../../components/elements/Button/ButtonSave";
 
 export default function FormAddUser() {
@@ -193,6 +193,7 @@ export default function FormAddUser() {
             setAddedUser([]);
             resetAllUser();
             navigate(-1);
+            toastSuccess({ message: "Successfully Add User" });
         } catch (error) {
             toastError({ message: error.message });
         }

@@ -9,7 +9,7 @@ const ModalDetailAddLog = ({ open, setOpen, titleForm, columns, data }) => {
             setOpen={setOpen}
             titleForm={`${titleForm} Data Added`}
         >
-            <div className='mt-4'>
+            <div className='mt-4 max-w-[900px]'>
                 <DataTable data={data || []} columns={columns} />
             </div>
         </FormModal>
