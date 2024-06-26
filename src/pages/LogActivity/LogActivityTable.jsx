@@ -95,12 +95,14 @@ export default function LogActivityTable() {
                   {
                       id: uuid(),
                       header: "Application",
+                      isCenter: true,
                       cell: (row) => row.renderValue(),
                       accessorFn: (row) => row.action || "",
                   },
                   {
                       id: uuid(),
                       header: "Date",
+                      isCenter: true,
                       cell: (row) => row.renderValue(),
                       accessorFn: (row) =>
                           formatDateTime(row.createdDate) || "",
