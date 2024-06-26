@@ -11,6 +11,7 @@ import InputCheckboxGroup from "../../../components/elements/Input/InputCheckbox
 import uuid from "react-uuid";
 import {
     useGetUserQuery,
+    useRegisterBulkMutation,
     useRegisterMutation,
 } from "../../../services/userApiSlice";
 import SingleLineInput from "../../../components/elements/Input/SingleLineInput.jsx";
@@ -34,7 +35,6 @@ export default function FormAddUser() {
     const [showAddAllUser, setShowAddAllUser] = useState(false);
     const [alertColor, setAlertColor] = useState(false);
     const [emailNotFound, setEmailNotFound] = useState(false);
-    const [registerLoading, setRegisterLoading] = useState(false);
 
     const navigate = useNavigate();
 
@@ -90,7 +90,7 @@ export default function FormAddUser() {
         isActive: true
     });
 
-    const [addUser] = useRegisterMutation();
+    const [addBulkUser, { isLoading: bulkUserLoading }] = useRegisterBulkMutation()
 
     const [getCVMeUser] = useGetCvMeEmployeeMutation();
 
@@ -132,7 +132,6 @@ export default function FormAddUser() {
     };
 
     const onSubmitAddedUser = (data) => {
-        console.log(users);
         if (data.email.trim() === "" || data.firstName.trim() === "") {
             setEmailNotFound(true);
             window.scrollTo(0, 0);
@@ -184,12 +183,8 @@ export default function FormAddUser() {
             ),
         }));
         setShowAddAllUser(false);
-        setRegisterLoading(true);
         try {
-            for (const user of request) {
-                await addUser(user).unwrap();
-            }
-            setRegisterLoading(false);
+            await addBulkUser(request).unwrap();
             setAddedUser([]);
             resetAllUser();
             navigate(-1);
@@ -215,8 +210,8 @@ export default function FormAddUser() {
         onSearchCVMeUser(watch("email"));
     }, [watch("email")]);
 
-    if (registerLoading) content = <Spinner />;
-    if (appIsSuccess && roleIsSuccess && !registerLoading) {
+    if (bulkUserLoading) content = <Spinner />;
+    if (appIsSuccess && roleIsSuccess && !bulkUserLoading) {
         content = (
             <>
                 <div className='w-full px-8 mb-8'>

@@ -48,6 +48,14 @@ export const userApiSlice = apiSlice
                     body
                 }),
                 invalidatesTags: ["User"]
+            }),
+            registerBulk: builder.mutation({
+                query: (body) => ({
+                    url: "/register-bulk",
+                    method: "POST",
+                    body
+                }),
+                invalidatesTags: ["User"]
             })
         })
     });
@@ -57,5 +65,6 @@ export const {
     useRegisterMutation,
     useUpdateUserMutation,
     useGetPermissionBasedUserQuery,
-    useChangePasswordMutation
+    useChangePasswordMutation,
+    useRegisterBulkMutation
 } = userApiSlice;
