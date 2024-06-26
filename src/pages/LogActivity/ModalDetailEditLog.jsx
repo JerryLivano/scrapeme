@@ -18,11 +18,11 @@ const ModalDetailEditLog = ({
             setOpen={setOpen}
             titleForm={`${titleForm} Data Changed`}
         >
-            <div className='mt-4'>
+            <div className='mt-4 max-w-[900px]'>
                 <div className='font-normal text-start'>Old Data</div>
                 <DataTable data={oldData || []} columns={columns} />
             </div>
-            <div className='mt-8'>
+            <div className='mt-8 max-w-[900px]'>
                 <div className='font-normal text-start'>Recent Data</div>
                 <DataTable data={newData || []} columns={columns} />
             </div>
