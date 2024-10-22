@@ -1,21 +1,12 @@
 import { Route, Routes } from "react-router-dom";
-import {
-    HomePage,
-    ForgotPassword,
-    Login,
-    NewPassword,
-    Settings,
-    LogActivity,
-} from "./pages";
-import { AuthLayout, DashLayout, Layout } from "./components/layouts/index";
-import AddUser from "./pages/ManageUser/AddUser/index";
-import ManageUserPage from "./UI/ManageUserPage";
-import ManageApplicationPage from "./UI/ManageAppPage";
 import { ToastContainer } from "react-toastify";
-import RequireAuth from "./features/auth/RequireAuth";
-import { Permission } from "./utils/roleUtilities";
-import ProfilePage from "./pages/Profile/Index";
-import { extractId, getAuthToken } from "./utils/authUtilities";
+import LoginPage from "./pages/LoginPage/LoginPage";
+import RegisterPage from "./pages/RegisterPage/RegisterPage";
+import DashboardLayout from "./components/layout/Dashboard/DashboardLayout";
+import DashboardPage from "./pages/DashboardPage/DashboardPage";
+import ScrapePage from "./pages/ScrapePage/ScrapePage";
+import CategoryPage from "./pages/CategoryPage/CategoryPage";
+import AccountPage from "./pages/AccountPage/AccountPage";
 
 const App = () => {
     return (
@@ -23,73 +14,25 @@ const App = () => {
             <Routes>
                 {/* Public Pages */}
                 {/* Login Page */}
-                <Route element={<AuthLayout />}>
-                    <Route index element={<Login />} />
-                    <Route
-                        path='forgot-password'
-                        element={<ForgotPassword />}
-                    />
-                    <Route path='reset-password' element={<NewPassword />} />
-                </Route>
+                <Route index element={<LoginPage />} />
+                <Route path='register' element={<RegisterPage />} />
 
-                {/* Protected Pages */}
-                <Route element={<DashLayout />}>
-                    {/* Home Page */}
-                    <Route
-                        path='home'
-                        element={
-                            <RequireAuth permissions={Permission.Home}>
-                                <HomePage />
-                            </RequireAuth>
-                        }
-                    />
+                {/* Private Route */}
+                <Route element={<DashboardLayout />}>
+                    {/* Dashboard */}
+                    <Route path='dashboard' element={<DashboardPage />} />
 
-                    {/* User Page */}
-                    <Route path='user'>
-                        <Route
-                            index
-                            element={
-                                <RequireAuth permissions={Permission.User}>
-                                    <ManageUserPage />
-                                </RequireAuth>
-                            }
-                        />
-                        <Route
-                            path='add-user'
-                            element={
-                                <RequireAuth permissions={Permission.User}>
-                                    <AddUser />
-                                </RequireAuth>
-                            }
-                        />
-                    </Route>
+                    {/* Scrape */}
+                    <Route path='scrape' element={<ScrapePage />} />
 
-                    {/* Application Page */}
-                    <Route
-                        path='application'
-                        element={
-                            <RequireAuth permissions={Permission.Application}>
-                                <ManageApplicationPage />
-                            </RequireAuth>
-                        }
-                    />
+                    {/* Category */}
+                    <Route path='category' element={<CategoryPage />} />
 
-                    {/* Log Activity Page */}
-                    <Route path='log-activity' element={<LogActivity />} />
-
-                    {/* Profile Page */}
-                    <Route
-                        path='profile'
-                        element={
-                            <RequireAuth permissions={Permission.Profile}>
-                                <ProfilePage />
-                            </RequireAuth>
-                        }
-                    />
-
-                    <Route path='setting' element={<Settings />} />
+                    {/* Account */}
+                    <Route path='account' element={<AccountPage />} />
                 </Route>
             </Routes>
+
             <ToastContainer
                 position='top-center'
                 autoClose={3000}

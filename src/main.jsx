@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
-import "react-toastify/dist/ReactToastify.css";
+import "./assets/styles/index.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Provider } from "react-redux";
 import App from "./App.jsx";

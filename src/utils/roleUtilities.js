@@ -1,23 +1,15 @@
 export const Role = {
     ADMIN: "ROLE_ADMIN",
-    EMPLOYEE: "ROLE_EMPLOYEE"
+    USER: "ROLE_USER"
 }
 
 export const RoleNames = [
     {
         role: Role.ADMIN,
-        name: "ROLE_ADMIN"
+        name: "Admin"
     },
     {
-        role: Role.EMPLOYEE,
-        name: "ROLE_EMPLOYEE"
+        role: Role.USER,
+        name: "User"
     }
 ];
-
-export const Permission = {
-    Home: [Role.ADMIN, Role.EMPLOYEE],
-    User: [Role.ADMIN],
-    Application: [Role.ADMIN],
-    LogActivity: [Role.ADMIN, Role.EMPLOYEE],
-    Profile: [Role.ADMIN, Role.EMPLOYEE]
-};
