@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
     getAuthToken,
     extractName,
@@ -10,7 +10,7 @@ import MenuItemDropdown from "../../common/Public/Button/MenuItemDropdown";
 import { NavLink } from "react-router-dom";
 import FormModalChangePassword from "../../common/AccountPage/FormModalChangePassword";
 import { useGetAccountQuery } from "../../../services/account/accountApiSlice";
-import FormModalEditAccount from "../../common/AccountPage/FormModalEditAccount";
+import FormEditAuthAccount from "./FormEditAuthAccount";
 
 export default function UserProfile() {
     const [name, setName] = useState("");
@@ -30,7 +30,7 @@ export default function UserProfile() {
         setName(extractName(token));
         const roles = extractRole(token);
         for (const roleName of RoleNames) {
-            if (roles.role_name.includes(roleName.role)) {
+            if (roles.includes(roleName.role)) {
                 setRole(roleName.name);
                 break;
             }
@@ -60,7 +60,10 @@ export default function UserProfile() {
                             functionByActions={[
                                 {
                                     action: "Edit Account",
-                                    onFunction: () => setEditModal(true),
+                                    onFunction: () => {
+                                        setEditModal(true);
+                                        setShowDropdown(false);
+                                    },
                                 },
                                 {
                                     action: "Change Password",
@@ -76,7 +79,7 @@ export default function UserProfile() {
             </div>
 
             {isSuccess && (
-                <FormModalEditAccount
+                <FormEditAuthAccount
                     open={editModal}
                     setOpen={setEditModal}
                     account={account.data}

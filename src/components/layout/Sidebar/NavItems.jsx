@@ -9,22 +9,28 @@ import {
     UsersIcon,
 } from "@heroicons/react/24/solid";
 import { useEffect, useState } from "react";
+import { Permission } from "../../../utils/roleUtilities";
+import { extractRole, getAuthToken } from "../../../utils/authUtilities";
 
 const submenuScrape = [
     {
         name: "Web Scraping",
+        permission: Permission.Scrape,
     },
     {
         name: "Manage Template",
         href: "template",
+        permission: Permission.Template,
     },
     {
         name: "Favorite Scraped Data",
         href: "favorite",
+        permission: Permission.Favorite,
     },
     {
         name: "Scrape History",
         href: "history",
+        permission: Permission.History,
     },
 ];
 
@@ -32,11 +38,13 @@ const navigation = [
     {
         name: "Dashboard",
         href: "dashboard",
+        permission: Permission.Dashboard,
         icon: HomeIcon,
     },
     {
         name: "Scrape Menu",
         href: "scrape",
+        permission: Permission.Scrape,
         submenu: submenuScrape,
         suffixIcon: ChevronDownIcon,
         icon: CodeBracketIcon,
@@ -44,16 +52,19 @@ const navigation = [
     {
         name: "Manage Site",
         href: "site",
+        permission: Permission.Site,
         icon: LinkIcon,
     },
     {
         name: "Manage Category",
         href: "category",
+        permission: Permission.Category,
         icon: TagIcon,
     },
     {
         name: "Manage Account",
         href: "account",
+        permission: Permission.Account,
         icon: UsersIcon,
     },
 ];
@@ -64,22 +75,33 @@ function classNames(...classes) {
 
 export default function NavItems() {
     const [allowedNav, setAllowedNav] = useState([]);
-    const [roles, setRoles] = useState([]);
+    const [role, setRole] = useState("");
     const [isScrapeMenuOpen, setIsScrapeMenuOpen] = useState(false);
 
     useEffect(() => {
-        const allowedNavigation = navigation.map((nav) => {
-            if (nav.href === "scrape") {
-                return {
-                    ...nav,
-                    submenu: nav.submenu,
-                };
-            } else {
-                return nav;
+        const token = getAuthToken();
+        if (token) {
+            setRole(extractRole(token));
+        } else {
+            setRole("");
+        }
+    }, []);
+
+    useEffect(() => {
+        if (role === "") return;
+        const allowedNavigation = navigation.filter((navItem) =>
+            navItem.permission.includes(role)
+        );
+
+        allowedNavigation.forEach((navItem) => {
+            if (navItem.submenu) {
+                navItem.submenu = navItem.submenu.filter((submenuItem) =>
+                    submenuItem.permission.includes(role)
+                );
             }
         });
         setAllowedNav(allowedNavigation);
-    }, []);
+    }, [role]);
 
     useEffect(() => {
         setIsScrapeMenuOpen(
@@ -201,7 +223,7 @@ export default function NavItems() {
                                                                         submenuItem.name
                                                                     }
                                                                     to={
-                                                                        !submenuItem.href 
+                                                                        !submenuItem.href
                                                                             ? item.href
                                                                             : `${item.href}/${submenuItem.href}`
                                                                     }

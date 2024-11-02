@@ -7,6 +7,8 @@ import DashboardPage from "./pages/DashboardPage/DashboardPage";
 import ScrapePage from "./pages/ScrapePage/ScrapePage";
 import CategoryPage from "./pages/CategoryPage/CategoryPage";
 import AccountPage from "./pages/AccountPage/AccountPage";
+import RequireAuth from "./components/layout/RequireAuth";
+import { Permission } from "./utils/roleUtilities";
 
 const App = () => {
     return (
@@ -20,16 +22,44 @@ const App = () => {
                 {/* Private Route */}
                 <Route element={<DashboardLayout />}>
                     {/* Dashboard */}
-                    <Route path='dashboard' element={<DashboardPage />} />
+                    <Route
+                        path='dashboard'
+                        element={
+                            <RequireAuth permissions={Permission.Dashboard}>
+                                <DashboardPage />
+                            </RequireAuth>
+                        }
+                    />
 
                     {/* Scrape */}
-                    <Route path='scrape' element={<ScrapePage />} />
+                    <Route
+                        path='scrape'
+                        element={
+                            <RequireAuth permissions={Permission.Scrape}>
+                                <ScrapePage />
+                            </RequireAuth>
+                        }
+                    />
 
                     {/* Category */}
-                    <Route path='category' element={<CategoryPage />} />
+                    <Route
+                        path='category'
+                        element={
+                            <RequireAuth permissions={Permission.Category}>
+                                <CategoryPage />
+                            </RequireAuth>
+                        }
+                    />
 
                     {/* Account */}
-                    <Route path='account' element={<AccountPage />} />
+                    <Route
+                        path='account'
+                        element={
+                            <RequireAuth permissions={Permission.Account}>
+                                <AccountPage />
+                            </RequireAuth>
+                        }
+                    />
                 </Route>
             </Routes>
 

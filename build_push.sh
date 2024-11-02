@@ -1,5 +1,5 @@
 #!/bin/bash
-IMAGE_NAME="metrodataacademy/portalme"
+IMAGE_NAME="JerryLivano/scrapeme"
 DEFAULT_TAG="latest"
 
 echo "Select the environment:"

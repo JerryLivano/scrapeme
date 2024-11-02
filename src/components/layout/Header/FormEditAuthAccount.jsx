@@ -1,21 +1,28 @@
 import { useForm } from "react-hook-form";
 import { useUpdateAccountMutation } from "../../../services/account/accountApiSlice";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { toastError } from "../../common/Public/Toast";
 import ModalActionForm from "../../common/Public/Form/ModalActionForm";
 import Spinner from "../../common/Public/Spinner";
 import ButtonSubmitModal from "../../common/Public/Button/ButtonSubmitModal";
 import SingleLineInput from "../../common/Public/Form/SingleLineInput";
+import { useNavigate } from "react-router-dom";
+import ModalConfirmEditAuth from "../../common/Public/Confirmation/ModalConfirmEditAuth";
+import { removeAuthToken } from "../../../utils/authUtilities";
 
 export default function FormEditAuthAccount({ open, setOpen, account }) {
+    const [showConfirmation, setShowConfirmation] = useState(false);
+
+    const navigate = useNavigate();
+
     const [editAccount, { isLoading: editAccountLoading }] =
         useUpdateAccountMutation();
 
     const {
         register,
         handleSubmit,
-        watch,
         setValue,
+        reset,
         formState: { errors: formErrors },
     } = useForm({
         defaultValues: {
@@ -25,6 +32,8 @@ export default function FormEditAuthAccount({ open, setOpen, account }) {
         },
         mode: "onSubmit",
     });
+
+    const { handleSubmit: openModal } = useForm({});
 
     useEffect(() => {
         if (account && account.user) {
@@ -49,10 +58,27 @@ export default function FormEditAuthAccount({ open, setOpen, account }) {
         await editAccount(request)
             .unwrap()
             .then(() => {
-                toastSuccess({ message: `Successfully edited account` });
+                removeAuthToken();
+                navigate("/", { replace: true });
             })
-            .catch(() => {
-                toastError({ message: "Failed to edit account, please try again." });
+            .catch((error) => {
+                setShowConfirmation(false);
+                if (error.status === 404) {
+                    toastError({
+                        message: "Email already exists",
+                    });
+                } else {
+                    toastError({
+                        message: "Failed to edit account, please try again.",
+                    });
+                }
+                reset({
+                    firstName: account.user.first_name,
+                    lastName: account.user.last_name
+                        ? account.user.last_name
+                        : "",
+                    email: account.user.email,
+                });
             });
     };
 
@@ -63,7 +89,12 @@ export default function FormEditAuthAccount({ open, setOpen, account }) {
                 setOpen={setOpen}
                 titleForm={"Edit User Account"}
             >
-                <form onSubmit={handleSubmit(onSubmit)}>
+                <form
+                    onSubmit={openModal(() => {
+                        setOpen(false);
+                        setShowConfirmation(true);
+                    })}
+                >
                     <SingleLineInput
                         label={"First Name"}
                         required
@@ -104,6 +135,16 @@ export default function FormEditAuthAccount({ open, setOpen, account }) {
                     </div>
                 </form>
             </ModalActionForm>
+
+            <ModalConfirmEditAuth
+                title={"Confirm Edit Auth Account"}
+                message={"Please login again to update account"}
+                onConfirmHandler={handleSubmit(onSubmit)}
+                openModal={showConfirmation}
+                setOpenModal={setShowConfirmation}
+                typeButton={"submit"}
+            />
+
             {editAccountLoading && (
                 <div className='relative'>
                     <div className='fixed inset-0 z-[70] bg-gray-300 opacity-75 transition-opacity'>

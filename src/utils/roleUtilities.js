@@ -13,3 +13,14 @@ export const RoleNames = [
         name: "User"
     }
 ];
+
+export const Permission = {
+    Dashboard: [Role.ADMIN, Role.USER],
+    Scrape: [Role.ADMIN, Role.USER],
+    Template: [Role.ADMIN],
+    Favorite: [Role.ADMIN, Role.USER],
+    History: [Role.ADMIN, Role.USER],
+    Site: [Role.ADMIN, Role.USER],
+    Category: [Role.ADMIN],
+    Account: [Role.ADMIN],
+}

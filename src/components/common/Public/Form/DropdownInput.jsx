@@ -7,6 +7,7 @@ const DropdownInput = forwardRef(function DropdownInputInternal(
     {
         required = false,
         label,
+        value,
         placeholder,
         children,
         className,
@@ -33,6 +34,7 @@ const DropdownInput = forwardRef(function DropdownInputInternal(
                     disabled && "cursor-not-allowed bg-gray-100 text-gray-400"
                 )}
                 ref={ref}
+                value={value ? value : ""}
                 {...props}
                 required={required}
                 disabled={disabled}

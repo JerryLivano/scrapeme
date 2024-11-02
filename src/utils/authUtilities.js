@@ -34,7 +34,7 @@ export const extractName = (token) => {
 
 export const extractRole = (token) => {
     const decodedToken = decodeToken(token);
-    return decodedToken.role;
+    return decodedToken.role.role_name;
 };
 
 export const extractExpiredTime = (token) => {
