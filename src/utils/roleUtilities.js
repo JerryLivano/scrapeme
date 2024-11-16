@@ -21,6 +21,7 @@ export const Permission = {
     Favorite: [Role.ADMIN, Role.USER],
     History: [Role.ADMIN, Role.USER],
     Site: [Role.ADMIN, Role.USER],
+    Request: [Role.ADMIN, Role.USER],
     Category: [Role.ADMIN],
     Account: [Role.ADMIN],
 }

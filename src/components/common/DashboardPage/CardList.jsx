@@ -1,79 +1,67 @@
 import { useEffect, useState } from "react";
 import {
-    BookmarkIcon,
+    DocumentCheckIcon,
     LinkIcon,
-    PencilSquareIcon,
     UsersIcon,
 } from "@heroicons/react/24/solid";
 import CardListItem from "./CardListItem";
+import { useGetCountQuery } from "../../../services/dashboard/dashboardApiSlice";
+import Spinner from "../Public/Spinner";
 
 const list = {
     account: {
         bgColor: "bg-[#001F54]",
-        icon: <UsersIcon className='h-6 w-6 text-white' aria-hidden='true' />,
+        icon: <UsersIcon className='h-8 w-8 text-white' aria-hidden='true' />,
         href: "/account",
     },
     site: {
         bgColor: "bg-[#4682B4]",
-        icon: <LinkIcon className='h-6 w-6 text-white' aria-hidden='true' />,
+        icon: <LinkIcon className='h-8 w-8 text-white' aria-hidden='true' />,
         href: "/site",
     },
-    template: {
+    request: {
         bgColor: "bg-[#4169E1]",
-        icon: <PencilSquareIcon className='h-6 w-6 text-white' aria-hidden='true' />,
-        href: "/scrape/template",
-    },
-    history: {
-        bgColor: "bg-[#6A5ACD]",
-        icon: <BookmarkIcon className='h-6 w-6 text-white' aria-hidden='true' />,
-        href: "/scrape/history",
+        icon: (
+            <DocumentCheckIcon
+                className='h-8 w-8 text-white'
+                aria-hidden='true'
+            />
+        ),
+        href: "/request",
     },
 };
 
 export default function CardList() {
-    const [siteCount, setSiteCount] = useState(0);
-    const [templateCount, setTemplateCount] = useState(0);
-    const [historyCount, setHistoryCount] = useState(0);
-    const [accountCount, setAccountCount] = useState(0);
-
-    //   const { data: cardInfo } = useGetCardInfoQuery();
-
-    //   useEffect(() => {
-    //     if (cardInfo) {
-    //       setEmployeeCount(cardInfo?.data[0]?.totalEmployee);
-    //       setClassCount(cardInfo?.data[0]?.totalBatchClass);
-    //       setInterviewCount(cardInfo?.data[0]?.totalInterview);
-    //       setPlacementCount(cardInfo?.data[0]?.totalPlacement);
-    //     }
-    //   }, [cardInfo]);
+    const {
+        data: dashboardCount,
+        isLoading,
+        isSuccess,
+    } = useGetCountQuery();
 
     return (
-        <div>
-            <ul
-                role='list'
-                className='grid grid-cols-1 gap-x-6 gap-y-8 lg:grid-cols-4 xl:gap-x-8'
-            >
-                <CardListItem
-                    {...list["account"]}
-                    title='User Account'
-                    count={accountCount}
-                />
-                <CardListItem
-                    {...list["site"]}
-                    title='Site Source'
-                    count={siteCount}
-                />
-                <CardListItem
-                    {...list["template"]}
-                    title='Scrape Template'
-                    count={templateCount}
-                />
-                <CardListItem
-                    {...list["history"]}
-                    title='Scrape History'
-                    count={historyCount}
-                />
-            </ul>
-        </div>
+        <>
+            {isLoading && <Spinner />}
+            {!isLoading && (
+                <div className='w-full'>
+                    <div className='grid gap-x-6 gap-y-8 lg:grid-cols-3 xl:gap-x-8'>
+                        <CardListItem
+                            {...list["account"]}
+                            title='User Account'
+                            count={isSuccess ? dashboardCount.data.account : 0}
+                        />
+                        <CardListItem
+                            {...list["site"]}
+                            title='Site Source'
+                            count={isSuccess ? dashboardCount.data.site : 0}
+                        />
+                        <CardListItem
+                            {...list["request"]}
+                            title='Pending Request'
+                            count={isSuccess ? dashboardCount.data.request : 0}
+                        />
+                    </div>
+                </div>
+            )}
+        </>
     );
 }

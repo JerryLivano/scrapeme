@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { extractRole, getAuthToken, removeAuthToken } from "../../utils/authUtilities";
 
 export default function RequireAuth({ children, permissions }) {
-    const [allowed, setAllowed] = useState(true);
+    const [allowed, setAllowed] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -15,7 +15,7 @@ export default function RequireAuth({ children, permissions }) {
         }
         const role = extractRole(token);
         if (!permissions.includes(role)) {
-            navigate("/", { replace: true });
+            navigate("/", { replace: true, state: { from: location } });
             removeAuthToken();
             return;
         }

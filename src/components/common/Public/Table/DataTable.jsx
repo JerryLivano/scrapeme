@@ -171,7 +171,7 @@ export default function DataTable({
                                 {showFilterRole ? (
                                     <div className='ml-3 flex items-center'>
                                         <div className='mr-2 text-sm font-medium leading-6 text-gray-400'>
-                                            Role name
+                                            Role
                                         </div>
                                         <DropdownInput
                                             value={filterRole}

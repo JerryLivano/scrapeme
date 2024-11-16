@@ -9,6 +9,7 @@ import CategoryPage from "./pages/CategoryPage/CategoryPage";
 import AccountPage from "./pages/AccountPage/AccountPage";
 import RequireAuth from "./components/layout/RequireAuth";
 import { Permission } from "./utils/roleUtilities";
+import SitePage from "./pages/SitePage/SItePage";
 
 const App = () => {
     return (
@@ -41,15 +42,25 @@ const App = () => {
                         }
                     />
 
+                    {/* Site */}
+                    <Route 
+                        path='site'
+                        element={
+                            <RequireAuth permissions={Permission.Site}>
+                                <SitePage />
+                            </RequireAuth>
+                        }
+                    />
+
                     {/* Category */}
-                    <Route
+                    {/* <Route
                         path='category'
                         element={
                             <RequireAuth permissions={Permission.Category}>
                                 <CategoryPage />
                             </RequireAuth>
                         }
-                    />
+                    /> */}
 
                     {/* Account */}
                     <Route

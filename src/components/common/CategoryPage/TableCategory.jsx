@@ -1,4 +1,4 @@
-import { useEffect, useId, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
     useDeleteCategoryMutation,
     useGetCategoriesQuery,

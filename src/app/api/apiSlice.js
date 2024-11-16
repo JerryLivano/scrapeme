@@ -4,10 +4,10 @@ import { getAuthToken } from '../../utils/authUtilities';
 const baseQuery = fetchBaseQuery({
     baseUrl: `${import.meta.env.VITE_API_URL}`,
     credentials: 'same-origin',
-    prepareHeaders: (headers, { getState }) => {
+    prepareHeaders: (headers) => {
         const token = getAuthToken();
         if (token) {
-            headers.set("Authorization", `Bearer ${token}`);
+            headers.set("Authorization", token);
         }
         return headers;
     }

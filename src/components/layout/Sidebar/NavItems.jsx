@@ -3,9 +3,9 @@ import {
     ChevronDownIcon,
     ChevronUpIcon,
     CodeBracketIcon,
+    DocumentCheckIcon,
     HomeIcon,
     LinkIcon,
-    TagIcon,
     UsersIcon,
 } from "@heroicons/react/24/solid";
 import { useEffect, useState } from "react";
@@ -56,11 +56,17 @@ const navigation = [
         icon: LinkIcon,
     },
     {
-        name: "Manage Category",
-        href: "category",
-        permission: Permission.Category,
-        icon: TagIcon,
+        name: "Site Request",
+        href: "request",
+        permission: Permission.Request,
+        icon: DocumentCheckIcon,
     },
+    // {
+    //     name: "Manage Category",
+    //     href: "category",
+    //     permission: Permission.Category,
+    //     icon: TagIcon,
+    // },
     {
         name: "Manage Account",
         href: "account",
