@@ -9,9 +9,10 @@ export const siteApiSlice = apiSlice.injectEndpoints({
                     page,
                     limit,
                     order_by,
-                    column_name
+                    column_name,
+                    status
                 } = args;
-                return `/site?search=${search}&page=${page}&limit=${limit}&order_by=${order_by}${column_name ? `&column_name=${column_name}` : ''}`;
+                return `/site?search=${search}&page=${page}&limit=${limit}&order_by=${order_by}${column_name ? `&column_name=${column_name}` : ''}${status !== "" ? `&status=${status}` : ''}`;
             },
             providesTags: ["Site"]
         }),
@@ -46,11 +47,10 @@ export const siteApiSlice = apiSlice.injectEndpoints({
             }),
             invalidatesTags: ['Site']
         }),
-        createURLSite: builder.mutation({
-            query: (body) => ({
-                url: '/site/create-url',
-                method: 'POST',
-                body: body
+        createURLSite: builder.query({
+            query: (guid) => ({
+                url: `/site/create-url/${guid}`,
+                method: 'GET'
             })
         }),
     })
@@ -62,5 +62,5 @@ export const {
     useUpdateSiteMutation,
     useUpdateActiveSiteMutation,
     useDeleteSiteMutation,
-    useCreateURLSiteMutation
+    useCreateURLSiteQuery
 } = siteApiSlice

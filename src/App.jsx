@@ -10,6 +10,10 @@ import AccountPage from "./pages/AccountPage/AccountPage";
 import RequireAuth from "./components/layout/RequireAuth";
 import { Permission } from "./utils/roleUtilities";
 import SitePage from "./pages/SitePage/SItePage";
+import SiteRequestPage from "./pages/SiteRequestPage/SiteRequestPage";
+import { extractGuid, extractRole, getAuthToken } from "./utils/authUtilities";
+import AddSitePage from "./pages/SitePage/AddSitePage";
+import EditSitePage from "./pages/SitePage/EditSitePage";
 
 const App = () => {
     return (
@@ -43,11 +47,39 @@ const App = () => {
                     />
 
                     {/* Site */}
-                    <Route 
-                        path='site'
+                    <Route path='site'>
+                        <Route
+                            index
+                            element={
+                                <RequireAuth permissions={Permission.Site}>
+                                    <SitePage />
+                                </RequireAuth>
+                            }
+                        />
+                        <Route
+                            path='add-site'
+                            element={
+                                <RequireAuth permissions={Permission.Site}>
+                                    <AddSitePage />
+                                </RequireAuth>
+                            }
+                        />
+                        <Route
+                            path='edit-site'
+                            element={
+                                <RequireAuth permissions={Permission.Site}>
+                                    <EditSitePage />
+                                </RequireAuth>
+                            }
+                        />
+                    </Route>
+
+                    {/* Site Request */}
+                    <Route
+                        path='request'
                         element={
-                            <RequireAuth permissions={Permission.Site}>
-                                <SitePage />
+                            <RequireAuth permissions={Permission.Request}>
+                                <SiteRequestPage />
                             </RequireAuth>
                         }
                     />

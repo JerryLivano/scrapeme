@@ -20,8 +20,8 @@ export default function DashboardLayout() {
         case "site":
             title = "Site";
             break;
-        case "category":
-            title = "Category";
+        case "request":
+            title = "Site Request";
             break;
         case "account":
             title = "User Account";

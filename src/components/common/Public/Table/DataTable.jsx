@@ -106,7 +106,7 @@ export default function DataTable({
                         {/* title and subtitle */}
                         {title ? (
                             <div className='sm:flex-auto'>
-                                <h1 className='mb-1 text-lg font-semibold leading-6 text-brm-font-black'>
+                                <h1 className='mb-1 text-lg font-semibold leading-6'>
                                     {title}
                                 </h1>
                                 <p className='text-sm font-semibold text-gray-400'>{`${pluralize(
@@ -242,7 +242,7 @@ export default function DataTable({
                                             <Menu.Items className='absolute right-0 z-50 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none'>
                                                 <div className='px-3 py-1'>
                                                     <Menu.Item>
-                                                        <label className='p-1 text-sm font-medium capitalize text-brm-font-black'>
+                                                        <label className='p-1 text-sm font-medium capitalize'>
                                                             <input
                                                                 {...{
                                                                     type: "checkbox",

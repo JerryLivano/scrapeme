@@ -1,4 +1,9 @@
-import { ChevronDoubleLeftIcon, ChevronDoubleRightIcon, ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
+import {
+    ChevronDoubleLeftIcon,
+    ChevronDoubleRightIcon,
+    ChevronLeftIcon,
+    ChevronRightIcon,
+} from "@heroicons/react/24/solid";
 
 export default function DataTablePagination({
     pageIndex,
@@ -12,7 +17,8 @@ export default function DataTablePagination({
         <>
             <div className='flex justify-between items-center w-full'>
                 <div className='px-4'>
-                    Showing <b>{pageIndex * pageValue + 1}</b> to{" "}
+                    Showing{" "}
+                    <b>{dataCount === 0 ? 0 : pageIndex * pageValue + 1}</b> to{" "}
                     <b>
                         {(pageIndex + 1) * pageValue > dataCount
                             ? dataCount

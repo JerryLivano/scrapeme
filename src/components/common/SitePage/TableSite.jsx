@@ -12,6 +12,7 @@ import ButtonDropdown from "../Public/Button/ButtonDropdown";
 import ModalConfirmDelete from "../Public/Confirmation/ModalConfirmDelete";
 import { toastError, toastSuccess } from "../Public/Toast";
 import FormModalSiteDetail from "./FormModalSiteDetail";
+import { useNavigate } from "react-router-dom";
 
 export default function TableSite() {
     const [page, setPage] = useState(1);
@@ -19,13 +20,16 @@ export default function TableSite() {
     const [totalPages, setTotalPages] = useState(1);
     const [search, setSearch] = useState("");
 
-    const [selectedSite, setSelectedSite] = useState("");
+    const [selectedAdminGuid, setSelectedAdminGuid] = useState("");
     const [deleteModal, setDeleteModal] = useState(false);
-    const [selectedDetail, setSelectedDetail] = useState({});
+    const [selectedSiteGuid, setSelectedSiteGuid] = useState("");
     const [detailModal, setDetailModal] = useState(false);
 
     const [columnName, setColumnName] = useState(null);
     const [orderBy, setOrderBy] = useState(0);
+    const [filterStatus, setFilterStatus] = useState("");
+
+    const navigate = useNavigate();
 
     const {
         data: sites,
@@ -40,6 +44,7 @@ export default function TableSite() {
             limit: pageSize,
             order_by: orderBy,
             column_name: columnName,
+            status: filterStatus
         },
         { refetchOnMountOrArgChange: true }
     );
@@ -126,18 +131,21 @@ export default function TableSite() {
                                 action: "See Detail",
                                 onFunction: () => {
                                     setDetailModal(true);
-                                    setSelectedDetail(row);
+                                    setSelectedSiteGuid(row.guid);
+                                    setSelectedAdminGuid(row.admin_guid);
                                 },
                             },
                             {
                                 action: "Edit",
-                                onFunction: () => {},
+                                onFunction: () => {
+                                    navigate("edit-site", { state: { row } })
+                                },
                             },
                             {
                                 action: "Delete",
                                 onFunction: () => {
                                     setDeleteModal(true);
-                                    setSelectedSite(row.guid);
+                                    setSelectedSiteGuid(row.guid);
                                 },
                             },
                             {
@@ -187,7 +195,7 @@ export default function TableSite() {
                         data={sites.data}
                         columns={columns}
                         showAddButton
-                        onClickAdd={() => {}}
+                        onClickAdd={() => navigate("add-site")}
                         showGlobalFilter
                         showPageSize
                         showPagination
@@ -202,13 +210,25 @@ export default function TableSite() {
                         searchQuery={search}
                         sortHandler={handleSort}
                         columnNameHandler={handleColumnName}
-                        placeholder={"Search by name or domain..."}
+                        showFilterStatus
+                        filterStatus={filterStatus}
+                        filterStatusOptions={[
+                            { value: "", label: "All" },
+                            { value: "false", label: "Inactive" },
+                            { value: "true", label: "Active" },
+                        ]}
+                        setFilterStatus={(e) => {
+                            setFilterStatus(e.target.value);
+                            setPage(1);
+                        }}
+                        placeholder={"Search by name..."}
                         isFetching={siteFetching || siteActiveLoading}
                     />
                     <FormModalSiteDetail 
                         open={detailModal}
                         setOpen={setDetailModal}
-                        site={selectedDetail}
+                        adminGuid={selectedAdminGuid}
+                        siteGuid={selectedSiteGuid}
                     />
                     <ModalConfirmDelete
                         title={"Delete Site"}
@@ -217,7 +237,7 @@ export default function TableSite() {
                         setOpenModalConfirmDelete={setDeleteModal}
                         isLoading={siteDeleteLoading}
                         onDeleteHandler={async () => {
-                            await deleteSite(selectedSite)
+                            await deleteSite(selectedSiteGuid)
                                 .unwrap()
                                 .then(() => {
                                     toastSuccess({

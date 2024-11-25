@@ -36,7 +36,7 @@ export default function ModalActionForm({
                             leaveTo='opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'
                         >
                             <Dialog.Panel className='relative overflow-visible rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:p-6'>
-                                <div className='mx-2 mb-2 w-[26rem] flex items-start justify-between rounded-t border-b border-solid border-[#E1E3EA] pb-6 pt-3 '>
+                                <div className='mx-2 mb-2 w-[30rem] flex items-start justify-between rounded-t border-b border-solid border-[#E1E3EA] pb-6 pt-3 '>
                                     <h3 className='text-xl font-semibold text-[#181C32]'>
                                         {titleForm}
                                     </h3>

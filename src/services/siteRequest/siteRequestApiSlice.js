@@ -25,7 +25,7 @@ export const siteRequestApiSlice = apiSlice.injectEndpoints({
                     order_by,
                     column_name
                 } = args;
-                return `/request?account_guid=${account_guid}&search=${search}&page=${page}&limit=${limit}&order_by=${order_by}${column_name ? `&column_name=${column_name}` : ''}`;
+                return `/request/account/${account_guid}?search=${search}&page=${page}&limit=${limit}&order_by=${order_by}${column_name ? `&column_name=${column_name}` : ''}`;
             },
             providesTags: ["Request"]
         }),
@@ -42,6 +42,13 @@ export const siteRequestApiSlice = apiSlice.injectEndpoints({
                 url: '/request',
                 method: 'PUT',
                 body: body
+            }),
+            invalidatesTags: ['Request']
+        }),
+        doneRequest: builder.mutation({
+            query: (guid) => ({
+                url: `/request/done/${guid}`,
+                method: 'PUT'
             }),
             invalidatesTags: ['Request']
         }),
@@ -75,6 +82,7 @@ export const {
     useGetRequestsByAccountQuery,
     useAddRequestMutation,
     useUpdateRequestMutation,
+    useDoneRequestMutation,
     useAcceptRequestMutation,
     useDeclineRequestMutation,
     useDeleteRequestMutation
