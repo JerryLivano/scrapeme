@@ -32,7 +32,7 @@ export default function DebouncedInput({
     };
 
     return (
-        <div className='relative w-[250px]'>
+        <div className='relative w-full'>
             <div className='pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3'>
                 <svg
                     xmlns='http://www.w3.org/2000/svg'

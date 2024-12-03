@@ -11,6 +11,7 @@ const SingleLineInput = forwardRef(function SingleLineInputInternal(
         type = "text",
         placeholder = "",
         className = "",
+        id,
         error,
         startAdornment,
         endAdornment,
@@ -19,14 +20,14 @@ const SingleLineInput = forwardRef(function SingleLineInputInternal(
     },
     ref
 ) {
-    const id = useId();
+    const altId = useId();
     return (
         <div className={twMerge("flex flex-col", className)}>
             {label && (
                 <InputLabel
                     label={label}
                     required={required}
-                    htmlFor={id}
+                    htmlFor={id ? id : altId}
                     className='mb-2'
                 />
             )}
@@ -38,7 +39,7 @@ const SingleLineInput = forwardRef(function SingleLineInputInternal(
                 )}
                 <input
                     type={type}
-                    id={id}
+                    id={id ? id : altId}
                     className={twMerge(
                         "form-input block h-10 w-full rounded-md border-0 text-sm font-medium leading-6 shadow-sm ring-1 ring-inset ring-[#E1E3EA] placeholder:text-gray-400 focus:ring-inset focus:ring-[#E1E3EA]",
                         disabled && "bg-gray-50 text-gray-500",

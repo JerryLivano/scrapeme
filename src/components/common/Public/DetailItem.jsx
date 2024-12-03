@@ -10,7 +10,7 @@ export default function DetailItem({
 }) {
     const id = useId();
     return (
-        <div className={twMerge("flex flex-col my-6", className)}>
+        <div className={twMerge("flex flex-col", className)}>
             {label && (
                 <DetailLabel
                     label={label}

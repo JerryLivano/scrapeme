@@ -4,7 +4,7 @@ export default function ButtonDownload({ onClick }) {
     return (
         <button
             type='button'
-            className='group flex items-center rounded-md bg-white p-3 text-center text-sm font-semibold text-[#3E97FF] shadow-sm hover:bg-[#3E97FF] hover:text-white'
+            className='group flex items-center rounded-md bg-blue-100 p-3 text-center text-sm font-semibold text-[#3E97FF] shadow-sm hover:bg-[#3E97FF] hover:text-blue-100'
             onClick={onClick}
             title='Download Data to .XLSX'
         >

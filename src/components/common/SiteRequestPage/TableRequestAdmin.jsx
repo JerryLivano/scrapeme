@@ -18,7 +18,7 @@ import ModalConfirmDone from "../Public/Confirmation/ModalConfirmDone";
 
 export default function TableRequestAdmin() {
     const [page, setPage] = useState(1);
-    const [pageSize, setPageSize] = useState(50);
+    const [pageSize, setPageSize] = useState(10);
     const [totalPages, setTotalPages] = useState(1);
     const [search, setSearch] = useState("");
 
@@ -31,6 +31,7 @@ export default function TableRequestAdmin() {
 
     const [columnName, setColumnName] = useState(null);
     const [orderBy, setOrderBy] = useState(0);
+    const [filterStatus, setFilterStatus] = useState(-2);
 
     const {
         data: siteRequest,
@@ -45,6 +46,7 @@ export default function TableRequestAdmin() {
             limit: pageSize,
             order_by: orderBy,
             column_name: columnName,
+            status: filterStatus
         },
         { refetchOnMountOrArgChange: true }
     );
@@ -183,13 +185,13 @@ export default function TableRequestAdmin() {
 
     return (
         <>
-            {siteRequestLoading && <Spinner />}
+            {siteRequestLoading && doneLoading && <Spinner />}
             {siteRequestError && (
                 <div className='py-5 text-center text-xl font-semibold text-gray-700'>
                     Data Not Found
                 </div>
             )}
-            {siteRequestSuccess && (
+            {siteRequestSuccess && !doneLoading && (
                 <>
                     <DataTable
                         title={"Site Request"}
@@ -210,6 +212,19 @@ export default function TableRequestAdmin() {
                         searchQuery={search}
                         placeholder={"Search site request..."}
                         sortHandler={handleSort}
+                        showFilterStatus
+                        filterStatus={filterStatus}
+                        filterStatusOptions={[
+                            { value: -2, label: "All" },
+                            { value: 0, label: "Pending" },
+                            { value: 2, label: "Done" },
+                            { value: 1, label: "Accepted" },
+                            { value: -1, label: "Declined" },
+                        ]}
+                        setFilterStatus={(e) => {
+                            setFilterStatus(e.target.value);
+                            setPage(1);
+                        }}
                         columnNameHandler={handleColumnName}
                         isFetching={siteRequestFetching}
                     />

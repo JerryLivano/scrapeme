@@ -5,15 +5,18 @@ import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import DashboardLayout from "./components/layout/Dashboard/DashboardLayout";
 import DashboardPage from "./pages/DashboardPage/DashboardPage";
 import ScrapePage from "./pages/ScrapePage/ScrapePage";
-import CategoryPage from "./pages/CategoryPage/CategoryPage";
 import AccountPage from "./pages/AccountPage/AccountPage";
 import RequireAuth from "./components/layout/RequireAuth";
 import { Permission } from "./utils/roleUtilities";
-import SitePage from "./pages/SitePage/SItePage";
+import SitePage from "./pages/SitePage/SitePage";
 import SiteRequestPage from "./pages/SiteRequestPage/SiteRequestPage";
-import { extractGuid, extractRole, getAuthToken } from "./utils/authUtilities";
 import AddSitePage from "./pages/SitePage/AddSitePage";
 import EditSitePage from "./pages/SitePage/EditSitePage";
+import ManageTemplatePage from "./pages/SitePage/TemplatePage/ManageTemplatePage";
+import ScrapeSitePage from "./pages/ScrapePage/ScrapeSitePage";
+import ScrapeHistoryPage from "./pages/ScrapePage/ScrapeHistoryPage";
+import ScrapedDataPage from "./pages/ScrapePage/ScrapedDataPage";
+import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
 
 const App = () => {
     return (
@@ -37,14 +40,40 @@ const App = () => {
                     />
 
                     {/* Scrape */}
-                    <Route
-                        path='scrape'
-                        element={
-                            <RequireAuth permissions={Permission.Scrape}>
-                                <ScrapePage />
-                            </RequireAuth>
-                        }
-                    />
+                    <Route path='scrape'>
+                        <Route
+                            index
+                            element={
+                                <RequireAuth permissions={Permission.Scrape}>
+                                    <ScrapePage />
+                                </RequireAuth>
+                            }
+                        />
+                        <Route
+                            path=':guid'
+                            element={
+                                <RequireAuth permissions={Permission.Scrape}>
+                                    <ScrapeSitePage />
+                                </RequireAuth>
+                            }
+                        />
+                        <Route
+                            path='history'
+                            element={
+                                <RequireAuth permissions={Permission.History}>
+                                    <ScrapeHistoryPage />
+                                </RequireAuth>
+                            }
+                        />
+                        <Route
+                            path='history/:guid'
+                            element={
+                                <RequireAuth permissions={Permission.History}>
+                                    <ScrapedDataPage />
+                                </RequireAuth>
+                            }
+                        />
+                    </Route>
 
                     {/* Site */}
                     <Route path='site'>
@@ -72,6 +101,14 @@ const App = () => {
                                 </RequireAuth>
                             }
                         />
+                        <Route
+                            path='template'
+                            element={
+                                <RequireAuth permissions={Permission.Template}>
+                                    <ManageTemplatePage />
+                                </RequireAuth>
+                            }
+                        />
                     </Route>
 
                     {/* Site Request */}
@@ -84,26 +121,21 @@ const App = () => {
                         }
                     />
 
-                    {/* Category */}
-                    {/* <Route
-                        path='category'
-                        element={
-                            <RequireAuth permissions={Permission.Category}>
-                                <CategoryPage />
-                            </RequireAuth>
-                        }
-                    /> */}
-
                     {/* Account */}
                     <Route
                         path='account'
                         element={
-                            <RequireAuth permissions={Permission.Account}>
+                            <RequireAuth
+                                permissions={Permission.Account}
+                                children={<AccountPage />}
+                            >
                                 <AccountPage />
                             </RequireAuth>
                         }
                     />
                 </Route>
+
+                <Route path='/*' element={<NotFoundPage />} />
             </Routes>
 
             <ToastContainer

@@ -17,7 +17,7 @@ import FormModalEditAccount from "./FormModalEditAccount";
 
 export default function TableAccount() {
     const [page, setPage] = useState(1);
-    const [pageSize, setPageSize] = useState(50);
+    const [pageSize, setPageSize] = useState(10);
     const [totalPages, setTotalPages] = useState(1);
     const [search, setSearch] = useState("");
 

@@ -1,4 +1,5 @@
 import ButtonSubmitModal from "../Public/Button/ButtonSubmitModal";
+import NumberInput from "../Public/Form/NumberInput";
 import SingleLineInput from "../Public/Form/SingleLineInput";
 import EditSiteInformation from "./EditSiteInformation";
 
@@ -26,6 +27,7 @@ export default function FormEditSiteData({ register, formErrors }) {
                 <SingleLineInput
                     label={"Domain"}
                     required
+                    startAdornment={"https://www."}
                     placeholder={"Enter domain name"}
                     className={"mt-5"}
                     {...register("siteURL", {
@@ -34,16 +36,37 @@ export default function FormEditSiteData({ register, formErrors }) {
                     error={formErrors.siteURL?.message}
                 />
 
-                <SingleLineInput
-                    label={"Space Rule"}
-                    required
-                    placeholder={"Enter space rule"}
-                    className={"mt-5"}
-                    {...register("spaceRule", {
-                        required: "Space rule is required",
-                    })}
-                    error={formErrors.spaceRule?.message}
-                />
+                <div className='flex flex-row gap-x-4'>
+                    <div className='w-1/2'>
+                        <SingleLineInput
+                            label={"Space Rule"}
+                            required
+                            placeholder={"Enter space rule"}
+                            className={"mt-5"}
+                            {...register("spaceRule", {
+                                required: "Space rule is required",
+                            })}
+                            error={formErrors.spaceRule?.message}
+                        />
+                    </div>
+                    <div className='w-1/2'>
+                        <NumberInput
+                            label={"Limit Data"}
+                            required
+                            placeholder={"Enter limit data"}
+                            className={"mt-5"}
+                            {...register("limitData", {
+                                required: "Limit data is required",
+                                valueAsNumber: true,
+                                min: {
+                                    value: 1,
+                                    message: "Minimal limit is 1",
+                                },
+                            })}
+                            error={formErrors.limitData?.message}
+                        />
+                    </div>
+                </div>
 
                 <div className='mt-6 flex items-center justify-end'>
                     <ButtonSubmitModal text='Save' />

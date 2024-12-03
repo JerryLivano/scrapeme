@@ -26,21 +26,23 @@ export default function FormModalSiteDetail({ siteGuid, adminGuid, open, setOpen
                 titleForm={"Site Detail"}
             >
                 <DetailItem
-                    label={"Admin"}
+                    label={"Admin Creator"}
                     text={
                         isSuccess
                             ? `${account.data.user.email}`
                             : "Failed to Get Admin"
                     }
+                    className={"mb-5 mt-4"}
                 />
                 <DetailItem
                     label={"URL Pattern"}
                     text={urlSuccess ? url.data.url ? url.data.url : "No Site URL" : "Failed to Create Site URL"}
+                    // className={"mb-5"}
                 />
-                <DetailItem
+                {/* <DetailItem
                     label={"Data URL Pattern"}
                     text={urlSuccess ? url.data.data_url ? url.data.data_url : "No Data URL" : "Failed to Create Data URL"}
-                />
+                /> */}
             </ModalActionForm>
             {(isLoading || urlLoading) && (
                 <div className='relative'>

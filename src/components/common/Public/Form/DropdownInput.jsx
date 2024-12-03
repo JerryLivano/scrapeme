@@ -12,19 +12,20 @@ const DropdownInput = forwardRef(function DropdownInputInternal(
         children,
         className,
         error,
+        id,
         disabled,
         ...props
     },
     ref
 ) {
-    const id = useId();
+    const altId = useId();
     return (
         <div className={twMerge("flex flex-col", className)}>
             {label && (
                 <InputLabel
                     label={label}
                     required={required}
-                    htmlFor={id}
+                    htmlFor={id ? id : altId}
                     className='mb-2'
                 />
             )}
@@ -38,6 +39,7 @@ const DropdownInput = forwardRef(function DropdownInputInternal(
                 {...props}
                 required={required}
                 disabled={disabled}
+                id={id ? id : altId}
             >
                 {placeholder && (
                     <option

@@ -20,8 +20,9 @@ export default function EditSitePage() {
         defaultValues: {
             guid: state?.row?.guid || "",
             siteName: state?.row?.site_name || "",
-            siteURL: state?.row?.site_url || "",
+            siteURL: state?.row?.site_url.slice(12) || "",
             spaceRule: state?.row?.space_rule || "",
+            limitData: state?.row?.limit_data || 1,
             urlPattern: state?.row?.url_pattern || [],
             dataURLPattern: state?.row?.data_url_pattern || [],
         },
@@ -31,8 +32,9 @@ export default function EditSitePage() {
         if (state && state.row) {
             setValue("guid", state.row.guid);
             setValue("siteName", state.row.site_name);
-            setValue("siteURL", state.row.site_url);
+            setValue("siteURL", state.row.site_url.slice(12));
             setValue("spaceRule", state.row.space_rule);
+            setValue("limitData", parseInt(state.row.limit_data));
             setValue("urlPattern", state.row.url_pattern);
             setValue("dataURLPattern", state.row.data_url_pattern);
         }
@@ -46,8 +48,9 @@ export default function EditSitePage() {
         const request = {
             guid: data.guid,
             site_name: data.siteName,
-            site_url: data.siteURL,
+            site_url: `https://www.${data.siteURL}`,
             space_rule: data.spaceRule,
+            limit_data: parseInt(data.limitData),
             url_pattern: data.urlPattern.map((pattern) =>
                 pattern.form_type
                     ? {
@@ -72,8 +75,8 @@ export default function EditSitePage() {
 
     return (
         <>
-            {!state && <Spinner />}
-            {state && state.row && (
+            {!state && editSiteLoading && <Spinner />}
+            {state && !editSiteLoading && state.row && (
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className='flex flex-row gap-x-5 sm:flex-row items-start'>
                         <div className='rounded-lg bg-white p-6 w-1/2 h-auto'>

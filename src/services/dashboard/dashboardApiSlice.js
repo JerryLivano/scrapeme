@@ -6,9 +6,14 @@ export const dashboardApiSlice = apiSlice.injectEndpoints({
             query: () => "/dashboard/count",
             providesTags: ['Dashboard']
         }),
+        getTopScraper: builder.query({
+            query: () => "/dashboard/top-scraper",
+            providesTags: ['Dashboard']
+        })
     })
 });
 
 export const {
-    useGetCountQuery
+    useGetCountQuery,
+    useGetTopScraperQuery
 } = dashboardApiSlice

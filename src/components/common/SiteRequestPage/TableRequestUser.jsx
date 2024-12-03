@@ -17,7 +17,7 @@ import ButtonAction from "../Public/Button/ButtonAction";
 
 export default function TableRequestUser({ userGuid }) {
     const [page, setPage] = useState(1);
-    const [pageSize, setPageSize] = useState(50);
+    const [pageSize, setPageSize] = useState(10);
     const [totalPages, setTotalPages] = useState(1);
     const [search, setSearch] = useState("");
 
@@ -30,6 +30,7 @@ export default function TableRequestUser({ userGuid }) {
 
     const [columnName, setColumnName] = useState(null);
     const [orderBy, setOrderBy] = useState(0);
+    const [filterStatus, setFilterStatus] = useState(-2);
 
     const {
         data: siteRequest,
@@ -45,6 +46,7 @@ export default function TableRequestUser({ userGuid }) {
             limit: pageSize,
             order_by: orderBy,
             column_name: columnName,
+            status: filterStatus
         },
         { refetchOnMountOrArgChange: true, skip: !userGuid }
     );
@@ -106,13 +108,13 @@ export default function TableRequestUser({ userGuid }) {
                                         setEditModal(true);
                                     },
                                 },
-                                // {
-                                //     action: "Delete",
-                                //     onFunction: () => {
-                                //         setSelectedRequestGuid(row.guid);
-                                //         setDeleteModal(true);
-                                //     },
-                                // },
+                                {
+                                    action: "Delete",
+                                    onFunction: () => {
+                                        setSelectedRequestGuid(row.guid);
+                                        setDeleteModal(true);
+                                    },
+                                },
                                 {
                                     action: "See Detail",
                                     onFunction: () => {
@@ -191,6 +193,19 @@ export default function TableRequestUser({ userGuid }) {
                         searchQuery={search}
                         placeholder={"Search site request..."}
                         sortHandler={handleSort}
+                        showFilterStatus
+                        filterStatus={filterStatus}
+                        filterStatusOptions={[
+                            { value: -2, label: "All" },
+                            { value: 0, label: "Pending" },
+                            { value: 2, label: "Done" },
+                            { value: 1, label: "Accepted" },
+                            { value: -1, label: "Declined" },
+                        ]}
+                        setFilterStatus={(e) => {
+                            setFilterStatus(e.target.value);
+                            setPage(1);
+                        }}
                         columnNameHandler={handleColumnName}
                         isFetching={siteRequestFetching}
                     />
@@ -209,7 +224,7 @@ export default function TableRequestUser({ userGuid }) {
                         setOpen={setEditModal}
                         siteRequest={selectedRequest}
                     />
-                    {/* <ModalConfirmDelete
+                    <ModalConfirmDelete
                         title={"Delete Site Request"}
                         message={"Are you sure want to delete this request?"}
                         openModalConfirmDelete={deleteModal}
@@ -231,7 +246,7 @@ export default function TableRequestUser({ userGuid }) {
                                 });
                             setDeleteModal(false);
                         }}
-                    /> */}
+                    />
                 </>
             )}
         </>

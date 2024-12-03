@@ -9,9 +9,10 @@ export const siteRequestApiSlice = apiSlice.injectEndpoints({
                     page,
                     limit,
                     order_by,
-                    column_name
+                    column_name,
+                    status
                 } = args;
-                return `/request?search=${search}&page=${page}&limit=${limit}&order_by=${order_by}${column_name ? `&column_name=${column_name}` : ''}`;
+                return `/request?search=${search}&page=${page}&limit=${limit}&order_by=${order_by}${column_name ? `&column_name=${column_name}` : ''}&status=${status}`;
             },
             providesTags: ["Request"]
         }),
@@ -23,9 +24,10 @@ export const siteRequestApiSlice = apiSlice.injectEndpoints({
                     page,
                     limit,
                     order_by,
-                    column_name
+                    column_name,
+                    status
                 } = args;
-                return `/request/account/${account_guid}?search=${search}&page=${page}&limit=${limit}&order_by=${order_by}${column_name ? `&column_name=${column_name}` : ''}`;
+                return `/request/account/${account_guid}?search=${search}&page=${page}&limit=${limit}&order_by=${order_by}${column_name ? `&column_name=${column_name}` : ''}&status=${status}`;
             },
             providesTags: ["Request"]
         }),

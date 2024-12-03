@@ -19,6 +19,7 @@ export default function AddSitePage() {
             siteName: "",
             siteURL: "",
             spaceRule: "",
+            limitData: 100,
             urlPattern: [],
             dataURLPattern: [],
         },
@@ -32,8 +33,9 @@ export default function AddSitePage() {
         const request = {
             admin_guid: extractGuid(getAuthToken()),
             site_name: data.siteName,
-            site_url: data.siteURL,
+            site_url: `https://www.${data.siteURL}`,
             space_rule: data.spaceRule,
+            limit_data: parseInt(data.limitData),
             url_pattern: data.urlPattern.map((pattern) =>
                 pattern.form_type
                     ? {

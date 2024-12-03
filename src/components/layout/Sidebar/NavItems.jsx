@@ -18,11 +18,6 @@ const submenuScrape = [
         permission: Permission.Scrape,
     },
     {
-        name: "Manage Template",
-        href: "template",
-        permission: Permission.Template,
-    },
-    {
         name: "Favorite Scraped Data",
         href: "favorite",
         permission: Permission.Favorite,
@@ -61,12 +56,6 @@ const navigation = [
         permission: Permission.Request,
         icon: DocumentCheckIcon,
     },
-    // {
-    //     name: "Manage Category",
-    //     href: "category",
-    //     permission: Permission.Category,
-    //     icon: TagIcon,
-    // },
     {
         name: "Manage Account",
         href: "account",

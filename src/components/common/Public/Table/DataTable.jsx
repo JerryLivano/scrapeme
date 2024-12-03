@@ -55,6 +55,10 @@ export default function DataTable({
     filterRole,
     filterRoleOptions,
     setFilterRole,
+    showFilterSite,
+    filterSite,
+    filterSiteOptions,
+    setFilterSite,
     // Here
     isFetching = false,
     columnVisibility,
@@ -132,7 +136,7 @@ export default function DataTable({
                         ) : null}
                     </div>
                     <div className='-mb-2 mt-6 flex items-center justify-between'>
-                        <div className='w-96'>
+                        <div className='w-72'>
                             {/* search bar */}
                             {showGlobalFilter ? (
                                 <FilterTable
@@ -147,22 +151,27 @@ export default function DataTable({
                             ) : null}
                         </div>
                         <div className='flex items-center'>
-                            <div>
-                                {/* filter date */}
-                                {showFilterDate ? (
-                                    <div className='flex items-center'>
-                                        <div className='mr-2 h-full text-sm font-medium text-gray-400'>
-                                            Date
+                        <div>
+                                {/* filter site */}
+                                {showFilterSite ? (
+                                    <div className='ml-3 flex items-center'>
+                                        <div className='mr-2 text-sm font-medium leading-6 text-gray-400'>
+                                            Site
                                         </div>
-                                        {/* <RangeDatepickerInput
-                                            className='h-full'
-                                            displayFormat={"DD/MM/YYYY"}
-                                            value={filterDate}
-                                            onChange={setFilterDate}
-                                            showFooter
-                                            showShortcuts
-                                            placeholder='Select Date Range'
-                                        /> */}
+                                        <DropdownInput
+                                            value={filterSite}
+                                            onChange={setFilterSite}
+                                            className='max-w-fit'
+                                        >
+                                            {filterSiteOptions.map((item) => (
+                                                <option
+                                                    key={item.value}
+                                                    value={item.value}
+                                                >
+                                                    {item.label}
+                                                </option>
+                                            ))}
+                                        </DropdownInput>
                                     </div>
                                 ) : null}
                             </div>
@@ -313,7 +322,7 @@ export default function DataTable({
                                             }}
                                             className='max-w-[80px]'
                                         >
-                                            {[50, 100, 150, 200, 250].map(
+                                            {[10, 25, 50, 75, 100].map(
                                                 (pageSize) => (
                                                     <option
                                                         key={pageSize}
@@ -331,7 +340,7 @@ export default function DataTable({
                     </div>
                     <div className='-mx-4 -mb-2 mt-4 min-w-full overflow-hidden px-4 py-2'>
                         <div
-                            className='w-full overflow-x-auto overflow-y-visible'
+                            className='w-full max-w-screen-2xl overflow-x-auto overflow-y-visible'
                             onScroll={(e) => {
                                 onScrollSubscriber.current.forEach((x) => {
                                     x(e);
@@ -339,7 +348,7 @@ export default function DataTable({
                             }}
                             ref={tableRef}
                         >
-                            <table className='w-full'>
+                            <table className='w-full table-auto'>
                                 {/* Table Header */}
                                 <thead>
                                     {table
@@ -444,7 +453,7 @@ export default function DataTable({
                                                     .getVisibleCells()
                                                     .map((cell) => (
                                                         <td
-                                                            className='whitespace-nowrap border-b border-dashed border-[#E1E3EA] px-6 py-4 text-sm font-semibold leading-5 text-gray-700'
+                                                            className='whitespace-normal border-b border-dashed border-[#E1E3EA] px-6 py-4 text-sm font-semibold leading-5 text-gray-700'
                                                             key={cell.id}
                                                         >
                                                             {flexRender(

@@ -13,10 +13,11 @@ import ModalConfirmDelete from "../Public/Confirmation/ModalConfirmDelete";
 import { toastError, toastSuccess } from "../Public/Toast";
 import FormModalSiteDetail from "./FormModalSiteDetail";
 import { useNavigate } from "react-router-dom";
+import FormModalManageTemplate from "./FormModalManageTemplate";
 
 export default function TableSite() {
     const [page, setPage] = useState(1);
-    const [pageSize, setPageSize] = useState(50);
+    const [pageSize, setPageSize] = useState(10);
     const [totalPages, setTotalPages] = useState(1);
     const [search, setSearch] = useState("");
 
@@ -24,6 +25,7 @@ export default function TableSite() {
     const [deleteModal, setDeleteModal] = useState(false);
     const [selectedSiteGuid, setSelectedSiteGuid] = useState("");
     const [detailModal, setDetailModal] = useState(false);
+    const [templateModal, setTemplateModal] = useState(false);
 
     const [columnName, setColumnName] = useState(null);
     const [orderBy, setOrderBy] = useState(0);
@@ -44,7 +46,7 @@ export default function TableSite() {
             limit: pageSize,
             order_by: orderBy,
             column_name: columnName,
-            status: filterStatus
+            status: filterStatus,
         },
         { refetchOnMountOrArgChange: true }
     );
@@ -66,7 +68,8 @@ export default function TableSite() {
         await updateActiveSite(request).unwrap();
     };
 
-    const [deleteSite, { isLoading: siteDeleteLoading }] = useDeleteSiteMutation();
+    const [deleteSite, { isLoading: siteDeleteLoading }] =
+        useDeleteSiteMutation();
 
     const columns = useMemo(() => {
         return [
@@ -138,7 +141,7 @@ export default function TableSite() {
                             {
                                 action: "Edit",
                                 onFunction: () => {
-                                    navigate("edit-site", { state: { row } })
+                                    navigate("edit-site", { state: { row } });
                                 },
                             },
                             {
@@ -150,7 +153,19 @@ export default function TableSite() {
                             },
                             {
                                 action: "Manage Template",
-                                onFunction: () => {},
+                                onFunction: () => {
+                                    navigate("template", {
+                                        state: { siteGuid: row.guid },
+                                    });
+                                },
+                            },
+                            {
+                                action: "Test Scraping",
+                                onFunction: () => {
+                                    navigate(`/scrape/${row.guid}`, {
+                                        state: { row },
+                                    });
+                                },
                             },
                         ]}
                     />
@@ -224,7 +239,7 @@ export default function TableSite() {
                         placeholder={"Search by name..."}
                         isFetching={siteFetching || siteActiveLoading}
                     />
-                    <FormModalSiteDetail 
+                    <FormModalSiteDetail
                         open={detailModal}
                         setOpen={setDetailModal}
                         adminGuid={selectedAdminGuid}
@@ -251,6 +266,11 @@ export default function TableSite() {
                                 });
                             setDeleteModal(false);
                         }}
+                    />
+                    <FormModalManageTemplate
+                        open={templateModal}
+                        setOpen={setTemplateModal}
+                        siteGuid={selectedSiteGuid}
                     />
                 </>
             )}

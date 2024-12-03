@@ -16,6 +16,10 @@ export const siteApiSlice = apiSlice.injectEndpoints({
             },
             providesTags: ["Site"]
         }),
+        getActiveSites: builder.query({
+            query: (search) => `/site/active?search=${search}`,
+            providesTags: ["Site"]
+        }),
         addSite: builder.mutation({
             query: (body) => ({
                 url: '/site',
@@ -53,14 +57,20 @@ export const siteApiSlice = apiSlice.injectEndpoints({
                 method: 'GET'
             })
         }),
+        getSiteFilter: builder.query({
+            query: () => '/site/filter',
+            providesTags: ['SiteFilter']
+        })
     })
 });
 
 export const {
     useGetSitesQuery,
+    useGetActiveSitesQuery,
     useAddSiteMutation,
     useUpdateSiteMutation,
     useUpdateActiveSiteMutation,
     useDeleteSiteMutation,
-    useCreateURLSiteQuery
+    useCreateURLSiteQuery,
+    useGetSiteFilterQuery
 } = siteApiSlice

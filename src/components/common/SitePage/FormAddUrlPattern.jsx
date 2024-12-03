@@ -12,6 +12,7 @@ export default function FormAddUrlPattern({
     formErrors,
 }) {
     const [checkboxValuable, setCheckboxValuable] = useState([]);
+    const [checkboxPage, setCheckboxPage] = useState([]);
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedSelection, setSelectedSelection] = useState([]);
     const [selectedIndex, setSelectedIndex] = useState(null);
@@ -24,15 +25,20 @@ export default function FormAddUrlPattern({
     const urlPatterns = watch("urlPattern") || [];
 
     const addPattern = () => {
-        const updatedPatterns = [...urlPatterns, { identifier: "" }];
+        const updatedPatterns = [
+            ...urlPatterns,
+            { identifier: "", is_page: false },
+        ];
         setValue("urlPattern", updatedPatterns);
         setCheckboxValuable((prev) => [...prev, false]);
+        setCheckboxPage((prev) => [...prev, false]);
     };
 
     const splicePattern = (index) => {
         const updatedPatterns = urlPatterns.filter((_, i) => i !== index);
         setValue("urlPattern", updatedPatterns);
         setCheckboxValuable((prev) => prev.filter((_, i) => i !== index));
+        setCheckboxPage((prev) => prev.filter((_, i) => i !== index));
     };
 
     const toggleCheckboxValuable = (index) => {
@@ -41,6 +47,23 @@ export default function FormAddUrlPattern({
             updatedStates[index] = !updatedStates[index];
             return updatedStates;
         });
+    };
+
+    const toggleCheckboxPage = (index) => {
+        setCheckboxPage((prev) => Array(prev.length).fill(false));
+        const allPatterns = watch("urlPattern") || [];
+        const updatedPatterns = allPatterns.map((pattern) => ({
+            ...pattern,
+            is_page: false,
+        }));
+        setValue("urlPattern", updatedPatterns);
+        setCheckboxPage((prev) => {
+            const updatedStates = [...prev];
+            updatedStates[index] = !updatedStates[index];
+            return updatedStates;
+        });
+        setValue(`urlPattern[${index}].form_id`, 1);
+        setValue(`urlPattern[${index}].is_page`, true);
     };
 
     const updateSelection = (index, selection) => {
@@ -53,7 +76,7 @@ export default function FormAddUrlPattern({
                 Add URL Pattern
             </div>
 
-            {urlPatterns.map((pattern, index) => (
+            {urlPatterns.map((_, index) => (
                 <div key={index} className='pb-5 border-b'>
                     <AddSiteLineInput
                         label={"Identifier"}
@@ -74,11 +97,12 @@ export default function FormAddUrlPattern({
                             <AddSiteLineInput
                                 label={"Form Id"}
                                 required
+                                disabled={checkboxPage[index]}
                                 placeholder={"Enter form ID"}
                                 checkbox
-                                checkboxLabel={"Increment"}
-                                checked={false}
-                                setChecked={() => {}}
+                                checkboxLabel={"Is Page?"}
+                                checked={checkboxPage[index] || false}
+                                setChecked={() => toggleCheckboxPage(index)}
                                 className={"mt-2"}
                                 {...register(`urlPattern[${index}].form_id`, {
                                     required: "Form ID is required",
@@ -120,7 +144,9 @@ export default function FormAddUrlPattern({
                                         value={item.value}
                                         selected={
                                             item.value ===
-                                            `urlPattern[${index}].form_type`
+                                            watch(
+                                                `urlPattern[${index}].form_type`
+                                            )
                                         }
                                     >
                                         {item.label}
@@ -134,7 +160,7 @@ export default function FormAddUrlPattern({
                             onClick={() => splicePattern(index)}
                             colorClass={"bg-red-600"}
                             hoverClass={"bg-red-400"}
-                            customPadding={"px-1"}
+                            customPadding={"px-2"}
                             text={<MinusIcon className='w-7 h-7' />}
                         />
                     </div>
