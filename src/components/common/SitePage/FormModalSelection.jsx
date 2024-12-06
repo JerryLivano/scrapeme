@@ -38,7 +38,7 @@ export default function FormModalSelection({
         );
     };
 
-    const handleSave = async () => {
+    const handleSave = () => {
         updateSelection(index, watch("selection"));
         setOpen(false);
     };

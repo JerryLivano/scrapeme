@@ -18,6 +18,8 @@ const AddSiteLineInput = forwardRef(function AddSiteLineInputInternal(
         checkboxLabel,
         checked,
         setChecked,
+        isContainer = false,
+        onClickChild,
         ...props
     },
     ref
@@ -35,7 +37,13 @@ const AddSiteLineInput = forwardRef(function AddSiteLineInputInternal(
                     />
                 </div>
             )}
-            <div className={twMerge(`flex flex-col h-full ${customWidth ? customWidth : "w-3/5"} items-start justify-start`)}>
+            <div
+                className={twMerge(
+                    `flex flex-col h-full ${
+                        customWidth ? customWidth : "w-3/5"
+                    } items-start justify-start`
+                )}
+            >
                 <input
                     type={type}
                     id={id}
@@ -61,9 +69,22 @@ const AddSiteLineInput = forwardRef(function AddSiteLineInputInternal(
                         onChange={setChecked}
                         className='rounded w-5 h-5 shadow-sm border-gray-400 ring-transparent focus:ring-transparent cursor-pointer'
                     />
-                    <label htmlFor={labelId} className='text-[14px] text-gray-700 font-light ms-1'>
+                    <label
+                        htmlFor={labelId}
+                        className='text-[14px] text-gray-700 font-light ms-1'
+                    >
                         {checkboxLabel}
                     </label>
+                </div>
+            )}
+            {isContainer && (
+                <div>
+                    <button
+                        className={`rounded bg-blue-500 ms-2 px-3 py-2 text-[14px] text-white hover:bg-blue-400`}
+                        onClick={onClickChild}
+                    >
+                        Child Tag
+                    </button>
                 </div>
             )}
         </div>

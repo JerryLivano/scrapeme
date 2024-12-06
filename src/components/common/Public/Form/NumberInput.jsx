@@ -8,6 +8,7 @@ const NumberInput = forwardRef(function NumberInputInternal(
         required = false,
         disabled = false,
         label,
+        maxValue,
         placeholder = "",
         className = "",
         error,
@@ -39,6 +40,7 @@ const NumberInput = forwardRef(function NumberInputInternal(
                     type={"number"}
                     id={id}
                     min={1}
+                    max={maxValue}
                     className={twMerge(
                         "form-input block h-10 w-full rounded-md border-0 text-sm font-medium leading-6 shadow-sm ring-1 ring-inset ring-[#E1E3EA] placeholder:text-gray-400 focus:ring-inset focus:ring-[#E1E3EA]",
                         disabled && "bg-gray-50 text-gray-500",

@@ -1,25 +1,28 @@
 import { useEffect, useMemo, useState } from "react";
 import {
-    useGetWebDataQuery,
+    useGetFavWebDataQuery,
     useUpdateFavWebDataMutation,
 } from "../../../../services/scrape/scrapeApiSlice";
 import uuid from "react-uuid";
 import {
     LinkIcon,
-    LinkSlashIcon,
     PhotoIcon,
     StarIcon as StarIconSolid,
 } from "@heroicons/react/24/solid";
 import { StarIcon as StarIconOutline } from "@heroicons/react/24/outline";
 import Spinner from "../../Public/Spinner";
 import DataTable from "../../Public/Table/DataTable";
-import FormModalImage from "./FormModalImage";
 import ButtonDropdown from "../../Public/Button/ButtonDropdown";
-import FormModalNote from "./FormModalNote";
+import * as XLSX from "xlsx";
+import FormModalImage from "../ScrapeHistory/FormModalImage";
+import FormModalNote from "../ScrapeHistory/FormModalNote";
 import { exportExcel } from "../../../../utils/exportExcel";
-import { toastError } from "../../Public/Toast";
 
-export default function TableWebData({ scrapeGuid, scrapeName, scrapeDate }) {
+export default function TableFavWebData({
+    scrapeGuid,
+    scrapeName,
+    scrapeDate,
+}) {
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(10);
     const [totalPages, setTotalPages] = useState(1);
@@ -37,11 +40,11 @@ export default function TableWebData({ scrapeGuid, scrapeName, scrapeDate }) {
         isError: webDataError,
         isSuccess: webDataSuccess,
         isFetching: webDataFetching,
-    } = useGetWebDataQuery(
+    } = useGetFavWebDataQuery(
         {
             guid: scrapeGuid,
             page: page,
-            limit: 7,
+            limit: pageSize,
             search: search,
         },
         { refetchOnMountOrArgChange: true, skip: !scrapeGuid }
@@ -95,14 +98,7 @@ export default function TableWebData({ scrapeGuid, scrapeName, scrapeDate }) {
 
         const staticCols =
             webData && webData.data.length > 0
-                ? Object.keys(
-                      webData.data.reduce((maxObj, currObj) =>
-                          Object.keys(currObj).length >
-                          Object.keys(maxObj).length
-                              ? currObj
-                              : maxObj
-                      )
-                  )
+                ? Object.keys(webData.data[0])
                       .filter(
                           (key) =>
                               !["index", "is_favourite", "note"].includes(key)
@@ -112,7 +108,10 @@ export default function TableWebData({ scrapeGuid, scrapeName, scrapeDate }) {
                           header: data,
                           cell: (row) => row.renderValue(),
                           accessorFn: (row) => {
-                              if (data.toLowerCase().includes("image")) {
+                              if (
+                                  data.toLowerCase().includes("image") &&
+                                  row[data]
+                              ) {
                                   return (
                                       <div className='flex justify-center'>
                                           <PhotoIcon
@@ -124,8 +123,11 @@ export default function TableWebData({ scrapeGuid, scrapeName, scrapeDate }) {
                                           />
                                       </div>
                                   );
-                              } else if (data.toLowerCase().includes("link")) {
-                                  return row[data] ? (
+                              } else if (
+                                  data.toLowerCase().includes("link") &&
+                                  row[data]
+                              ) {
+                                  return (
                                       <div className='flex justify-center'>
                                           <LinkIcon
                                               className='w-6 h-6 cursor-pointer'
@@ -137,31 +139,11 @@ export default function TableWebData({ scrapeGuid, scrapeName, scrapeDate }) {
                                               }
                                           />
                                       </div>
-                                  ) : (
-                                      <div className='flex justify-center'>
-                                          <LinkSlashIcon
-                                              className='w-6 h-6 cursor-pointer'
-                                              onClick={toastError({
-                                                  message:
-                                                      "This data doesn't have link",
-                                              })}
-                                          />
-                                      </div>
                                   );
                               }
-                              return row[data] ? row[data] : "-";
+                              return row[data];
                           },
                       }))
-                      .sort((a, b) => {
-                          if (a.header.toLowerCase().includes("image"))
-                              return -1;
-                          if (b.header.toLowerCase().includes("image"))
-                              return 1;
-                          if (a.header.toLowerCase().includes("link"))
-                              return -1;
-                          if (b.header.toLowerCase().includes("link")) return 1;
-                          return 0;
-                      })
                 : [];
 
         const actionCols = [

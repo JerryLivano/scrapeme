@@ -27,9 +27,6 @@ export default function DataTable({
     showExport = false,
     onClickExport = () => {},
     showGlobalFilter = false,
-    showFilterDate = false,
-    filterDate,
-    setFilterDate,
     showAddButton = false,
     onClickAdd = () => {},
     showColumnVisibility,
@@ -151,7 +148,7 @@ export default function DataTable({
                             ) : null}
                         </div>
                         <div className='flex items-center'>
-                        <div>
+                            <div>
                                 {/* filter site */}
                                 {showFilterSite ? (
                                     <div className='ml-3 flex items-center'>
@@ -322,16 +319,23 @@ export default function DataTable({
                                             }}
                                             className='max-w-[80px]'
                                         >
-                                            {[10, 25, 50, 75, 100].map(
-                                                (pageSize) => (
-                                                    <option
-                                                        key={pageSize}
-                                                        value={pageSize}
-                                                    >
-                                                        {pageSize}
-                                                    </option>
-                                                )
-                                            )}
+                                            {[
+                                                { value: 10, label: 10 },
+                                                { value: 50, label: 50 },
+                                                { value: 100, label: 100 },
+                                                { value: 200, label: 200 },
+                                                {
+                                                    value: rowCount,
+                                                    label: "All",
+                                                },
+                                            ].map((pageSize) => (
+                                                <option
+                                                    key={pageSize.label}
+                                                    value={pageSize.value}
+                                                >
+                                                    {pageSize.label}
+                                                </option>
+                                            ))}
                                         </DropdownInput>
                                     </div>
                                 ) : null}
@@ -453,7 +457,7 @@ export default function DataTable({
                                                     .getVisibleCells()
                                                     .map((cell) => (
                                                         <td
-                                                            className='whitespace-normal border-b border-dashed border-[#E1E3EA] px-6 py-4 text-sm font-semibold leading-5 text-gray-700'
+                                                            className='whitespace-nowrap border-b border-dashed border-[#E1E3EA] px-6 py-4 text-sm font-semibold leading-5 text-gray-700'
                                                             key={cell.id}
                                                         >
                                                             {flexRender(

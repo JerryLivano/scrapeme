@@ -60,8 +60,13 @@ export default function SelectedScrapeSite({ siteData }) {
         await scrapeWebData(request)
             .unwrap()
             .then((response) => {
+                console.log(response);
                 navigate(`/scrape/history/${response.data.guid}`, {
-                    state: { scrapeGuid: response.data.guid },
+                    state: {
+                        scrapeGuid: response.data.guid,
+                        scrapeName: response.data.scrape_name,
+                        scrapeDate: response.data.created_date,
+                    },
                 });
             })
             .catch((e) => {

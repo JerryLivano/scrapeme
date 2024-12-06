@@ -17,6 +17,8 @@ import ScrapeSitePage from "./pages/ScrapePage/ScrapeSitePage";
 import ScrapeHistoryPage from "./pages/ScrapePage/ScrapeHistoryPage";
 import ScrapedDataPage from "./pages/ScrapePage/ScrapedDataPage";
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
+import FavScrapePage from "./pages/ScrapePage/FavScrapePage";
+import FavScrapedDataPage from "./pages/ScrapePage/FavScrapedDataPage";
 
 const App = () => {
     return (
@@ -54,6 +56,22 @@ const App = () => {
                             element={
                                 <RequireAuth permissions={Permission.Scrape}>
                                     <ScrapeSitePage />
+                                </RequireAuth>
+                            }
+                        />
+                        <Route
+                            path='favorite'
+                            element={
+                                <RequireAuth permissions={Permission.Favorite}>
+                                    <FavScrapePage />
+                                </RequireAuth>
+                            }
+                        />
+                        <Route
+                            path='favorite/:guid'
+                            element={
+                                <RequireAuth permissions={Permission.Favorite}>
+                                    <FavScrapedDataPage />
                                 </RequireAuth>
                             }
                         />
@@ -135,7 +153,7 @@ const App = () => {
                     />
                 </Route>
 
-                <Route path='/*' element={<NotFoundPage />} />
+                <Route path='*' element={<NotFoundPage />} />
             </Routes>
 
             <ToastContainer

@@ -9,12 +9,12 @@ import Spinner from "../../Public/Spinner";
 import ButtonSubmitModal from "../../Public/Button/ButtonSubmitModal";
 import ButtonAction from "../../Public/Button/ButtonAction";
 import { MinusIcon } from "@heroicons/react/24/solid";
-import TemplateDropdown from "../../Public/Form/TemplateDropdown";
 import AddSiteLineInput from "../../Public/Form/AddSiteLineInput";
 import TemplateLineInput from "../../Public/Form/TemplateLineInput";
 import { toastError, toastSuccess } from "../../Public/Toast";
 import { useNavigate } from "react-router-dom";
 import SingleLineInput from "../../Public/Form/SingleLineInput";
+import FormModalChildTag from "./FormModalChildTag";
 
 export default function FormManageTemplate({ siteGuid }) {
     const {
@@ -30,6 +30,13 @@ export default function FormManageTemplate({ siteGuid }) {
     const [editState, setEditState] = useState(false);
     const [checkbox, setCheckbox] = useState([false, false]);
     const navigate = useNavigate();
+
+    const [checkboxContainer, setCheckboxContainer] = useState([]);
+    const [childModal, setChildModal] = useState(false);
+    const [selectedIndex, setSelectedIndex] = useState(null);
+    const [selectedChildTag, setSelectedChildTag] = useState("");
+    const [selectedChildType, setSelectedChildType] = useState("");
+    const [selectedChildIdentifier, setSelectedChildIdentifier] = useState("");
 
     const handleCheckbox = (index) => {
         setCheckbox([false, false]);
@@ -71,6 +78,9 @@ export default function FormManageTemplate({ siteGuid }) {
                     setValue("isId", template.data.is_id);
                     setValue("tagData", template.data.tag_data);
                     setEditState(true);
+                    setCheckboxContainer(
+                        template.data.tag_data.map((tag) => tag.is_container)
+                    );
                     setCheckbox([template.data.is_id, template.data.is_class]);
                 }
             }
@@ -87,14 +97,36 @@ export default function FormManageTemplate({ siteGuid }) {
     const addTagData = () => {
         const updatedTagData = [
             ...tagData,
-            { title: "", identifier: "", type: "", tag: "" },
+            {
+                title: "",
+                type: "",
+                tag: "",
+                is_container: false,
+            },
         ];
         setValue("tagData", updatedTagData);
+        setCheckboxContainer((prev) => [...prev, false]);
     };
 
     const spliceTagData = (index) => {
         const updatedTagData = tagData.filter((_, i) => i !== index);
         setValue("tagData", updatedTagData);
+        setCheckboxContainer((prev) => prev.filter((_, i) => i !== index));
+    };
+
+    const toggleCheckboxContainer = (index) => {
+        setCheckboxContainer((prev) => {
+            const updatedContainer = [...prev];
+            updatedContainer[index] = !updatedContainer[index];
+            setValue(`tagData[${index}].is_container`, updatedContainer[index]);
+            return updatedContainer;
+        });
+    };
+
+    const updateChild = (index, childType, childTag, childIdentifier) => {
+        setValue(`tagData[${index}].child_tag`, childTag);
+        setValue(`tagData[${index}].child_type`, childType);
+        setValue(`tagData[${index}].child_identifier`, childIdentifier);
     };
 
     const onSubmit = async (data) => {
@@ -193,6 +225,12 @@ export default function FormManageTemplate({ siteGuid }) {
                             <AddSiteLineInput
                                 label={"Column"}
                                 required
+                                checkbox
+                                checkboxLabel={"Container?"}
+                                checked={checkboxContainer[index] || false}
+                                setChecked={() =>
+                                    toggleCheckboxContainer(index)
+                                }
                                 placeholder={"Enter column title"}
                                 className={"mt-3"}
                                 {...register(`tagData[${index}].title`, {
@@ -205,6 +243,23 @@ export default function FormManageTemplate({ siteGuid }) {
                             <AddSiteLineInput
                                 label={"Tag Type"}
                                 required
+                                isContainer={checkboxContainer[index]}
+                                onClickChild={(e) => {
+                                    e.preventDefault();
+                                    setSelectedChildTag(
+                                        watch(`tagData[${index}].child_tag`)
+                                    );
+                                    setSelectedChildType(
+                                        watch(`tagData[${index}].child_type`)
+                                    );
+                                    setSelectedChildIdentifier(
+                                        watch(
+                                            `tagData[${index}].child_identifier`
+                                        )
+                                    );
+                                    setSelectedIndex(index);
+                                    setChildModal(true);
+                                }}
                                 placeholder={"Enter HTML tag type"}
                                 className={"mt-2"}
                                 {...register(`tagData[${index}].tag`, {
@@ -270,6 +325,15 @@ export default function FormManageTemplate({ siteGuid }) {
                     </div>
                 </form>
             )}
+            <FormModalChildTag
+                open={childModal}
+                setOpen={setChildModal}
+                childTag={selectedChildTag}
+                childType={selectedChildType}
+                childIdentifier={selectedChildIdentifier}
+                index={selectedIndex}
+                updateChild={updateChild}
+            />
             {(addLoading || editLoading) && (
                 <div className='relative'>
                     <div className='fixed inset-0 z-[70] bg-gray-300 opacity-75 transition-opacity'>

@@ -100,11 +100,12 @@ export default function NavItems() {
 
     useEffect(() => {
         setIsScrapeMenuOpen(
-            submenuScrape.some((nav) =>
-                nav.href
-                    ? location.pathname === `/scrape/${nav.href}`
-                    : location.pathname === "/scrape"
-            )
+            submenuScrape.some((nav) => {
+                const submenuPath = nav.href
+                    ? `/scrape/${nav.href}`
+                    : "/scrape";
+                return location.pathname.startsWith(submenuPath);
+            })
         );
     }, [location.pathname]);
 
@@ -218,16 +219,19 @@ export default function NavItems() {
                                                                         submenuItem.name
                                                                     }
                                                                     to={
-                                                                        !submenuItem.href
-                                                                            ? item.href
-                                                                            : `${item.href}/${submenuItem.href}`
+                                                                        submenuItem.href
+                                                                            ? `${item.href}/${submenuItem.href}`
+                                                                            : item.href
                                                                     }
                                                                     end
                                                                     className={({
                                                                         isActive,
                                                                     }) =>
                                                                         classNames(
-                                                                            isActive
+                                                                            isActive ||
+                                                                                location.pathname.startsWith(
+                                                                                    `/scrape/${submenuItem.href}`
+                                                                                )
                                                                                 ? "bg-[#17479D] text-white"
                                                                                 : "text-[#A1A5B7] hover:bg-[#17479D] hover:text-white",
                                                                             "group hover:text-white flex h-12 w-full gap-x-3 rounded-2xl p-4 text-left text-sm font-bold leading-4 hover:bg-[#17479D]"
