@@ -17,11 +17,11 @@ export default function DashboardPage() {
                     {role === "ROLE_ADMIN" ? (
                         <>
                             <CardList />
-                            <div className='flex flex-col gap-x-5 -mt-3 sm:flex-row'>
-                                <div className='w-1/2'>
+                            <div className='flex flex-col gap-x-6 -mt-3 sm:flex-row'>
+                                <div className='w-2/5'>
                                     <TopUser />
                                 </div>
-                                <div className='w-full'>
+                                <div className='w-3/5'>
                                     <DashboardChart />
                                 </div>
                             </div>

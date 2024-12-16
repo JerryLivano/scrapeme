@@ -9,11 +9,16 @@ export const dashboardApiSlice = apiSlice.injectEndpoints({
         getTopScraper: builder.query({
             query: () => "/dashboard/top-scraper",
             providesTags: ['Dashboard']
+        }),
+        getChart: builder.query({
+            query: () => "/dashboard/statistic",
+            providesTags: ['Dashboard']
         })
     })
 });
 
 export const {
     useGetCountQuery,
-    useGetTopScraperQuery
+    useGetTopScraperQuery,
+    useGetChartQuery
 } = dashboardApiSlice

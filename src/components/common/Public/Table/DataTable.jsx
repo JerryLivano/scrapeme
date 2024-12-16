@@ -482,7 +482,7 @@ export default function DataTable({
                                     dataCount={rowCount}
                                     pageValue={pageSize}
                                     goToPage={pageChange}
-                                    paginationLength={pageSize}
+                                    paginationLength={5}
                                 />
                             ) : null}
                         </div>

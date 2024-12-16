@@ -45,6 +45,18 @@ export default function FormManageTemplate({ siteGuid }) {
         );
     };
 
+    const titleSelection = [
+        { value: "image", label: "Image" },
+        { value: "type", label: "Type" },
+        { value: "location", label: "Location" },
+        { value: "price", label: "Price" },
+        { value: "bedroom", label: "Bedroom" },
+        { value: "bathroom", label: "Bathroom" },
+        { value: "building", label: "Building" },
+        { value: "surface", label: "Surface" },
+        { value: "others", label: "Others" },
+    ];
+
     const {
         register,
         handleSubmit,
@@ -240,6 +252,7 @@ export default function FormManageTemplate({ siteGuid }) {
                                     formErrors.tagData?.[index]?.title?.message
                                 }
                             />
+
                             <AddSiteLineInput
                                 label={"Tag Type"}
                                 required
@@ -283,7 +296,7 @@ export default function FormManageTemplate({ siteGuid }) {
                                     label={"Identifier"}
                                     required
                                     placeholder={
-                                        "Enter tag identifier (class/id)"
+                                        "Enter tag identifier from attribute"
                                     }
                                     className={"mt-2"}
                                     {...register(

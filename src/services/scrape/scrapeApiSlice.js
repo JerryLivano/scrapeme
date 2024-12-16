@@ -77,9 +77,11 @@ export const scrapeApiSlice = apiSlice.injectEndpoints({
                     guid,
                     page,
                     limit,
-                    search
+                    search,
+                    order_by,
+                    column_name
                 } = args;
-                return `/scrape/web-data?guid=${guid}&page=${page}&limit=${limit}&search=${search}`;
+                return `/scrape/web-data?guid=${guid}&page=${page}&limit=${limit}&search=${search}&order_by=${order_by}${column_name ? `&column_name=${column_name}` : ''}`;
             },
             providesTags: ["Scrape"]
         }),
@@ -89,9 +91,11 @@ export const scrapeApiSlice = apiSlice.injectEndpoints({
                     guid,
                     page,
                     limit,
-                    search
+                    search,
+                    order_by,
+                    column_name
                 } = args;
-                return `/scrape/favorite-web-data?guid=${guid}&page=${page}&limit=${limit}&search=${search}`;
+                return `/scrape/favorite-web-data?guid=${guid}&page=${page}&limit=${limit}&search=${search}&order_by=${order_by}${column_name ? `&column_name=${column_name}` : ''}`;
             },
             providesTags: ["Scrape"]
         }),

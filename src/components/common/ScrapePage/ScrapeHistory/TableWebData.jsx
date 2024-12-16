@@ -18,18 +18,25 @@ import ButtonDropdown from "../../Public/Button/ButtonDropdown";
 import FormModalNote from "./FormModalNote";
 import { exportExcel } from "../../../../utils/exportExcel";
 import { toastError } from "../../Public/Toast";
+import { useNavigate } from "react-router-dom";
+import FormModalDetailWebData from "./DetailWebData/FormModalDetailWebData";
 
 export default function TableWebData({ scrapeGuid, scrapeName, scrapeDate }) {
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(10);
     const [totalPages, setTotalPages] = useState(1);
     const [search, setSearch] = useState("");
+    const [columnName, setColumnName] = useState(null);
+    const [orderBy, setOrderBy] = useState(0);
 
     const [imageModal, setImageModal] = useState(false);
     const [imageData, setImageData] = useState("");
+    const [detailModal, setDetailModal] = useState(false);
 
     const [noteModal, setNoteModal] = useState(false);
     const [selectedScrape, setSelectedScrape] = useState({});
+
+    const navigate = useNavigate();
 
     const {
         data: webData,
@@ -41,8 +48,10 @@ export default function TableWebData({ scrapeGuid, scrapeName, scrapeDate }) {
         {
             guid: scrapeGuid,
             page: page,
-            limit: 7,
+            limit: pageSize,
             search: search,
+            order_by: orderBy,
+            column_name: columnName,
         },
         { refetchOnMountOrArgChange: true, skip: !scrapeGuid }
     );
@@ -118,14 +127,18 @@ export default function TableWebData({ scrapeGuid, scrapeName, scrapeDate }) {
                                           <PhotoIcon
                                               className='text-[#17479D] w-8 h-8 cursor-pointer'
                                               onClick={() => {
-                                                  setImageData(row[data]);
+                                                  setImageData(
+                                                      row[data]
+                                                          ? row[data]
+                                                          : null
+                                                  );
                                                   setImageModal(true);
                                               }}
                                           />
                                       </div>
                                   );
                               } else if (data.toLowerCase().includes("link")) {
-                                  return row[data] ? (
+                                  return row[data] || row[data] !== "-" ? (
                                       <div className='flex justify-center'>
                                           <LinkIcon
                                               className='w-6 h-6 cursor-pointer'
@@ -149,8 +162,14 @@ export default function TableWebData({ scrapeGuid, scrapeName, scrapeDate }) {
                                       </div>
                                   );
                               }
-                              return row[data] ? row[data] : "-";
+                              return row[data];
                           },
+                          isSort:
+                              data.toLowerCase().includes("image") ||
+                              data.toLowerCase().includes("link")
+                                  ? false
+                                  : true,
+                          columnName: data,
                       }))
                       .sort((a, b) => {
                           if (a.header.toLowerCase().includes("image"))
@@ -181,7 +200,10 @@ export default function TableWebData({ scrapeGuid, scrapeName, scrapeDate }) {
                             },
                             {
                                 action: "View Detail",
-                                onFunction: () => {},
+                                onFunction: () => {
+                                    setSelectedScrape(row);
+                                    setDetailModal(true);
+                                },
                             },
                         ]}
                     />
@@ -193,6 +215,14 @@ export default function TableWebData({ scrapeGuid, scrapeName, scrapeDate }) {
     }, [webData, scrapeGuid, updateFav]);
 
     const keysToRemove = ["is_favourite", "index"];
+
+    const handleSort = () => {
+        setOrderBy((prev) => (prev + 1) % 3);
+    };
+
+    const handleColumnName = (name) => {
+        setColumnName(name);
+    };
 
     const handlePageChange = (newPageNumber) => {
         setPage(newPageNumber);
@@ -232,6 +262,8 @@ export default function TableWebData({ scrapeGuid, scrapeName, scrapeDate }) {
                         setPageSize={setPageSize}
                         searchHandler={handleSearchChange}
                         searchQuery={search}
+                        sortHandler={handleSort}
+                        columnNameHandler={handleColumnName}
                         placeholder={"Search web data..."}
                         isFetching={webDataFetching}
                         showExport
@@ -260,6 +292,11 @@ export default function TableWebData({ scrapeGuid, scrapeName, scrapeDate }) {
                         setOpen={setNoteModal}
                         guid={scrapeGuid}
                         selectedScrape={selectedScrape}
+                    />
+                    <FormModalDetailWebData 
+                        open={detailModal}
+                        setOpen={setDetailModal}
+                        webData={selectedScrape}
                     />
                 </>
             )}

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { removeAuthToken } from "../../../utils/authUtilities";
 import ModalConfirmLogOut from "../../common/Public/Confirmation/ModalConfirmLogout";
+import { toastSuccess } from "../../common/Public/Toast";
 
 export default function LogoutButton() {
     const [showModalConfirmLogOut, setShowModalConfirmLogOut] = useState(false);
@@ -10,6 +11,7 @@ export default function LogoutButton() {
 
     const logOutHandler = () => {
         removeAuthToken();
+        toastSuccess({ message: "You have successfully logged out" })
         navigate("/", { replace: true });
     };
 

@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
@@ -19,6 +19,7 @@ import ScrapedDataPage from "./pages/ScrapePage/ScrapedDataPage";
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
 import FavScrapePage from "./pages/ScrapePage/FavScrapePage";
 import FavScrapedDataPage from "./pages/ScrapePage/FavScrapedDataPage";
+import { getAuthToken } from "./utils/authUtilities";
 
 const App = () => {
     return (

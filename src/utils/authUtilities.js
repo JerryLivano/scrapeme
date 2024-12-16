@@ -17,13 +17,22 @@ export const getAuthToken = () => {
 };
 
 const decodeToken = (token) => {
+    if (!token) {
+        return null;
+    }
     const base64Url = token.split(".")[1];
+    if (!base64Url) {
+        return null;
+    }
     const base64 = base64Url.replace("-", "+").replace("_", "/");
     return JSON.parse(atob(base64));
 }
 
 export const extractGuid = (token) => {
     const decodedToken = decodeToken(token);
+    if (!decodedToken) {
+        return null;
+    }
     return decodedToken.guid;
 }
 

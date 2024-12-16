@@ -1,13 +1,13 @@
 import { useForm } from "react-hook-form";
 import NumberInput from "../../Public/Form/NumberInput";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import SingleLineInput from "../../Public/Form/SingleLineInput";
 import DropdownInput from "../../Public/Form/DropdownInput";
 import ButtonSubmitModal from "../../Public/Button/ButtonSubmitModal";
 import { useScrapeWebDataMutation } from "../../../../services/scrape/scrapeApiSlice";
 import { extractGuid, getAuthToken } from "../../../../utils/authUtilities";
 import Spinner from "../../Public/Spinner";
-import { toastError } from "../../Public/Toast";
+import { toastError, toastSuccess } from "../../Public/Toast";
 import { useNavigate } from "react-router-dom";
 
 export default function SelectedScrapeSite({ siteData }) {
@@ -60,10 +60,14 @@ export default function SelectedScrapeSite({ siteData }) {
         await scrapeWebData(request)
             .unwrap()
             .then((response) => {
-                console.log(response);
-                navigate(`/scrape/history/${response.data.guid}`, {
+                if (response.data.response === 0) {
+                    toastError({ message: "Failed to scrape all data" })
+                } else {
+                    toastSuccess({ message: "All data scraped successfully" })
+                }
+                navigate(`/scrape/history/${response.data.scrape_guid}`, {
                     state: {
-                        scrapeGuid: response.data.guid,
+                        scrapeGuid: response.data.scrape_guid,
                         scrapeName: response.data.scrape_name,
                         scrapeDate: response.data.created_date,
                     },
@@ -112,9 +116,9 @@ export default function SelectedScrapeSite({ siteData }) {
                             error={formErrors.scrapeName?.message}
                         />
                     </div>
-                    <div className='grid grid-cols-4 gap-x-4 mt-1'>
-                        {siteData.url_pattern?.length > 0 ? (
-                            siteData.url_pattern.map((data, index) =>
+                    {siteData.url_pattern?.length > 0 ? (
+                        <div className='grid grid-cols-4 gap-x-4 mt-1'>
+                            {siteData.url_pattern.map((data, index) =>
                                 data.form_type === 0 && !data.is_page ? (
                                     <SingleLineInput
                                         key={index}
@@ -191,11 +195,13 @@ export default function SelectedScrapeSite({ siteData }) {
                                         ))}
                                     </DropdownInput>
                                 ) : null
-                            )
-                        ) : (
-                            <p>No patterns available.</p>
-                        )}
-                    </div>
+                            )}
+                        </div>
+                    ) : (
+                        <div className='flex justify-center mt-6 font-semibold text-xl'>
+                            No Pattern Available
+                        </div>
+                    )}
                     <div className='mt-5 flex items-center justify-end'>
                         <ButtonSubmitModal text='Scrape Now' />
                     </div>

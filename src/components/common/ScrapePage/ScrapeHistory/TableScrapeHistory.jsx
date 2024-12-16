@@ -12,6 +12,7 @@ import ModalConfirmDelete from "../../Public/Confirmation/ModalConfirmDelete";
 import { toastError, toastSuccess } from "../../Public/Toast";
 import { useNavigate } from "react-router-dom";
 import FormModalMergeExport from "./FormModalMergeExport";
+import FormModalEditScrape from "./FormModalEditScrape";
 
 export default function TableScrapeHistory({ userGuid }) {
     const [page, setPage] = useState(1);
@@ -28,6 +29,8 @@ export default function TableScrapeHistory({ userGuid }) {
 
     const [selectedScrapeGuid, setSelectedScrapeGuid] = useState("");
     const [deleteModal, setDeleteModal] = useState(false);
+    const [editModal, setEditModal] = useState(false);
+    const [selectedScrape, setSelectedScrape] = useState({});
     const [mergeExportModal, setMergeExportModal] = useState(false);
 
     const navigate = useNavigate();
@@ -147,6 +150,13 @@ export default function TableScrapeHistory({ userGuid }) {
                                 },
                             },
                             {
+                                action: "Edit",
+                                onFunction: () => {
+                                    setSelectedScrape(row);
+                                    setEditModal(true);
+                                },
+                            },
+                            {
                                 action: "Delete",
                                 onFunction: () => {
                                     setSelectedScrapeGuid(row.guid);
@@ -246,6 +256,12 @@ export default function TableScrapeHistory({ userGuid }) {
                                 });
                             setDeleteModal(false);
                         }}
+                    />
+
+                    <FormModalEditScrape 
+                        open={editModal}
+                        setOpen={setEditModal}
+                        scrape={selectedScrape}
                     />
 
                     <FormModalMergeExport
