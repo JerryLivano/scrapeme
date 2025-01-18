@@ -213,7 +213,7 @@ export default function FormModalManageTemplate({ open, setOpen, siteGuid }) {
                                     label={"Identifier"}
                                     required
                                     placeholder={
-                                        "Enter tag identifier (class/id/tag)"
+                                        "Enter tag identifier from attribute"
                                     }
                                     className={"mt-2"}
                                     {...register(

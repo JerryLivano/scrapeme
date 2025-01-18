@@ -11,7 +11,7 @@ export default function LogoutButton() {
 
     const logOutHandler = () => {
         removeAuthToken();
-        toastSuccess({ message: "You have successfully logged out" })
+        toastSuccess({ message: "You have successfully logged out" });
         navigate("/", { replace: true });
     };
 

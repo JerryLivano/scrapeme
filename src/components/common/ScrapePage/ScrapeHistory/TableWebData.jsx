@@ -36,8 +36,6 @@ export default function TableWebData({ scrapeGuid, scrapeName, scrapeDate }) {
     const [noteModal, setNoteModal] = useState(false);
     const [selectedScrape, setSelectedScrape] = useState({});
 
-    const navigate = useNavigate();
-
     const {
         data: webData,
         isLoading: webDataLoading,

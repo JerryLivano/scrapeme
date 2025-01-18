@@ -19,7 +19,7 @@ import ScrapedDataPage from "./pages/ScrapePage/ScrapedDataPage";
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
 import FavScrapePage from "./pages/ScrapePage/FavScrapePage";
 import FavScrapedDataPage from "./pages/ScrapePage/FavScrapedDataPage";
-import { getAuthToken } from "./utils/authUtilities";
+import DataAnalysisPage from "./pages/ScrapePage/DataAnalysisPage";
 
 const App = () => {
     return (
@@ -89,6 +89,14 @@ const App = () => {
                             element={
                                 <RequireAuth permissions={Permission.History}>
                                     <ScrapedDataPage />
+                                </RequireAuth>
+                            }
+                        />
+                        <Route
+                            path='analysis'
+                            element={
+                                <RequireAuth permissions={Permission.Analysis}>
+                                    <DataAnalysisPage />
                                 </RequireAuth>
                             }
                         />

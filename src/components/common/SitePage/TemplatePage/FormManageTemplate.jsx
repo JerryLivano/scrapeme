@@ -146,7 +146,7 @@ export default function FormManageTemplate({ siteGuid }) {
 
         if (checkedCount !== 1) {
             toastError({
-                message: "Please select exactly one checkbox.",
+                message: "Please select exactly one checkbox",
             });
             return;
         }

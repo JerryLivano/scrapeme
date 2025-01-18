@@ -13,9 +13,7 @@ export default function FormModalEditScrape({ open, setOpen, scrape }) {
     const {
         register,
         handleSubmit,
-        reset,
         setValue,
-        watch,
         formState: { errors: formErrors },
     } = useForm({
         defaultValues: {

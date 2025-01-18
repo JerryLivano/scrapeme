@@ -27,6 +27,11 @@ const submenuScrape = [
         href: "history",
         permission: Permission.History,
     },
+    {
+        name: "Data Analysis",
+        href: "analysis",
+        permission: Permission.Analysis
+    }
 ];
 
 const navigation = [

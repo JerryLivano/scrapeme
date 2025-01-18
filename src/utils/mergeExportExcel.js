@@ -32,7 +32,6 @@ export const mergeExportExcel = (dataList) => {
         }
     }
 
-    // Ensure column widths
     if (!ws["!cols"]) {
         ws["!cols"] = colsName.map(() => ({ wch: 15 }));
     }

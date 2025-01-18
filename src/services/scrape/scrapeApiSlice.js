@@ -114,6 +114,52 @@ export const scrapeApiSlice = apiSlice.injectEndpoints({
                 body: body
             }),
             invalidatesTags: ["Scrape"]
+        }),
+        getDataAnalysis: builder.query({
+            query: (args) => {
+                const {
+                    account_guid,
+                    site_guid,
+                    location
+                } = args;
+                return `/scrape/data-analysis?account_guid=${account_guid}&site_guid=${site_guid}&location=${location}`;
+            },
+            providesTags: ["Scrape"]
+        }),
+        getRoomComparison: builder.query({
+            query: (args) => {
+                const {
+                    account_guid,
+                    site_guid,
+                    location,
+                    room
+                } = args;
+                return `/scrape/room-comparison?account_guid=${account_guid}&site_guid=${site_guid}&location=${location}&room=${room}`;
+            },
+            providesTags: ["Scrape"]
+        }),
+        getWebDataAnalysis: builder.query({
+            query: (args) => {
+                const {
+                    account_guid,
+                    site_guid,
+                    location,
+                    order_by
+                } = args;
+                return `/scrape/webdata-analysis?account_guid=${account_guid}&site_guid=${site_guid}&location=${location}&order_by=${order_by}`;
+            },
+            providesTags: ["Scrape"]
+        }),
+        getLocationComparison: builder.query({
+            query: (args) => {
+                const {
+                    account_guid,
+                    site_guid,
+                    location_data
+                } = args;
+                return `/scrape/location-comparison?account_guid=${account_guid}&site_guid=${site_guid}${location_data.length > 0 ? `&${location_data.map(item => `location_data=${item}`).join('&')}` : ""}`;
+            },
+            providesTags: ["Scrape"]
         })
     }),
 });
@@ -129,5 +175,9 @@ export const {
     useGetWebDataQuery,
     useGetFavWebDataQuery,
     useUpdateFavWebDataMutation,
-    useUpdateNoteWebDataMutation
+    useUpdateNoteWebDataMutation,
+    useGetDataAnalysisQuery,
+    useGetRoomComparisonQuery,
+    useGetWebDataAnalysisQuery,
+    useGetLocationComparisonQuery
 } = scrapeApiSlice

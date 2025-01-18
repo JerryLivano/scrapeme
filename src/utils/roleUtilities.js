@@ -20,6 +20,7 @@ export const Permission = {
     Template: [Role.ADMIN],
     Favorite: [Role.ADMIN, Role.USER],
     History: [Role.ADMIN, Role.USER],
+    Analysis: [Role.ADMIN, Role.USER],
     Site: [Role.ADMIN],
     Request: [Role.ADMIN, Role.USER],
     Category: [Role.ADMIN],
