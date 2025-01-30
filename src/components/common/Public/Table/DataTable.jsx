@@ -56,6 +56,14 @@ export default function DataTable({
     filterSite,
     filterSiteOptions,
     setFilterSite,
+    showFilterBedroom,
+    filterBedroom,
+    setFilterBedroom,
+    filterBedroomOptions,
+    showFilterBathroom,
+    filterBathroom,
+    setFilterBathroom,
+    filterBathroomOptions,
     // Here
     isFetching = false,
     columnVisibility,
@@ -148,6 +156,54 @@ export default function DataTable({
                             ) : null}
                         </div>
                         <div className='flex items-center'>
+                            <div>
+                                {/* filter bedroom */}
+                                {showFilterBedroom ? (
+                                    <div className='ml-3 flex items-center'>
+                                        <div className='mr-2 text-sm font-medium leading-6 text-gray-400'>
+                                            Bedroom
+                                        </div>
+                                        <DropdownInput
+                                            value={filterBedroom}
+                                            onChange={setFilterBedroom}
+                                            className='max-w-fit'
+                                        >
+                                            {filterBedroomOptions.map((item) => (
+                                                <option
+                                                    key={item.value}
+                                                    value={item.value}
+                                                >
+                                                    {item.label}
+                                                </option>
+                                            ))}
+                                        </DropdownInput>
+                                    </div>
+                                ) : null}
+                            </div>
+                            <div>
+                                {/* filter bathroom */}
+                                {showFilterBathroom ? (
+                                    <div className='ml-3 flex items-center'>
+                                        <div className='mr-2 text-sm font-medium leading-6 text-gray-400'>
+                                            Bathroom
+                                        </div>
+                                        <DropdownInput
+                                            value={filterBathroom}
+                                            onChange={setFilterBathroom}
+                                            className='max-w-fit'
+                                        >
+                                            {filterBathroomOptions.map((item) => (
+                                                <option
+                                                    key={item.value}
+                                                    value={item.value}
+                                                >
+                                                    {item.label}
+                                                </option>
+                                            ))}
+                                        </DropdownInput>
+                                    </div>
+                                ) : null}
+                            </div>
                             <div>
                                 {/* filter site */}
                                 {showFilterSite ? (

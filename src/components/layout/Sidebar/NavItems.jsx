@@ -18,9 +18,14 @@ const submenuScrape = [
         permission: Permission.Scrape,
     },
     {
-        name: "Favorite Scraped Data",
-        href: "favorite",
-        permission: Permission.Favorite,
+        name: "List All Scraped Data",
+        href: "list-all-data",
+        permission: Permission.ListData,
+    },
+    {
+        name: "Data Analysis",
+        href: "analysis",
+        permission: Permission.Analysis,
     },
     {
         name: "Scrape History",
@@ -28,10 +33,10 @@ const submenuScrape = [
         permission: Permission.History,
     },
     {
-        name: "Data Analysis",
-        href: "analysis",
-        permission: Permission.Analysis
-    }
+        name: "Favorite Scraped Data",
+        href: "favorite",
+        permission: Permission.Favorite,
+    },
 ];
 
 const navigation = [

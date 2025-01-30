@@ -154,10 +154,26 @@ export const scrapeApiSlice = apiSlice.injectEndpoints({
             query: (args) => {
                 const {
                     account_guid,
-                    site_guid,
-                    location_data
+                    site_guid
                 } = args;
-                return `/scrape/location-comparison?account_guid=${account_guid}&site_guid=${site_guid}${location_data.length > 0 ? `&${location_data.map(item => `location_data=${item}`).join('&')}` : ""}`;
+                return `/scrape/location-comparison?account_guid=${account_guid}&site_guid=${site_guid}`;
+            },
+            providesTags: ["Scrape"]
+        }),
+        getAllListWebData: builder.query({
+            query: (args) => {
+                const {
+                    account_guid,
+                    site_guid,
+                    page,
+                    limit,
+                    search,
+                    order_by,
+                    column_name,
+                    bedroom,
+                    bathroom
+                } = args;
+                return `/scrape/all-web-data?account_guid=${account_guid}&site_guid=${site_guid}&page=${page}&limit=${limit}&search=${search}&order_by=${order_by}${column_name ? `&column_name=${column_name}` : ''}&bedroom=${bedroom}&bathroom=${bathroom}`;
             },
             providesTags: ["Scrape"]
         })
@@ -179,5 +195,6 @@ export const {
     useGetDataAnalysisQuery,
     useGetRoomComparisonQuery,
     useGetWebDataAnalysisQuery,
-    useGetLocationComparisonQuery
+    useGetLocationComparisonQuery,
+    useGetAllListWebDataQuery
 } = scrapeApiSlice

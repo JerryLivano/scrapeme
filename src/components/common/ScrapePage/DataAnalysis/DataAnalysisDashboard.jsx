@@ -13,10 +13,8 @@ import { extractGuid, getAuthToken } from "../../../../utils/authUtilities";
 import AvgCardList from "./AvgCardList";
 import AnalysisBarChart from "./BarChart";
 import WebDataAnalysisTable from "./WebDataAnalysisTable";
-import SingleLineInput from "../../Public/Form/SingleLineInput";
-import { useForm } from "react-hook-form";
-import ButtonSubmitModal from "../../Public/Button/ButtonSubmitModal";
 import AnalysisPieChart from "./PieChart";
+import { pluralize } from "../../../../utils/pluralizeUtilities";
 
 export default function DataAnalysisDashboard() {
     const [filterSite, setFilterSite] = useState("");
@@ -95,20 +93,6 @@ export default function DataAnalysisDashboard() {
     });
 
     const {
-        register,
-        handleSubmit,
-        setValue,
-        watch,
-        formState: { errors: formErrors },
-    } = useForm({
-        defaultValues: {
-            locationName: "",
-            locationData: [],
-        },
-        mode: "onSUbmit",
-    });
-
-    const {
         data: locationComparison,
         isLoading: locationLoading,
         isSuccess: locationSuccess,
@@ -116,7 +100,6 @@ export default function DataAnalysisDashboard() {
     } = useGetLocationComparisonQuery({
         account_guid: tokenGuid,
         site_guid: filterSite,
-        location_data: watch("locationData"),
     });
 
     const onSubmit = (data) => {
@@ -158,7 +141,22 @@ export default function DataAnalysisDashboard() {
                         </div>
                     </div>
                     <div className='-mt-4 flex flex-col gap-y-3'>
-                        <h1 className='text-xl font-semibold'>Average Data</h1>
+                        <h1 className='text-xl font-semibold'>
+                            Average Data ({analysisLoading && "0"}
+                            {!analysisLoading &&
+                                analysisSuccess &&
+                                `${dataAnalysis.data.data_count}`}{" "}
+                            {!analysisLoading &&
+                                analysisSuccess &&
+                                pluralize(
+                                    dataAnalysis.data.data_count,
+                                    "data",
+                                    {
+                                        onlyNoun: true,
+                                    }
+                                )}
+                            )
+                        </h1>
                         {analysisLoading && <Spinner />}
                         {!analysisLoading && analysisError && (
                             <div className='flex text-center'>
@@ -170,7 +168,7 @@ export default function DataAnalysisDashboard() {
                         )}
                     </div>
                     <div className='flex flex-col gap-x-4 -mt-4 sm:flex-row'>
-                        <div className='w-7/12 px-6 py-4 bg-white shadow rounded-lg'>
+                        <div className='w-7/12 px-6 pt-4 bg-white shadow rounded-lg'>
                             <div className='flex flex-row justify-between'>
                                 <div className='font-semibold text-lg flex flex-col justify-center'>
                                     Room Comparison
@@ -209,33 +207,16 @@ export default function DataAnalysisDashboard() {
                                 </div>
                             )}
                         </div>
-                        <div className='w-5/12 px-6 py-4 bg-white shadow rounded-lg'>
+                        <div className='w-5/12 px-6 pt-4 bg-white shadow rounded-lg'>
                             <div className='font-semibold text-lg flex flex-col justify-center'>
-                                Location Comparison Chart
+                                Most Popular Scraping Location
                             </div>
-                            <form onSubmit={handleSubmit(onSubmit)}>
-                                <div className='flex flex-row gap-x-2'>
-                                    <SingleLineInput
-                                        required
-                                        placeholder={"Enter location"}
-                                        className={"mt-3"}
-                                        {...register("locationName", {
-                                            required:
-                                                "Location name is required",
-                                        })}
-                                        error={formErrors.locationName?.message}
-                                    />
-                                    <div className='flex flex-col justify-end'>
-                                        <ButtonSubmitModal text='Add' />
-                                    </div>
-                                </div>
-                            </form>
                             {locationLoading && <Spinner />}
                             {!locationLoading && locationError && (
                                 <div className='mt-2'>Failed to fetch data</div>
                             )}
                             {!locationLoading && locationSuccess && (
-                                <div className='mt-2 flex items-center justify-center'>
+                                <div className='mt-2 -ml-12 flex items-center justify-center'>
                                     <AnalysisPieChart
                                         chartData={locationComparison.data}
                                     />

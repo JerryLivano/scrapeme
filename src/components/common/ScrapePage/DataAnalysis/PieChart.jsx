@@ -8,8 +8,8 @@ export default function AnalysisPieChart({ chartData }) {
                     data: chartData,
                 },
             ]}
-            width={440}
-            height={400}
+            width={600}
+            height={350}
         />
     );
 }

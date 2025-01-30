@@ -18,7 +18,7 @@ export default function AnalysisBarChart({ chartData }) {
                 },
             ]}
             width={730}
-            height={420}
+            height={360}
         />
     );
 }

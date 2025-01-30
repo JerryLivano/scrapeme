@@ -152,10 +152,12 @@ export default function TableWebData({ scrapeGuid, scrapeName, scrapeDate }) {
                                       <div className='flex justify-center'>
                                           <LinkSlashIcon
                                               className='w-6 h-6 cursor-pointer'
-                                              onClick={toastError({
-                                                  message:
-                                                      "This data doesn't have link",
-                                              })}
+                                              onClick={() =>
+                                                  toastError({
+                                                      message:
+                                                          "This data doesn't have link",
+                                                  })
+                                              }
                                           />
                                       </div>
                                   );
@@ -291,7 +293,7 @@ export default function TableWebData({ scrapeGuid, scrapeName, scrapeDate }) {
                         guid={scrapeGuid}
                         selectedScrape={selectedScrape}
                     />
-                    <FormModalDetailWebData 
+                    <FormModalDetailWebData
                         open={detailModal}
                         setOpen={setDetailModal}
                         webData={selectedScrape}

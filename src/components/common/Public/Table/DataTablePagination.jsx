@@ -104,7 +104,7 @@ function PaginationPageNumber({ visible, active, number, onClick }) {
                     className={
                         "relative inline-flex items-center justify-center text-base font-semibold w-8 h-8 rounded-md " +
                         (active
-                            ? "bg-[#3E97FF] text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#54a2fb]"
+                            ? "bg-[#17479D] text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#54a2fb]"
                             : "text-gray-900 hover:bg-gray-50 focus:outline-offset-0")
                     }
                 >

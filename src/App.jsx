@@ -20,6 +20,7 @@ import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
 import FavScrapePage from "./pages/ScrapePage/FavScrapePage";
 import FavScrapedDataPage from "./pages/ScrapePage/FavScrapedDataPage";
 import DataAnalysisPage from "./pages/ScrapePage/DataAnalysisPage";
+import ListAllDataPage from "./pages/ScrapePage/ListAllDataPage";
 
 const App = () => {
     return (
@@ -57,6 +58,14 @@ const App = () => {
                             element={
                                 <RequireAuth permissions={Permission.Scrape}>
                                     <ScrapeSitePage />
+                                </RequireAuth>
+                            }
+                        />
+                        <Route
+                            path='list-all-data'
+                            element={
+                                <RequireAuth permissions={Permission.ListData}>
+                                    <ListAllDataPage />
                                 </RequireAuth>
                             }
                         />
